@@ -62,10 +62,26 @@ begin
   end;
 end;
 
+procedure TReflectionInternals.CheckIncludeUpdate;
+var
+  Full, TempRev, TempSubRev: string;
+  NewFile: Integer
+begin
+  Full := Reflect.Internals.GetGithubPage(
+    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/update/IncludeRev.txt');
+  TempRev := Between('rev = ''', '''', Full);
+  TempSubRev := Between('subrev = ''', '''', Full);
+  if StrToInt(TempRev) > IncludeRevision then
+    Reflect.Internals.Warn('Major Reflection update, please update');
+  if StrToInt(TempSubRev) > SubRev then
+    Reflect.Internals.Warn('Minor Reflection update, please update');
+end;
+
 procedure setupReflection;
 begin
   SmartCurrentTarget := Os_Smart.__Target;
   Reflect.Internals.UpdateHooks;
+  Reflect.Internals.CheckIncludeUpdate;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
   Writeln('Reflection succesfully setup!');
