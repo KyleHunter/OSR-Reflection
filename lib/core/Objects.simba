@@ -1,0 +1,167 @@
+
+type
+  TObjType = (ObjNull, ObjGame, ObjWall, ObjFloorDecoration, ObjBoundary);
+
+
+  type TReflectObject = record
+    Id: Integer;
+    ObjectType: TObjType;
+    Tile: TPoint;
+  end;
+
+  TReflectObjectArray = Array of TReflectObject;
+
+function ReflectObject(Id: Integer; ObjectType: TObjType; Tile: TPoint): TReflectObject;
+begin
+  Result.Id := Id;
+  Result.ObjectType := ObjectType;
+  Result.Tile := Tile;
+end;
+
+procedure TReflectObject.Null;
+begin
+  Self.Id := 0;
+  Self.ObjectType := ObjNull;
+  Self.Tile := Point(0, 0);
+end;
+
+procedure TReflectObjectArray.Sort;
+var
+  I, C, L: integer;
+  Tpa: TPointArray;
+  Temp: TReflectObjectArray;
+begin
+  L := GetArrayLength(Self);
+  if L < 1 then
+    Exit;
+  SetArrayLength(Tpa, L);
+  SetArrayLength(Temp, L);
+  for I := 0 to L - 1 do
+    tpa[I] := Self[I].Tile;
+  sortTPAFrom(Tpa, Reflect.Tiles.GetGlobalTile);
+  for I := 0 to L - 1 do
+    for C := 0 to L - 1 do
+      if (Tpa[I].Y = Self[C].Tile.Y) and (tpa[I].X = Self[C].Tile.X) then
+        Temp[I] := Self[C];
+  Self := Temp;
+end;
+
+procedure TReflectObject._R_GetObject(__Object: TObjType; Hash, SceneObject: THook; Iteration: Integer; RealTile: TPoint);
+var
+  Id: Integer;
+begin
+    Self.Null;
+    if (__Object <> ObjGame) then
+    begin
+      Reflect.Mem.GetObject(bkSceneTile, bkObject, SceneObject, Iteration, Iteration);
+      if HookCache[TCacheKey.bkObject][Iteration] = 0 then
+        Exit;
+      Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkObject][Iteration], Hash);
+      Id := (Id shr 14) and $7fff;
+    end
+    else
+    begin
+      Reflect.Mem.GetObjectArray(bkSceneTile, bkObject, SceneObject, Iteration, Iteration, 0);
+      if HookCache[TCacheKey.bkObject][Iteration] = 0 then
+        Exit;
+      Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkObject][Iteration], Hash);
+      Id := (Id shr 14) and $7fff;
+    end;
+    Self := ReflectObject(Id, __Object, RealTile);
+  end;
+
+procedure TReflectObject.GetHooks(__Object: TObjType; var ObjHook: THook; var SceneHook: THook);
+begin
+  case __Object of
+    ObjGame:
+    begin
+      ObjHook := WorldObject_Hash;
+      SceneHook := SceneTile_WorldObjects;
+    end;
+    ObjWall:
+    begin
+      ObjHook := WallObject_Hash;
+      SceneHook := SceneTile_WallObject
+    end;
+    ObjFloorDecoration:
+    begin
+      ObjHook := FloorDecorationObject_Hash;
+      SceneHook := SceneTile_FloorObject;
+    end;
+    ObjBoundary:
+    begin
+      ObjHook := BoundaryObject_Hash;
+      SceneHook :=  SceneTile_BoundaryObject;
+    end;
+  end;
+end;
+
+procedure TReflectObject.GetAt(_Object: TObjType; RealTile: TPoint);
+var
+  ObjectHook, SceneHook: THook;
+  Multi, BaseX, BaseY, Plane: Integer;
+begin
+  BaseX := Reflect.Internals.BaseX;
+  BaseY := Reflect.Internals.BaseY;
+  Plane := Reflect.Smart.GetInt(0, Client_Plane);
+  if HookCache[TCacheKey.bkRegion][0] = 0 then
+    Reflect.Mem.GetObject(bkNull, bkRegion, Client_Region, 0, 0);
+  Reflect.Mem.Get3DObject(bkRegion, bkSceneTile, Region_SceneTiles, 0, 0, RealTile.X - BaseX, RealTile.Y - BaseY, Plane);
+  Self.GetHooks(_Object, ObjectHook, SceneHook);
+  Self._R_GetObject(_Object, ObjectHook, SceneHook, 0, RealTile);
+end;
+
+procedure TReflectObjectArray.Get(__Object: TObjType; Distance: Integer = 103);
+var
+  Multi, BaseX, BaseY, X, Y, I, Count, Plane: integer;
+  Temp: TReflectObject;
+  ObjectHook, SceneHook: THook;
+begin
+  Temp.GetHooks(__Object, ObjectHook, SceneHook);
+  if HookCache[TCacheKey.bkRegion][0] = 0 then
+    Reflect.Mem.GetObject(bkNull, bkRegion, Client_Region, 0, 0);
+  BaseX := Reflect.Internals.BaseX;
+  BaseY := Reflect.Internals.BaseY;
+  Plane := Reflect.Tiles.GetPlane;
+  SetLength(Self, 10817);
+  for x := 0 to Distance do
+    for y := 0 to Distance do
+    begin
+      Temp.Null;
+      Reflect.Mem.Get3DObject(bkRegion, bkSceneTile, Region_SceneTiles, Count, 0, X, Y, Plane);
+      Temp._R_GetObject(__Object, ObjectHook, SceneHook, Count, Point(BaseX + X, BaseY + Y));
+      Inc(Count);
+      if (Temp.Id = 0) and (Temp.ObjectType = 0) and (Temp.Tile.X = 0) then
+        Continue;
+      Self[I] := Temp;
+      inc(I);
+    end;
+    SetLength(Self, I);
+    Reflect.Mem.FreeObjects(bkSceneTile, True);
+    Reflect.Mem.FreeObjects(bkObject, True);
+    Self.Sort;
+end;
+
+function TReflectObject.Find(__Object: TObjType; Id, Distance: Integer = 103): Boolean;
+var
+  I, H, C: Integer;
+  Temp, Temp2: TReflectObjectArray;
+begin
+  Temp.Get(__Object, Distance);
+  H := Length(Temp);
+  SetLength(Temp2, H);
+  for I := 0 to H do
+  begin
+    if Temp[I].Id = Id then
+    begin
+      Temp2[C] := Temp[I];
+      Inc(C);
+    end;
+  end;
+  if C = 0 then
+    Exit;
+  SetLength(Temp2, C);
+  Self := Temp2[0];
+  Result := True;
+end;
+

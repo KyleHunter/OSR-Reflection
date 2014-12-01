@@ -1,0 +1,239 @@
+type
+  TPoint3D = record
+    X, Y, Z: Extended;
+  end;
+
+  TRotation = TPoint3D;
+  ATPoint3D = Array of TPoint3D;
+
+  TMatrix = record
+    Data: Array of Extended;
+  end;
+
+  TScene = record
+    TilePosition, PlayerTile, CameraPosition: TPoint3D;
+    TileRotation, CameraRotation: TRotation;
+  end;
+
+var
+  CURVESIN, CURVECOS: TIntegerArray;
+
+procedure TReflectionInternals.SetupCurves;
+var
+  I: Integer;
+begin
+  SetLength(CURVESIN, 2048);
+  SetLength(CURVECOS, 2048);
+  for I := 0 to 2047 do begin
+    CURVESIN[I] := Round(65536.0 * Sin(I * 0.0030679614999999999));
+    CURVECOS[I] := Round(65536.0 * Cos(I * 0.0030679614999999999));
+  end;
+end;
+
+function TReflectionTiles.GetGlobalTile: TPoint;
+var
+  Me: Integer;
+begin
+  Me := Reflect.Smart.GetObject(0, Client_Player);
+  Result.X := Reflect.Smart.GetInt(0, Client_BaseX) +
+    Reflect.Smart.GetInt(Me, Actor_localX) div 128;
+  Result.Y:= Reflect.Smart.GetInt(0, Client_BaseY) +
+    Reflect.Smart.GetInt(Me, Actor_LocalY) div 128;
+  Reflect.Smart.FreeObject(Me);
+end;
+
+function TReflectionTiles.GetPlane: Integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_Plane);
+end;
+
+function TReflectionTiles.RotateCameraToTile(Tile: Tpoint): Boolean;
+var
+  Angle: Extended;
+  Me: TPoint;
+begin
+  Me:= Reflect.Tiles.GetGlobalTile;
+  Angle:= (Degrees(ArcTan2(Tile.Y - Me.Y, Tile.X - Me.X))) - 90;
+  if (Angle < 0) then
+  begin
+      Angle:= 360 + angle;
+  end;
+  Angle:= 360 - angle;
+  Result:= Reflect.Compass.Make(angle);
+end;
+
+function TReflectionTiles.DistanceFromTile(Tile: TPoint): Integer;
+var
+  Loc: TPoint;
+begin
+  Loc := Reflect.Tiles.GetGlobalTile;
+  Result :=  Distance(Tile.X, Tile.Y, Loc.X, Loc.Y);
+end;  
+
+function TReflectionTiles.NearTile(Tile: Tpoint; Dist: Integer): Boolean;
+begin
+  Result := Reflect.Tiles.DistanceFromTile(Tile) < Dist;
+end;
+
+function TReflectionTiles.inPolygon(Area: TPointArray): Boolean;
+var
+  XNew, YNew, XOld, YOld, X1, Y1, X2, Y2: Cardinal;
+  I, numpoints, Inside, X, Y: Integer;
+begin
+  NumPoints := Length(Area);
+  X := Reflect.Tiles.GetGlobalTile.Y;
+  X := Reflect.Tiles.GetGlobalTile.Y;
+  if (NumPoints < 3) then
+    Exit;
+  XOld := Area[NumPoints - 1].X;
+  YOld := Area[NumPoints - 1].Y;
+  for I := 0 to (NumPoints - 1) do
+  begin
+    XNew := Area[I].X;
+    YNew := Area[I].Y;
+    if (XNew > XOld) then
+    begin
+      X1 := XOld;
+      X2 := XNew;
+      Y1 := YOld;
+      Y2 := YNew;
+    end
+    else
+    begin
+      X1 := XNew;
+      X2 := XOld;
+      Y1 := YNew;
+      Y2 := YOld;
+    end;
+    if (((XNew < X) = (X <= XOld)) and ((Y - Y1) * (X2 - X1) <
+      (Y2 - Y1) * (X - X1))) then
+      Inside := not Inside;
+    XOld := XNew;
+    YOld := YNew;
+  end;
+  Result := Inside <> 0;
+end;
+
+function TReflectionTiles.OnTile(TP:Tpoint): Boolean;
+var
+  Loc: TPoint;
+begin
+  Loc := Reflect.Tiles.GetGlobalTile;
+  Result := (Loc.X = TP.X) and (Loc.Y = TP.Y);
+end;
+
+function TReflectionTiles.TileToMM(tile: TPoint): TPoint;
+var
+  Angle, X, Y: extended;
+  Temp: TPoint;
+begin
+  Angle := -Reflect.Compass.AngleRad;
+  Temp := Reflect.Tiles.GetGlobalTile;
+  X := (tile.X - Temp.X) * 4 - 2;
+  Y := (Temp.Y - tile.Y) * 4 - 2;
+  result.X := round((X * cos(angle)) + (Y * sin(angle))) + 643;
+  result.Y := round((Y * cos(angle)) - (X * sin(angle))) + 83;
+end;
+
+function TReflectionTiles.GetTileHeight(Tile: TPoint): Integer;
+var
+  X, Y, CurPlane, GroundSetting: Integer;
+begin
+  X := Tile.X - Reflect.Smart.GetInt(0, Client_BaseX);
+  Y := Tile.Y - Reflect.Smart.GetInt(0, Client_BaseY);
+  if ((X < 0) or (X > 104) or (Y < 0) or (Y > 104)) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  CurPlane := Reflect.Smart.GetInt(0, Client_Plane);
+  GroundSetting := SmartGetFieldArray3DByte(SmartCurrentTarget, 0,
+    Client_GroundSettings.Path, 1, X, Y);
+  if ((CurPlane < 3) and ((GroundSetting and 2) <> 0)) then
+    CurPlane := CurPlane + 1;
+  Result := SmartGetFieldArray3DInt(SmartCurrentTarget, 0,
+    Client_GroundHeights.Path, CurPlane, X, Y)
+  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
+    CurPlane, X + 1, Y)
+  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
+    CurPlane, X, Y + 1)
+  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
+    CurPlane, X + 1, Y + 1);
+  Result := - Result div 4;
+end;
+{
+function R_IsMoving: Boolean;
+var
+  First, Second: Tpoint;
+begin
+  first := R_GetTileGlobal;
+  Wait(500);
+  second := R_GetTileGlobal;
+  result := (First.X <> Second.X) and (First.Y <> Second.Y);
+end;
+}
+function Ashr(X: Integer; D: Byte): Integer;
+var
+  Bit: Integer;
+  I: Integer;
+begin
+  Bit := (1 shl 31) and X;
+  Result := X;
+  for I := 1 to d do
+    Result := (Result shr 1) or Bit;
+end;
+
+function TReflectionInternals.TileToMSEx(X, Y, Height: Extended): TPoint;
+var
+  Z, CurveX, CurveY, CurveCosX, CurveCosY, CurveSinX, CurveSinY: Extended;
+  TempCalculation: Extended;
+  CalculatedScreenPosX, CalculatedScreenPosY: Integer;
+begin
+  if (X < 128) or (Y < 128) or (X > 13056) or (Y > 13056) then
+  begin
+    Result := Point(-1, -1);
+    Exit;
+  end;
+  Z := -Height;
+  X := X - Reflect.Internals.CameraX;
+  Y := Y - Reflect.Internals.CameraY;
+  Z := Z - Reflect.Internals.CameraZ;
+  CurveX := Reflect.Internals.GetYaw;
+  CurveY := Reflect.Internals.GetPitch;
+  CurveCosX := CURVECOS[Floor(CurveX)];
+  CurveCosY := CURVECOS[Floor(CurveY)];
+  CurveSinX := CURVESIN[Floor(CurveX)];
+  CurveSinY := CURVESIN[Floor(CurveY)];
+  TempCalculation := Ashr(Round((CurveCosX * X) + (Y * CurveSinX)), 16);
+  Y := Ashr(Round((Y * CurveCosX) - (X * CurveSinX)), 16);
+  X := Round(TempCalculation);
+  TempCalculation := Ashr(Round((Z * CurveCosY) - (Y * CurveSinY)), 16);
+  Y := Ashr(Round((Z * CurveSinY) - ((-CurveCosY) * Y)), 16);
+  Z := Round(TempCalculation);
+  if (Y < 50) then
+  begin
+    Result := Point(-1, -1);
+    Exit;
+  end else
+  begin
+    CalculatedScreenPosX := Round((((Floor(X) shl 9) / Y)));
+    IncEx(CalculatedScreenPosX, 256);
+    CalculatedScreenPosY := Round((((Floor(Z) shl 9) / Y)));
+    IncEx(CalculatedScreenPosY, 167);
+    Result := Point(CalculatedScreenPosX, CalculatedScreenPosY);
+  end;
+end;
+
+function TReflectionTiles.TileToMS(Tile: TPoint; XOffset: Integer = 0; YOffset:
+  Integer = 0; ZOffset: Integer = 0): TPoint;
+var
+  X, Y, Z: Integer;
+begin
+  X := Round((Tile.X - Reflect.Smart.GetInt(0, Client_BaseX) + 0.5) * 128) +
+    XOffset;
+  Y := Round((Tile.Y - Reflect.Smart.GetInt(0, Client_BaseY) + 0.5) * 128) +
+    YOffset;
+  Z := Reflect.Tiles.GetTileHeight(Tile) + ZOffset;
+  Result := Reflect.Internals.TileToMSEx(X, Y, Z);
+end;
+

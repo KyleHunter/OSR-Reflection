@@ -1,0 +1,16 @@
+{$include AeroLib/Reflection/lib/internal/SmartGraphics.simba}
+{$include AeroLib/Reflection/lib/internal/Types.simba}
+{$include AeroLib/Reflection/lib/internal/Hooks.simba}
+{$include AeroLib/Reflection/lib/internal/Smart.simba}
+{$include AeroLib/Reflection/lib/internal/Memory.simba}
+{$include AeroLib/Reflection/lib/interfaces/Widgets.simba}
+{$include AeroLib/Reflection/lib/core/Compass.simba}
+{$include AeroLib/Reflection/lib/core/Tiles.simba}
+{$include AeroLib/Reflection/lib/core/Mapwalk.simba}
+{$include AeroLib/Reflection/lib/misc/Misc.simba}
+{$include AeroLib/Reflection/lib/core/Text.simba}
+{$include AeroLib/Reflection/lib/core/Npcs.simba}
+{$include AeroLib/Reflection/lib/core/Player.simba}
+{$include AeroLib/Reflection/lib/interfaces/Inventory.simba}
+{$include AeroLib/Reflection/lib/core/GroundItems.simba}
+{$include AeroLib/Reflection/lib/core/Objects.simba}

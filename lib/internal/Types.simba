@@ -1,0 +1,34 @@
+
+
+type
+  TReflectionSmart = type Pointer;
+  TReflectionInternals = type Pointer;
+  TReflectionCompass = type Pointer;
+  TReflectionMap = type Pointer;
+  TReflectionTiles = type Pointer;
+  TReflectionText = type Pointer;
+  TReflectionMisc = type Pointer;
+  TReflectionPlayer = type Pointer;
+  TReflectionWidget = type Pointer;
+  TReflectionInventory = type Pointer;
+  TReflectionGround = type Pointer;
+  TReflectionMemory = type Pointer;
+
+  TReflectionLib = record
+  Smart: TReflectionSmart;
+  Mem: TReflectionMemory;
+  Compass: TReflectionCompass;
+  Tiles: TReflectionTiles;
+  Map: TReflectionMap;
+  Misc: TReflectionMisc;
+  Internals: TReflectionInternals;
+  Text: TReflectionText;
+  Player: TReflectionPlayer;
+  Widget: TReflectionWidget;
+  Inventory: TReflectionInventory;
+  Ground: TReflectionGround;
+end;
+
+var
+  Reflect: TReflectionLib;
+

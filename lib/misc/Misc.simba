@@ -1,0 +1,66 @@
+
+function TReflectionInternals.GetJavaString(JavaString: Integer; MaxLength: Integer): string;
+begin
+  SetLength(Result, MaxLength);
+  SetLength(Result, SmartStringFromString(SmartCurrentTarget, JavaString, Result));
+  Result := Replace(Result, 'Â', '');
+  Result := Replace(Result, #160, #32);
+end;
+
+function TReflectionInternals.GetSettingArray: TIntegerArray;
+var
+  i: Integer;
+begin
+  SetLength(Result, 2000);
+  for i := 0 to 1999 do
+    Result[i] := Reflect.Smart.GetIntArray(0, Client_Settings, i)
+end;
+
+function TReflectionInternals.GetSetting(Setting: Integer): Integer;
+var
+  SettingArray: TIntegerArray;
+begin
+  SettingArray := Reflect.Internals.GetSettingArray;
+  if(Setting < Length(SettingArray))then
+    Result := SettingArray[Setting]
+  else
+  begin
+    Reflect.Internals.Warn('Incorrect setting index passed to GetSetting');
+    Result := -1;
+  end;
+end;
+
+function TReflectionMisc.GetPlayerName: String;
+var
+  _Player, _PlayerName: Integer;
+begin
+  _Player := Reflect.Smart.GetObject(0, Client_Player);
+  _PlayerName := Reflect.Smart.GetObject(_Player, Player_name);
+  Result := Reflect.Internals.GetJavaString(_PlayerName, 512);
+  Reflect.Smart.FreeObject(_PlayerName);
+  Reflect.Smart.FreeObject(_Player);
+end;
+
+function TReflectionInternals.GetClientLoopCycle: Integer;
+begin
+  result := Reflect.Smart.GetInt(0, Client_LoopCycle);
+end;
+
+function TReflectionInternals.GetActorLoopCycle: Integer;
+var
+  Me: Integer;
+begin
+  Me := SmartGetFieldObject(SmartCurrentTarget, 0, Client_Player.Path);
+  Result := Reflect.Smart.GetInt(Me, Actor_CombatCycle);
+  SmartFreeObject(SmartCurrentTarget, Me);
+end;
+
+function TReflectionInternals.BaseX: Integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_BaseX);
+end;
+
+function TReflectionInternals.BaseY: Integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_BaseY);
+end;

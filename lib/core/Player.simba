@@ -1,0 +1,119 @@
+
+function TReflectionPlayer.GetAnimation: Integer;
+var
+  Me: Integer;
+begin
+  Me := Reflect.Smart.GetObject(0, Client_Player);
+  Result := Reflect.Smart.GetInt(Me, Actor_Animation);
+  Reflect.Smart.FreeObject(Me);
+end;
+
+function TReflectionPlayer.IsAnimating: Boolean;
+begin
+  Result := Reflect.Player.GetAnimation > - 1;
+end;
+
+function TReflectionPlayer.GetSkillLevel(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetIntArray(0, Client_Levels, SkillConst);
+end;
+
+function TReflectionPlayer.GetMaxSkillLevel(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetIntArray(0, Client_Real_Levels, SkillConst);
+end;
+
+function TReflectionPlayer.GetSkillExp(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetIntArray(0, Client_Experiences, SkillConst);
+end;
+
+function TReflectionPlayer.GetHealth: Extended;
+begin
+  Result := Reflect.Player.GetSkillLevel(Skill_Hitpoints);
+end;
+
+function TReflectionPlayer.GetMaxHealth: Extended;
+begin
+  Result := Reflect.Player.GetMaxSkillLevel(Skill_Hitpoints);
+end;
+
+function TReflectionPlayer.GetHealthPercent: Extended;
+begin
+  if (Reflect.Player.GetHealth = 0) then
+  begin
+    Result := 100;
+    Exit;
+  end;
+  if (Reflect.Player.GetMaxHealth = 0) then
+  begin
+    Result := Reflect.Player.GetHealth;
+    Exit;
+  end;
+  Result := Round((Reflect.Player.GetHealth / Reflect.Player.GetMaxHealth) * 100);
+end;
+
+function TReflectionPlayer.GetRunEnergy: integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_Run_Energy);
+end;
+
+function TReflectionPlayer.IsAutoRetaliateOn: Boolean;
+begin
+  Result := Reflect.Internals.GetSetting(172) = 0;
+end;
+
+function TReflectionPlayer.IsRunOn: Boolean;
+begin
+  Result := Reflect.Internals.GetSetting(173) = 1;
+end;
+
+function TReflectionPlayer.IsPoisoned: Boolean;
+begin
+  Result := Reflect.Internals.GetSetting(102) > 0;
+end;
+
+function TReflectionPlayer.AutoCasting: Boolean;
+begin
+  Result := Reflect.Internals.GetSetting(108) > 0;
+end;
+
+function TReflectionPlayer.GetSpecPercent: Integer;
+begin
+  Result := Reflect.Internals.GetSetting(300) div 10;
+end;
+
+function TReflectionPlayer.GetWeight: Integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_Weight);
+end;
+
+function TReflectionPlayer.GetLoginState: Integer;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_Login_State);
+end;
+
+function TReflectionPlayer.WaitForAnimation(WaitPerLoop, Timeout: Integer): boolean;
+var
+  T: Timer;
+begin
+  Result := False;
+  T.Start;
+  while Reflect.Player.GetAnimation = - 1 do
+  begin
+  Wait(WaitPerLoop);
+    if (T.TimeElapsed >= Timeout) then
+      Exit;
+  end;
+  Result := True;
+end;
+
+function TReflectionPlayer.InFight: Boolean;
+begin
+  Result := (Reflect.Internals.GetActorLoopCycle > Reflect.Internals.GetClientLoopCycle);// or (Round(R_InteractingNpc().Hitpoints) > 0);
+end;
+
+function TReflectionPlayer.UnderAttack: Boolean;
+begin
+  Result := (Reflect.Internals.GetActorLoopCycle > Reflect.Internals.GetClientLoopCycle);
+end;

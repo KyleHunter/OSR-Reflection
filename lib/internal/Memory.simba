@@ -1,0 +1,121 @@
+
+  (*
+Memory.Simba
+~~~~~~~~~~
+
+  Contains all the memory handling for the include.  Global object references
+  are stored in the "HookCache" array and are free'd at termination of script.
+  All other object references are stored in "HookCache" until the end of the
+  function.  Also upon termination, any previously stored objects are then
+  free'd, helping avoid potentional leaks. In order to acess the "HookCache"
+  the enums "CACHE_KEY" will be used in order to be more efficient during
+  runtime.
+  Only "Objects.Simba", "GroundItems.Simba", & Npc.Simba will utilize Caching
+  as no other methods benefit from it much.
+
+*)
+
+type
+  TCacheKey = (bkNull, bkRegion, bkSceneTile, bkObject, bkNpcNode,
+  bkNpcDef, bkNpcName, bkNpcOverHead, bkGroundArray, bkGroundList);
+
+var
+  HookCache: T2DIntegerArray;
+  HooksLeaked: Integer;
+
+procedure TReflectionMemory.HookLeaked(MemFunc: String);
+begin
+  Inc(HooksLeaked);
+  Writeln('Hook Leaked in: ' + MemFunc);
+  if HooksLeaked > 5 then
+  begin
+    Writeln('Please report this log to the reflection team, terminating');
+    TerminateScript;
+  end;
+end;
+
+procedure TReflectionMemory.GetObject(Ref, Key: TCacheKey; Hook: THook; Index,
+  ReferenceIndex: Integer);overload;
+begin
+  if (HookCache[Ord(Key)][Index] = 0) then
+    HookCache[Ord(Key)][Index] := SmartGetFieldObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
+  else
+    TReflectionMemory.HookLeaked('GetObject');
+end;
+
+procedure TReflectionMemory.GetObjectArray(Ref, Key: TCacheKey; Hook: THook;
+  Index, ReferenceIndex, ArIndex: Integer);
+begin
+  if (HookCache[Ord(Key)][Index] = 0) then
+    HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
+  else
+    TReflectionMemory.HookLeaked('GetObject');
+end;
+
+procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
+  ReferenceIndex: Integer; X, Y, Z: Integer); overload;
+begin
+  if (HookCache[Ord(Key)][Index] = 0) then
+    HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, Z, X, Y)
+  else
+    TReflectionMemory.HookLeaked('Get3DObject');
+end;
+
+procedure TReflectionMemory.FreeObjects(Key: TCacheKey; Safe: Boolean);
+var
+  i: Integer;
+begin
+  for i := 0 to High(HookCache[Ord(Key)]) do
+  begin
+    SmartFreeObject(SmartCurrentTarget, HookCache[Ord(Key)][i]);
+    if HookCache[Ord(Key)][i] = 0 then
+    begin
+      if Safe then
+        Continue
+      else
+        Exit;
+    end;
+    HookCache[Ord(Key)][i] := 0;
+  end;
+end;
+
+procedure TReflectionSmart.FreeAllObjects;
+var
+  I, L: Integer;
+begin
+    for I := 1 to High(HookCache) do
+    for L := 0 to High(HookCache[i]) do
+      if HookCache[i][l] <> 0 then
+      begin
+        SmartFreeObject(SmartCurrentTarget, HookCache[i][l]);
+        HookCache[i][l] := 0;
+      end;
+  writeln('All Objects free''d');
+end;
+
+procedure TReflectionSmart._SetLength(Key: TCacheKey; Width: Integer);
+var
+  X: Integer;
+begin
+    SetLength(HookCache[Ord(Key)], Width);
+end;
+
+procedure ReflectFreeHookCache;
+begin
+  Reflect.Smart.FreeAllObjects;
+end;
+
+begin
+  //AddOnTerminate('ReflectFreeHookCache;');
+  SetLength(HookCache, 11);
+  SetLength(HookCache[TCacheKey.bkNull], 10817);
+  SetLength(HookCache[TCacheKey.bkSceneTile], 10817);
+  SetLength(HookCache[TCacheKey.bkObject], 10817);
+  SetLength(HookCache[TCacheKey.bkRegion], 10817);
+  SetLength(HookCache[TCacheKey.bkNpcNode], 100);
+  SetLength(HookCache[TCacheKey.bkNpcDef], 100);
+  SetLength(HookCache[TCacheKey.bkNpcName], 100);
+  SetLength(HookCache[TCacheKey.bkNpcOverHead], 100);
+  SetLength(HookCache[TCacheKey.bkGroundArray], 100);
+  SetLength(HookCache[TCacheKey.bkGroundList], 100);
+end;

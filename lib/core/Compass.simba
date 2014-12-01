@@ -1,0 +1,116 @@
+
+
+function TReflectionInternals.GetPitch: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraPitch);
+end;
+
+function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
+var
+  E: Extended;
+begin
+  if VariantIsNumber(dir) then
+    Result := FixD(dir + 0.0)
+  else if VariantIsString(Dir) then
+    case LowerCase(Dir) of
+      'n', 'north': Result := 0;
+      'e', 'east': Result := 90;
+      's', 'south': Result := 180;
+      'w', 'west': Result := 270;
+      'random', 'rand': Result := RandomRange(0, 360);
+      else
+      begin
+        E := StrToFloatDef(Dir, -1337);
+        if (E <> -1337) then
+          Result := FixD(E)
+        else
+        begin
+            WriteLn('dir [' + ToStr(Dir) +'] invalid. Returned 0.0 for safety');
+          Result := 0.0;
+        end;
+      end;
+    end;
+end;
+
+function TReflectionInternals.GetYaw: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraYaw);
+end;
+
+function TReflectionInternals.CameraX: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraX);
+end;
+
+function TReflectionInternals.CameraY: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraY);
+end;
+
+function TReflectionInternals.CameraZ: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraZ);
+end;
+
+function TReflectionInternals.MinCheck(Angle, DirectionDeg: Extended): Extended;
+begin
+  Result := MinE(Abs(Angle - (DirectionDeg + 360)), Abs((Angle + 360) -
+    DirectionDeg));
+  Result := MinE(Abs(Angle - DirectionDeg), Result);
+end;
+
+function TReflectionCompass.AngleDeg: Extended;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_CameraYaw) / 2048.0 * 360;
+end;
+
+function TReflectionCompass.AngleRad: extended;
+begin
+  Result := Radians(Reflect.Smart.GetInt(0, Client_CameraYaw) / 2048.0 * 360);
+end;
+
+function TReflectionCompass.Make(Direction: Variant): Boolean;
+var
+  StartAngle, Angle, DirectionDeg, I: Extended;
+  Left: Boolean;
+  Mark: Timer;
+begin
+  Result := False;
+  StartAngle := (360 - Reflect.Compass.AngleDeg);
+  if ((StartAngle < 0) or (not IsLoggedIn)) then
+    Exit;
+  DirectionDeg := Reflect.Internals.VariantToDirection(Direction);
+  if (Reflect.Internals.MinCheck(StartAngle, DirectionDeg) <= 8.0) then
+  begin
+    Result := True;
+    Exit;
+  end;
+  Left := (Round((360 - StartAngle) + DirectionDeg) mod 360 <=
+    Round((StartAngle + 360) - DirectionDeg) mod 360);
+  if Left then
+    KeyDown(vk_Left)
+  else
+    KeyDown(vk_Right);
+  Wait(10);
+  Mark.Start;
+  I := 0.0;
+  repeat
+    Wait(16);
+    Angle:= (360 - Reflect.Compass.AngleDeg);
+    if (((Mark.TimeElapsed > 6000)  and (I < 1.0)) or
+        ((Mark.TimeElapsed > 10000) and (I < 2.0)) or
+        ((Mark.TimeElapsed > 14000) and (I < 3.0))) then
+    begin
+      I := I + 1.0;
+    end;
+  until ((Angle < 0) or
+    (Mark.TimeElapsed > 14000) or
+    (Reflect.Internals.MinCheck(Angle, DirectionDeg) <= (7.0 + I)));
+  if Left then
+    KeyUp(vk_Left)
+  else
+    KeyUp(VK_Right);
+  Wait(10);
+  Result := (Reflect.Internals.MinCheck(Angle, DirectionDeg) <= (7.0 + I));
+end;
+

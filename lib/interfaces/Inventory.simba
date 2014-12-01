@@ -1,0 +1,134 @@
+
+type
+  TReflectInvItem = record
+    Slot, ID, Quantity: Integer;
+  end;
+
+  TReflectInvItemArray = Array of TReflectInvItem;
+
+
+function TReflectionInventory.GetAll: TReflectInvItemArray;
+var
+  RInv, RInvSlot, RItemId, RItemQuantity: Integer;
+begin
+  RInv := Reflect.Widget.Get(149, 0);
+  SetLength(Result, 28);
+  for RInvSlot := 0 to 27 do
+  begin
+    RItemId := Reflect.Smart.GetIntArray(RInv, Widget_GetItems, RInvSlot);
+    if (RItemId > 0) then
+    begin
+      RItemQuantity := Reflect.Smart.GetIntArray(RInv, Widget_GetStackSizes, RInvSlot);
+      with Result[RInvSlot] do
+      begin
+        Id := RItemId;
+        Quantity := RItemQuantity;
+        Slot := RInvSlot + 1;
+      end;
+    end
+    else
+    Result[RInvSlot].Slot := RInvSlot;
+  end;
+  SmartFreeObject(SmartCurrentTarget, RInv);
+end;
+
+procedure TReflectionInventory.ClickItem(Id: Integer; Option: String);
+var
+  I, Px, Py: Integer;
+  Ib: TBox;
+  RItems: TReflectInvItemArray;
+begin
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to high(RItems) do
+  begin
+    if (RItems[i].Id = Id) then
+    begin
+      Ib := InvBox(RItems[I].Slot);
+      GaussBox(Px, Py, Ib.X1, Ib.Y1, Ib.X2, Ib.Y2);
+      HumanMMouse(Point(Px, Py), 2, 2);
+      Wait(50 + Random(25));
+      if (Reflect.Text.IsUptext(Option)) then
+        FastClick(Mouse_Left)
+      else
+      begin
+        FastClick(mouse_right);
+        Wait(25+random(20));
+        Reflect.Text.WaitChooseOption(Option, 1000);
+      end;
+        Exit;
+    end;
+  end;
+end;
+
+function TReflectionInventory.IsFull: Boolean;
+var
+  I, C: Integer;
+  RItems: TReflectInvItemArray;
+begin
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to High(RItems) do
+  begin
+    if (RItems[i].Id <> 0) then
+      Inc(C);
+  end;
+  Result := (C = 28);
+end;
+
+function TReflectionInventory.Count: Integer;
+var
+  I: Integer;
+  RItems: TReflectInvItemArray;
+begin
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to High(RItems) do
+  begin
+    if (RItems[I].Id <> 0) then
+      Inc(Result);
+  end;
+end;
+
+function TReflectionInventory.ContainsCount(Ids: TIntegerArray): Integer;
+var
+  I: Integer;
+  RItems: TReflectInvItemArray;
+begin
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to High(RItems) do
+  begin
+    if (InIntArray(Ids, RItems[I].Id)) then
+      Inc(result);
+  end;
+end;
+
+function TReflectionInventory.Contains(Id: Integer): Boolean;
+var
+  I: Integer;
+  RItems: TReflectInvItemArray;
+begin
+  Result := false;
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to High(RItems) do
+  begin
+    if (RItems[I].Id = Id) then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
+
+function TReflectionInventory.GetItemSlot(Id: Integer): Integer;
+var
+  I: Integer;
+  RItems: TReflectInvItemArray;
+begin
+  RItems := TReflectionInventory.GetAll;
+  for I := 0 to High(RItems) do
+  begin
+    if (RItems[I].Id = Id) then
+    begin
+      Result := RItems[I].Slot;
+      Exit;
+    end;
+  end;
+end;

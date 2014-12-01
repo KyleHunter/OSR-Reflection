@@ -1,0 +1,149 @@
+program R_TileToMS;
+{$DEFINE SMART8}
+{$I SRL-OSR/SRL.Simba}
+{$I SRL-OSR/SRL/misc/SmartGraphics.simba}
+{$I SRL-OSR/SRL/Reflection/Reflection.simba}
+{*
+ * By Frement
+ *
+ * Instructions:
+ * Log into OSR, start the script and click any red X's
+ * on tiles you want added to the array.
+ * Yellow co-ords are your player and the red co-ords are
+ * tiles you hover.
+ *}
+     //   (2457, 3108)
+const
+  TileOffsetX = 0; // Offset of Tile.X -64 for left edge, +64 for right edge.
+  TileOffsetY = 0; // Offset of Tile.Y -64 for top edge, +64 for bottom edge.
+  TileOffsetZ = 0; // Offset of Tile.Z +200 for player height.
+
+var
+  Tile, Base: TPoint;
+  Tiles: T2DPointArray;
+  X, Y, MX, MY: Integer;
+  Pts: TPointArray;
+
+function R_TileToWorld(Tile: TPoint; XOffset, YOffset, ZOffset: Integer): TPoint;
+var
+  X, Y, Z: Integer;
+begin
+  X := Round((Tile.X - (SmartGetFieldInt(SmartCurrentTarget, 0, client_baseX) * client_baseX_Multiplier) + 0.5) * 128) + XOffset;
+  Y := Round((Tile.Y - (SmartGetFieldInt(SmartCurrentTarget, 0, client_baseY) * client_baseY_Multiplier) + 0.5) * 128) + YOffset;
+  Z := R_GetTileHeight(Tile) + ZOffset;
+
+  Result := R_TileToMSEx(X, Y, Z);
+end;
+
+function FindAndSetTarget(TitlePrefix: String; SetAsTarget: Boolean): Boolean;
+var
+  T : TSysProcArr;
+  I : Integer;
+begin
+  T := GetProcesses;
+  for I := High(T) downto 0 do
+    if Pos(TitlePrefix, T[I].Title) <> 0 then
+    begin
+      Result := True;
+      if SetAsTarget then SetTarget(T[I]);
+      Exit;
+    end;
+end;
+
+procedure GetRealMousePos(var X, Y : Integer);
+var
+  KMTarget, ITarget: Integer;
+begin
+  KMTarget := GetKeyMouseTarget;
+  ITarget := GetImageTarget;
+  FindAndSetTarget('SMART', True);
+  GetTClient.IOManager.GetMousePos(X, Y);
+  FreeTarget(GetImageTarget);
+  SetKeyMouseTarget(KMTarget);
+  SetImageTarget(ITarget);
+  X := X - 8;
+  Y := Y - 25;
+end;
+
+function IsRealMouseLeftDown: Boolean;
+var
+  KMTarget, ITarget: Integer;
+begin
+  KMTarget := GetKeyMouseTarget;
+  ITarget := GetImageTarget;
+  FindAndSetTarget('SMART', True);
+  Result := GetTClient.IOManager.isKeyDown(VK_LBUTTON);
+  FreeTarget(GetImageTarget);
+  SetKeyMouseTarget(KMTarget);
+  SetImageTarget(ITarget);
+end;
+
+procedure DebugProc;
+var
+  X, Y: Integer;
+begin
+  Tile := R_GetTileGlobal;
+  Base := Point(Tile.X - 5, Tile.Y - 5);
+  SetLength(Tiles, 10);
+  for X := 0 to 9 do
+    SetLength(Tiles[X], 10);
+  for X := 0 to 9 do
+    for Y := 0 to 9 do begin
+      Tiles[X][Y] := R_TileToWorld(Point(Base.X + X, Base.Y + Y), TileOffsetX, TileOffsetY, TileOffsetZ);
+    end;
+end;
+
+procedure AddPt(pt: TPoint);
+begin
+  SetLength(pts, high(pts) + 2);
+  pts[high(pts)] := pt;
+end;
+
+procedure DebugPts;
+var
+  I: Integer;
+  Str: String;
+begin
+  Str := '[';
+  for I := 0 to High(Pts) do begin
+    Str := Str + 'Point(' + ToStr(Pts[I].x) + ', ' + ToStr(Pts[I].y) + ')';
+    if (I <> High(Pts)) then
+      Str := Str + ', ';
+  end;
+  Str := Str + ']';
+  Writeln(Str);
+end;
+
+begin
+  SetupSRL;
+  SetupReflection;
+  SMART_ClearCanvas;
+  AddOnTerminate('SMART_ClearCanvas');
+  if (not LoggedIn) then
+  begin
+    Writeln('Log into OSR before you start the script');
+    TerminateScript;
+  end;
+  repeat
+    GetRealMousePos(MX, MY);
+    DebugProc;
+    SMART_DrawTextEx(True, 10, 10, 'UpChars07', 'Tile: ' + ToStr(Tile.X) + ', ' + ToStr(Tile.Y), clYellow);
+    for X := 0 to 9 do
+      for Y := 0 to 9 do
+        if PointInBox(Tiles[X][Y], MSBox) then
+          if (PointInBox(Point(MX, MY), IntToBox(Tiles[X][Y].X - 10, Tiles[X][Y].Y - 10, Tiles[X][Y].X + 15, Tiles[X][Y].Y + 15))) then begin
+            SMART_DrawTextEx(False, Tiles[X][Y].X, Tiles[X][Y].Y, 'UpChars07', '+', clRed);
+            SMART_DrawTextEx(False, 10, 24, 'UpChars07', 'Tile: ' + ToStr(Tile.X + X - 5) + ', ' + ToStr(Tile.Y + Y - 5), clRed);
+            if (IsRealMouseLeftDown) then begin
+              AddPt(Point(Tile.X + X - 5, Tile.Y + Y - 5));
+              repeat
+                Sleep(100);
+              until(not IsRealMouseLeftDown);
+            end;
+          end else
+            SMART_DrawTextEx(False, Tiles[X][Y].X, Tiles[X][Y].Y, 'UpChars07', '+', clYellow);
+    Sleep(100);
+    ClearDebug;
+    DebugPts;
+  until(False);
+end.

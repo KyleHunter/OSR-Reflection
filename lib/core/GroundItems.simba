@@ -1,0 +1,120 @@
+type
+  TReflectGroundItem = record
+    Id, Quantity: Integer;
+    Tile: TPoint;
+  end;
+
+  TReflectGroundItemArray = array of TReflectGroundItem;
+
+function GroundItem(Id, Quantity: Integer; Tile: TPoint): TReflectGroundItem;
+begin
+  Result.Id := Id;
+  Result.Quantity := Quantity;
+  Result.Tile := Tile;
+end;
+
+function TReflectionInternals.GetGroundItemsAt(Tile: TPoint; BaseX, BaseY,
+  Plane: Integer): TReflectGroundItemArray;
+var
+  Id, Quantity, Iteration: Integer;
+begin
+  Reflect.Mem.Get3DObject(bkNull, bkGroundArray, Client_GroundItems, 0, 0,
+    Tile.X, Tile.Y, Plane);
+  Reflect.Mem.GetObject(bkGroundArray, bkGroundList, LinkedList_head, 0, 0);
+  Reflect.Mem.GetObject(bkGroundList, bkGroundList, Node_next, 1, 0);
+  while (HookCache[TCacheKey.bkGroundList][Iteration] <> -1) and
+    (HookCache[TCacheKey.bkGroundList][Iteration] <> 0) and
+    (HookCache[TCacheKey.bkGroundList][iteration] <>
+    HookCache[TCacheKey.bkGroundList][iteration + 1]) do
+  begin
+    Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkGroundList][Iteration + 1],
+       Item_Id);
+    Quantity := Reflect.Smart.GetInt(
+      HookCache[TCacheKey.bkGroundList][Iteration + 1], Item_stackSize);
+    if (Id < 0) or (Quantity < 0) then
+      Break;
+    SetLength(Result, Length(Result) + 1);
+    Result[High(Result)] := GroundItem(Id, Quantity, Point(Tile.X + BaseX, Tile.Y + BaseY));
+    Reflect.Mem.GetObject(bkGroundList, bkGroundList, Node_Next, Iteration + 2, Iteration + 1);
+    Inc(Iteration);
+  end;
+end;
+
+function TReflectionGround.GetAt(RealTile: TPoint): TReflectGroundItemArray;
+var
+  BaseX, BaseY, Plane: Integer;
+begin
+  BaseX := Reflect.Internals.BaseX;
+  BaseY := Reflect.Internals.BaseY;
+  Plane := Reflect.Tiles.GetPlane;
+  Result := Reflect.Internals.GetGroundItemsAt(Point(RealTile.X - BaseX,
+    RealTile.Y - BaseY), BaseX, BaseY, Plane);
+  Reflect.Mem.FreeObjects(bkGroundArray, False);
+  Reflect.Mem.FreeObjects(bkGroundList, False);
+end;
+
+
+function TReflectionGround.GetAll: TReflectGroundItemArray;
+var
+   X, Y, BaseX, BaseY, Plane, L, I, H: Integer;
+   TempArray, TempArray2: TReflectGroundItemArray;
+begin
+  BaseX := Reflect.Internals.BaseX;
+  BaseY := Reflect.Internals.BaseY;
+  Plane := Reflect.Tiles.GetPlane;
+  for X := 0 to 104 do
+  begin
+    for Y := 0 to 104 do
+    begin
+      SetLength(TempArray, 0);
+      TempArray := Reflect.Internals.GetGroundItemsat(Point(X, Y),
+        BaseX, BaseY, Plane);
+      Reflect.Mem.FreeObjects(bkGroundArray, False);
+      Reflect.Mem.FreeObjects(bkGroundList, False);
+      L := Length(TempArray);
+      if (L > 0) then
+      begin
+        SetLength(TempArray2, Length(TempArray2) + L);
+        H := Length(TempArray2);
+        for I := 0 to High(TempArray) do
+          TempArray2[H - L + I] := TempArray[I];
+      end;
+    end;
+  end;
+  Result := TempArray2;
+end;
+
+function TReflectionGround.GetDistance(Distance: Integer):
+  TReflectGroundItemArray;
+var
+   X, Y, BaseX, BaseY, Plane, L, I, H: Integer;
+   TempArray, TempArray2: TReflectGroundItemArray;
+   Position: TPoint;
+begin
+  BaseX := Reflect.Internals.BaseX;
+  BaseY := Reflect.Internals.BaseY;
+  Plane := Reflect.Smart.GetInt(0, Client_Plane);
+  Position := Reflect.Tiles.GetGlobalTile;
+  Position := Point(Position.X - BaseX, Position.Y - BaseY);
+  Distance := Round(Distance / 2);
+  for X := Position.X - Distance to Position.X + Distance do
+  begin
+    for Y := Position.Y - Distance to Position.Y + Distance do
+    begin
+      SetLength(TempArray, 0);
+      TempArray := Reflect.Internals.GetGroundItemsat(Point(X, Y), BaseX,
+        BaseY, Plane);
+      Reflect.Mem.FreeObjects(bkGroundArray, False);
+      Reflect.Mem.FreeObjects(bkGroundList, False);
+      L := Length(TempArray);
+      if (L > 0) then
+      begin
+        SetLength(TempArray2, Length(TempArray2) + L);
+        H := Length(TempArray2);
+        for I := 0 to High(TempArray) do
+          TempArray2[H - L + I] := TempArray[I];
+      end;
+    end;
+  end;
+  Result := TempArray2;
+end;

@@ -1,0 +1,190 @@
+
+type TReflectNPC = record
+  Name, OverHeadText: String;
+  Tile: TPoint;
+  Index, Level, Id: Integer;
+  Animation, HitPoints: Integer;
+  Interacting: Integer;
+  InCombat: Boolean;
+end;
+
+  TReflectNPCArray = array of TReflectNPC;
+
+procedure TReflectNPC.Null;
+begin
+  with Self do
+  begin
+    Name := '';
+    OverHeadText := '';
+    Tile := Point(0, 0);
+    Index :=  0;
+    Level := 0;
+    Id := 0;
+    Animation := 0;
+    HitPoints := 0;
+    Interacting := 0;
+    InCombat := False;
+  end;
+end;
+
+function TReflectNPC.GetIndices: tIntegerArray;
+var
+  I: Integer;
+begin
+  SetLength(Result, 100);
+  for i:= 0 to 99 do
+  begin
+    Result[I] := TReflectionSmart.GetIntArray(0, Client_NpcIndices, I);
+    if (Result[I] = 0) then
+      Break;
+  end;
+  SetLength(Result, I);
+end;
+
+procedure TReflectNPCArray.Sort;
+var
+  I, C, L: integer;
+  Tpa: TPointArray;
+  Temp: TReflectNPCArray;
+begin
+  L := GetArrayLength(Self);
+  if L < 1 then
+    Exit;
+  SetArrayLength(Tpa, L);
+  SetArrayLength(Temp, L);
+  for I := 0 to L - 1 do
+    Tpa[I] := Self[I].Tile;
+  SortTPAFrom(Tpa, Reflect.Tiles.GetGlobalTile);
+  for I := 0 to L - 1 do
+    for C := 0 to L - 1 do
+      if (Tpa[i].Y = Self[C].Tile.Y) and (Tpa[I].X = Self[C].Tile.X) then
+        Temp[I] := Self[C];
+  Self := Temp;
+end;
+
+procedure TReflectNPCArray.GetAll;
+var
+  Indices: TIntegerArray;
+  H, I, C: Integer;
+begin
+  Indices := TReflectNPC.GetIndices;
+  H := High(Indices);
+  for I := 0 to H do
+  begin
+    Reflect.Mem.GetObjectArray(bkNull, bkNpcNode, Client_Npcs, I, I, Indices[I]);
+    Reflect.Mem.GetObject(bkNpcNode, bkNpcDef, Npc_Definition, I, I);
+    if (HookCache[TCacheKey.bkNpcDef][I] = 0) then
+    begin
+      Inc(C);
+      Continue;
+    end;
+    Reflect.Mem.GetObject(bkNpcDef, bkNpcName, NpcDefinition_Name, I, I);
+    Reflect.Mem.GetObject(bkNpcNode, bkNpcOverHead, Actor_ActiveText, I, I);
+    SetLength(Self, H + 1);
+    with Self[I - C] do
+    begin
+      Name := Trim(Reflect.Internals.GetJavaString(
+        hookCache[TCacheKey.bkNpcName][I], 512));
+      OverHeadText := Trim(Reflect.Internals.GetJavaString(
+        HookCache[TCacheKey.bkNpcOverHead][I], 512));
+      Tile.X := Reflect.Smart.GetInt(0, Client_BaseX) + Reflect.Smart.GetInt(
+        HookCache[TCacheKey.bkNpcNode][I], Actor_LocalX) div 128;
+      Tile.Y := Reflect.Smart.GetInt(0, Client_BaseY) + Reflect.Smart.GetInt(
+        HookCache[TCacheKey.bkNpcNode][I], Actor_LocalY) div 128;
+      Index := Indices[I];
+      Level := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcDef][I],
+        NpcDefinition_Level);
+      Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcDef][I],
+        NpcDefinition_ID);
+      Animation := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+        Actor_Animation);
+      HitPoints := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+        Actor_Health) div 30;
+      if (HitPoints < 0) then
+        HitPoints := 0;
+      Interacting := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+        Actor_Interacting);
+      if ((Animation > -1) and (HitPoints > 0)) then
+        InCombat := True
+      else
+        InCombat := False;
+    end;
+  end;
+  SetLength(Self, I - C);
+  Reflect.Mem.FreeObjects(bkNpcDef, True);
+  Reflect.Mem.FreeObjects(bkNpcNode, True);
+  Reflect.Mem.FreeObjects(bkNpcName, True);
+  Reflect.Mem.FreeObjects(bkNpcOverHead, True);
+end;
+
+procedure TReflectNPCArray.Get(Npc: Variant);
+var
+  Temp, Temp1: TReflectNPCArray;
+  I, H, T: integer;
+begin
+  Temp.GetAll;
+  if VariantIsString(Npc) then
+  begin
+    H := High(Temp);
+    SetLength(Temp1, H + 1);
+    for I := 0 to H do
+    begin
+      if (Temp[I].Name = Npc) then
+      begin
+        Temp1[T] := Temp[I];
+        Inc(T);
+      end;
+    end;
+  end
+  else
+  begin
+    H := High(Temp);
+    Setlength(Temp1, H + 1);
+    for I := 0 to H do
+    begin
+      if (Temp[i].Id = Npc) then
+      begin
+        Temp1[T] := temp[I];
+        Inc(T);
+      end;
+    end;
+  end;
+  Setlength(Temp1, T);
+  if (Length(Temp1) = 0) then
+    Exit;
+  Self := Temp1;
+  Self.Sort;
+end;
+
+function TReflectNPC.Find(Npc: Variant; Dist: Integer = 144): Boolean;
+var
+  Temp: TReflectNPCArray;
+begin
+  Temp.Get(Npc);
+  if Length(temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].Tile, Dist) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;
+
+function TReflectNPC.FindFree(Npc: Variant; Dist: Integer = 144): Boolean;
+var
+  I: Integer;
+  Temp: TReflectNPCArray;
+begin
+  Temp.Get(Npc);
+  Temp.Sort;
+  for I := 0 to High(Temp) do
+  begin
+    if not(Temp[i].InCombat) then
+      if Reflect.Tiles.NearTile(Temp[I].Tile, Dist) then
+      begin
+        Result := True;
+        Self := Temp[I];
+      end;
+  end;
+end;

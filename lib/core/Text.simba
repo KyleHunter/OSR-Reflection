@@ -1,0 +1,186 @@
+
+
+function TReflectionInternals.RemoveFormatting(Text: String): String;
+var
+  I: Integer;
+  Skip: Boolean;
+begin
+  for I := 1 to Length(Text) do
+  begin
+    if (Text[I] = '<') then
+      Skip := True;
+    if (Skip) and (Text[I] = '>') then begin
+      Skip := False;
+      Continue;
+    end;
+    if (Skip) then
+      Continue;
+    Result := Result + Text[I];
+  end;
+  Result := Replace(Result, '  ', ' ');
+end;
+
+function TReflectionInternals.GetMenuIndex(Option: String; Options: TStringArray): Integer;
+var
+  I: Integer;
+begin
+  Result := -1;
+  for I := 0 to High(Options) do
+  begin
+    if (Pos(Option, Options[I]) > 0) then
+    begin
+      Result := I;
+      Exit;
+    end;
+  end;
+end;
+
+function TReflectionInternals.IsMenuOpen: Boolean;
+begin
+  Result := Reflect.Smart.GetInt(0, Client_IsMenuOpen);
+end;
+
+function TReflectionInternals.GetMenuOptions: TStringArray;
+var
+  ActInt, OptInt, Count, I, J: Integer;
+  Act, Opt: String;
+begin
+  Count := Reflect.Smart.GetInt(0, Client_MenuCount);
+  SetLength(Result, Count);
+  for I := Count - 1 downto 0 do
+  begin
+    Act := '';
+    Opt := '';
+    ActInt := SmartGetFieldArrayObject(SmartCurrentTarget, 0, client_menuActions.Path, I);
+    OptInt := SmartGetFieldArrayObject(SmartCurrentTarget, 0, client_menuOptions.Path, I);
+    Act := Trim(Reflect.Internals.GetJavaString(ActInt, 512));
+    Opt := Reflect.Internals.RemoveFormatting(Trim(Reflect.Internals.GetJavaString(OptInt, 512)));
+    Result[J] := Trim(Act + ' ' + Opt);
+    Inc(J);
+    SmartFreeObject(SmartCurrentTarget, ActInt);
+    SmartFreeObject(SmartCurrentTarget, OptInt);
+  end;
+end;
+
+function TReflectionInternals.OptionExists(Option: String): Boolean;
+begin
+  Result := (Reflect.Internals.GetMenuIndex(Option, Reflect.Internals.GetMenuOptions) <> -1);
+end;
+
+function TReflectionText.ChooseOption(Option: String): Boolean;
+var
+  Index, MenuX, MenuY, MenuWidth, XOff, YOff: Integer;
+  Options: TStringArray;
+  Left: Boolean;
+begin
+  Options := Reflect.Internals.GetMenuOptions;
+  if (not Reflect.Internals.IsMenuOpen) then
+    Exit;
+  Index := Reflect.Internals.GetMenuIndex(Option, Options);
+  MenuX := Reflect.Smart.GetInt(0, Client_MenuX) + 4;
+  MenuY := Reflect.Smart.GetInt(0, Client_MenuY) + 4;
+  MenuWidth := Reflect.Smart.GetInt(0, Client_MenuWidth);
+  XOff := RandomRange(4, MenuWidth - 4);
+  YOff := RandomRange(20, 25) + (Index * 15);
+  if (MenuX + (MenuWidth div 2) > 765) then
+  begin
+    Left := True;
+  end;
+  if (MenuX - (MenuWidth div 2) < 0) then
+  begin
+    Left := False;
+  end;
+  if (Index = -1) then
+  begin
+    GetMousePos(MenuX, MenuY);
+    if (Left) then
+      HumanMMouse(Point(MenuX - 30 - MenuWidth + Random(10), MenuY + RandomRange(-2, 2)), 2, 2)
+    else
+      HumanMMouse(Point(MenuX + 30 + MenuWidth + Random(10), MenuY + RandomRange(-2, 2)), 2, 2);
+    Exit;
+  end;
+  HumanMMouse(Point(MenuX + XOff, MenuY + YOff), 2, 2);
+  Wait(RandomRange(100, 250));
+  FastClick(Mouse_Left);
+  Result := True;
+end;
+
+function TReflectionText.WaitChooseOption(Option: String; Time: Integer): Boolean;
+var
+  T: Integer;
+begin
+  Result := False;
+  T := GetSystemTime + Time;
+  while (GetSystemTime < T) do
+  begin
+    if (Reflect.Internals.IsMenuOpen) then
+    begin
+      Reflect.Text.ChooseOption(Option);
+      Result := True;
+      Exit;
+    end;
+    Wait(20 + Random(20));
+  end;
+end;
+
+function TReflectionText.GetUpText: String;
+var
+  Options: TStringArray;
+begin
+  Options := Reflect.Internals.GetMenuOptions;
+  if ((High(Options) - 1) > 0) then
+    Result := Options[0] + ' / ' + ToStr(High(Options) - 1) + ' more options'
+  else
+    Result := Options[0];
+  if (Result = 'Cancel') then
+    Result := '';
+end;
+
+function TReflectionText.IsUpTextMulti(UpText: TStringArray): Boolean;
+var
+  I: integer;
+  UT: String;
+  T: Timer;
+begin
+  Result := False;
+  T.Start;
+  while(UT = '')do
+  begin
+    UT := Reflect.Text.GetUpText;
+    if(T.timeElapsed > 1000)then
+      Exit;
+    Wait(50+Random(50));
+  end;
+  for I := 0 to High(UpText) do
+  begin
+    Result := Pos(Trim(UpText[I]), UT) > 0;
+    if Result then Exit;
+  end;
+end;
+
+function TReflectionText.IsUpText(UpText: string): Boolean;
+begin
+  Result := Reflect.Text.IsUpTextMulti([UpText]);
+end;
+
+function TReflectionText.WaitUpTextMulti(S: TStringArray; Time: Integer): Boolean;
+var
+  T: Integer;
+begin
+  Result := False;
+  T := GetSystemTime + Time;
+  while (GetSystemTime < T) do
+  begin
+    if Reflect.Text.IsUpTextMulti(S) then
+    begin
+      Result := True;
+      Exit;
+    end;
+    Wait(20 + Random(10));
+  end;
+end;
+
+function TReflectionText.WaitUpText(S: String; Time: Integer): Boolean;
+begin
+  Result := Reflect.Text.WaitUpTextMulti([S], Time);
+end;

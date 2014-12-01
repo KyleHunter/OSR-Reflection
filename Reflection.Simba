@@ -1,0 +1,26 @@
+{$DEFINE REFLECTION}
+{$i AeroLib/reflection/lib/internal/Includes.simba}
+const
+  IncludeRevision = 96;
+  R_MAJOR = 0;
+  R_MINOR = 1;
+
+procedure TReflectionInternals.Warn(Message: String; warnType: Integer = R_MINOR);
+var
+  S : String;
+begin
+  case WarnType of
+    R_MAJOR : S := 'Major';
+    R_MINOR : S := 'Warn';
+  end;
+  writeLn('[' + S + '] ' + ' Reflection error, ' + Message);
+  if warnType = R_MAJOR then
+    terminateScript;
+end;
+
+procedure setupReflection;
+begin
+  Reflect.Internals.SetupCurves;
+  smartCurrentTarget := Os_Smart.__Target;
+  Writeln('Reflection succesfully setup!');
+end;

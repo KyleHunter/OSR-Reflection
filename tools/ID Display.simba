@@ -1,0 +1,163 @@
+program ID_Display;
+{$DEFINE SMART8}
+{$I SRL-OSR/SRL.Simba}
+{$I SRL-OSR/SRL/Reflection/Reflection.simba}
+{$I SRL-OSR\SRL\misc\SmartGraphics.simba}
+
+{*
+This Tool takes pictures of the screen (and debug stuff)
+records it and saves it in a tidy matter. Also will log down
+all the available widgets to a .txt file.
+Handy for anti randoms.
+
+By: ineedbot
+
+*}
+
+var workSpace : string;
+
+const
+  debugNPC = false;
+  debugObjects = true;
+  ObjectType = OBJ_GAME;
+  debugGroundItems = false;
+  debugInvItems = false;
+  captureScreen = false;
+  debugText = false;
+  debugWidget = false;
+  logStuff = false;
+
+procedure drawDebug;
+var i : integer;
+    currentTile : TPoint;
+    gitems:TGroundItemArray;
+    items:TInventoryItemArray;
+    box : tBox;
+    NPCs : TNPCArray;
+    objects:TRSObjectArray;
+begin
+  SMART_ClearCanvas;
+   if(debugText)then begin
+      currentTile := R_GetTileGlobal;
+      SMART_DrawText(5, 5, 'smallchars07', 'Tile: Point(' + intToStr(currentTile.x) + ', ' + intToStr(currentTile.y)+')', 65280);
+      SMART_DrawText(5, 20, 'smallchars07', 'Logged State: ' + intToStr(R_GetLoginState), 65280);
+      SMART_DrawText(5, 35, 'smallchars07', 'Animation: ' + intToStr(R_GetAnimation), 65280);
+      SMART_DrawText(5, 50, 'smallchars07', 'Uptext: ' + R_GetUpText, 65280);
+      SMART_DrawText(5, 65, 'smallchars07', 'In Fight: ' + boolToStr(R_UnderAttack), 65280);
+      SMART_DrawText(5, 80, 'smallchars07', 'Plane: ' + intToStr(R_GetPlane), 65280);
+      SMART_DrawText(5, 95, 'smallchars07', 'Inv count: ' + intToStr(r_InvCount), 65280);
+   end;
+   if(debugInvItems)then begin
+      items := R_GetInventoryItems;
+      for i:=0 to high(items) do begin
+        if(items[i].ID <> 0)then
+          begin
+           box := invBox(items[i].Slot);
+           SMART_DrawText(Box.X1 - 5, box.Y1 - 0, 'statchars07', IntToStr(items[i].ID), 65280);
+          end;
+      end;
+   end;
+   if(DebugGroundItems)then begin
+      gitems := R_GetGroundItemsDistance(10);
+      for i:=0 to high(gitems) do begin
+        currentTile := R_TileToMS(gitems[i].Tile);
+        if(PointInBox(currentTile, MSBox))then begin
+           SMART_DrawText(currentTile.x, currentTile.y, 'statchars07', IntToStr(gitems[i].ID), 65280);
+        end;
+      end;
+   end;
+   if(DebugNPC)then begin
+      NPCs := R_GetAllNPCs;
+      for i:=0 to high(NPCs) do begin
+        currentTile := R_TileToMS(NPCs[i].Tile);
+        if(PointInBox(currentTile, MSBox))then begin
+           SMART_DrawText(currentTile.x, currentTile.y, 'statchars07', IntToStr(NPCs[i].ID), 30000);
+        end;
+      end;
+   end;
+   if(debugObjects)then begin
+      objects := R_GetObjectsDistance(ObjectType, 10);
+      for i:=0 to high(objects) do begin
+        currentTile := R_TileToMS(objects[i].Tile);
+        if(PointInBox(currentTile, MSBox))then begin
+           SMART_DrawText(currentTile.x, currentTile.y, 'statchars07', IntToStr(objects[i].ID), 15000);
+        end;
+      end;
+   end;
+end;
+
+procedure doProgs;
+var w, h, i : integer;
+    bmp : TBitmap;
+    ProggieLocation : string;
+begin
+  for i:=0 to 1000 do begin
+      if(not FileExists(workSpace+'\DEBUG '+toStr(i)+'.png'))then begin
+        ProggieLocation := workSpace+'\DEBUG '+toStr(i)+'.png';
+        i:=1000;
+      end;
+   end;
+     getClientDimensions(w, h);
+     bmp := bitmapFromClient(0, 0, w-1, h-1);
+     SetTransparentColor(smart_Canvas.index, 0);
+     fastDrawTransparent(0, 0, smart_Canvas.index, bmp);
+     saveBitmap(bmp, ProggieLocation);
+     writeln('Saving Proggy to '+ProggieLocation);
+     freeBitmap(bmp);
+end;
+
+procedure debugWidgets;
+var _w, i, h, j : integer;
+    stuff, again : string;
+begin
+  if(debugWidget)then begin
+      for j:=0 to 100 do begin
+        if(not FileExists(workSpace+'\debug'+intToStr(j)+'.txt'))then begin
+          again := workSpace+'\debug'+intToStr(j)+'.txt';
+          j:= 100;
+        end;
+      end;
+      for i:=0 to 500 do begin
+        for h:=0 to 50 do begin
+          _w := R_GetWidget(i, h);
+          if(_w > 0)then begin
+            stuff := 'Index: ('+intToStr(i)+')  ChildIndex: ('+intToStr(h)+')  Widget: ('+intToStr(_w)+')  Text: ('+ toStr(R_GetWidgetText(_w))+')';
+            Writeln(stuff);
+            if(logStuff)then begin
+              writeINI(inttoStr(i), inttoStr(h), stuff, again);
+            end;
+          end;
+        end;
+      end;
+    end;
+end;
+
+procedure setupDebug;
+var i : integer;
+begin
+  if(not DirectoryExists(ScriptPath+'DEBUG\'))then
+    CreateDirectory(ScriptPath+'DEBUG\');
+
+    for i:=0 to 100 do begin
+      if(not DirectoryExists(ScriptPath+'DEBUG\'+toStr(i)))then begin
+        CreateDirectory(ScriptPath+'DEBUG\'+toStr(i));
+        workSpace := ScriptPath+'DEBUG\'+toStr(i);
+        i:=100;
+      end;
+    end;
+end;
+
+begin
+SetupDEbug;
+SetupSRL;
+SetupReflection;
+AddOnTerminate('SMART_ClearCanvas');
+  repeat
+    sleep(500);
+    drawDebug;
+    if(captureScreen)then
+      doProgs;
+
+    debugWidgets;
+   until(false);
+end.
