@@ -23,21 +23,50 @@ procedure TReflectionInternals.HooksValid;
 begin
   if MouseSpeed = 0 then
     Reflect.Internals.Warn(
-      'It appears SetupSRL is below SetupReflection incurrent script', R_MAJOR);
+      'It appears InitAL is below SetupReflection in current script', R_MAJOR);
   if ((Reflect.Player.GetLoginState < 10) or
       (Reflect.Player.GetLoginState > 30)) then
     Reflect.Internals.Warn(
       'Hooks are outdated.  No need to post about it, we are currently working on it.', R_MAJOR);
 end;
 
-procedure TReflectionInternals.UpdateHooks;
+function TReflectionInternals.GetGithubPage(Page: string): String
 begin
+  Result := GetPage('http://static.frement.net/proxy.php?u=' + Page);
+end;
 
+procedure TReflectionInternals.UpdateHooks;
+var
+  OnlineVersion, NewFileName: string;
+  NewFile: Integer
+begin
+  OnlineVersion := Reflect.Internals.GetGithubPage(
+    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/HookRev.txt');
+  if (Trim(OnlineVersion) > ReflectionRevision) then
+  begin
+    WriteLn('Hook update available');
+    try
+      NewFileName := IncludePath + 'AeroLib\reflection\lib\internal\' + 'Hooks.simba';
+      NewFile := Rewritefile(NewFileName, true);
+      WriteFileString(NewFile, Reflect.Internals.GetGithubPage(
+        'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
+      WriteLn('Successfully updated '+ NewFileName);
+    except
+        Reflect.Internals.Warn('Failed Updated Hooks', R_MAJOR);
+    finally
+      CloseFile(NewFile);
+      WriteLn('Reflection update completed.');
+      writeLn('Please restart script.');
+      TerminateScript;
+    end;
+  end;
 end;
 
 procedure setupReflection;
 begin
+  SmartCurrentTarget := Os_Smart.__Target;
+  Reflect.Internals.UpdateHooks;
+  Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
-  smartCurrentTarget := Os_Smart.__Target;
   Writeln('Reflection succesfully setup!');
 end;
