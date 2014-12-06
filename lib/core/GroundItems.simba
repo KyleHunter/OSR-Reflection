@@ -18,24 +18,24 @@ function TReflectionInternals.GetGroundItemsAt(Tile: TPoint; BaseX, BaseY,
 var
   Id, Quantity, Iteration: Integer;
 begin
-  Reflect.Mem.Get3DObject(bkNull, bkGroundArray, Client_GroundItems, 0, 0,
+  Reflect.Mem.Get3DObject(ckNull, ckGroundArray, Client_GroundItems, 0, 0,
     Tile.X, Tile.Y, Plane);
-  Reflect.Mem.GetObject(bkGroundArray, bkGroundList, LinkedList_head, 0, 0);
-  Reflect.Mem.GetObject(bkGroundList, bkGroundList, Node_next, 1, 0);
-  while (HookCache[TCacheKey.bkGroundList][Iteration] <> -1) and
-    (HookCache[TCacheKey.bkGroundList][Iteration] <> 0) and
-    (HookCache[TCacheKey.bkGroundList][iteration] <>
-    HookCache[TCacheKey.bkGroundList][iteration + 1]) do
+  Reflect.Mem.GetObject(ckGroundArray, ckGroundList, LinkedList_head, 0, 0);
+  Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_next, 1, 0);
+  while (HookCache[TCacheKey.ckGroundList][Iteration] <> -1) and
+    (HookCache[TCacheKey.ckGroundList][Iteration] <> 0) and
+    (HookCache[TCacheKey.ckGroundList][iteration] <>
+    HookCache[TCacheKey.ckGroundList][iteration + 1]) do
   begin
-    Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkGroundList][Iteration + 1],
+    Id := Reflect.Smart.GetInt(HookCache[TCacheKey.ckGroundList][Iteration + 1],
        Item_Id);
     Quantity := Reflect.Smart.GetInt(
-      HookCache[TCacheKey.bkGroundList][Iteration + 1], Item_stackSize);
+      HookCache[TCacheKey.ckGroundList][Iteration + 1], Item_stackSize);
     if (Id < 0) or (Quantity < 0) then
       Break;
     SetLength(Result, Length(Result) + 1);
     Result[High(Result)] := GroundItem(Id, Quantity, Point(Tile.X + BaseX, Tile.Y + BaseY));
-    Reflect.Mem.GetObject(bkGroundList, bkGroundList, Node_Next, Iteration + 2, Iteration + 1);
+    Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_Next, Iteration + 2, Iteration + 1);
     Inc(Iteration);
   end;
 end;
@@ -49,8 +49,8 @@ begin
   Plane := Reflect.Tiles.GetPlane;
   Result := Reflect.Internals.GetGroundItemsAt(Point(RealTile.X - BaseX,
     RealTile.Y - BaseY), BaseX, BaseY, Plane);
-  Reflect.Mem.FreeObjects(bkGroundArray, False);
-  Reflect.Mem.FreeObjects(bkGroundList, False);
+  Reflect.Mem.FreeObjects(ckGroundArray, False);
+  Reflect.Mem.FreeObjects(ckGroundList, False);
 end;
 
 
@@ -69,8 +69,8 @@ begin
       SetLength(TempArray, 0);
       TempArray := Reflect.Internals.GetGroundItemsat(Point(X, Y),
         BaseX, BaseY, Plane);
-      Reflect.Mem.FreeObjects(bkGroundArray, False);
-      Reflect.Mem.FreeObjects(bkGroundList, False);
+      Reflect.Mem.FreeObjects(ckGroundArray, False);
+      Reflect.Mem.FreeObjects(ckGroundList, False);
       L := Length(TempArray);
       if (L > 0) then
       begin
@@ -104,8 +104,8 @@ begin
       SetLength(TempArray, 0);
       TempArray := Reflect.Internals.GetGroundItemsat(Point(X, Y), BaseX,
         BaseY, Plane);
-      Reflect.Mem.FreeObjects(bkGroundArray, False);
-      Reflect.Mem.FreeObjects(bkGroundList, False);
+      Reflect.Mem.FreeObjects(ckGroundArray, False);
+      Reflect.Mem.FreeObjects(ckGroundList, False);
       L := Length(TempArray);
       if (L > 0) then
       begin

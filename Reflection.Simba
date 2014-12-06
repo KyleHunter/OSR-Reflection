@@ -1,7 +1,7 @@
 {$DEFINE REFLECTION}
 {$i AeroLib/reflection/lib/internal/Includes.simba}
 const
-  IncludeRevision = 1;
+  IncludeRevision = 2;
   SubRev = 1;
   R_MAJOR = 0;
   R_MINOR = 1;

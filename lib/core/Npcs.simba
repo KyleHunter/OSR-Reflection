@@ -1,11 +1,12 @@
 
-type TReflectNPC = record
-  Name, OverHeadText: String;
-  Tile: TPoint;
-  Index, Level, Id: Integer;
-  Animation, HitPoints: Integer;
-  Interacting: Integer;
-  InCombat: Boolean;
+type
+  TReflectNPC = record
+    Name, OverHeadText: String;
+    Tile: TPoint;
+    Index, Level, Id: Integer;
+    Animation, HitPoints: Integer;
+    Interacting: Integer;
+    InCombat: Boolean;
 end;
 
   TReflectNPCArray = array of TReflectNPC;
@@ -71,38 +72,38 @@ begin
   H := High(Indices);
   for I := 0 to H do
   begin
-    Reflect.Mem.GetObjectArray(bkNull, bkNpcNode, Client_Npcs, I, I, Indices[I]);
-    Reflect.Mem.GetObject(bkNpcNode, bkNpcDef, Npc_Definition, I, I);
-    if (HookCache[TCacheKey.bkNpcDef][I] = 0) then
+    Reflect.Mem.GetObjectArray(ckNull, ckNpcNode, Client_Npcs, I, I, Indices[I]);
+    Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, I, I);
+    if (HookCache[TCacheKey.ckNpcDef][I] = 0) then
     begin
       Inc(C);
       Continue;
     end;
-    Reflect.Mem.GetObject(bkNpcDef, bkNpcName, NpcDefinition_Name, I, I);
-    Reflect.Mem.GetObject(bkNpcNode, bkNpcOverHead, Actor_ActiveText, I, I);
+    Reflect.Mem.GetObject(ckNpcDef, ckNpcName, NpcDefinition_Name, I, I);
+    Reflect.Mem.GetObject(ckNpcNode, ckNpcOverHead, Actor_ActiveText, I, I);
     SetLength(Self, H + 1);
     with Self[I - C] do
     begin
       Name := Trim(Reflect.Internals.GetJavaString(
-        hookCache[TCacheKey.bkNpcName][I], 512));
+        hookCache[TCacheKey.ckNpcName][I], 512));
       OverHeadText := Trim(Reflect.Internals.GetJavaString(
-        HookCache[TCacheKey.bkNpcOverHead][I], 512));
+        HookCache[TCacheKey.ckNpcOverHead][I], 512));
       Tile.X := Reflect.Smart.GetInt(0, Client_BaseX) + Reflect.Smart.GetInt(
-        HookCache[TCacheKey.bkNpcNode][I], Actor_LocalX) div 128;
+        HookCache[TCacheKey.ckNpcNode][I], Actor_LocalX) div 128;
       Tile.Y := Reflect.Smart.GetInt(0, Client_BaseY) + Reflect.Smart.GetInt(
-        HookCache[TCacheKey.bkNpcNode][I], Actor_LocalY) div 128;
+        HookCache[TCacheKey.ckNpcNode][I], Actor_LocalY) div 128;
       Index := Indices[I];
-      Level := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcDef][I],
+      Level := Reflect.Smart.GetInt(HookCache[TCacheKey.ckNpcDef][I],
         NpcDefinition_Level);
-      Id := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcDef][I],
+      Id := Reflect.Smart.GetInt(HookCache[TCacheKey.ckNpcDef][I],
         NpcDefinition_ID);
-      Animation := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+      Animation := Reflect.Smart.GetInt(HookCache[TCacheKey.ckNpcNode][I],
         Actor_Animation);
-      HitPoints := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+      HitPoints := Reflect.Smart.GetInt(HookCache[TCacheKey.ckNpcNode][I],
         Actor_Health) div 30;
       if (HitPoints < 0) then
         HitPoints := 0;
-      Interacting := Reflect.Smart.GetInt(HookCache[TCacheKey.bkNpcNode][I],
+      Interacting := Reflect.Smart.GetInt(HookCache[TCacheKey.ckNpcNode][I],
         Actor_Interacting);
       if ((Animation > -1) and (HitPoints > 0)) then
         InCombat := True
@@ -111,10 +112,10 @@ begin
     end;
   end;
   SetLength(Self, I - C);
-  Reflect.Mem.FreeObjects(bkNpcDef, True);
-  Reflect.Mem.FreeObjects(bkNpcNode, True);
-  Reflect.Mem.FreeObjects(bkNpcName, True);
-  Reflect.Mem.FreeObjects(bkNpcOverHead, True);
+  Reflect.Mem.FreeObjects(ckNpcDef, True);
+  Reflect.Mem.FreeObjects(ckNpcNode, True);
+  Reflect.Mem.FreeObjects(ckNpcName, True);
+  Reflect.Mem.FreeObjects(ckNpcOverHead, True);
 end;
 
 procedure TReflectNPCArray.Get(Npc: Variant);

@@ -16,8 +16,8 @@ Memory.Simba
 *)
 
 type
-  TCacheKey = (bkNull, bkRegion, bkSceneTile, bkObject, bkNpcNode,
-  bkNpcDef, bkNpcName, bkNpcOverHead, bkGroundArray, bkGroundList);
+  TCacheKey = (ckNull, ckRegion, ckSceneTile, ckObject, ckNpcNode,
+  ckNpcDef, ckNpcName, ckNpcOverHead, ckGroundArray, ckGroundList);
 
 var
   HookCache: T2DIntegerArray;
@@ -108,14 +108,14 @@ end;
 begin
   //AddOnTerminate('ReflectFreeHookCache;');
   SetLength(HookCache, 11);
-  SetLength(HookCache[TCacheKey.bkNull], 10817);
-  SetLength(HookCache[TCacheKey.bkSceneTile], 10817);
-  SetLength(HookCache[TCacheKey.bkObject], 10817);
-  SetLength(HookCache[TCacheKey.bkRegion], 10817);
-  SetLength(HookCache[TCacheKey.bkNpcNode], 100);
-  SetLength(HookCache[TCacheKey.bkNpcDef], 100);
-  SetLength(HookCache[TCacheKey.bkNpcName], 100);
-  SetLength(HookCache[TCacheKey.bkNpcOverHead], 100);
-  SetLength(HookCache[TCacheKey.bkGroundArray], 100);
-  SetLength(HookCache[TCacheKey.bkGroundList], 100);
+  SetLength(HookCache[TCacheKey.ckNull], 10817);
+  SetLength(HookCache[TCacheKey.ckSceneTile], 10817);
+  SetLength(HookCache[TCacheKey.ckObject], 10817);
+  SetLength(HookCache[TCacheKey.ckRegion], 10817);
+  SetLength(HookCache[TCacheKey.ckNpcNode], 100);
+  SetLength(HookCache[TCacheKey.ckNpcDef], 100);
+  SetLength(HookCache[TCacheKey.ckNpcName], 100);
+  SetLength(HookCache[TCacheKey.ckNpcOverHead], 100);
+  SetLength(HookCache[TCacheKey.ckGroundArray], 100);
+  SetLength(HookCache[TCacheKey.ckGroundList], 100);
 end;

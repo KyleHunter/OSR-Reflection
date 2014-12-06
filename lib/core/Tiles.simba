@@ -4,7 +4,6 @@ type
   end;
 
   TRotation = TPoint3D;
-  ATPoint3D = Array of TPoint3D;
 
   TMatrix = record
     Data: Array of Extended;
