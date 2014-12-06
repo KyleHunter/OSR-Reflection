@@ -15,18 +15,18 @@ type
   TReflectionMemory = type Pointer;
 
   TReflectionLib = record
-  Smart: TReflectionSmart;
-  Mem: TReflectionMemory;
-  Compass: TReflectionCompass;
-  Tiles: TReflectionTiles;
-  Map: TReflectionMap;
-  Misc: TReflectionMisc;
-  Internals: TReflectionInternals;
-  Text: TReflectionText;
-  Player: TReflectionPlayer;
-  Widget: TReflectionWidget;
-  Inventory: TReflectionInventory;
-  Ground: TReflectionGround;
+    Smart: TReflectionSmart;
+    Mem: TReflectionMemory;
+    Compass: TReflectionCompass;
+    Tiles: TReflectionTiles;
+    Map: TReflectionMap;
+    Misc: TReflectionMisc;
+    Internals: TReflectionInternals;
+    Text: TReflectionText;
+    Player: TReflectionPlayer;
+    Widget: TReflectionWidget;
+    Inventory: TReflectionInventory;
+    Ground: TReflectionGround;
 end;
 
 var

@@ -17,6 +17,7 @@ begin
   writeLn('[' + S + '] ' + ' Reflection error, ' + Message);
   if warnType = R_MAJOR then
     terminateScript;
+  Wait(2000);
 end;
 
 procedure TReflectionInternals.HooksValid;

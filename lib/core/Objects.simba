@@ -124,17 +124,21 @@ procedure TReflectObjectArray.Get(__Object: TObjType; Distance: Integer = 103);
 var
   Multi, BaseX, BaseY, X, Y, I, Count, Plane: integer;
   Temp: TReflectObject;
+  Position: TPoint;
   ObjectHook, SceneHook: THook;
 begin
+  Position := Reflect.Tiles.GetGlobalTile;
+  Distance := Round(Distance / 2);
   Temp.GetHooks(__Object, ObjectHook, SceneHook);
   if HookCache[TCacheKey.ckRegion][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
+  Position := Point(Position.X - BaseX, Position.Y - BaseY);
   Plane := Reflect.Tiles.GetPlane;
   SetLength(Self, 10817);
-  for x := 0 to Distance do
-    for y := 0 to Distance do
+  for X := Position.X - Distance to Position.X + Distance do
+    for Y := Position.Y - Distance to Position.Y + Distance do
     begin
       Temp.Null;
       Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles,

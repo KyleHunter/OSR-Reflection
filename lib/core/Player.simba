@@ -117,3 +117,13 @@ function TReflectionPlayer.UnderAttack: Boolean;
 begin
   Result := (Reflect.Internals.GetActorLoopCycle > Reflect.Internals.GetClientLoopCycle);
 end;
+
+function TReflectionPlayer.IsMoving: Boolean;
+var
+  First, Second: Tpoint;
+begin
+  First := Reflect.Tiles.GetGlobalTile;
+  Wait(800);
+  Second := Reflect.Tiles.GetGlobalTile;
+  Result := (First.X <> Second.X) and (First.Y <> Second.Y);
+end;

@@ -1,10 +1,12 @@
 
 function TReflectionMap.TileOnMM(Tile: TPoint): Boolean;
 var
-  Point: TPoint;
+  Temp: TPointArray;
 begin
-  Point := Reflect.Tiles.TileToMM(Tile);
-  Result := PointInBox(Point, intToBox(MMX1, MMY1, MMX2, MMY2));
+  SetLength(Temp, 1);
+  Temp[0] := Reflect.Tiles.TileToMM(Tile);
+  FilterPointsPie(Temp, 0.0, 360.0, 0.0, 68.0, MMCX, MMCY);
+  Result := Length(Temp) = 1;
 end;
 
 function TReflectionMap.WalkToTileMM(Tile: TPoint): boolean;
@@ -153,8 +155,7 @@ begin
         TReflectionMap.WalkToTileMM(Temp[i]);
         K.Start;
         repeat
-        {if not Reflect.Player.IsMoving then
-          break;}
+          Wait(RandomRange(1500, 2500));
         until((K.timeElapsed > 2000) or FFlag(30));
         MMF := MM;
         if (I = H) then
@@ -170,7 +171,7 @@ begin
   FFlag(5);
 end;
 
-function TReflectionMap.BlindWalk(Tile: TPoint; Dist: Integer = 5): Boolean;
+function TReflectionMap.BlindWalkMM(Tile: TPoint; Dist: Integer = 5): Boolean;
 var
   I, Tries: Integer;
   OurTile, DestTile: TPoint;
@@ -185,6 +186,7 @@ begin
     for I:= High(CtrlPoints) downto 0 do
       if TReflectionMap.WalkToTileMM(CtrlPoints[I]) then
       begin
+      Wait(RandomRange(2000, 3500));
         Result := TReflectionTiles.DistanceFromTile(Tile) <= Dist;
         Break;
       end;
