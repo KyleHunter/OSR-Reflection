@@ -40,21 +40,21 @@ begin
   end;
 end;
 
-function TReflectionGround.GetAt(RealTile: TPoint): TReflectGroundItemArray;
+procedure TReflectGroundItemArray.GetAt(RealTile: TPoint);
 var
   BaseX, BaseY, Plane: Integer;
 begin
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
   Plane := Reflect.Tiles.GetPlane;
-  Result := Reflect.Internals.GetGroundItemsAt(Point(RealTile.X - BaseX,
+  Self := Reflect.Internals.GetGroundItemsAt(Point(RealTile.X - BaseX,
     RealTile.Y - BaseY), BaseX, BaseY, Plane);
   Reflect.Mem.FreeObjects(ckGroundArray, False);
   Reflect.Mem.FreeObjects(ckGroundList, False);
 end;
 
 
-function TReflectionGround.GetAll: TReflectGroundItemArray;
+procedure TReflectGroundItemArray.GetAll;
 var
    X, Y, BaseX, BaseY, Plane, L, I, H: Integer;
    TempArray, TempArray2: TReflectGroundItemArray;
@@ -81,11 +81,10 @@ begin
       end;
     end;
   end;
-  Result := TempArray2;
+  Self := TempArray2;
 end;
 
-function TReflectionGround.GetDistance(Distance: Integer):
-  TReflectGroundItemArray;
+procedure TReflectGroundItemArray.GetDistance(Distance: Integer);
 var
    X, Y, BaseX, BaseY, Plane, L, I, H: Integer;
    TempArray, TempArray2: TReflectGroundItemArray;
@@ -116,5 +115,5 @@ begin
       end;
     end;
   end;
-  Result := TempArray2;
+  Self := TempArray2;
 end;

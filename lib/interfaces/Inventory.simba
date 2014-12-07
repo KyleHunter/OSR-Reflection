@@ -7,38 +7,37 @@ type
   TReflectInvItemArray = Array of TReflectInvItem;
 
 
-function TReflectionInventory.GetAll: TReflectInvItemArray;
+procedure TReflectInvItemArray.GetAll;
 var
-  RInv, RInvSlot, RItemId, RItemQuantity: Integer;
+  RInv, RInvSlot, RItemId, RItemQuantity, Count: Integer;
 begin
   RInv := Reflect.Widget.Get(149, 0);
-  SetLength(Result, 28);
   for RInvSlot := 0 to 27 do
   begin
     RItemId := Reflect.Smart.GetIntArray(RInv, Widget_GetItems, RInvSlot);
     if (RItemId > 0) then
     begin
+      Inc(Count);
+      SetLength(Self, Count);
       RItemQuantity := Reflect.Smart.GetIntArray(RInv, Widget_GetStackSizes, RInvSlot);
-      with Result[RInvSlot] do
+      with Self[Count - 1] do
       begin
         Id := RItemId;
         Quantity := RItemQuantity;
         Slot := RInvSlot + 1;
       end;
-    end
-    else
-    Result[RInvSlot].Slot := RInvSlot;
+    end;
   end;
-  SmartFreeObject(SmartCurrentTarget, RInv);
+  Reflect.Smart.FreeObject(RInv);
 end;
 
-procedure TReflectionInventory.ClickItem(Id: Integer; Option: String);
+procedure TReflectInvItemArray.ClickItem(Id: Integer; Option: String);
 var
   I, Px, Py: Integer;
   Ib: TBox;
   RItems: TReflectInvItemArray;
 begin
-  RItems := TReflectionInventory.GetAll;
+  RItems.GetAll;
   for I := 0 to high(RItems) do
   begin
     if (RItems[i].Id = Id) then
@@ -60,39 +59,30 @@ begin
   end;
 end;
 
-function TReflectionInventory.IsFull: Boolean;
+function TReflectInvItemArray.IsFull: Boolean;
 var
   I, C: Integer;
   RItems: TReflectInvItemArray;
 begin
-  RItems := TReflectionInventory.GetAll;
-  for I := 0 to High(RItems) do
-  begin
-    if (RItems[i].Id <> 0) then
-      Inc(C);
-  end;
-  Result := (C = 28);
+  RItems.GetAll;
+  Result := Length(RItems) = 28;
 end;
 
-function TReflectionInventory.Count: Integer;
+function TReflectInvItemArray.Count: Integer;
 var
   I: Integer;
   RItems: TReflectInvItemArray;
 begin
-  RItems := TReflectionInventory.GetAll;
-  for I := 0 to High(RItems) do
-  begin
-    if (RItems[I].Id <> 0) then
-      Inc(Result);
-  end;
+  RItems.GetAll;
+  Result := Length(RItems);
 end;
 
-function TReflectionInventory.ContainsCount(Ids: TIntegerArray): Integer;
+function TReflectInvItemArray.ContainsCount(Ids: TIntegerArray): Integer;
 var
   I: Integer;
   RItems: TReflectInvItemArray;
 begin
-  RItems := TReflectionInventory.GetAll;
+  RItems.GetAll;
   for I := 0 to High(RItems) do
   begin
     if (InIntArray(Ids, RItems[I].Id)) then
@@ -100,13 +90,13 @@ begin
   end;
 end;
 
-function TReflectionInventory.Contains(Id: Integer): Boolean;
+function TReflectInvItemArray.Contains(Id: Integer): Boolean;
 var
   I: Integer;
   RItems: TReflectInvItemArray;
 begin
-  Result := false;
-  RItems := TReflectionInventory.GetAll;
+  Result := False;
+  RItems.GetAll;
   for I := 0 to High(RItems) do
   begin
     if (RItems[I].Id = Id) then
@@ -117,12 +107,12 @@ begin
   end;
 end;
 
-function TReflectionInventory.GetItemSlot(Id: Integer): Integer;
+function TReflectInvItemArray.GetItemSlot(Id: Integer): Integer;
 var
   I: Integer;
   RItems: TReflectInvItemArray;
 begin
-  RItems := TReflectionInventory.GetAll;
+  RItems.GetAll;
   for I := 0 to High(RItems) do
   begin
     if (RItems[I].Id = Id) then
