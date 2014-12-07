@@ -48,12 +48,15 @@ begin
   Self := Temp;
 end;
 
-procedure TReflectObject._R_GetObject(__Object: TObjType; Hash,
-  SceneObject: THook; Iteration: Integer; RealTile: TPoint);
+function TReflectionInternals.GetObject(__Object: TObjType; Hash,
+  SceneObject: THook; Iteration: Integer; RealTile: TPoint):
+  TReflectObject;
 var
   Id: Integer;
+  Temp: TReflectObject;
 begin
-    Self.Null;
+    Temp.Null;
+    Result := Temp;
     if (__Object <> objGame) then
     begin
       Reflect.Mem.GetObject(ckSceneTile, ckObject, SceneObject, Iteration,
@@ -72,10 +75,10 @@ begin
       Id := Reflect.Smart.GetInt(HookCache[TCacheKey.ckObject][Iteration], Hash);
       Id := (Id shr 14) and $7fff;
     end;
-    Self := ReflectObject(Id, __Object, RealTile);
+    Result := ReflectObject(Id, __Object, RealTile);
   end;
 
-procedure TReflectObject.GetHooks(__Object: TObjType; var ObjHook: THook;
+procedure TReflectionInternals.GetHooks(__Object: TObjType; var ObjHook: THook;
   var SceneHook: THook);
 begin
   case __Object of
@@ -106,54 +109,62 @@ procedure TReflectObject.GetAt(_Object: TObjType; RealTile: TPoint);
 var
   ObjectHook, SceneHook: THook;
   Multi, BaseX, BaseY, Plane: Integer;
+  Temp: TReflectObject;
 begin
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
-  Plane := Reflect.Smart.GetInt(0, Client_Plane);
+  Plane := Reflect.Tiles.GetPlane;
   if HookCache[TCacheKey.ckRegion][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
   Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles, 0, 0,
   RealTile.X - BaseX, RealTile.Y - BaseY, Plane);
-  Self.GetHooks(_Object, ObjectHook, SceneHook);
-  Self._R_GetObject(_Object, ObjectHook, SceneHook, 0, RealTile);
-  Reflect.Mem.FreeObjects(ckSceneTile, True);
-  Reflect.Mem.FreeObjects(ckObject, True);
+  Reflect.Internals.GetHooks(_Object, ObjectHook, SceneHook);
+  Temp := Reflect.Internals.GetObject(_Object, ObjectHook, SceneHook, 0, RealTile);
+  Self := Temp;
+  Reflect.Mem.FreeObjects(ckSceneTile, False);
+  Reflect.Mem.FreeObjects(ckObject, False);
 end;
 
 procedure TReflectObjectArray.Get(__Object: TObjType; Distance: Integer = 103);
 var
-  Multi, BaseX, BaseY, X, Y, I, Count, Plane: integer;
+  Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY: integer;
   Temp: TReflectObject;
   Position: TPoint;
   ObjectHook, SceneHook: THook;
 begin
   Position := Reflect.Tiles.GetGlobalTile;
   Distance := Round(Distance / 2);
-  Temp.GetHooks(__Object, ObjectHook, SceneHook);
+  Reflect.Internals.GetHooks(__Object, ObjectHook, SceneHook);
   if HookCache[TCacheKey.ckRegion][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
   Position := Point(Position.X - BaseX, Position.Y - BaseY);
   Plane := Reflect.Tiles.GetPlane;
+  HighX := Position.X + Distance;
+  HighY := Position.Y + Distance;
+  if HighX > 103 then
+    HighX := 103;
+  if HighY > 103 then
+    HighY := 103;
   SetLength(Self, 10817);
-  for X := Position.X - Distance to Position.X + Distance do
-    for Y := Position.Y - Distance to Position.Y + Distance do
+  for X := Position.X - Distance to HighX do
+    for Y := Position.Y - Distance to HighY do
     begin
       Temp.Null;
       Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles,
         Count, 0, X, Y, Plane);
-      Temp._R_GetObject(__Object, ObjectHook, SceneHook, Count,
+      Temp := Reflect.Internals.GetObject(__Object, ObjectHook, SceneHook, Count,
         Point(BaseX + X, BaseY + Y));
       Inc(Count);
       if (Temp.Id = 0) and (Temp.ObjectType = 0) and (Temp.Tile.X = 0) then
         Continue;
       Self[I] := Temp;
-      inc(I);
+      Inc(I);
     end;
     SetLength(Self, I);
-    Reflect.Mem.FreeObjects(ckSceneTile, True);
-    Reflect.Mem.FreeObjects(ckObject, True);
+    Reflect.Mem.FreeObjects(ckSceneTile, Count);
+    Reflect.Mem.FreeObjects(ckObject, Count);
     Self.Sort;
 end;
 

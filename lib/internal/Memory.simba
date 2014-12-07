@@ -73,8 +73,25 @@ begin
       if Safe then
         Continue
       else
-        Exit;
+        begin
+          HookCache[Ord(Key)][i] := 0;
+          Exit;
+        end;
     end;
+    HookCache[Ord(Key)][i] := 0;
+  end;
+end;
+
+procedure TReflectionMemory.FreeObjects(Key: TCacheKey; ToFree: Integer);
+  overload;
+var
+  i: Integer;
+begin
+  for i := 0 to ToFree + 1 do
+  begin
+    SmartFreeObject(SmartCurrentTarget, HookCache[Ord(Key)][i]);
+    if HookCache[Ord(Key)][i] = 0 then
+      Continue;
     HookCache[Ord(Key)][i] := 0;
   end;
 end;
