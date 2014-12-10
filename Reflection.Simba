@@ -42,7 +42,7 @@ var
   NewFile: Integer
 begin
   OnlineVersion := Reflect.Internals.GetGithubPage(
-    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/HookRev.txt');
+    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/update/HookRev.txt');
   if (Trim(OnlineVersion) > ReflectionRevision) then
   begin
     WriteLn('Hook update available');
