@@ -1,590 +1,131 @@
-
-
 type THook = record
   Path: String;
   Multi: Integer;
 end;
 
 const
-  ReflectionRevision = '67';
+  ReflectionRevision = '68';
 
-{* AccessFile - 3 Hooks *}
-  AccessFile: THook = ['gh', 1];
-  AccessFile_File: THook = ['f', 1];
-  AccessFile_Length: THook = ['k', -5423684098042682479];
-  AccessFile_Position: THook = ['y', 1];
+{*Node*}
+  Node: THook = ['gv', 1];
+  Node_id: THook = ['ee', 1];
+  Node_next: THook = ['ey', 1];
 
-{* AnimableNode - 7 Hooks *}
-  AnimableNode: THook = ['p', 1];
-  AnimableNode_Animation: THook = ['n', 1];
-  AnimableNode_ID: THook = ['f', -75314697];
-  AnimableNode_Orientation: THook = ['y', -1344708335];
-  AnimableNode_Plane: THook = ['e', 430869165];
-  AnimableNode_Type: THook = ['k', -1168676601];
-  AnimableNode_X: THook = ['r', -257812957];
-  AnimableNode_Y: THook = ['a', -245796119];
+{*LinkedList*}
+  LinkedList: THook = ['fw', 1];
+  LinkedList_head: THook = ['l', 1];
 
-{* AnimationSequence - 10 Hooks *}
-  AnimationSequence: THook = ['at', 1];
-  AnimationSequence_FlowControl: THook = ['p', 1];
-  AnimationSequence_Frame1IDs: THook = ['a', 1];
-  AnimationSequence_Frame2IDs: THook = ['x', 1];
-  AnimationSequence_FrameStep: THook = ['o', 87388795];
-  AnimationSequence_MaxLoops: THook = ['b', 2066189651];
-  AnimationSequence_MinLoops: THook = ['s', 1890689879];
-  AnimationSequence_PrecedenceAnimation: THook = ['u', -376338167];
-  AnimationSequence_Priority: THook = ['j', 1375597605];
-  AnimationSequence_ReplyMode: THook = ['d', -1618836133];
-  AnimationSequence_isStretched: THook = ['v', 1];
+{*Actor*}
+  Actor: THook = ['aa', 1];
+  Actor_combatCycle: THook = ['ae', -593991415];
+  Actor_activeText: THook = ['aa', 1];
+  Actor_animation: THook = ['bm', 495733559];
+  Actor_Health: THook = ['ai', -1515030189];
+  Actor_maxHealth: THook = ['ay', 1629208675];
+  Actor_interacting: THook = ['ab', -1596270757];
+  Actor_localX: THook = ['h', 1604947505];
+  Actor_localY: THook = ['k', 917902939];
 
-{* BoundaryObject - 9 Hooks *}
-  BoundaryObject: THook = ['cb', 1];
-  BoundaryObject_AlternativeOrientation: THook = ['r', -1376780773];
-  BoundaryObject_BackupRenderable: THook = ['n', 1];
-  BoundaryObject_Flags: THook = ['g', -1519830901];
-  BoundaryObject_Hash: THook = ['x', 401706905];
-  BoundaryObject_Orientation: THook = ['e', 1353155057];
-  BoundaryObject_Plane: THook = ['f', 607904031];
-  BoundaryObject_Renderable: THook = ['a', 1];
-  BoundaryObject_Get_X: THook = ['k', -605675167];
-  BoundaryObject_Get_Y: THook = ['y', -934841109];
+{*Item*}
+  Item: THook = ['q', 1];
+  Item_id: THook = ['l', 1182524155];
+  Item_stackSize: THook = ['y', -1258609723];
 
-{* Buffer - 2 Hooks *}
-  Buffer: THook = ['du', 1];
-  Buffer_Offset: THook = ['k', -1714433361];
-  Buffer_Payload: THook = ['f', 1];
+{*ObjectDefinition*}
+  ObjectDefinition: THook = ['am', 1];
+  ObjectDefinition_name: THook = ['a', 1];
+  ObjectDefinition_actions: THook = ['an', 1];
 
-{* BufferedConnection - 5 Hooks *}
-  BufferedConnection: THook = ['eh', 1];
-  BufferedConnection_InputStream: THook = ['f', 1];
-  BufferedConnection_OutputStream: THook = ['k', 1];
-  BufferedConnection_Payload: THook = ['n', 1];
-  BufferedConnection_Socket: THook = ['y', 1];
-  BufferedConnection_isClosed: THook = ['e', 1];
+{*NpcDefinition*}
+  NpcDefinition: THook = ['aq', 1];
+  NpcDefinition_actions: THook = ['h', 1];
+  NpcDefinition_name: THook = ['c', 1];
+  NpcDefinition_id: THook = ['w', 2072508285];
+  NpcDefinition_level: THook = ['v', -740355527];
 
-{* Cache - 5 Hooks *}
-  Cache: THook = ['fu', 1];
-  Cache_CacheableNode: THook = ['f', 1];
-  Cache_NodeHashTable: THook = ['e', 1];
-  Cache_Queue: THook = ['r', 1];
-  Cache_Remaining: THook = ['y', 1];
-  Cache_Size: THook = ['k', 1];
+{*Npc*}
+  Npc: THook = ['az', 1];
+  Npc_definition: THook = ['l', 1];
 
-{* CacheableNode - 2 Hooks *}
-  CacheableNode: THook = ['gt', 1];
-  CacheableNode_Next: THook = ['ct', 1];
-  CacheableNode_Prev: THook = ['ch', 1];
+{*Player*}
+  Player: THook = ['g', 1];
+  Player_definition: THook = ['y', 1];
+  Player_name: THook = ['l', 1];
 
-{* Canvas - 1 Hooks *}
-  Canvas: THook = ['da', 1];
-  Canvas_Component: THook = ['f', 1];
+{*Region*}
+  Region: THook = ['cd', 1];
+  Region_sceneTiles: THook = ['c', 1];
 
-{* Actor - 17 Hooks *}
-  Actor: THook = ['au', 1];
-  Actor_Animation: THook = ['ba', 1074559987];
-  Actor_CombatCycle: THook = ['am', 1063374517];
-  Actor_Health: THook = ['ai', 125469711];
-  Actor_HitCycles: THook = ['ag', 1];
-  Actor_HitDamages: THook = ['an', 1];
-  Actor_HitTypes: THook = ['ad', 1];
-  Actor_Interacting: THook = ['af', -1147715801];
-  Actor_MaxHealth: THook = ['ab', -1438643949];
-  Actor_Orientation: THook = ['bn', 1222000815];
-  Actor_PathLength: THook = ['bg', 1269455073];
-  Actor_PathTraversed: THook = ['bb', 1];
-  Actor_PathX: THook = ['bv', 1];
-  Actor_PathY: THook = ['by', 1];
-  Actor_ActiveText: THook = ['au', 1];
-  Actor_LocalX: THook = ['m', -91995979];
-  Actor_LocalY: THook = ['q', 2127210343];
-  Actor_isInSequence: THook = ['av', 1];
+{*WallObject*}
+  WallObject: THook = ['cf', 1];
+  WallObject_hash: THook = ['n', 1625964717];
 
-{* ChatboxMessage - 6 Hooks *}
-  ChatboxMessage: THook = ['ao', 1];
-  ChatboxMessage_ClanName: THook = ['r', 1];
-  ChatboxMessage_ID: THook = ['f', 552997091];
-  ChatboxMessage_PlayerName: THook = ['e', 1];
-  ChatboxMessage_Text: THook = ['a', 1];
-  ChatboxMessage_TimeSent: THook = ['k', -1646875103];
-  ChatboxMessage_Type: THook = ['y', 1579806963];
+{*FloorDecorationObject*}
+  FloorDecorationObject: THook = ['cv', 1];
+  FloorDecorationObject_hash: THook = ['w', -1921889485];
 
-{* ClassData - 3 Hooks *}
-  ClassData: THook = ['ge', 1];
-  ClassData_Data: THook = ['x', 1];
-  ClassData_Fields: THook = ['a', 1];
-  ClassData_Methods: THook = ['n', 1];
+{*BoundaryObject*}
+  BoundaryObject: THook = ['cg', 1];
+  BoundaryObject_hash: THook = ['f', -77259343];
 
-{* Client - 85 Hooks *}
-  Client_AnimationSequenceCache: THook = ['at.e', 1];
-  Client_BaseX: THook = ['g.ci', 577562667];
-  Client_BaseY: THook = ['ax.cd', -1958427927];
-  Client_CameraPitch: THook = ['aw.fp', 245321827];
-  Client_CameraPitchMinimum: THook = ['client.fn', 908122891];
-  Client_CameraX: THook = ['cp.fe', -1191995939];
-  Client_CameraY: THook = ['n.fk', -295589047];
-  Client_CameraYaw: THook = ['dv.fb', 479649135];
-  Client_CameraZ: THook = ['gy.fi', -1405614605];
-  Client_Canvas: THook = ['l.pt', 1];
-  Client_CollisionMaps: THook = ['client.w', 1];
-  Client_CosineCurve: THook = ['cn.aw', 1];
-  Client_CurrentWorldID: THook = ['client.r', -700418903];
-  Client_DestinationX: THook = ['client.me', -1724043487];
-  Client_DestinationY: THook = ['client.md', -1462134499];
-  Client_Run_Energy: THook = ['client.jp', -1733600851];
-  Client_Experiences: THook = ['client.hb', 1];
-  Client_FirstMenuOption: THook = ['et.if', 1];
-  Client_LoopCycle: THook = ['client.d', -1171337607];
-  Client_Login_State: THook = ['client.u', 255442979];
-  Client_GroundItems: THook = ['client.hw', 1];
-  Client_IdleTime: THook = ['dv.e', 1];
-  Client_ItemDefinintionCache: THook = ['ab.x', 1];
-  Client_ItemModelCache: THook = ['ab.g', 1];
-  Client_Keyboard: THook = ['dk.f', 1];
-  Client_LastClickTime: THook = ['dv.v', 9042664709934741361];
-  Client_LastClickX: THook = ['dv.o', -71226401];
-  Client_LastClickY: THook = ['dv.p', 120172535];
-  Client_LastMouseClickButton: THook = ['dv.r', 1986682939];
-  Client_LastMouseClickModifier: THook = ['dv.y', 1405573651];
-  Client_Levels: THook = ['client.hh', 1];
-  Client_NPCs: THook = ['client.bv', 1];
-  Client_Player: THook = ['client.hf', 1];
-  Client_PlayerIndex: THook = ['client.hj', 1355892987];
-  Client_Players: THook = ['client.gj', 1];
-  Client_LoginState: THook = ['ar.ax', -1637224235];
-  Client_CompassAngle: THook = ['client.fy', 936749349];
-  Client_Map_Offset: THook = ['client.dq', -667653403];
-  Client_Map_Scale: THook = ['client.da', 1814244903];
-  Client_MenuActions: THook = ['client.ib', 1];
-  Client_MenuCount: THook = ['client.ik', -1281097825];
-  Client_MenuHeight: THook = ['t.ih', -1419355641];
-  Client_MenuOptions: THook = ['client.ia', 1];
-  Client_MenuWidth: THook = ['aw.ic', -1172156477];
-  Client_MenuX: THook = ['u.hu', -1404262159];
-  Client_MenuY: THook = ['ew.hp', -910554721];
-  Client_Mouse: THook = ['dv.f', 1];
-  Client_MouseX: THook = ['dv.a', 190197409];
-  Client_MouseY: THook = ['dv.n', 459003895];
-  Client_NPCDefinitionCache: THook = ['ae.y', 1];
-  Client_NPCIndices: THook = ['client.bb', 1];
-  Client_NPCModelCache: THook = ['ae.e', 1];
-  Client_ObjectAnimatedModelCache: THook = ['ak.n', 1];
-  Client_ObjectDefinitionCache: THook = ['ak.e', 1];
-  Client_ObjectModelCache: THook = ['ak.r', 1];
-  Client_ObjectRenderableCache: THook = ['ak.a', 1];
-  Client_Password: THook = ['ar.ay', 1];
-  Client_Plane: THook = ['ag.hv', 1719742089];
-  Client_PlayerModelCache: THook = ['fk.v', 1];
-  Client_ProjectileList: THook = ['client.he', 1];
-  Client_Real_Levels: THook = ['client.ho', 1];
-  Client_Region: THook = ['ax.dx', 1];
-  Client_RGBImageCache: THook = ['ab.o', 1];
-  Client_SelectedItemName: THook = ['client.it', 1];
-  Client_SelectedSpellName: THook = ['client.jl', 1];
-  Client_Settings: THook = ['fc.k', 1];
-  Client_SineCurve: THook = ['cn.ao', 1];
-  Client_GroundHeights: THook = ['a.f', 1];
-  Client_GroundSettings: THook = ['a.k', 1];
-  Client_Username: THook = ['ar.ak', 1];
-  Client_ValidWidgets: THook = ['ey.k', 1];
-  Client_VarpbitCache: THook = ['ag.k', 1];
-  Client_VarpbitSettings: THook = ['fc.f', 1];
-  Client_Weight: THook = ['client.jn', 406075875];
-  Client_WidgetBoundsHeight: THook = ['client.lz', 1];
-  Client_WidgetBoundsWidth: THook = ['client.lo', 1];
-  Client_WidgetBoundsX: THook = ['client.lt', 1];
-  Client_WidgetBoundsY: THook = ['client.lm', 1];
-  Client_WidgetItemTable: THook = ['t.f', 1];
-  Client_WidgetNodeTable: THook = ['client.jb', 1];
-  Client_Widgets: THook = ['ey.f', 1];
-  Client_WidgetSettings: THook = ['fc.y', 1];
-  Client_Worlds: THook = ['ab.bp', 1];
-  Client_isMenuOpen: THook = ['client.hc', 1];
-  Client_isWorldSelectorOpen: THook = ['ar.af', 1];
+{*SceneTile*}
+  SceneTile: THook = ['cq', 1];
+  SceneTile_WorldObjects: THook = ['a', 1];
+  SceneTile_WallObject: THook = ['f', 1];
+  SceneTile_BoundaryObject: THook = ['x', 1];
+  SceneTile_FloorObject: THook = ['t', 1];
 
-{* CollisionMap - 5 Hooks *}
-  CollisionMap: THook = ['hs', 1];
-  CollisionMap_Flags: THook = ['al', 1];
-  CollisionMap_Height: THook = ['ar', 598021243];
-  CollisionMap_OffsetX: THook = ['i', -738582607];
-  CollisionMap_OffsetY: THook = ['ah', -162562087];
-  CollisionMap_Width: THook = ['aj', 1465805847];
+{*WorldObject*}
+  WorldObject: THook = ['ct', 1];
+  WorldObject_hash: THook = ['o', 2122780761];
+  WorldObject_Get_x: THook = ['g', 830319895];
+  WorldObject_Get_y: THook = ['j', -449096723];
 
-{* ComplexTile - 1 Hooks *}
-  ComplexTile: THook = ['cv', 1];
-  ComplexTile_isFlat: THook = ['p', 1];
+{*Widget*}
+  Widget: THook = ['eu', 1];
+  Widget_getRelativeX: THook = ['i', -2146529991];
+  Widget_getRelativeY: THook = ['x', 275292991];
+  Widget_getActions: THook = ['bj', 1];
+  Widget_getID: THook = ['b', -166984235];
+  Widget_getItems: THook = ['dp', 1];
+  Widget_getStackSizes: THook = ['dr', 1];
+  Widget_getText: THook = ['bn', 1];
+  Widget_height: THook = ['k', 1230511175];
+  Widget_width: THook = ['h', 432045399];
 
-{* FloorDecorationObject - 6 Hooks *}
-  FloorDecorationObject: THook = ['ca', 1];
-  FloorDecorationObject_Flags: THook = ['a', -1923975349];
-  FloorDecorationObject_Hash: THook = ['r', 897609863];
-  FloorDecorationObject_Plane: THook = ['f', -2090116439];
-  FloorDecorationObject_Renderable: THook = ['e', 1];
-  FloorDecorationObject_Get_X: THook = ['k', 1627816621];
-  FloorDecorationObject_Get_Y: THook = ['y', 591130107];
-
-{* GenericTile - 1 Hooks *}
-  GenericTile: THook = ['ct', 1];
-  GenericTile_isFlat: THook = ['a', 1];
-
-{* NodeHashTable - 5 Hooks *}
-  NodeHashTable: THook = ['ff', 1];
-  NodeHashTable_Current: THook = ['e', 1];
-  NodeHashTable_CurrentIndex: THook = ['r', 1];
-  NodeHashTable_Head: THook = ['y', 1];
-  NodeHashTable_GetNodes: THook = ['k', 1];
-  NodeHashTable_GetSize: THook = ['f', 1];
-
-{* WorldObject - 12 Hooks *}
-  WorldObject: THook = ['cx', 1];
-  WorldObject_Flags: THook = ['t', 1394849385];
-  WorldObject_Height: THook = ['k', 1964401549];
-  WorldObject_Hash: THook = ['w', -1794820627];
-  WorldObject_Orientation: THook = ['a', -1933940061];
-  WorldObject_Plane: THook = ['f', 1885554737];
-  WorldObject_RelativeX: THook = ['n', 1705058477];
-  WorldObject_RelativeY: THook = ['g', -1646604961];
-  WorldObject_Renderable: THook = ['r', 1];
-  WorldObject_SizeX: THook = ['x', -1712665305];
-  WorldObject_SizeY: THook = ['o', 1522677079];
-  WorldObject_Get_X: THook = ['y', 1256903183];
-  WorldObject_Get_Y: THook = ['e', 324579019];
-
-{* Item - 2 Hooks *}
-  Item: THook = ['i', 1];
-  Item_ID: THook = ['f', -1184994765];
-  Item_StackSize: THook = ['k', -737428775];
-
-{* ItemDefinition - 38 Hooks *}
-  ItemDefinition: THook = ['ab', 1];
-  ItemDefinition_DiagonalRotation: THook = ['q', -220843727];
-  ItemDefinition_FemaleDialogue: THook = ['ap', -554961047];
-  ItemDefinition_FemaleDialogueHat: THook = ['an', -727887795];
-  ItemDefinition_FemaleEmblem: THook = ['ak', 2099489553];
-  ItemDefinition_FemaleEquipOffset: THook = ['av', -826266121];
-  ItemDefinition_FemaleEquipPrimaryModel: THook = ['ax', 1082308959];
-  ItemDefinition_FemaleEquipSecondaryModel: THook = ['au', 1121534275];
-  ItemDefinition_GroundActions: THook = ['aj', 1];
-  ItemDefinition_LightModifier: THook = ['aq', 1168595203];
-  ItemDefinition_MaleDialogue: THook = ['ay', -1257661383];
-  ItemDefinition_MaleDialogueHat: THook = ['at', -584780767];
-  ItemDefinition_MaleEmblem: THook = ['ae', 921910625];
-  ItemDefinition_MaleEquipOffset: THook = ['ao', -1974693973];
-  ItemDefinition_MaleEquipPrimaryModel: THook = ['al', -1914889355];
-  ItemDefinition_MaleEquipSecondaryModel: THook = ['aw', 1640378765];
-  ItemDefinition_ModelColours: THook = ['s', 1];
-  ItemDefinition_ModelID: THook = ['w', 1833662953];
-  ItemDefinition_ModelOffset: THook = ['h', -505242685];
-  ItemDefinition_ModelSizeX: THook = ['ab', 1465906077];
-  ItemDefinition_ModelSizeY: THook = ['af', -1499388439];
-  ItemDefinition_ModelSizeZ: THook = ['ac', -819932945];
-  ItemDefinition_ModelTextures: THook = ['u', 1];
-  ItemDefinition_ModelZoom: THook = ['d', 1320402405];
-  ItemDefinition_ModifiedModelColours: THook = ['b', 1];
-  ItemDefinition_ModifiedModelTextures: THook = ['j', 1];
-  ItemDefinition_Name: THook = ['t', 1];
-  ItemDefinition_NoteIndex: THook = ['am', 1159756611];
-  ItemDefinition_NoteTemplateIndex: THook = ['ai', -1148783131];
-  ItemDefinition_Rotation1: THook = ['l', -1909493213];
-  ItemDefinition_Rotation2: THook = ['m', -253152529];
-  ItemDefinition_ShadowModifier: THook = ['as', -1082988865];
-  ItemDefinition_Sine: THook = ['c', 122604747];
-  ItemDefinition_StackableAmmounts: THook = ['ag', 1];
-  ItemDefinition_StackableIDs: THook = ['ad', 1];
-  ItemDefinition_TeamIndex: THook = ['az', 1209598627];
-  ItemDefinition_Value: THook = ['i', -1643418757];
-  ItemDefinition_InventoryActions: THook = ['ar', 1];
-  ItemDefinition_isMembers: THook = ['aa', 1];
-
-{* ItemLayer - 8 Hooks *}
-  ItemLayer: THook = ['cg', 1];
-  ItemLayer_BottomRenderable: THook = ['e', 1];
-  ItemLayer_Height: THook = ['x', 45326531];
-  ItemLayer_ID: THook = ['n', 250233137];
-  ItemLayer_MiddleRenderable: THook = ['r', 1];
-  ItemLayer_Plane: THook = ['f', 1150760823];
-  ItemLayer_TopRenderable: THook = ['a', 1];
-  ItemLayer_X: THook = ['k', -403373607];
-  ItemLayer_Y: THook = ['y', 281724329];
-
-{* KeyboardListener - 0 Hooks *}
-  KeyboardListener: THook = ['dk', 1];
-
-{* LinkedList - 2 Hooks *}
-  LinkedList: THook = ['fx', 1];
-  LinkedList_Head: THook = ['f', 1];
-  LinkedList_Tail: THook = ['k', 1];
-
-{* Model - 15 Hooks *}
-  Model: THook = ['ci', 1];
-  Model_IndicesLength: THook = ['g', 1];
-  Model_IndicesX: THook = ['o', 1];
-  Model_IndicesY: THook = ['p', 1];
-  Model_IndicesZ: THook = ['v', 1];
-  Model_TexturedIndicesX: THook = ['w', 1];
-  Model_TexturedIndicesY: THook = ['t', 1];
-  Model_TexturedIndicesZ: THook = ['s', 1];
-  Model_TexturedVerticesLength: THook = ['m', 1];
-  Model_TexturedVerticesX: THook = ['q', 1];
-  Model_TexturedVerticesY: THook = ['h', 1];
-  Model_TexturedVerticesZ: THook = ['c', 1];
-  Model_VerticesLength: THook = ['r', 1];
-  Model_VerticesX: THook = ['a', 1];
-  Model_VerticesY: THook = ['n', 1];
-  Model_VerticesZ: THook = ['x', 1];
-
-{* ModelHeader - 0 Hooks *}
-  ModelHeader: THook = ['cy', 1];
-
-{* MouseCapturer - 5 Hooks *}
-  MouseCapturer: THook = ['v', 1];
-  MouseCapturer_Length: THook = ['y', 522776779];
-  MouseCapturer_Lock: THook = ['k', 1];
-  MouseCapturer_TrackingX: THook = ['e', 1];
-  MouseCapturer_TrackingY: THook = ['r', 1];
-  MouseCapturer_isCapturing: THook = ['f', 1];
-
-{* MouseListener - 0 Hooks *}
-  MouseListener: THook = ['dv', 1];
-
-{* Node - 3 Hooks *}
-  Node: THook = ['gx', 1];
-  Node_Next: THook = ['er', 1];
-  Node_Previous: THook = ['ef', 1];
-  Node_ID: THook = ['ep', 1];
-
-{* NPC - 1 Hooks *}
-  NPC: THook = ['aw', 1];
-  NPC_Definition: THook = ['f', 1];
-
-{* NPCDefinition - 27 Hooks *}
-  NPCDefinition: THook = ['ae', 1];
-  NPCDefinition_Actions: THook = ['m', 1];
-  NPCDefinition_BoundaryObjectDimension: THook = ['n', -716261159];
-  NPCDefinition_Brightness: THook = ['ah', 1110552697];
-  NPCDefinition_Level: THook = ['h', 814774837];
-  NPCDefinition_Contrast: THook = ['aj', 1313860299];
-  NPCDefinition_DegreesToTurn: THook = ['al', 728336703];
-  NPCDefinition_HeadIcon: THook = ['ar', -2126204515];
-  NPCDefinition_ID: THook = ['r', 103731901];
-  NPCDefinition_ModelColours: THook = ['u', 1];
-  NPCDefinition_ModelIDs: THook = ['x', 1];
-  NPCDefinition_ModelTextures: THook = ['d', 1];
-  NPCDefinition_ModifiedModelColours: THook = ['j', 1];
-  NPCDefinition_ModifiedModelTextures: THook = ['l', 1];
-  NPCDefinition_Name: THook = ['a', 1];
-  NPCDefinition_SettingID: THook = ['ax', 1534479683];
-  NPCDefinition_SizeX: THook = ['c', 677680001];
-  NPCDefinition_SizeY: THook = ['z', 1529619303];
-  NPCDefinition_StandAnimationID: THook = ['o', 1612535337];
-  NPCDefinition_TransformIDs: THook = ['aw', 1];
-  NPCDefinition_TurnAroundAnimationID: THook = ['t', 2022067133];
-  NPCDefinition_TurnLeftAnimationID: THook = ['b', 316783401];
-  NPCDefinition_TurnRightAnimationID: THook = ['s', -1325737583];
-  NPCDefinition_VarbitID: THook = ['ao', -674863285];
-  NPCDefinition_WalkAnimationID: THook = ['w', 863644745];
-  NPCDefinition_isClickable: THook = ['au', 1];
-  NPCDefinition_isMinimapVisible: THook = ['q', 1];
-  NPCDefinition_isVisible: THook = ['i', 1];
-
-{* ObjectDefinition - 30 Hooks *}
-  ObjectDefinition: THook = ['ak', 1];
-  ObjectDefinition_Actions: THook = ['ar', 1];
-  ObjectDefinition_AnimationID: THook = ['z', 725786917];
-  ObjectDefinition_ClipType: THook = ['q', -751306293];
-  ObjectDefinition_Icon: THook = ['al', -464592271];
-  ObjectDefinition_LightAmbient: THook = ['ah', 1025198045];
-  ObjectDefinition_LightDiffuse: THook = ['aj', 1611477703];
-  ObjectDefinition_MapID: THook = ['aw', 246614099];
-  ObjectDefinition_ModelColours: THook = ['w', 1];
-  ObjectDefinition_ModelIDs: THook = ['o', 1];
-  ObjectDefinition_ModelSizeX: THook = ['au', -1171491733];
-  ObjectDefinition_ModelSizeY: THook = ['av', -1766410405];
-  ObjectDefinition_ModelSizeZ: THook = ['ae', -1337494359];
-  ObjectDefinition_ModelTextures: THook = ['s', 1];
-  ObjectDefinition_ModelTypes: THook = ['p', 1];
-  ObjectDefinition_ModifiedModelColours: THook = ['t', 1];
-  ObjectDefinition_ModifiedModelTextures: THook = ['b', 1];
-  ObjectDefinition_Name: THook = ['v', 1];
-  ObjectDefinition_SettingID: THook = ['ai', -2044819221];
-  ObjectDefinition_SizeX: THook = ['u', 579142735];
-  ObjectDefinition_SizeY: THook = ['j', 1261621721];
-  ObjectDefinition_TransformIDs: THook = ['ag', 1];
-  ObjectDefinition_TranslateX: THook = ['ak', -1634522035];
-  ObjectDefinition_TranslateY: THook = ['ay', -1427663057];
-  ObjectDefinition_TranslateZ: THook = ['at', -1549088377];
-  ObjectDefinition_VarbitID: THook = ['am', 2054605145];
-  ObjectDefinition_isDelayShading: THook = ['h', 1];
-  ObjectDefinition_isRotated: THook = ['ao', 1];
-  ObjectDefinition_isShadowCast: THook = ['ax', 1];
-  ObjectDefinition_isSolid: THook = ['l', 1];
-  ObjectDefinition_isUnwalkableSolid: THook = ['an', 1];
-
-{* Player - 8 Hooks *}
-  Player: THook = ['y', 1];
-  Player_CombatLevel: THook = ['r', -1060739463];
-  Player_Definition: THook = ['k', 1];
-  Player_Name: THook = ['f', 1];
-  Player_PlayerModel: THook = ['w', 1];
-  Player_PrayerIcon: THook = ['e', 22243951];
-  Player_SkullIcon: THook = ['y', -1798586141];
-  Player_TeamIndex: THook = ['d', -854020347];
-  Player_isVisible: THook = ['j', 1];
-
-{* PlayerDefinition - 3 Hooks *}
-  PlayerDefinition: THook = ['fk', 1];
-  PlayerDefinition_Appearance: THook = ['f', 1];
-  PlayerDefinition_NPCID: THook = ['e', -1546096827];
-  PlayerDefinition_isFemale: THook = ['y', 1];
-
-{* Projectile - 17 Hooks *}
-  Projectile: THook = ['n', 1];
-  Projectile_Cycle: THook = ['x', 1817335505];
-  Projectile_Height: THook = ['r', -1758135389];
-  Projectile_HeightOffset: THook = ['l', 1];
-  Projectile_RotationX: THook = ['m', 188309239];
-  Projectile_RotationY: THook = ['q', -1666862303];
-  Projectile_Scalar: THook = ['j', 1];
-  Projectile_Slope: THook = ['g', 97584997];
-  Projectile_SpeedX: THook = ['b', 1];
-  Projectile_SpeedY: THook = ['u', 1];
-  Projectile_SpeedZ: THook = ['d', 1];
-  Projectile_StartX: THook = ['y', -235566703];
-  Projectile_StartY: THook = ['e', 1346470839];
-  Projectile_TargetDistance: THook = ['o', 541514157];
-  Projectile_TargetID: THook = ['p', -75736945];
-  Projectile_X: THook = ['w', 1];
-  Projectile_Y: THook = ['t', 1];
-  Projectile_isMoving: THook = ['v', 1];
-
-{* Queue - 1 Hooks *}
-  Queue: THook = ['gn', 1];
-  Queue_Head: THook = ['f', 1];
-
-{* Region - 2 Hooks *}
-  Region: THook = ['cf', 1];
-  Region_WorldObjects: THook = ['g', 1];
-  Region_SceneTiles: THook = ['a', 1];
-
-{* Renderable - 1 Hooks *}
-  Renderable: THook = ['cs', 1];
-  Renderable_ModelHeight: THook = ['cb', 1542751811];
-
-{* RSLoader - 1 Hooks *}
-  RSLoader: THook = ['ep', 1];
-  RSLoader_isCrashed: THook = ['px', 1];
-
-{* SceneTile - 11 Hooks *}
-  SceneTile: THook = ['ce', 1];
-  SceneTile_BoundaryObject: THook = ['n', 1];
-  SceneTile_ComplexTile: THook = ['a', 1];
-  SceneTile_FloorObject: THook = ['g', 1];
-  SceneTile_GenericTile: THook = ['r', 1];
-  SceneTile_WorldObjects: THook = ['v', 1];
-  SceneTile_ItemLayer: THook = ['o', 1];
-  SceneTile_Plane: THook = ['e', -361381043];
-  SceneTile_SceneTile: THook = ['h', 1];
-  SceneTile_WallObject: THook = ['x', 1];
-  SceneTile_X: THook = ['k', -204543061];
-  SceneTile_Y: THook = ['y', 516911903];
-
-{* Varp - 3 Hooks *}
-  Varp: THook = ['ag', 1];
-  Varp_ConfigID: THook = ['y', 1246627967];
-  Varp_EndBit: THook = ['r', -1952247015];
-  Varp_StartBit: THook = ['e', -189795143];
-
-{* WallObject - 11 Hooks *}
-  WallObject: THook = ['cq', 1];
-  WallObject_BackupRenderable: THook = ['g', 1];
-  WallObject_Flags: THook = ['p', -1895876681];
-  WallObject_Height: THook = ['r', 1252998201];
-  WallObject_Hash: THook = ['o', 476575863];
-  WallObject_Orientation: THook = ['e', -1591721045];
-  WallObject_Plane: THook = ['f', 2074838003];
-  WallObject_RelativeX: THook = ['a', -1043852817];
-  WallObject_RelativeY: THook = ['n', 1269695475];
-  WallObject_Renderable: THook = ['x', 1];
-  WallObject_X: THook = ['k', -835807123];
-  WallObject_Y: THook = ['y', -1760748487];
-
-{* Widget - 60 Hooks *}
-  Widget: THook = ['ey', 1];
-  Widget_GetActions: THook = ['bk', 1];
-  Widget_Alpha: THook = ['au', 393203409];
-  Widget_BorderThickness: THook = ['ap', -479529659];
-  Widget_BoundsIndex: THook = ['dq', -1683042757];
-  Widget_Children: THook = ['dw', 1];
-  Widget_ConfigListeners: THook = ['cg', 1];
-  Widget_ConfigTriggers: THook = ['cy', 1];
-  Widget_ContainerActions: THook = ['bt', 1];
-  Widget_GetItems: THook = ['dt', 1];
-  Widget_Height: THook = ['q', -1001258379];
-  Widget_GetID: THook = ['t', -2077665251];
-  Widget_GetIndex: THook = ['s', -160985989];
-  Widget_ItemID: THook = ['dd', -281643035];
-  Widget_LoopCycleStatus: THook = ['ee', 993212533];
-  Widget_ModelID: THook = ['ai', -1488246071];
-  Widget_ModelType: THook = ['am', 820935981];
-  Widget_ModelZoom: THook = ['bp', -140287761];
-  Widget_MouseClickedListeners: THook = ['ck', 1];
-  Widget_MouseDraggedListeners: THook = ['cn', 1];
-  Widget_MouseEnteredListeners: THook = ['cr', 1];
-  Widget_MouseExitedListeners: THook = ['cq', 1];
-  Widget_MouseHoverListeners: THook = ['ca', 1];
-  Widget_MouseMovedListeners: THook = ['ch', 1];
-  Widget_MousePressedListeners: THook = ['cz', 1];
-  Widget_MouseReleasedListeners: THook = ['cx', 1];
-  Widget_Name: THook = ['bq', 1];
-  Widget_Opcodes: THook = ['db', 1];
-  Widget_RenderListeners: THook = ['ci', 1];
-  Widget_Root: THook = ['bg', 1];
-  Widget_RootID: THook = ['h', 1727312991];
-  Widget_RotationX: THook = ['aa', 760824909];
-  Widget_RotationY: THook = ['br', -112557705];
-  Widget_RotationZ: THook = ['ba', -1850971005];
-  Widget_ScrollHeight: THook = ['aj', -789900699];
-  Widget_ScrollListeners: THook = ['cl', 1];
-  Widget_ScrollWidth: THook = ['ah', -1368367939];
-  Widget_ScrollX: THook = ['z', -1258402043];
-  Widget_ScrollY: THook = ['i', 1276350147];
-  Widget_SelectedActionName: THook = ['cs', 1];
-  Widget_ShadowColour: THook = ['an', -272586265];
-  Widget_SkillListeners: THook = ['cc', 1];
-  Widget_SkillTriggers: THook = ['cw', 1];
-  Widget_SpellName: THook = ['dx', 1];
-  Widget_SpriteID: THook = ['ay', 55137993];
-  Widget_StackSize: THook = ['dz', -887020771];
-  Widget_GetStackSizes: THook = ['dy', 1];
-  Widget_TableListeners: THook = ['ce', 1];
-  Widget_TableTriggers: THook = ['cu', 1];
-  Widget_GetText: THook = ['bx', 1];
-  Widget_TextColour: THook = ['ar', -1694080911];
-  Widget_TextDrawingAreaIndex: THook = ['be', -1747882657];
-  Widget_TextureID: THook = ['ae', -383287039];
-  Widget_Tooltip: THook = ['di', 1];
-  Widget_Width: THook = ['m', 1494525251];
-  Widget_GetRelativeX: THook = ['d', 1773338635];
-  Widget_GetRelativeY: THook = ['x', -2119612121];
-  Widget_isFlippedHorizontally: THook = ['ag', 1];
-  Widget_isFlippedVertically: THook = ['ad', 1];
-  Widget_isHidden: THook = ['c', 1];
-  Widget_isTypeFaceShadowed: THook = ['at', 1];
-
-{* WidgetItemNode - 2 Hooks *}
-  WidgetItemNode: THook = ['t', 1];
-  WidgetItemNode_IDs: THook = ['k', 1];
-  WidgetItemNode_StackSizes: THook = ['y', 1];
-
-{* WidgetNode - 1 Hooks *}
-  WidgetNode: THook = ['e', 1];
-  WidgetNode_ID: THook = ['f', 1448822185];
-
-{* World - 7 Hooks *}
-  World: THook = ['h', 1];
-  World_Activity: THook = ['r', 1];
-  World_Domain: THook = ['e', 1];
-  World_Index: THook = ['n', 66091511];
-  World_Location: THook = ['a', -229524237];
-  World_Mask: THook = ['k', -1458575321];
-  World_Population: THook = ['y', -1126273331];
-  World_WorldID: THook = ['f', -1772271531];
+{*Client*}
+  client_region: THook = ['er.df', 1];
+  client_menuCount: THook = ['client.in', -2141825229];
+  client_baseY: THook = ['aa.ca', 1423972157];
+  client_baseX: THook = ['b.ck', -1730369117];
+  client_widgets: THook = ['eu.l', 1];
+  client_menuActions: THook = ['client.iu', 1];
+  client_player: THook = ['z.hg', 1];
+  client_plane: THook = ['fo.hd', 1140350779];
+  client_groundSettings: THook = ['c.y', 1];
+  client_groundHeights: THook = ['c.l', 1];
+  client_menuWidth: THook = ['er.io', -659962767];
+  client_isMenuOpen: THook = ['client.hn', 1];
+  client_cameraPitch: THook = ['aw.fq', -1280666421];
+  client_cameraYaw: THook = ['l.fo', -1602289579];
+  client_cameraX: THook = ['bz.fk', 1327254957];
+  client_cameraY: THook = ['ep.fv', -2010995499];
+  client_cameraZ: THook = ['f.fm', 766099511];
+  client_npcIndices: THook = ['client.bz', 1];
+  client_npcs: THook = ['client.br', 1];
+  client_groundItems: THook = ['client.hu', 1];
+  client_login_state: THook = ['client.u', -2035261693];
+  client_settings: THook = ['fg.g', 1];
+  client_LoopCycle: THook = ['client.i', -1399128113];
+  client_menuHeight: THook = ['ak.iy', -39793823];
+  client_menuOptions: THook = ['client.ir', 1];
+  client_menuX: THook = ['dm.hw', 1828771929];
+  client_menuY: THook = ['eh.hy', -1589416691];
+  client_map_scale: THook = ['client.ft', -1898854141];
+  client_map_offset: THook = ['client.do', -844428383];
+  client_compassAngle: THook = ['client.di', 633858349];
+  client_levels: THook = ['client.hl', 1];
+  client_real_levels: THook = ['client.hc', 1];
+  client_experiences: THook = ['client.hi', 1];
+  client_run_energy: THook = ['client.jd', 1236262691];
+  client_weight: THook = ['', 0];
