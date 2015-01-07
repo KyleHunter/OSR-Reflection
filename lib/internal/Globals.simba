@@ -8,11 +8,10 @@ type
   TReflectionTiles = type Pointer;
   TReflectionText = type Pointer;
   TReflectionMisc = type Pointer;
-  TReflectionPlayer = type Pointer;
   TReflectionWidget = type Pointer;
-  TReflectionInventory = type Pointer;
-  TReflectionGround = type Pointer;
   TReflectionMemory = type Pointer;
+  TReflectionBank = type Pointer;
+  TReflectionChat = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -23,12 +22,48 @@ type
     Misc: TReflectionMisc;
     Internals: TReflectionInternals;
     Text: TReflectionText;
-    Player: TReflectionPlayer;
     Widget: TReflectionWidget;
-    Inventory: TReflectionInventory;
-    Ground: TReflectionGround;
+    Bank: TReflectionBank;
+    Chat: TReflectionChat;
 end;
+
+  TData = record
+    ObjRef: Integer;
+  end;
+
+  TTile = TPoint;
+  TTileArray = array of TTile;
+
+  ObjRef = Integer;
 
 var
   Reflect: TReflectionLib;
+
+
+  {Constants}
+
+const
+
+    {Widgets}
+
+      {Bank}
+
+  WIDGET_Bank_Container = 12;
+  WIDGET_Bank_TotalItems_Child = 3;
+  WIDGET_Bank_ItemSlots_Child = 10;
+
+      {Chat}
+
+  WIDGET_Chat_Container = 137;
+  WIDGET_Chat_Child = 2;
+
+      {Inventory}
+
+  WIDGET_Inventory_Container = 149;
+  WIDGET_Inventory_Child = 0;
+
+
+
+
+
 

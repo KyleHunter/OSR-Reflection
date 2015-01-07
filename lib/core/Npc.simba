@@ -1,0 +1,245 @@
+type
+  TReflectNPC = record(TReflectActor)
+    Name, SpokenText: String;
+    Actions: TStringArray;
+    Animation, Health, MaxHealth, Index, InteractingIndex, CombatCycle,
+      Id, Combatlevel, Height, Width: Integer;
+    Tile, Queue: TTile;
+end;
+
+  TReflectNPCArray = array of TReflectNPC;
+
+procedure TReflectNPC.Null;
+begin
+  with Self do
+  begin
+    ObjRef := 0;
+    Name := '';
+    SpokenText := '';
+    Actions := [];
+    Animation := 0;
+    Health := 0;
+    MaxHealth := 0;
+    Index := 0;
+    InteractingIndex := 0;
+    CombatCycle := 0;
+    Id := 0;
+    CombatLevel := 0;
+    Height := 0;
+    Width := 0;
+    Tile := Point(0, 0);
+    Queue := Point(0, 0);
+  end;
+end;
+
+procedure TReflectNPC.LoadDef;
+var
+  APath, Line, Temp: string;
+  TheFile: TStringList;
+  I: Integer
+begin
+  APath := IncludePath + 'AeroLib\reflection\lib\internal\' + 'NpcDefs.txt';
+  TheFile.Init;
+  TheFile.LoadFromFile(APath);
+  if Self.Id <> 0 then
+  begin
+    if (Self.Id > 6755) or (Self.Id < 0) then
+      Exit;
+    Line := TheFile.GetStrings(Id);
+  end
+  else
+  begin
+      for I := 0 to TheFile.getCount - 1 do
+      begin
+        Line := TheFile.GetStrings(I);
+        if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
+        break;
+      end;
+  end;
+  with Self do
+  begin
+    Name := Between('''name'': ''', ''',', Line);
+    Id := StrToInt(Between('''ID'': ', ',', Line));
+    SetLength(Actions, 5);
+    Temp := Between('''actions'': [', ']', Line);
+    Temp := Copy(Temp, 1, Length(Temp) - 1);
+    Actions := Explode(''',''',Temp);
+    CombatLevel := StrToInt(Between('combatLevel'': ', ',', Line));
+    Height := StrToInt(Between('height'': ', ',', Line));
+    Width := StrToInt(Between('width'': ', '}', Line));
+  end;
+  TheFile.Free;
+end;
+
+function TReflectNPC.GetIndices: tIntegerArray;
+var
+  I: Integer;
+begin
+  SetLength(Result, 100);
+  for I := 0 to 99 do
+  begin
+    Result[I] := TReflectionSmart.GetFieldArrayInt(0, Client_NpcIndices, I);
+    if (Result[I] = 0) then
+      Break;
+  end;
+  SetLength(Result, I);
+end;
+
+(*
+TReflectNPCArray.Sort
+~~~~~~~~~~
+
+.. code-block:: pascal
+
+    procedure TReflectNPCArray.Sort;
+
+  Sorts NPCs by distance from you.
+
+.. note::
+
+  by Widget, Modified by Lordsaturn
+
+*)
+procedure TReflectNPCArray.Sort;
+var
+  I, C, L: integer;
+  Tpa: TPointArray;
+  Temp: TReflectNPCArray;
+begin
+  L := GetArrayLength(Self);
+  if L < 1 then
+    Exit;
+  SetArrayLength(Tpa, L);
+  SetArrayLength(Temp, L);
+  for I := 0 to L - 1 do
+    Tpa[I] := Self[I].Tile;
+  SortTPAFrom(Tpa, Reflect.Internals.GetGlobalTile);
+  for I := 0 to L - 1 do
+    for C := 0 to L - 1 do
+      if (Tpa[i].Y = Self[C].Tile.Y) and (Tpa[I].X = Self[C].Tile.X) then
+        Temp[I] := Self[C];
+  Self := Temp;
+end;
+
+procedure TReflectNPCArray.GetAll;
+var
+  Indices: TIntegerArray;
+  H, I, C: Integer;
+begin
+  Indices := TReflectNPC.GetIndices;
+  H := High(Indices);
+  for I := 0 to H do
+  begin
+    Reflect.Mem.GetObjectArray(ckNull, ckNpcNode, Client_LocalNpcs, I, I, Indices[I]);
+    Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, I, I);
+    if (HookCache[TCacheKey.ckNpcNode][I] = 0) then
+    begin
+      Inc(C);
+      Continue;
+    end;
+    Reflect.Mem.GetObject(ckNpcNode, ckNpcOverHead, Actor_SpokenText, I, I);
+    SetLength(Self, H + 1);
+    with Self[I - C] do
+    begin
+      ObjRef := HookCache[TCacheKey.ckNpcNode][I];
+      Index := Indices[I];
+      SpokenText := GetSpokenText;
+      Health := GetHealth;
+      MaxHealth := GetMaxHealth;
+      Tile := GetTile;
+      Id := Reflect.Smart.GetFieldInt(HookCache[TCacheKey.ckNpcDef][I],
+        NpcDefinition_ID);
+      Animation := GetAnimation;
+      InteractingIndex := GetInteractingIndex;
+      Queue := GetQueue;
+      CombatCycle := GetCombatCycle;
+      LoadDef;
+    end;
+  end;
+  SetLength(Self, I - C);
+  Reflect.Mem.FreeObjects(ckNpcDef, True);
+  Reflect.Mem.FreeObjects(ckNpcNode, True);
+  Reflect.Mem.FreeObjects(ckNpcOverHead, True);
+end;
+
+procedure TReflectNPCArray.Get(Npc: Variant);
+var
+  Temp, Temp1: TReflectNPCArray;
+  I, H, T: integer;
+begin
+  Temp.GetAll;
+  if VariantIsString(Npc) then
+  begin
+    H := High(Temp);
+    SetLength(Temp1, H + 1);
+    for I := 0 to H do
+    begin
+      if (Temp[I].Name = Npc) then
+      begin
+        Temp1[T] := Temp[I];
+        Inc(T);
+      end;
+    end;
+  end
+  else
+  begin
+    H := High(Temp);
+    Setlength(Temp1, H + 1);
+    for I := 0 to H do
+    begin
+      if (Temp[i].Id = Npc) then
+      begin
+        Temp1[T] := Temp[I];
+        Inc(T);
+      end;
+    end;
+  end;
+  Setlength(Temp1, T);
+  if (Length(Temp1) = 0) then
+    Exit;
+  Self := Temp1;
+  Self.Sort;
+end;
+
+function TReflectNPC.Find(Npc: Variant; Distance: Integer = 144): Boolean;
+var
+  Temp: TReflectNPCArray;
+begin
+  Self.Null;
+  Temp.Get(Npc);
+  if Length(Temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].Tile, Distance) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;
+
+procedure TReflectNPC.GetIndex(TheIndex: Integer);
+var
+  NpcNode, NpcDef: SmartObj;
+begin
+  NpcNode.GetFieldArrayObject(0, Client_LocalNpcs, TheIndex);
+  NpcDef.GetFieldObject(NpcNode.ObjRef, Npc_Definition);
+  with Self do
+  begin
+    ObjRef := NpcNode.ObjRef;
+    Index := TheIndex;
+    SpokenText := GetSpokenText;
+    Health := GetHealth;
+    writeln(Health);
+    MaxHealth := GetMaxHealth;
+    Tile := GetTile;
+    Id := Reflect.Smart.GetFieldInt(NpcDef.ObjRef,
+      NpcDefinition_ID);
+    Animation := GetAnimation;
+    InteractingIndex := GetInteractingIndex;
+    Queue := GetQueue;
+    CombatCycle := GetCombatCycle;
+    LoadDef;
+  end;
+  NpcNode.Free;
+  NpcDef.Free;
+end;

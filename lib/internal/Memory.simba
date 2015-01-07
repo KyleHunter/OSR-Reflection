@@ -1,4 +1,3 @@
-
   (*
 Memory.Simba
 ~~~~~~~~~~
@@ -7,38 +6,32 @@ Memory.Simba
   are stored in the "HookCache" array and are free'd at termination of script.
   All other object references are stored in "HookCache" until the end of the
   function.  Also upon termination, any previously stored objects are then
-  free'd, helping avoid potentional leaks. In order to acess the "HookCache"
-  the enums "CACHE_KEY" will be used in order to be more efficient during
+  free'd, helping avoid potential leaks. In order to acess the "HookCache"
+  the enums "TCacheKey" will be used in order to be more efficient during
   runtime.
-  Only "Objects.Simba", "GroundItems.Simba", & Npc.Simba will utilize Caching
-  as no other methods benefit from it much.
-
+  Only "Objects.Simba", "GroundItems.Simba", & "Npc.Simba" will utilize Caching
+  as no other methods benefit from it.
 *)
 
 type
-  TCacheKey = (ckNull, ckRegion, ckSceneTile, ckObject, ckNpcNode,
-  ckNpcDef, ckNpcName, ckNpcOverHead, ckGroundArray, ckGroundList);
+  TCacheKey = (ckNull, ckRegion, ckSceneTile, ckObject, ckNpcNode, ckNpcDef,
+  ckNpcName, ckNpcOverHead, ckGroundArray, ckGroundList, ckLocalPlayer);
 
 var
   HookCache: T2DIntegerArray;
-  HooksLeaked: Integer;
 
 procedure TReflectionMemory.HookLeaked(MemFunc: String);
 begin
-  Inc(HooksLeaked);
-  Writeln('Hook Leaked in: ' + MemFunc);
-  if HooksLeaked > 5 then
-  begin
-    Writeln('Please report this log to the reflection team, terminating');
-    TerminateScript;
-  end;
+  Writeln('Object Reference Leaked in: ' + MemFunc);
+  Writeln('Please report this log to the reflection team, terminating');
+  TerminateScript;
 end;
 
 procedure TReflectionMemory.GetObject(Ref, Key: TCacheKey; Hook: THook; Index,
-  ReferenceIndex: Integer);overload;
+  ReferenceIndex: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
+    HookCache[Ord(Key)][Index] := SmartGetFieldObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
@@ -47,16 +40,25 @@ procedure TReflectionMemory.GetObjectArray(Ref, Key: TCacheKey; Hook: THook;
   Index, ReferenceIndex, ArIndex: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
+    HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
 
-procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
-  ReferenceIndex: Integer; X, Y, Z: Integer); overload;
+procedure TReflectionMemory.Get2DObject(Ref, Key: TCacheKey; Hook: THook; Index,
+  ReferenceIndex: Integer; X, Y: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(SmartCurrentTarget, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, Z, X, Y)
+    HookCache[Ord(Key)][Index] := SmartGetFieldArray2DObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y)
+  else
+    TReflectionMemory.HookLeaked('Get2DObject');
+end;
+
+procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
+  ReferenceIndex: Integer; X, Y, Z: Integer);
+begin
+  if (HookCache[Ord(Key)][Index] = 0) then
+    HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y, Z)
   else
     TReflectionMemory.HookLeaked('Get3DObject');
 end;
@@ -67,7 +69,7 @@ var
 begin
   for i := 0 to High(HookCache[Ord(Key)]) do
   begin
-    SmartFreeObject(SmartCurrentTarget, HookCache[Ord(Key)][i]);
+    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][i]);
     if HookCache[Ord(Key)][i] = 0 then
     begin
       if Safe then
@@ -89,7 +91,7 @@ var
 begin
   for i := 0 to ToFree + 1 do
   begin
-    SmartFreeObject(SmartCurrentTarget, HookCache[Ord(Key)][i]);
+    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][i]);
     if HookCache[Ord(Key)][i] = 0 then
       Continue;
     HookCache[Ord(Key)][i] := 0;
@@ -99,22 +101,17 @@ end;
 procedure TReflectionSmart.FreeAllObjects;
 var
   I, L: Integer;
+  Free: Boolean;
 begin
     for I := 1 to High(HookCache) do
-    for L := 0 to High(HookCache[i]) do
+    for L := 0 to High(HookCache[I]) do
       if HookCache[i][l] <> 0 then
       begin
-        SmartFreeObject(SmartCurrentTarget, HookCache[i][l]);
-        HookCache[i][l] := 0;
+        SmartFreeObject(Os_Smart.__Target, HookCache[I][l]);
+        HookCache[I][l] := 0;
       end;
-  writeln('All Objects free''d');
-end;
-
-procedure TReflectionSmart._SetLength(Key: TCacheKey; Width: Integer);
-var
-  X: Integer;
-begin
-    SetLength(HookCache[Ord(Key)], Width);
+  if Free then
+    Reflect.Internals.Status('All cached object references free''d from memory');
 end;
 
 procedure ReflectFreeHookCache;
@@ -123,7 +120,7 @@ begin
 end;
 
 begin
-  //AddOnTerminate('ReflectFreeHookCache;');
+  AddOnTerminate('ReflectFreeHookCache');
   SetLength(HookCache, 11);
   SetLength(HookCache[TCacheKey.ckNull], 10817);
   SetLength(HookCache[TCacheKey.ckSceneTile], 10817);
@@ -135,4 +132,5 @@ begin
   SetLength(HookCache[TCacheKey.ckNpcOverHead], 100);
   SetLength(HookCache[TCacheKey.ckGroundArray], 100);
   SetLength(HookCache[TCacheKey.ckGroundList], 100);
+  SetLength(HookCache[TCacheKey.ckLocalPlayer], 1);
 end;

@@ -1,0 +1,48 @@
+
+type
+  TReflectItem = record
+    Name: string;
+    Id, Quantity, HighAlchValue: Integer;
+    InvActions, GroundActions: TStringArray;
+  end;
+
+  procedure TReflectItem.LoadDef;
+var
+  APath, Line, Temp: string;
+  TheFile: TStringList;
+  I: Integer
+begin
+  APath := IncludePath + 'AeroLib\reflection\lib\internal\' + 'ItemDefs.txt';
+  TheFile.Init;
+  TheFile.LoadFromFile(APath);
+  if Self.Id <> 0 then
+  begin
+    if (Self.Id > 12856) or (Self.Id < 0) then
+      Exit;
+    Line := TheFile.GetStrings(Id);
+  end
+  else
+  begin
+      for I := 0 to TheFile.getCount - 1 do
+      begin
+        Line := TheFile.GetStrings(I);
+        if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
+        break;
+      end;
+  end;
+  with Self do
+  begin
+    Name := Between('''name'': ''', ''',', Line);
+    Id := StrToInt(Between('''ID'': ', ',', Line));
+    SetLength(InvActions, 5);
+    SetLength(GroundActions, 5);
+    Temp := Between('''actions'': [''', ']', Line);
+    Temp := Copy(Temp, 1, Length(Temp) - 1);
+    InvActions := Explode(''',''',Temp);
+    Temp := Between('''groundActions'': [''', ']', Line);
+    Temp := Copy(Temp, 1, Length(Temp) - 1);
+    GroundActions := Explode(''',''',Temp);
+    HighAlchValue := StrToInt(Between('highAlchValue'': ', '}', Line));
+  end;
+  TheFile.Free;
+end;

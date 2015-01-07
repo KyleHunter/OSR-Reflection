@@ -1,0 +1,36 @@
+type
+  TReflectPlayer = record(TReflectActor)
+    Name: String;
+    Animation, Health, MaxHealth, InteractingIndex, CombatCycle: Integer;
+    Tile, Queue: TTile;
+end;
+
+  TReflectPlayerArray = array of TReflectPlayer;
+
+procedure TReflectPlayerArray.GetAll;
+var
+  I, Iteration: Integer;
+  Player: SmartObj;
+begin
+  for I := 0 to 2047 do
+  begin
+    Player.GetFieldArrayObject(0, Client_GetLocalPlayers, I);
+    if Player.ObjRef > 0 then
+    begin
+      SetLength(Self, Iteration + 1);
+      with Self[Iteration] do
+      begin
+        Name := Reflect.Smart.GetFieldString(Player.ObjRef, Player_Name);
+        ObjRef := Player.ObjRef;
+        Tile := GetTile;
+        Animation := GetAnimation;
+        InteractingIndex := GetInteractingIndex;
+        Health := GetHealth;
+        MaxHealth := GetMaxHealth;
+        CombatCycle := GetCombatCycle;
+        Inc(Iteration);
+      end;
+    end;
+    Player.Free;
+  end;
+end;

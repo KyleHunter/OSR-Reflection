@@ -1,10 +1,11 @@
 {$DEFINE REFLECTION}
-{$i AeroLib/reflection/lib/internal/Includes.simba}
+
 const
   IncludeRevision = 6;
   SubRev = 1;
   R_MAJOR = 0;
   R_MINOR = 1;
+{$i AeroLib/reflection/lib/internal/Includes.simba}
 
 procedure TReflectionInternals.Warn(Message: String; warnType: Integer = R_MINOR);
 var
@@ -14,26 +15,26 @@ begin
     R_MAJOR : S := 'Major';
     R_MINOR : S := 'Warn';
   end;
-  writeLn('[' + S + '] ' + ' Reflection error, ' + Message);
+  writeLn('[' + S + ']' + ' [Reflection error] ' + Message);
   if warnType = R_MAJOR then
     terminateScript;
   Wait(2000);
+end;
+
+procedure TReflectionInternals.Status(Message: String);
+begin
+  writeLn('[Status]' + ' [Reflection] ' + Message);
 end;
 
 procedure TReflectionInternals.HooksValid;
 begin
   if MouseSpeed = 0 then
     Reflect.Internals.Warn(
-      'It appears InitAL is below SetupReflection in current script', R_MAJOR);
-  if ((Reflect.Player.GetLoginState < 10) or
-      (Reflect.Player.GetLoginState > 30)) then
+      'It appears InitAL; is below SetupReflection in current script', R_MAJOR);
+  if ((Reflect.Internals.GetLoginState < 10) or
+      (Reflect.Internals.GetLoginState > 30)) then
     Reflect.Internals.Warn(
       'Hooks are outdated.  No need to post about it, we are currently working on it.', R_MAJOR);
-end;
-
-function TReflectionInternals.GetGithubPage(Page: string): String
-begin
-  Result := GetPage('http://static.frement.net/proxy.php?u=' + Page);
 end;
 
 procedure TReflectionInternals.UpdateHooks;
@@ -41,16 +42,15 @@ var
   OnlineVersion, NewFileName: string;
   NewFile: Integer
 begin
-  OnlineVersion := Reflect.Internals.GetGithubPage(
-    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/update/HookRev.txt');
+  OnlineVersion := GetPage('http://pastebin.com/raw.php?i=wVLqqCp6');
+  OnlineVersion := Between('hookrev = ''', '''', OnlineVersion);
   if (Trim(OnlineVersion) > ReflectionRevision) then
   begin
     WriteLn('Hook update available');
     try
       NewFileName := IncludePath + 'AeroLib\reflection\lib\internal\' + 'Hooks.simba';
       NewFile := Rewritefile(NewFileName, true);
-      WriteFileString(NewFile, Reflect.Internals.GetGithubPage(
-        'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
+      WriteFileString(NewFile, GetPage('http://pastebin.com/raw.php?i=5Ncz16bR'));
       WriteLn('Successfully updated '+ NewFileName);
     except
         Reflect.Internals.Warn('Failed Updated Hooks', R_MAJOR);
@@ -68,10 +68,9 @@ var
   Full, TempRev, TempSubRev: string;
   NewFile: Integer
 begin
-  Full := Reflect.Internals.GetGithubPage(
-    'https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/update/IncludeRev.txt');
-  TempRev := Between('rev = ''', '''', Full);
-  TempSubRev := Between('subrev = ''', '''', Full);
+  Full := GetPage('http://pastebin.com/raw.php?i=wVLqqCp6');
+  TempRev := Between('includerev = ''', '''', Full);
+  TempSubRev := Between('includesubrev = ''', '''', Full);
   if StrToInt(TempRev) > IncludeRevision then
     Reflect.Internals.Warn('Major Reflection update, please update');
   if StrToInt(TempSubRev) > SubRev then
@@ -80,7 +79,6 @@ end;
 
 procedure setupReflection;
 begin
-  SmartCurrentTarget := Os_Smart.__Target;
   Reflect.Internals.UpdateHooks;
   Reflect.Internals.CheckIncludeUpdate;
   Reflect.Internals.HooksValid;

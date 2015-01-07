@@ -1,16 +1,17 @@
+
 type
-  TPoint3D = record
+  TTile3D = record
     X, Y, Z: Extended;
   end;
 
-  TRotation = TPoint3D;
+  TRotation = TTile3D;
 
   TMatrix = record
     Data: Array of Extended;
   end;
 
   TScene = record
-    TilePosition, PlayerTile, CameraPosition: TPoint3D;
+    TilePosition, PlayerTile, CameraPosition: TTile3D;
     TileRotation, CameraRotation: TRotation;
   end;
 
@@ -29,29 +30,44 @@ begin
   end;
 end;
 
-function TReflectionTiles.GetGlobalTile: TPoint;
+function TReflectionInternals.GetGlobalTile: TTile;
 var
-  Me: Integer;
+  Me: SmartObj;
 begin
-  Me := Reflect.Smart.GetObject(0, Client_Player);
-  Result.X := Reflect.Smart.GetInt(0, Client_BaseX) +
-    Reflect.Smart.GetInt(Me, Actor_localX) div 128;
-  Result.Y:= Reflect.Smart.GetInt(0, Client_BaseY) +
-    Reflect.Smart.GetInt(Me, Actor_LocalY) div 128;
-  Reflect.Smart.FreeObject(Me);
+  Me.GetFieldObject(0, Client_GetLocalPlayer);
+  Result.X := Reflect.Smart.GetFieldInt(0, Client_BaseX) +
+    Reflect.Smart.GetFieldInt(Me.ObjRef, Actor_WorldX) div 128;
+  Result.Y:= Reflect.Smart.GetFieldInt(0, Client_BaseY) +
+    Reflect.Smart.GetFieldInt(Me.ObjRef, Actor_WorldY) div 128;
+  Me.Free;
 end;
 
 function TReflectionTiles.GetPlane: Integer;
 begin
-  Result := Reflect.Smart.GetInt(0, Client_Plane);
+  Result := Reflect.Smart.GetFieldInt(0, Client_GetPlane);
 end;
 
-function TReflectionTiles.RotateCameraToTile(Tile: Tpoint): Boolean;
+(*
+TReflectionTiles.RotateCameraToTile
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function TReflectionTiles.RotateCameraToTile(Tile: TTile): Boolean;
+
+Rotates the camera position to face Tile.
+
+.. note::
+
+  Sourced from PowerBot, Modified by Krazy_Meerkat
+
+*)
+function TReflectionTiles.RotateCameraToTile(Tile: TTile): Boolean;
 var
   Angle: Extended;
   Me: TPoint;
 begin
-  Me:= Reflect.Tiles.GetGlobalTile;
+  Me:= Reflect.Internals.GetGlobalTile;
   Angle:= (Degrees(ArcTan2(Tile.Y - Me.Y, Tile.X - Me.X))) - 90;
   if (Angle < 0) then
   begin
@@ -61,27 +77,42 @@ begin
   Result:= Reflect.Compass.Make(angle);
 end;
 
-function TReflectionTiles.DistanceFromTile(Tile: TPoint): Integer;
+function TReflectionTiles.DistanceFromTile(Tile: TTile): Integer;
 var
   Loc: TPoint;
 begin
-  Loc := Reflect.Tiles.GetGlobalTile;
+  Loc := Reflect.Internals.GetGlobalTile;
   Result :=  Distance(Tile.X, Tile.Y, Loc.X, Loc.Y);
 end;  
 
-function TReflectionTiles.NearTile(Tile: Tpoint; Dist: Integer): Boolean;
+function TReflectionTiles.NearTile(Tile: TTile; Dist: Integer): Boolean;
 begin
   Result := Reflect.Tiles.DistanceFromTile(Tile) < Dist;
 end;
 
-function TReflectionTiles.inPolygon(Area: TPointArray): Boolean;
+(*
+TReflectionTiles.InPolygon
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function TReflectionTiles.InPolygon(Area: TPointArray): Boolean;
+
+Checks if inside a area that's not a box specified by the Tpa
+
+.. note::
+
+    By: Felipe Monteiro de Carvalho, modified by Officer Barbrady
+
+*)
+function TReflectionTiles.InPolygon(Area: TPointArray): Boolean;
 var
   XNew, YNew, XOld, YOld, X1, Y1, X2, Y2: Cardinal;
   I, numpoints, Inside, X, Y: Integer;
 begin
   NumPoints := Length(Area);
-  X := Reflect.Tiles.GetGlobalTile.Y;
-  X := Reflect.Tiles.GetGlobalTile.Y;
+  X := Reflect.Internals.GetGlobalTile.Y;
+  X := Reflect.Internals.GetGlobalTile.Y;
   if (NumPoints < 3) then
     Exit;
   XOld := Area[NumPoints - 1].X;
@@ -113,64 +144,90 @@ begin
   Result := Inside <> 0;
 end;
 
-function TReflectionTiles.OnTile(TP:Tpoint): Boolean;
-var
-  Loc: TPoint;
-begin
-  Loc := Reflect.Tiles.GetGlobalTile;
-  Result := (Loc.X = TP.X) and (Loc.Y = TP.Y);
-end;
+(*
+TReflectionTiles.TileToMM
+~~~~~~~~~~~
 
-function TReflectionTiles.TileToMM(tile: TPoint): TPoint;
+.. code-block:: pascal
+
+    function TReflectionTiles.TileToMM(Tile: TTile): TPoint;
+
+Converts the global tile position to a screen location on the
+  minimap, taking map rotation into account.
+
+.. note::
+
+  by BenLand100, Modified by Krazy_Meerkat
+
+*)
+function TReflectionTiles.TileToMM(Tile: TTile): TPoint;
 var
   Angle, X, Y: extended;
-  Temp: TPoint;
+  Temp: TTile;
 begin
   Angle := -Reflect.Compass.AngleRad;
-  Temp := Reflect.Tiles.GetGlobalTile;
+  Temp := Reflect.Internals.GetGlobalTile;
   X := (tile.X - Temp.X) * 4 - 2;
   Y := (Temp.Y - tile.Y) * 4 - 2;
   result.X := round((X * cos(angle)) + (Y * sin(angle))) + 643;
   result.Y := round((Y * cos(angle)) - (X * sin(angle))) + 83;
 end;
 
-function TReflectionTiles.GetTileHeight(Tile: TPoint): Integer;
+(*
+TReflectionTiles.GetTileHeight
+~~~~~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function TReflectionTiles.GetTileHeight(Tile: TTile): Integer;
+
+Finds the average height of the global tile provided the tile is in the current
+loading area and on a loaded plane.
+
+.. note::
+
+  by BenLand100, Modified by Brandon
+
+*)
+function TReflectionTiles.GetTileHeight(Tile: TTile): Integer;
 var
   X, Y, CurPlane, GroundSetting: Integer;
 begin
-  X := Tile.X - Reflect.Smart.GetInt(0, Client_BaseX);
-  Y := Tile.Y - Reflect.Smart.GetInt(0, Client_BaseY);
+  X := Tile.X - Reflect.Smart.GetFieldInt(0, Client_BaseX);
+  Y := Tile.Y - Reflect.Smart.GetFieldInt(0, Client_BaseY);
   if ((X < 0) or (X > 104) or (Y < 0) or (Y > 104)) then
   begin
     Result := 0;
     Exit;
   end;
-  CurPlane := Reflect.Smart.GetInt(0, Client_Plane);
-  GroundSetting := SmartGetFieldArray3DByte(SmartCurrentTarget, 0,
-    Client_GroundSettings.Path, 1, X, Y);
+  CurPlane := Reflect.Smart.GetFieldInt(0, Client_GetPlane);
+  GroundSetting := Reflect.Smart.GetFieldArray3DByte(0,
+    Client_TileSettings, 1, X, Y);
   if ((CurPlane < 3) and ((GroundSetting and 2) <> 0)) then
     CurPlane := CurPlane + 1;
-  Result := SmartGetFieldArray3DInt(SmartCurrentTarget, 0,
-    Client_GroundHeights.Path, CurPlane, X, Y)
-  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
-    CurPlane, X + 1, Y)
-  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
-    CurPlane, X, Y + 1)
-  + SmartGetFieldArray3DInt(SmartCurrentTarget, 0, Client_GroundHeights.Path,
+  Result := Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
+    CurPlane, X, Y)
+  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights, CurPlane, X + 1, Y)
+  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights, CurPlane, X, Y + 1)
+  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
     CurPlane, X + 1, Y + 1);
   Result := - Result div 4;
 end;
-{
-function R_IsMoving: Boolean;
-var
-  First, Second: Tpoint;
-begin
-  first := R_GetTileGlobal;
-  Wait(500);
-  second := R_GetTileGlobal;
-  result := (First.X <> Second.X) and (First.Y <> Second.Y);
-end;
-}
+
+(* Ashr
+~~~~
+
+.. code-block:: pascal
+
+    function Ashr(X: Integer; D: Byte): Integer;
+
+Performs an arithmetic shift right.
+
+.. note::
+
+  by Dgby714
+
+*)
 function Ashr(X: Integer; D: Byte): Integer;
 var
   Bit: Integer;
@@ -182,7 +239,22 @@ begin
     Result := (Result shr 1) or Bit;
 end;
 
-function TReflectionInternals.TileToMSEx(X, Y, Height: Extended): TPoint;
+(*
+R_TileToMS
+~~~~~~~~~~~
+
+.. code-block:: pascal
+
+    function R_TileToMS(X, Y, Height: Extended): TPoint;
+
+Converts a tile position in the world with a height, to a point on screen.
+
+.. note::
+
+  by Frement
+
+*)
+function TReflectionInternals.TileToMS(X, Y, Height: Extended): TPoint;
 var
   Z, CurveX, CurveY, CurveCosX, CurveCosY, CurveSinX, CurveSinY: Extended;
   TempCalculation: Extended;
@@ -223,16 +295,15 @@ begin
   end;
 end;
 
-function TReflectionTiles.TileToMS(Tile: TPoint; XOffset: Integer = 0; YOffset:
+function TReflectionTiles.TileToMS(Tile: TTile; XOffset: Integer = 0; YOffset:
   Integer = 0; ZOffset: Integer = 0): TPoint;
 var
   X, Y, Z: Integer;
 begin
-  X := Round((Tile.X - Reflect.Smart.GetInt(0, Client_BaseX) + 0.5) * 128) +
+  X := Round((Tile.X - Reflect.Smart.GetFieldInt(0, Client_BaseX) + 0.5) * 128) +
     XOffset;
-  Y := Round((Tile.Y - Reflect.Smart.GetInt(0, Client_BaseY) + 0.5) * 128) +
+  Y := Round((Tile.Y - Reflect.Smart.GetFieldInt(0, Client_BaseY) + 0.5) * 128) +
     YOffset;
   Z := Reflect.Tiles.GetTileHeight(Tile) + ZOffset;
-  Result := Reflect.Internals.TileToMSEx(X, Y, Z);
+  Result := Reflect.Internals.TileToMS(X, Y, Z);
 end;
-

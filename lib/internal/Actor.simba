@@ -1,0 +1,53 @@
+type
+  TReflectActor = type(TData);
+
+function TReflectActor.GetSpokenText: String;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.ObjRef, Actor_SpokenText);
+end;
+
+function TReflectActor.GetTile: TTile;
+begin
+  Result.X := Reflect.Internals.BaseX +
+    Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_WorldX) div 128;
+  Result.Y:= Reflect.Internals.BaseY +
+    Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_WorldY) div 128;
+end;
+
+function TReflectActor.GetQueue(Index: Integer = 0): TTile;
+begin
+  Result := Point(Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueX, Index) +
+    Reflect.Internals.BaseX, Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueY, 0) +
+    Reflect.Internals.BaseY);
+end;
+
+function TReflectActor.GetAnimation: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_Animation);
+end;
+
+function TReflectActor.GetHealth: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_Health);
+end;
+
+function TReflectActor.GetMaxHealth: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_MaxHealth);
+end;
+
+function TReflectActor.GetInteractingIndex: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_InteractingIndex);
+end;
+
+function TReflectActor.GetCombatCycle: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_CombatCycle);
+end;
+
+function TReflectActor.IsMoving: Boolean;
+begin
+  Result := (Self.GetQueue.X <> Self.GetTile.X) or
+    (Self.GetQueue.Y <> Self.GetTile.Y);
+end;

@@ -1,4 +1,5 @@
 
+{* Text functions credit to Frement *}
 
 function TReflectionInternals.RemoveFormatting(Text: String): String;
 var
@@ -9,7 +10,8 @@ begin
   begin
     if (Text[I] = '<') then
       Skip := True;
-    if (Skip) and (Text[I] = '>') then begin
+    if (Skip) and (Text[I] = '>') then
+    begin
       Skip := False;
       Continue;
     end;
@@ -37,28 +39,25 @@ end;
 
 function TReflectionInternals.IsMenuOpen: Boolean;
 begin
-  Result := Reflect.Smart.GetInt(0, Client_IsMenuOpen);
+  Result := Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen);
 end;
 
 function TReflectionInternals.GetMenuOptions: TStringArray;
 var
-  ActInt, OptInt, Count, I, J: Integer;
+  Count, I, J: Integer;
   Act, Opt: String;
 begin
-  Count := Reflect.Smart.GetInt(0, Client_MenuCount);
+  Count := Reflect.Smart.GetFieldInt(0, Client_MenuCount);
   SetLength(Result, Count);
   for I := Count - 1 downto 0 do
   begin
     Act := '';
     Opt := '';
-    ActInt := SmartGetFieldArrayObject(SmartCurrentTarget, 0, client_menuActions.Path, I);
-    OptInt := SmartGetFieldArrayObject(SmartCurrentTarget, 0, client_menuOptions.Path, I);
-    Act := Trim(Reflect.Internals.GetJavaString(ActInt, 512));
-    Opt := Reflect.Internals.RemoveFormatting(Trim(Reflect.Internals.GetJavaString(OptInt, 512)));
+    Act := Trim(Reflect.Smart.GetFieldArrayString(0, Client_MenuActions, I));
+    Opt := Reflect.Internals.RemoveFormatting(Trim(
+      Reflect.Smart.GetFieldArrayString(0, Client_MenuOptions, I)));
     Result[J] := Trim(Act + ' ' + Opt);
     Inc(J);
-    SmartFreeObject(SmartCurrentTarget, ActInt);
-    SmartFreeObject(SmartCurrentTarget, OptInt);
   end;
 end;
 
@@ -77,9 +76,9 @@ begin
   if (not Reflect.Internals.IsMenuOpen) then
     Exit;
   Index := Reflect.Internals.GetMenuIndex(Option, Options);
-  MenuX := Reflect.Smart.GetInt(0, Client_MenuX) + 4;
-  MenuY := Reflect.Smart.GetInt(0, Client_MenuY) + 4;
-  MenuWidth := Reflect.Smart.GetInt(0, Client_MenuWidth);
+  MenuX := Reflect.Smart.GetFieldInt(0, Client_MenuX) + 4;
+  MenuY := Reflect.Smart.GetFieldInt(0, Client_MenuY) + 4;
+  MenuWidth := Reflect.Smart.GetFieldInt(0, Client_MenuWidth);
   XOff := RandomRange(4, MenuWidth - 4);
   YOff := RandomRange(20, 25) + (Index * 15);
   if (MenuX + (MenuWidth div 2) > 765) then

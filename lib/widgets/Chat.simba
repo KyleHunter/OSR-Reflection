@@ -1,0 +1,12 @@
+
+function TReflectionChat.GetLastMessage: string;
+var
+  ChatChild, ChatGrandChild: TReflectWidget;
+begin
+  ChatChild.GetChild(WIDGET_Chat_Container, WIDGET_Chat_Child);
+  ChatGrandChild.GetGrandChild(ChatChild, 1);
+  Result := Reflect.Internals.RemoveFormatting(ChatGrandChild.GetText);
+  ChatChild.Free;
+  ChatGrandChild.Free;
+end;
+

@@ -1,0 +1,48 @@
+
+type TReflectWidget = type(TData);
+
+procedure TReflectWidget.GetChild(ContainerIndex, ChildIndex: Integer);
+begin
+  Self.ObjRef := Reflect.Smart.GetFieldArray2DObject(0, Client_GetWidgets,
+    ContainerIndex, ChildIndex);
+end;
+
+procedure TReflectWidget.Free;
+begin
+  Reflect.Smart.FreeObject(Self.ObjRef);
+end;
+
+function TReflectWidget.ValidChild(ContainerIndex, ChildIndex: Integer): Boolean;
+var
+  ChildRef: SmartObj;
+begin
+  ChildRef.GetFieldArray2DObject(0, Client_GetWidgets, ContainerIndex, ChildIndex);
+  Result := ChildRef.ObjRef > 0;
+  ChildRef.Free;
+end;
+
+function TReflectWidget.HasGrandChild: Boolean;
+begin
+  Result := Reflect.Smart.GetArraySize(Self.ObjRef, Widget_Children, 0) > 0;
+end;
+
+procedure TReflectWidget.GetGrandChild(Child: TReflectWidget; Index: Integer);
+begin
+  Self.ObjRef := Reflect.Smart.GetFieldArrayObject(Child.ObjRef,
+    Widget_Children, Index);
+end;
+
+function TReflectWidget.GetText: string;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.ObjRef, Widget_GetText);
+end;
+
+function TReflectWidget.GetItemID: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ItemID);
+end;
+
+function TReflectWidget.GetItemStackSizes: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ItemAmount);
+end;
