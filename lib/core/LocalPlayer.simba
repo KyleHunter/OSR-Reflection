@@ -137,23 +137,7 @@ begin
   Result := Timer.TimeElapsed < 30000;
 end;
 
-(*
-TReflectLocalPlayer.WalkPathMM
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectLocalPlayer.WalkPathMM(Path: TTileArray; Reverse:
-      Boolean = False): boolean;
-
-Walks the path specified on the minimap in a human like manner. Reverse walks
-path in oppsite direction.
-
-.. note::
-
-  by AwkwardSaw
-
-*)
+	{*Credit AwkwardSaw*}
 function TReflectLocalPlayer.WalkPathMM(Path: TTileArray; Reverse: Boolean = False): boolean;
 var
   I, H, T, Fails, lP: integer;

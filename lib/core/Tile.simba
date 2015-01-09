@@ -47,21 +47,7 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_GetPlane);
 end;
 
-(*
-TReflectionTiles.RotateCameraToTile
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionTiles.RotateCameraToTile(Tile: TTile): Boolean;
-
-Rotates the camera position to face Tile.
-
-.. note::
-
-  Sourced from PowerBot, Modified by Krazy_Meerkat
-
-*)
+	{*Credit Krazy_Meerkat*}
 function TReflectionTiles.RotateCameraToTile(Tile: TTile): Boolean;
 var
   Angle: Extended;
@@ -90,21 +76,7 @@ begin
   Result := Reflect.Tiles.DistanceFromTile(Tile) < Dist;
 end;
 
-(*
-TReflectionTiles.InPolygon
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionTiles.InPolygon(Area: TPointArray): Boolean;
-
-Checks if inside a area that's not a box specified by the Tpa
-
-.. note::
-
-    By: Felipe Monteiro de Carvalho, modified by Officer Barbrady
-
-*)
+	{*Credit Felipe Monteiro de Carvalho, modified by Officer Barbrady*}
 function TReflectionTiles.InPolygon(Area: TPointArray): Boolean;
 var
   XNew, YNew, XOld, YOld, X1, Y1, X2, Y2: Cardinal;
@@ -144,22 +116,7 @@ begin
   Result := Inside <> 0;
 end;
 
-(*
-TReflectionTiles.TileToMM
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionTiles.TileToMM(Tile: TTile): TPoint;
-
-Converts the global tile position to a screen location on the
-  minimap, taking map rotation into account.
-
-.. note::
-
-  by BenLand100, Modified by Krazy_Meerkat
-
-*)
+	{*Credit BenLand100, modified by Krazy_Meerkat*}
 function TReflectionTiles.TileToMM(Tile: TTile): TPoint;
 var
   Angle, X, Y: extended;
@@ -173,22 +130,7 @@ begin
   result.Y := round((Y * cos(angle)) - (X * sin(angle))) + 83;
 end;
 
-(*
-TReflectionTiles.GetTileHeight
-~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionTiles.GetTileHeight(Tile: TTile): Integer;
-
-Finds the average height of the global tile provided the tile is in the current
-loading area and on a loaded plane.
-
-.. note::
-
-  by BenLand100, Modified by Brandon
-
-*)
+	{*Credit BenLand100, modified by Brandon*}
 function TReflectionTiles.GetTileHeight(Tile: TTile): Integer;
 var
   X, Y, CurPlane, GroundSetting: Integer;
@@ -214,20 +156,7 @@ begin
   Result := - Result div 4;
 end;
 
-(* Ashr
-~~~~
-
-.. code-block:: pascal
-
-    function Ashr(X: Integer; D: Byte): Integer;
-
-Performs an arithmetic shift right.
-
-.. note::
-
-  by Dgby714
-
-*)
+	{*Credit Dgby714*}
 function Ashr(X: Integer; D: Byte): Integer;
 var
   Bit: Integer;
@@ -239,21 +168,7 @@ begin
     Result := (Result shr 1) or Bit;
 end;
 
-(*
-R_TileToMS
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function R_TileToMS(X, Y, Height: Extended): TPoint;
-
-Converts a tile position in the world with a height, to a point on screen.
-
-.. note::
-
-  by Frement
-
-*)
+	{*Credit Frement*}
 function TReflectionInternals.TileToMS(X, Y, Height: Extended): TPoint;
 var
   Z, CurveX, CurveY, CurveCosX, CurveCosY, CurveSinX, CurveSinY: Extended;

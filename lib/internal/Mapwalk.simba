@@ -9,6 +9,7 @@ begin
   Result := Length(Temp) = 1;
 end;
 
+	{*Credit JuKKa*}
 function TReflectionInternals.WindPath(Xs, Ys, Xe, Ye, Gravity, Wind, MinWait,
   MaxWait, MaxStep, TargetArea: Extended): TPointArray;
 var

@@ -69,21 +69,7 @@ begin
   Self.Tile := Point(0, 0);
 end;
 
-(*
-TReflectObjectArray.Sort
-~~~~~~~~~~
-
-.. code-block:: pascal
-
-    procedure TReflectObjectArray.Sort;
-
-  Sorts NPCs by distance from you.
-
-.. note::
-
-  by Widget, Modified by Lordsaturn
-
-*)
+{*Credit Widget, Modified by Lordsaturn*}
 procedure TReflectObjectArray.Sort;
 var
   I, C, L: integer;

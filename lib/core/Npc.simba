@@ -85,21 +85,7 @@ begin
   SetLength(Result, I);
 end;
 
-(*
-TReflectNPCArray.Sort
-~~~~~~~~~~
-
-.. code-block:: pascal
-
-    procedure TReflectNPCArray.Sort;
-
-  Sorts NPCs by distance from you.
-
-.. note::
-
-  by Widget, Modified by Lordsaturn
-
-*)
+{*Credit Widget, Modified by Lordsaturn*}
 procedure TReflectNPCArray.Sort;
 var
   I, C, L: integer;

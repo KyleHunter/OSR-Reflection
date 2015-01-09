@@ -42,7 +42,7 @@ var
   OnlineVersion, NewFileName: string;
   NewFile: Integer
 begin
-  OnlineVersion := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Update.txt');
+  OnlineVersion := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Update.txt');
   OnlineVersion := Between('hookrev = ''', '''', OnlineVersion);
   if (Trim(OnlineVersion) > ReflectionRevision) then
   begin
@@ -77,6 +77,7 @@ begin
     end;
 end;
 
+  {*Credit: Krazy_Meerkat*}
 procedure TReflectionInternals.CreateNewFiles;
 var
   NewFile, i, e: Integer;
@@ -124,6 +125,7 @@ begin
   end;
 end;
 
+  {*Credit: Krazy_Meerkat*}
 procedure TReflectionInternals.DeleteOldFiles;
 var
   OldFileName: String;
@@ -194,5 +196,5 @@ begin
   end;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
-  Writeln('Reflection succesfully setup!');
+  Reflect.Internals.Status('Reflection succesfully setup!');
 end;

@@ -3,25 +3,7 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraPitch);
 end;
 
-(*
-TReflectionInternals.VariantToDirection
-~~~~~~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
-
-Converts a variant to a direction, catching errors and attempts to fix. This
-function expects "compass relative" angles. For example: ('n', 's', 'e', 'w') or
-degree (23.3, 25, 205.2) or 'random' (returns 0..360).
-
-.. note::
-
-    by Nava2
-
-.. code-block:: pascal
-
-*)
+  {*Credit: Nava2*} 
 function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
 var
   E: Extended;
@@ -79,27 +61,7 @@ begin
   Result := Radians(Reflect.Smart.GetFieldInt(0, Client_CameraYaw) / 2048.0 * 360);
 end;
 
-(*
-TReflectionCompass.Make
-~~~~~~~~~~~
-
-.. code-block:: pascal
-
-    function TReflectionCompass.Make(Direction: Variant): Boolean;
-
-Aligns RS to specified direction
-   - Enter a compass angle ('n', 's', 'e', 'w') or degree (23.3, 25, 205.2)
-      and it will move the compass to that angle. Also accepts 'random',
-      and 'rand' to make the compass a random direction.
-
-.. note::
-
-    by Nielsie95 & Nava2
-    Modified by Krazy_Meerkat
-
-.. code-block:: pascal
-
-*)
+  {*Credit: Nielsie95 & Nava2, Modified by Krazy Meerkat*} 
 //Helper function for TReflectCompass.Make
 function TReflectionInternals.MinCheck(Angle, DirectionDeg: Extended): Extended;
 begin
