@@ -2,7 +2,7 @@
 
 const
   IncludeRevision = 1;
-  SubRev = 0;
+  SubRev = 1;
   R_MAJOR = 0;
   R_MINOR = 1;
 {$i AeroLib/reflection/lib/internal/Includes.simba}
@@ -155,7 +155,7 @@ begin
   Reflect.Internals.DeleteOldFiles;
   if Reflect.Internals.CheckIncludeUpdate then
   begin
-    writeLn('Reflection update available!');
+    Reflect.Internals.Status('Update Available!');
     NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
     Multi:= MultiBetween(NewFileName, '(', ')');
     for i:= 0 to high(Multi) do
@@ -169,46 +169,30 @@ begin
         try
           NewFile := Rewritefile(NewFileName, true);
           WriteFileString(NewFile, GetPage(Multi[i]));
-          WriteLn('Successfully updated '+NewFileName);
+          Reflect.Internals.Status('Updated ' + NewFileName);
         except
-          begin
-            WriteLn('Fatal error writing to '+NewFileName+'!!');
-            Terminatescript;
-          end;
+            Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
         finally
           CloseFile(NewFile);
         end;
         Toggle:= false;
       end;
     end;
-    // Reflection.Simba MUST be hardcoded here to prevent errors
     try
       NewFileName := includePath + 'AeroLib\reflection\Reflection.simba';
       NewFile := Rewritefile(NewFileName, true);
       WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/Reflection.Simba'));
-      writeLn('Successfully updated '+NewFileName);
+      Reflect.Internals.Status('Updated ' + NewFileName);
     except
-      begin
-        writeLn('Fatal error writing to '+NewFileName+'!!');
-        terminatescript;
-      end;
+        Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
     finally
       CloseFile(NewFile);
-      writeLn('Reflection update completed.');
-      writeLn('Please restart Simba.');
+      Reflect.Internals.Status('Update Completed.');
+      Reflect.Internals.Status('Please Restart Script.');
       TerminateScript;
     end;
   end;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
   Writeln('Reflection succesfully setup!');
-end;
-
-procedure SetupReflection1;
-begin
-  Reflect.Internals.UpdateHooks;
-  Reflect.Internals.CheckIncludeUpdate;
-  //Reflect.Internals.HooksValid;
-  //Reflect.Internals.SetupCurves;
-  //Writeln('Reflection succesfully setup!');
 end;
