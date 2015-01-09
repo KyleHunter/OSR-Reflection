@@ -8,7 +8,7 @@ const
 
 {Node = gn}
  Node_UID: THook =                    ['ef', 1];
- Node_Next: THook =                   ['ew', 1];
+ Node_Next: THook =                   ['ep', 1];
  Node_Prev: THook =                   ['ew', 1];
 
 {Cacheable = gl}
