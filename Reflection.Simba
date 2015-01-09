@@ -84,7 +84,7 @@ var
   Multi, Multi2: TStringArray;
   Toggle: Boolean;
 begin
-  NewFileName:= GetPage('http://osrreflection.googlecode.com/git/Files.txt');
+  NewFileName:= GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/e09eb79b0afdd2a89b2ae1ee7c658b456c336436/Lib/Internal/Updating/Files.txt');
   Multi:= MultiBetween(NewFileName, '(', ')');
   for i:= 0 to high(Multi) do
   begin
@@ -123,6 +123,27 @@ begin
     end;
   end;
 end;
+
+procedure TReflectionInternals.DeleteOldFiles;
+var
+  OldFileName: String;
+  i: Integer;
+  Multi: TStringArray;
+begin
+  OldFileName:= GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/e09eb79b0afdd2a89b2ae1ee7c658b456c336436/Lib/Internal/Updating/Removed%20Files.txt');
+  Multi:= MultiBetween(OldFileName, '(', ')');
+  for i:= 0 to high(Multi) do
+  begin
+    OldFileName := includePath + 'AeroLib\' + Multi[i];
+    if FileExists(OldFileName) then
+    begin
+      DeleteFile(OldFileName);
+      Writeln('Removed file '+Multi[i]);
+    end;
+  end;
+end;
+
+
 
 procedure SetupReflection;
 begin
