@@ -107,7 +107,7 @@ const
  Client_Weight: THook =               ['client.js', -945500193];
  Client_Rights: THook =               ['client.jb', -400104091];
  Client_CurrentWorld: THook =         ['client.b', 1640745123];
- Client_LoginState: THook =           ['dz.s', 3166751];
+ Client_LoginState: THook =           ['client.f', 12560521];
  Client_PlayerIndex: THook =          ['client.gb', 328712329];
 
 {Region = cc}
