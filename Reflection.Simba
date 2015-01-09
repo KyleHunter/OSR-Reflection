@@ -50,7 +50,7 @@ begin
     try
       NewFileName := IncludePath + 'AeroLib\reflection\lib\internal\' + 'Hooks.simba';
       NewFile := Rewritefile(NewFileName, true);
-      WriteFileString(NewFile, GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
+      WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
     except
         Reflect.Internals.Warn('Failed Updated Hooks', R_MAJOR);
     finally
@@ -67,7 +67,7 @@ var
   Full, TempRev, TempSubRev: string;
   NewFile: Integer
 begin
-  Full := GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Update.txt');
+  Full := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Update.txt');
   TempRev := Between('includerev = ''', '''', Full);
   TempSubRev := Between('includesubrev = ''', '''', Full);
   if (StrToInt(TempRev) > IncludeRevision) or StrToInt(TempSubRev) > SubRev then
@@ -84,7 +84,7 @@ var
   Multi, Multi2: TStringArray;
   Toggle: Boolean;
 begin
-  NewFileName:= GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/e09eb79b0afdd2a89b2ae1ee7c658b456c336436/Lib/Internal/Updating/Files.txt');
+  NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
   Multi:= MultiBetween(NewFileName, '(', ')');
   for i:= 0 to high(Multi) do
   begin
@@ -130,7 +130,7 @@ var
   i: Integer;
   Multi: TStringArray;
 begin
-  OldFileName:= GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/e09eb79b0afdd2a89b2ae1ee7c658b456c336436/Lib/Internal/Updating/Removed%20Files.txt');
+  OldFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Removed%20Files.txt');
   Multi:= MultiBetween(OldFileName, '(', ')');
   for i:= 0 to high(Multi) do
   begin
@@ -143,9 +143,68 @@ begin
   end;
 end;
 
-
-
 procedure SetupReflection;
+var
+  NewFile, i: Integer;
+  OnlineVersion, NewFileName: String;
+  Multi: TStringArray;
+  Toggle: Boolean;
+begin
+  Reflect.Internals.UpdateHooks;
+  Reflect.Internals.CreateNewFiles;
+  Reflect.Internals.DeleteOldFiles;
+  if Reflect.Internals.CheckIncludeUpdate then
+  begin
+    writeLn('Reflection update available!');
+    NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
+    Multi:= MultiBetween(NewFileName, '(', ')');
+    for i:= 0 to high(Multi) do
+    begin
+      if not(Toggle) then
+      begin
+        NewFileName := includePath + 'Aerolib\' + Multi[i];
+        Toggle:= true;
+      end else
+      begin
+        try
+          NewFile := Rewritefile(NewFileName, true);
+          WriteFileString(NewFile, GetPage(Multi[i]));
+          WriteLn('Successfully updated '+NewFileName);
+        except
+          begin
+            WriteLn('Fatal error writing to '+NewFileName+'!!');
+            Terminatescript;
+          end;
+        finally
+          CloseFile(NewFile);
+        end;
+        Toggle:= false;
+      end;
+    end;
+    // Reflection.Simba MUST be hardcoded here to prevent errors
+    try
+      NewFileName := includePath + 'AeroLib\reflection\Reflection.simba';
+      NewFile := Rewritefile(NewFileName, true);
+      WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/Reflection.Simba'));
+      writeLn('Successfully updated '+NewFileName);
+    except
+      begin
+        writeLn('Fatal error writing to '+NewFileName+'!!');
+        terminatescript;
+      end;
+    finally
+      CloseFile(NewFile);
+      writeLn('Reflection update completed.');
+      writeLn('Please restart Simba.');
+      TerminateScript;
+    end;
+  end;
+  Reflect.Internals.HooksValid;
+  Reflect.Internals.SetupCurves;
+  Writeln('Reflection succesfully setup!');
+end;
+
+procedure SetupReflection1;
 begin
   Reflect.Internals.UpdateHooks;
   Reflect.Internals.CheckIncludeUpdate;
