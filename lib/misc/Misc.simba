@@ -40,3 +40,20 @@ function TReflectionInternals.GetLoginState: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_LoginState);
 end;
+
+{$loadlib prosocks}
+
+Function TReflectionInternals.Pro_GetPage(URL: String): String;
+var
+  S: SSLSocket;
+  res: ProMemoryStruct;
+begin
+  Pro_InitSocket(S, nil, nil, nil, nil);
+  Pro_CreateSocket(S, '');
+  Pro_SetSSL(S, false, false, true);
+  Pro_SetURL(S, URL);
+  Pro_DoGetEx(S, res);
+  SetLength(Result, res.size);
+  MemMove(res.memory^, Result[1], res.size);
+  Pro_FreeSocket(S);
+end;

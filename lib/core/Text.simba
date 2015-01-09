@@ -114,8 +114,7 @@ begin
   begin
     if (Reflect.Internals.IsMenuOpen) then
     begin
-      Reflect.Text.ChooseOption(Option);
-      Result := True;
+      Result := Reflect.Text.ChooseOption(Option);;
       Exit;
     end;
     Wait(20 + Random(20));
