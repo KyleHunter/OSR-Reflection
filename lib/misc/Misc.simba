@@ -43,7 +43,7 @@ end;
 
 {$loadlib prosocks}
 
-Function TReflectionInternals.Pro_GetPage(URL: String): String;
+Function TReflectionInternals.GetPage(URL: String): String;
 var
   S: SSLSocket;
   res: ProMemoryStruct;

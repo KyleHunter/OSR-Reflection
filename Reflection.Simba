@@ -1,8 +1,8 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 7;
-  SubRev = 1;
+  IncludeRevision = 1;
+  SubRev = 0;
   R_MAJOR = 0;
   R_MINOR = 1;
 {$i AeroLib/reflection/lib/internal/Includes.simba}
@@ -42,46 +42,93 @@ var
   OnlineVersion, NewFileName: string;
   NewFile: Integer
 begin
-  OnlineVersion := GetPage('http://pastebin.com/raw.php?i=wVLqqCp6');
+  OnlineVersion := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Update.txt');
   OnlineVersion := Between('hookrev = ''', '''', OnlineVersion);
   if (Trim(OnlineVersion) > ReflectionRevision) then
   begin
-    WriteLn('Hook update available');
+    Reflect.Internals.Status('Hook update available!');
     try
       NewFileName := IncludePath + 'AeroLib\reflection\lib\internal\' + 'Hooks.simba';
       NewFile := Rewritefile(NewFileName, true);
-      WriteFileString(NewFile, GetPage('http://pastebin.com/raw.php?i=5Ncz16bR'));
-      WriteLn('Successfully updated '+ NewFileName);
+      WriteFileString(NewFile, GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
     except
         Reflect.Internals.Warn('Failed Updated Hooks', R_MAJOR);
     finally
       CloseFile(NewFile);
-      WriteLn('Reflection update completed.');
-      writeLn('Please restart script.');
+      Reflect.Internals.Status('Hook update completed.');
+      Reflect.Internals.Status('Please restart script..');
       TerminateScript;
     end;
   end;
 end;
 
-procedure TReflectionInternals.CheckIncludeUpdate;
+function TReflectionInternals.CheckIncludeUpdate: Boolean;
 var
   Full, TempRev, TempSubRev: string;
   NewFile: Integer
 begin
-  Full := GetPage('http://pastebin.com/raw.php?i=wVLqqCp6');
+  Full := GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Update.txt');
   TempRev := Between('includerev = ''', '''', Full);
   TempSubRev := Between('includesubrev = ''', '''', Full);
-  if StrToInt(TempRev) > IncludeRevision then
-    Reflect.Internals.Warn('Major Reflection update, please update');
-  if StrToInt(TempSubRev) > SubRev then
-    Reflect.Internals.Warn('Minor Reflection update, please update');
+  if (StrToInt(TempRev) > IncludeRevision) or StrToInt(TempSubRev) > SubRev then
+    begin
+      Reflect.Internals.Warn('Reflection Update Available');
+      Result := True;
+    end;
 end;
 
-procedure setupReflection;
+procedure TReflectionInternals.CreateNewFiles;
+var
+  NewFile, i, e: Integer;
+  NewFileName, DirectoryName: String;
+  Multi, Multi2: TStringArray;
+  Toggle: Boolean;
+begin
+  NewFileName:= GetPage('http://osrreflection.googlecode.com/git/Files.txt');
+  Multi:= MultiBetween(NewFileName, '(', ')');
+  for i:= 0 to high(Multi) do
+  begin
+    if not(Toggle) then
+    begin
+      NewFileName := includePath + 'AeroLib\' + Multi[i];
+      Multi2:= MultiBetween(Multi[i], '\', '\');
+      DirectoryName := includePath + 'AeroLib\reflection';
+      for e:= 0 to high(Multi2) do
+      begin
+        DirectoryName := DirectoryName + '\' + Multi2[e];
+        if not(DirectoryExists(DirectoryName)) then
+          CreateDirectory(DirectoryName);
+      end;
+      Toggle:= true;
+    end else
+    begin
+      if not(FileExists(NewFileName)) then
+      begin
+        try
+          NewFile := CreateFile(NewFileName);
+          CloseFile(NewFile);
+          NewFile := Rewritefile(NewFileName, true);
+          WriteFileString(NewFile, GetPage(Multi[i]));
+          WriteLn('Added new file '+NewFileName);
+        except
+          begin
+            WriteLn('Fatal error writing to '+NewFileName+'!!');
+            Terminatescript;
+          end;
+        finally
+          CloseFile(NewFile);
+        end;
+      end;
+      Toggle:= false;
+    end;
+  end;
+end;
+
+procedure SetupReflection;
 begin
   Reflect.Internals.UpdateHooks;
   Reflect.Internals.CheckIncludeUpdate;
-  Reflect.Internals.HooksValid;
-  Reflect.Internals.SetupCurves;
-  Writeln('Reflection succesfully setup!');
+  //Reflect.Internals.HooksValid;
+  //Reflect.Internals.SetupCurves;
+  //Writeln('Reflection succesfully setup!');
 end;
