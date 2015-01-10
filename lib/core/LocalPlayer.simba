@@ -70,7 +70,7 @@ end;
 
 function TReflectLocalPlayer.GetPlayerIndex: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex);
+  Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;;
 end;
 
 function TReflectLocalPlayer.WaitForAnimation(WaitPerLoop, Timeout: Integer): boolean;

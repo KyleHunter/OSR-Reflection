@@ -108,7 +108,7 @@ const
  Client_Rights: THook =               ['client.jb', -400104091];
  Client_CurrentWorld: THook =         ['client.b', 1640745123];
  Client_LoginState: THook =           ['client.f', 12560521];
- Client_PlayerIndex: THook =          ['client.gb', 328712329];
+ Client_PlayerIndex: THook =          ['client.hg', 615607115];
 
 {Region = cc}
  Region_SceneTiles: THook =           ['c', 1];
@@ -138,3 +138,12 @@ const
 {Item = a}
  Item_ID: THook =                     ['g', -1952791939];
  Item_StackSizes: THook =             ['j', 1213359117];
+
+  Client_WidgetXPositions: THook =     ['client.lo', 1];
+ Client_WidgetYPositions: THook =     ['client.lt', 1];
+  Widget_RelativeX: THook =            ['r', 112553361];
+ Widget_RelativeY: THook =            ['v', -390752323];
+ Widget_ParentWidgetID: THook = ['e', -1603274503];
+ Widget_Width: THook = ['x', -1987926391];
+ Widget_Height: THook = ['t', -258292311];
+ Widget_BoundsIndex: THook = ['dm', -915793549];

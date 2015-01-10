@@ -211,7 +211,6 @@ begin
     Index := TheIndex;
     SpokenText := GetSpokenText;
     Health := GetHealth;
-    writeln(Health);
     MaxHealth := GetMaxHealth;
     Tile := GetTile;
     Id := Reflect.Smart.GetFieldInt(NpcDef.ObjRef,
