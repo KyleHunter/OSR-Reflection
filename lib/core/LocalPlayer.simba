@@ -6,7 +6,10 @@ begin
   if HookCache[TCacheKey.ckLocalPlayer][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_GetLocalPlayer, 0, 0)
   else
+  begin
     Reflect.Mem.FreeObjects(ckLocalPlayer, False);
+    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_GetLocalPlayer, 0, 0)
+  end;
   Self.ObjRef := HookCache[TCacheKey.ckLocalPlayer][0];
 end;
 
