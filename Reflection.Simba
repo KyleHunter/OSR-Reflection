@@ -15,7 +15,7 @@ begin
     R_MAJOR : S := 'Major';
     R_MINOR : S := 'Warn';
   end;
-  writeLn('[' + S + ']' + ' [Reflection error] ' + Message);
+  WriteLn('[' + S + ']' + ' [Reflection error] ' + Message);
   if warnType = R_MAJOR then
     terminateScript;
   Wait(2000);
@@ -23,7 +23,7 @@ end;
 
 procedure TReflectionInternals.Status(Message: String);
 begin
-  writeLn('[Status]' + ' [Reflection] ' + Message);
+  WriteLn('[Status]' + ' [Reflection] ' + Message);
 end;
 
 procedure TReflectionInternals.HooksValid;
@@ -80,8 +80,8 @@ end;
   {*Credit: Krazy_Meerkat*}
 procedure TReflectionInternals.CreateNewFiles;
 var
-  NewFile, i, e: Integer;
-  NewFileName, DirectoryName: String;
+  NewFile, I, E: Integer;
+  NewFileName, DirectoryName: string;
   Multi, Multi2: TStringArray;
   Toggle: Boolean;
 begin
@@ -91,16 +91,16 @@ begin
   begin
     if not(Toggle) then
     begin
-      NewFileName := includePath + 'AeroLib\' + Multi[i];
-      Multi2:= MultiBetween(Multi[i], '\', '\');
-      DirectoryName := includePath + 'AeroLib\reflection';
-      for e:= 0 to high(Multi2) do
+      NewFileName := IncludePath + 'AeroLib\' + Multi[I];
+      Multi2:= MultiBetween(Multi[I], '\', '\');
+      DirectoryName := IncludePath + 'AeroLib\reflection';
+      for E := 0 to High(Multi2) do
       begin
-        DirectoryName := DirectoryName + '\' + Multi2[e];
+        DirectoryName := DirectoryName + '\' + Multi2[E];
         if not(DirectoryExists(DirectoryName)) then
           CreateDirectory(DirectoryName);
       end;
-      Toggle:= true;
+      Toggle:= True;
     end else
     begin
       if not(FileExists(NewFileName)) then
@@ -109,18 +109,15 @@ begin
           NewFile := CreateFile(NewFileName);
           CloseFile(NewFile);
           NewFile := Rewritefile(NewFileName, true);
-          WriteFileString(NewFile, GetPage(Multi[i]));
-          WriteLn('Added new file '+NewFileName);
+          WriteFileString(NewFile, Reflect.Internals.GetPage(Multi[I]));
+          Reflect.Internals.Status('Added new file ' + NewFileName);
         except
-          begin
-            WriteLn('Fatal error writing to '+NewFileName+'!!');
-            Terminatescript;
-          end;
+          Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
         finally
           CloseFile(NewFile);
         end;
       end;
-      Toggle:= false;
+      Toggle:= False;
     end;
   end;
 end;
@@ -128,26 +125,26 @@ end;
   {*Credit: Krazy_Meerkat*}
 procedure TReflectionInternals.DeleteOldFiles;
 var
-  OldFileName: String;
-  i: Integer;
+  OldFileName: string;
+  I: Integer;
   Multi: TStringArray;
 begin
   OldFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Removed%20Files.txt');
   Multi:= MultiBetween(OldFileName, '(', ')');
-  for i:= 0 to high(Multi) do
+  for I := 0 to High(Multi) do
   begin
-    OldFileName := includePath + 'AeroLib\' + Multi[i];
+    OldFileName := IncludePath + 'AeroLib\' + Multi[I];
     if FileExists(OldFileName) then
     begin
       DeleteFile(OldFileName);
-      Writeln('Removed file '+Multi[i]);
+      Reflect.Internals.Status('Removed file ' + Multi[I]);
     end;
   end;
 end;
 
 procedure SetupReflection;
 var
-  NewFile, i: Integer;
+  NewFile, I: Integer;
   OnlineVersion, NewFileName: String;
   Multi: TStringArray;
   Toggle: Boolean;
@@ -160,29 +157,29 @@ begin
     Reflect.Internals.Status('Update Available!');
     NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
     Multi:= MultiBetween(NewFileName, '(', ')');
-    for i:= 0 to high(Multi) do
+    for I := 0 to High(Multi) do
     begin
       if not(Toggle) then
       begin
-        NewFileName := includePath + 'Aerolib\' + Multi[i];
-        Toggle:= true;
+        NewFileName := IncludePath + 'Aerolib\' + Multi[I];
+        Toggle := True;
       end else
       begin
         try
           NewFile := Rewritefile(NewFileName, true);
-          WriteFileString(NewFile, GetPage(Multi[i]));
+          WriteFileString(NewFile, Reflect.Internals.GetPage(Multi[I]));
           Reflect.Internals.Status('Updated ' + NewFileName);
         except
             Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
         finally
           CloseFile(NewFile);
         end;
-        Toggle:= false;
+        Toggle:= False;
       end;
     end;
     try
       NewFileName := includePath + 'AeroLib\reflection\Reflection.simba';
-      NewFile := Rewritefile(NewFileName, true);
+      NewFile := Rewritefile(NewFileName, True);
       WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/Reflection.Simba'));
       Reflect.Internals.Status('Updated ' + NewFileName);
     except

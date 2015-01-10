@@ -85,11 +85,6 @@ begin
   Result := True;
 end;
 
-function TReflectLocalPlayer.InFight: Boolean;
-begin
-  Result := (Self.GetCombatCycle > Reflect.Internals.GetClientLoopCycle);// or (Round(R_InteractingNpc().Hitpoints) > 0);
-end;
-
 function TReflectLocalPlayer.UnderAttack: Boolean;
 begin
   Result := (Self.GetCombatCycle > Reflect.Internals.GetClientLoopCycle);
