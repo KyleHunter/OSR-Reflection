@@ -6,7 +6,7 @@ type
     InvActions, GroundActions: TStringArray;
   end;
 
-  procedure TReflectItem.LoadDef;
+procedure TReflectItem.LoadDef;
 var
   APath, Line, Temp: string;
   I: Integer
@@ -15,13 +15,13 @@ begin
   begin
     if (Self.Id > 12856) or (Self.Id < 0) then
       Exit;
-    Line := NpcCache.GetStrings(Id);
+    Line := ItemCache.GetStrings(Id);
   end
   else
   begin
-      for I := 0 to NpcCache.getCount - 1 do
+      for I := 0 to ItemCache.getCount - 1 do
       begin
-        Line := NpcCache.GetStrings(I);
+        Line := ItemCache.GetStrings(I);
         if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
         break;
       end;
