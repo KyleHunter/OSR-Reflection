@@ -117,9 +117,19 @@ end;
 procedure ReflectFreeHookCache;
 begin
   Reflect.Smart.FreeAllObjects;
+  ObjectCache.Free;
+  NpcCache.Free;
+  ItemCache.Free;
 end;
 
 begin
+  ObjectCache.Init;
+  ObjectCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\ObjectDefs.txt');
+  NpcCache.Init;
+  NpcCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\NpcDefs.txt');
+  ItemCache.Init;
+  ItemCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\ItemDefs.txt');
+
   AddOnTerminate('ReflectFreeHookCache');
   SetLength(HookCache, 11);
   SetLength(HookCache[TCacheKey.ckNull], 10817);

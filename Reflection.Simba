@@ -1,7 +1,7 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 2;
+  IncludeRevision = 3;
   SubRev = 1;
   R_MAJOR = 0;
   R_MINOR = 1;

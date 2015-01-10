@@ -9,23 +9,19 @@ type
   procedure TReflectItem.LoadDef;
 var
   APath, Line, Temp: string;
-  TheFile: TStringList;
   I: Integer
 begin
-  APath := IncludePath + 'AeroLib\reflection\lib\internal\' + 'ItemDefs.txt';
-  TheFile.Init;
-  TheFile.LoadFromFile(APath);
   if Self.Id <> 0 then
   begin
     if (Self.Id > 12856) or (Self.Id < 0) then
       Exit;
-    Line := TheFile.GetStrings(Id);
+    Line := NpcCache.GetStrings(Id);
   end
   else
   begin
-      for I := 0 to TheFile.getCount - 1 do
+      for I := 0 to NpcCache.getCount - 1 do
       begin
-        Line := TheFile.GetStrings(I);
+        Line := NpcCache.GetStrings(I);
         if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
         break;
       end;
@@ -44,5 +40,4 @@ begin
     GroundActions := Explode(''',''',Temp);
     HighAlchValue := StrToInt(Between('highAlchValue'': ', '}', Line));
   end;
-  TheFile.Free;
 end;
