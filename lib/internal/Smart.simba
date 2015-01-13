@@ -2,7 +2,8 @@
 type
   SmartObj = type(TData);
 
-function TReflectionSmart.GetArraySize(Ref: Integer; Hook: THook; Dimension: Integer): Integer;
+function TReflectionSmart.GetArraySize(
+  Ref: Integer; Hook: THook; Dimension: Integer): Integer;
 begin
 	Result := SmartGetFieldArraySize(Os_Smart.__Target, Ref, Hook.Path, Dimension);
 end;
@@ -47,169 +48,213 @@ begin
 	Result := SmartGetFieldByte(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
-function TReflectionSmart.GetFieldArrayObject(Ref: Integer; Hook: THook; Index: Integer): Integer;
+function TReflectionSmart.GetFieldArrayObject(
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayObject(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-procedure SmartObj.GetFieldArrayObject(Ref: Integer; Hook: THook; Index: Integer);
+procedure SmartObj.GetFieldArrayObject(
+  Ref: Integer; Hook: THook; Index: Integer);
 begin
 	Self.ObjRef := SmartGetFieldArrayObject(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayInt(Ref: Integer; Hook: THook; Index: Integer): Integer;
+function TReflectionSmart.GetFieldArrayInt(
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayInt(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayFloat(Ref: Integer; Hook: THook; Index: Integer): Extended;
+function TReflectionSmart.GetFieldArrayFloat(
+  Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
 	Result := SmartGetFieldArrayFloat(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayDouble(Ref: Integer; Hook: THook; Index: Integer): Extended;
+function TReflectionSmart.GetFieldArrayDouble(
+  Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
 	Result := SmartGetFieldArrayDouble(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayBoolean(Ref: Integer; Hook: THook; Index: Integer): Boolean;
+function TReflectionSmart.GetFieldArrayBoolean(
+  Ref: Integer; Hook: THook; Index: Integer): Boolean;
 begin
 	Result := SmartGetFieldArrayBool(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayLongH(Ref: Integer; Hook: THook; Index: Integer): Extended;
+function TReflectionSmart.GetFieldArrayLongH(
+  Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
 	Result := SmartGetFieldArrayLongH(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayLongL(Ref: Integer; Hook: THook; Index: Integer): Extended;
+function TReflectionSmart.GetFieldArrayLongL(
+  Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
 	Result := SmartGetFieldArrayLongL(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayByte(Ref: Integer; Hook: THook; Index: Integer): Integer;
+function TReflectionSmart.GetFieldArrayByte(
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayByte(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayShort(Ref: Integer; Hook: THook; Index: Integer): Integer;
+function TReflectionSmart.GetFieldArrayShort(
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayShort(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArrayChar(Ref: Integer; Hook: THook; Index: Integer): Integer;
+function TReflectionSmart.GetFieldArrayChar(
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayChar(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-function TReflectionSmart.GetFieldArray2DObject(Ref: Integer; Hook: THook; X, Y: Integer): Integer;
+function TReflectionSmart.GetFieldArray2DObject(
+  Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
 	Result := SmartGetFieldArray2DObject(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-procedure SmartObj.GetFieldArray2DObject(Ref: Integer; Hook: THook; X, Y: Integer);
+procedure SmartObj.GetFieldArray2DObject(
+  Ref: Integer; Hook: THook; X, Y: Integer);
 begin
-	Self.ObjRef := SmartGetFieldArray2DObject(Os_Smart.__Target, Ref, Hook.Path, X, Y);
+	Self.ObjRef := SmartGetFieldArray2DObject(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DInt(Ref: Integer; Hook: THook; X, Y: Integer): Integer;
+function TReflectionSmart.GetFieldArray2DInt(
+  Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
 	Result := SmartGetFieldArray2DInt(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DDouble(Ref: Integer; Hook: THook; X, Y: Integer): Extended;
+function TReflectionSmart.GetFieldArray2DDouble(
+  Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
 	Result := SmartGetFieldArray2DDouble(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DFloat(Ref: Integer; Hook: THook; X, Y: Integer): Extended;
+function TReflectionSmart.GetFieldArray2DFloat(
+  Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
 	Result := SmartGetFieldArray2DFloat(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DBoolean(Ref: Integer; Hook: THook; X, Y: Integer): Boolean;
+function TReflectionSmart.GetFieldArray2DBoolean(
+  Ref: Integer; Hook: THook; X, Y: Integer): Boolean;
 begin
 	Result := SmartGetFieldArray2DBoolean(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DLongH(Ref: Integer; Hook: THook; X, Y: Integer): Extended;
+function TReflectionSmart.GetFieldArray2DLongH(
+  Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
 	Result := SmartGetFieldArray2DLongH(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DLongL(Ref: Integer; Hook: THook; X, Y: Integer): Extended;
+function TReflectionSmart.GetFieldArray2DLongL(
+  Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
 	Result := SmartGetFieldArray2DLongL(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DByte(Ref: Integer; Hook: THook; X, Y: Integer): Integer;
+function TReflectionSmart.GetFieldArray2DByte(
+  Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
 	Result := SmartGetFieldArray2DByte(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DChar(Ref: Integer; Hook: THook; X, Y: Integer): Integer;
+function TReflectionSmart.GetFieldArray2DChar(
+  Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
 	Result := SmartGetFieldArray2DChar(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray2DShort(Ref: Integer; Hook: THook; X, Y: Integer): Integer;
+function TReflectionSmart.GetFieldArray2DShort(
+  Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
 	Result := SmartGetFieldArray2DShort(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-function TReflectionSmart.GetFieldArray3DObject(Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
+function TReflectionSmart.GetFieldArray3DObject(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
-	Result := SmartGetFieldArray3DObject(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DObject(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-procedure SmartObj.GetFieldArray3DObject(Ref: Integer; Hook: THook; X, Y, Z: Integer);
+procedure SmartObj.GetFieldArray3DObject(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer);
 begin
-	Self.ObjRef := SmartGetFieldArray3DObject(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Self.ObjRef := SmartGetFieldArray3DObject(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DByte(Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
+function TReflectionSmart.GetFieldArray3DByte(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
-	Result := SmartGetFieldArray3DByte(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DByte(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DChar(Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
+function TReflectionSmart.GetFieldArray3DChar(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
 	Result := SmartGetFieldArray3DChar(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DShort(Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
+function TReflectionSmart.GetFieldArray3DShort(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
-	Result := SmartGetFieldArray3DShort(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DShort(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DInt(Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
+function TReflectionSmart.GetFieldArray3DInt(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
-	Result := SmartGetFieldArray3DInt(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DInt(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DFloat(Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
+function TReflectionSmart.GetFieldArray3DFloat(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
-	Result := SmartGetFieldArray3DFloat(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DFloat(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DDouble(Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
+function TReflectionSmart.GetFieldArray3DDouble(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
-	Result := SmartGetFieldArray3DDouble(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DDouble(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DBoolean(Ref: Integer; Hook: THook; X, Y, Z: Integer): Boolean;
+function TReflectionSmart.GetFieldArray3DBoolean(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Boolean;
 begin
-	Result := SmartGetFieldArray3DBoolean(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DBoolean(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DLongH(Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
+function TReflectionSmart.GetFieldArray3DLongH(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
-	Result := SmartGetFieldArray3DLongH(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DLongH(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-function TReflectionSmart.GetFieldArray3DLongL(Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
+function TReflectionSmart.GetFieldArray3DLongL(
+  Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
-	Result := SmartGetFieldArray3DLongL(Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DLongL(
+    Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 procedure TReflectionSmart.FreeObject(Pointer: Integer);
@@ -237,7 +282,8 @@ begin
 	Result := SmartIsNull(Os_Smart.__Target, Ref);
 end;
 
-function TReflectionSmart.StringFromString(JavaString: Integer; Str: String): Integer;
+function TReflectionSmart.StringFromString(
+  JavaString: Integer; Str: String): Integer;
 begin
   Result := SmartStringFromString(Os_Smart.__Target, JavaString, Str);
 end;
@@ -264,7 +310,8 @@ begin
   Reflect.Smart.FreeObject(StrInt);
 end;
 
-function TReflectionSmart.GetFieldArrayString(Ref: Integer; Hook: THook; Index: Integer): String;
+function TReflectionSmart.GetFieldArrayString(
+  Ref: Integer; Hook: THook; Index: Integer): String;
 var
   StrInt: Integer;
 begin

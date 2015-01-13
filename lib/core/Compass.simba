@@ -25,7 +25,7 @@ begin
         else
         begin
             WriteLn('dir [' + ToStr(Dir) +'] invalid. Returned 0.0 for safety');
-          Result := 0.0;
+            Result := 0.0;
         end;
       end;
     end;
@@ -58,15 +58,16 @@ end;
 
 function TReflectionCompass.AngleRad: extended;
 begin
-  Result := Radians(Reflect.Smart.GetFieldInt(0, Client_CameraYaw) / 2048.0 * 360);
+  Result :=
+    Radians(Reflect.Smart.GetFieldInt(0, Client_CameraYaw) / 2048.0 * 360);
 end;
 
   {*Credit: Nielsie95 & Nava2, Modified by Krazy Meerkat*} 
 //Helper function for TReflectCompass.Make
 function TReflectionInternals.MinCheck(Angle, DirectionDeg: Extended): Extended;
 begin
-  Result := MinE(Abs(Angle - (DirectionDeg + 360)), Abs((Angle + 360) -
-    DirectionDeg));
+  Result := MinE(Abs(Angle - (DirectionDeg + 360)),
+    Abs((Angle + 360) - DirectionDeg));
   Result := MinE(Abs(Angle - DirectionDeg), Result);
 end;
 

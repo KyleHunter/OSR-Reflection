@@ -1,6 +1,6 @@
 type
   TReflectNPC = record(TReflectActor)
-    Name, SpokenText: String;
+    Name, SpokenText: string;
     Actions: TStringArray;
     Animation, Health, MaxHealth, Index, InteractingIndex, CombatCycle,
       Id, Combatlevel, Height, Width: Integer;
@@ -46,12 +46,12 @@ begin
   end
   else
   begin
-      for I := 0 to NpcCache.getCount - 1 do
-      begin
-        Line := NpcCache.GetStrings(I);
-        if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
+    for I := 0 to NpcCache.getCount - 1 do
+    begin
+      Line := NpcCache.GetStrings(I);
+      if LowerCase(Between('''name'': ''', ''',', Line)) = LowerCase(Name) then
         break;
-      end;
+    end;
   end;
   with Self do
   begin
@@ -98,7 +98,7 @@ begin
   SortTPAFrom(Tpa, Reflect.Internals.GetGlobalTile);
   for I := 0 to L - 1 do
     for C := 0 to L - 1 do
-      if (Tpa[i].Y = Self[C].Tile.Y) and (Tpa[I].X = Self[C].Tile.X) then
+      if (Tpa[I].Y = Self[C].Tile.Y) and (Tpa[I].X = Self[C].Tile.X) then
         Temp[I] := Self[C];
   Self := Temp;
 end;
@@ -112,7 +112,8 @@ begin
   H := High(Indices);
   for I := 0 to H do
   begin
-    Reflect.Mem.GetObjectArray(ckNull, ckNpcNode, Client_LocalNpcs, I, I, Indices[I]);
+    Reflect.Mem.GetObjectArray(
+      ckNull, ckNpcNode, Client_LocalNpcs, I, I, Indices[I]);
     Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, I, I);
     if (HookCache[TCacheKey.ckNpcNode][I] = 0) then
     begin
@@ -147,7 +148,7 @@ end;
 procedure TReflectNPCArray.Get(Npc: Variant);
 var
   Temp, Temp1: TReflectNPCArray;
-  I, H, T: integer;
+  I, H, T: Integer;
 begin
   Temp.GetAll;
   if VariantIsString(Npc) then

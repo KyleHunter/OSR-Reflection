@@ -27,7 +27,7 @@ begin
   SetArrayLength(Tpa, L);
   SetArrayLength(Temp, L);
   for I := 0 to L - 1 do
-    tpa[I] := Self[I].Tile;
+    Tpa[I] := Self[I].Tile;
   sortTPAFrom(Tpa, Reflect.Internals.GetGlobalTile);
   for I := 0 to L - 1 do
     for C := 0 to L - 1 do
@@ -51,8 +51,8 @@ begin
     (HookCache[TCacheKey.ckGroundList][iteration] <>
     HookCache[TCacheKey.ckGroundList][iteration + 1]) do
   begin
-    Id := Reflect.Smart.GetFieldInt(HookCache[TCacheKey.ckGroundList][Iteration + 1],
-       Item_Id);
+    Id := Reflect.Smart.GetFieldInt(
+      HookCache[TCacheKey.ckGroundList][Iteration + 1], Item_Id);
     Quantity := Reflect.Smart.GetFieldInt(
       HookCache[TCacheKey.ckGroundList][Iteration + 1], Item_StackSizes);
     if (Id < 0) or (Quantity < 0) then
@@ -62,7 +62,8 @@ begin
     Temp[Iteration].Tile.X := Tile.X + BaseX;
     Temp[Iteration].Tile.Y := Tile.Y + BaseY;
     Temp[Iteration].LoadDef;
-    Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_Next, Iteration + 2, Iteration + 1);
+    Reflect.Mem.GetObject(
+      ckGroundList, ckGroundList, Node_Next, Iteration + 2, Iteration + 1);
     Inc(Iteration);
   end;
   SetLength(Temp, Iteration);
@@ -76,8 +77,8 @@ begin
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
   Plane := Reflect.Tiles.GetPlane;
-  Self.GetGroundItemsAt(Point(RealTile.X - BaseX,
-    RealTile.Y - BaseY), BaseX, BaseY, Plane);
+  Self.GetGroundItemsAt(
+    Point(RealTile.X - BaseX, RealTile.Y - BaseY), BaseX, BaseY, Plane);
   Reflect.Mem.FreeObjects(ckGroundArray, False);
   Reflect.Mem.FreeObjects(ckGroundList, False);
 end;
@@ -105,8 +106,8 @@ begin
     for Y := Position.Y - Distance to HighY do
     begin
       SetLength(TempArray, 0);
-      TempArray.GetGroundItemsat(Point(X, Y), BaseX,
-        BaseY, Plane);
+      TempArray.GetGroundItemsat(
+        Point(X, Y), BaseX, BaseY, Plane);
       Reflect.Mem.FreeObjects(ckGroundArray, False);
       Reflect.Mem.FreeObjects(ckGroundList, False);
       L := Length(TempArray);

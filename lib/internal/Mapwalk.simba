@@ -53,8 +53,8 @@ begin
     Xs:= Xs + VeloX;
     Ys:= Ys + VeloY;
     SetArrayLength(Result, GetArrayLength(Result) + 1);
-    Result[ High(Result) ] := Point(Round(Xs), Round(Ys));
-    Step:= hypot(Xs - LastX, Ys - LastY);
+    Result[High(Result)] := Point(Round(Xs), Round(Ys));
+    Step:= Hypot(Xs - LastX, Ys - LastY);
     LastDist:= Dist;
   end;
 end;

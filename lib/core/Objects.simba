@@ -78,7 +78,7 @@ begin
   sortTPAFrom(Tpa, Reflect.Internals.GetGlobalTile);
   for I := 0 to L - 1 do
     for C := 0 to L - 1 do
-      if (Tpa[I].Y = Self[C].Tile.Y) and (tpa[I].X = Self[C].Tile.X) then
+      if (Tpa[I].Y = Self[C].Tile.Y) and (Tpa[I].X = Self[C].Tile.X) then
         Temp[I] := Self[C];
   Self := Temp;
 end;
@@ -95,7 +95,8 @@ begin
         Iteration);
       if HookCache[TCacheKey.ckObject][Iteration] = 0 then
         Exit;
-      Id := Reflect.Smart.GetFieldInt(HookCache[TCacheKey.ckObject][Iteration], Hash);
+      Id := Reflect.Smart.GetFieldInt(
+        HookCache[TCacheKey.ckObject][Iteration], Hash);
       Id := (Id shr 14) and $7fff;
     end
     else
@@ -104,7 +105,8 @@ begin
         Iteration, 0);
       if HookCache[TCacheKey.ckObject][Iteration] = 0 then
         Exit;
-      Id := Reflect.Smart.GetFieldInt(HookCache[TCacheKey.ckObject][Iteration], Hash);
+      Id := Reflect.Smart.GetFieldInt(
+        HookCache[TCacheKey.ckObject][Iteration], Hash);
       Id := (Id shr 14) and $7fff;
     end;
     Self.Id := Id;
@@ -152,7 +154,7 @@ begin
   if HookCache[TCacheKey.ckRegion][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckRegion, Client_GetRegion, 0, 0);
   Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles, 0, 0, Plane,
-  RealTile.X - BaseX, RealTile.Y - BaseY);
+    RealTile.X - BaseX, RealTile.Y - BaseY);
   Self.GetHooks(_Object, ObjectHook, SceneHook);
   Temp.GetObject(_Object, ObjectHook, SceneHook, 0, RealTile);
   Self := Temp;
@@ -160,7 +162,8 @@ begin
   Reflect.Mem.FreeObjects(ckObject, False);
 end;
 
-procedure TReflectObjectArray.GetAll(__Object: TObjType; Distance: Integer = 103);
+procedure TReflectObjectArray.GetAll(
+  __Object: TObjType; Distance: Integer = 103);
 var
   Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY: integer;
   Temp: TReflectObject;
@@ -203,7 +206,8 @@ begin
     Self.Sort;
 end;
 
-procedure TReflectObjectArray.Get(__Object: TObjType; Obj: Variant; Distance: Integer = 103);
+procedure TReflectObjectArray.Get(
+  __Object: TObjType; Obj: Variant; Distance: Integer = 103);
 var
   Temp, Temp1: TReflectObjectArray;
   I, H, T: integer;
@@ -228,7 +232,7 @@ begin
     Setlength(Temp1, H + 1);
     for I := 0 to H do
     begin
-      if (Temp[i].Id = Obj) then
+      if (Temp[I].Id = Obj) then
       begin
         Temp1[T] := Temp[I];
         Inc(T);
@@ -240,9 +244,8 @@ begin
   Self.Sort;
 end;
 
-function TReflectObject.Find(ObjType: TObjType; Obj: Variant;
-  Distance: Integer = 103):
-  Boolean;
+function TReflectObject.Find(
+  ObjType: TObjType; Obj: Variant; Distance: Integer = 103): Boolean;
 var
   Temp: TReflectObjectArray;
 begin

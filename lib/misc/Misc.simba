@@ -42,17 +42,17 @@ begin
 end;
 
 {$loadlib prosocks}
-Function TReflectionInternals.GetPage(URL: String): String;
+Function TReflectionInternals.GetPage(Url: string): string;
 var
   S: SSLSocket;
-  res: ProMemoryStruct;
+  Res: ProMemoryStruct;
 begin
   Pro_InitSocket(S, nil, nil, nil, nil);
   Pro_CreateSocket(S, '');
   Pro_SetSSL(S, false, false, true);
   Pro_SetURL(S, URL);
-  Pro_DoGetEx(S, res);
-  SetLength(Result, res.size);
-  MemMove(res.memory^, Result[1], res.size);
+  Pro_DoGetEx(S, Res);
+  SetLength(Result, Res.size);
+  MemMove(Res.Memory^, Result[1], Res.Size);
   Pro_FreeSocket(S);
 end;

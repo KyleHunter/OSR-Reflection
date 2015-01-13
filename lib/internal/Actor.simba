@@ -1,7 +1,7 @@
 type
   TReflectActor = type(TData);
 
-function TReflectActor.GetSpokenText: String;
+function TReflectActor.GetSpokenText: string;
 begin
   Result := Reflect.Smart.GetFieldString(Self.ObjRef, Actor_SpokenText);
 end;
@@ -16,8 +16,9 @@ end;
 
 function TReflectActor.GetQueue(Index: Integer = 0): TTile;
 begin
-  Result := Point(Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueX, Index) +
-    Reflect.Internals.BaseX, Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueY, 0) +
+  Result := Point(Reflect.Smart.GetFieldArrayInt(
+    Self.ObjRef, Actor_QueueX, Index) + Reflect.Internals.BaseX,
+    Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueY, 0) +
     Reflect.Internals.BaseY);
 end;
 

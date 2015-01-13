@@ -1,6 +1,6 @@
 type
   TReflectPlayer = record(TReflectActor)
-    Name: String;
+    Name: string;
     Animation, Health, MaxHealth, InteractingIndex, CombatCycle: Integer;
     Tile, Queue: TTile;
 end;

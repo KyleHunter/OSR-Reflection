@@ -56,9 +56,7 @@ begin
   Me:= Reflect.Internals.GetGlobalTile;
   Angle:= (Degrees(ArcTan2(Tile.Y - Me.Y, Tile.X - Me.X))) - 90;
   if (Angle < 0) then
-  begin
       Angle:= 360 + angle;
-  end;
   Angle:= 360 - angle;
   Result:= Reflect.Compass.Make(angle);
 end;
@@ -124,10 +122,10 @@ var
 begin
   Angle := -Reflect.Compass.AngleRad;
   Temp := Reflect.Internals.GetGlobalTile;
-  X := (tile.X - Temp.X) * 4 - 2;
+  X := (Tile.X - Temp.X) * 4 - 2;
   Y := (Temp.Y - tile.Y) * 4 - 2;
-  result.X := round((X * cos(angle)) + (Y * sin(angle))) + 643;
-  result.Y := round((Y * cos(angle)) - (X * sin(angle))) + 83;
+  result.X := round((X * cos(angle)) + (Y * sin(Angle))) + 643;
+  result.Y := round((Y * cos(angle)) - (X * sin(Angle))) + 83;
 end;
 
 	{*Credit BenLand100, modified by Brandon*}
@@ -164,7 +162,7 @@ var
 begin
   Bit := (1 shl 31) and X;
   Result := X;
-  for I := 1 to d do
+  for I := 1 to D do
     Result := (Result shr 1) or Bit;
 end;
 
@@ -215,10 +213,10 @@ function TReflectionTiles.TileToMS(Tile: TTile; XOffset: Integer = 0; YOffset:
 var
   X, Y, Z: Integer;
 begin
-  X := Round((Tile.X - Reflect.Smart.GetFieldInt(0, Client_BaseX) + 0.5) * 128) +
-    XOffset;
-  Y := Round((Tile.Y - Reflect.Smart.GetFieldInt(0, Client_BaseY) + 0.5) * 128) +
-    YOffset;
+  X := Round((Tile.X - Reflect.Smart.GetFieldInt(
+    0, Client_BaseX) + 0.5) * 128) + XOffset;
+  Y := Round((Tile.Y - Reflect.Smart.GetFieldInt(
+    0, Client_BaseY) + 0.5) * 128) + YOffset;
   Z := Reflect.Tiles.GetTileHeight(Tile) + ZOffset;
   Result := Reflect.Internals.TileToMS(X, Y, Z);
 end;

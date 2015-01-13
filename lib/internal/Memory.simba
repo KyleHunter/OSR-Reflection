@@ -31,7 +31,8 @@ procedure TReflectionMemory.GetObject(Ref, Key: TCacheKey; Hook: THook; Index,
   ReferenceIndex: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
+    HookCache[Ord(Key)][Index] := SmartGetFieldObject(
+      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
@@ -40,7 +41,8 @@ procedure TReflectionMemory.GetObjectArray(Ref, Key: TCacheKey; Hook: THook;
   Index, ReferenceIndex, ArIndex: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
+    HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(
+      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
@@ -49,7 +51,8 @@ procedure TReflectionMemory.Get2DObject(Ref, Key: TCacheKey; Hook: THook; Index,
   ReferenceIndex: Integer; X, Y: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldArray2DObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y)
+    HookCache[Ord(Key)][Index] := SmartGetFieldArray2DObject(
+      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y)
   else
     TReflectionMemory.HookLeaked('Get2DObject');
 end;
@@ -58,7 +61,8 @@ procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
   ReferenceIndex: Integer; X, Y, Z: Integer);
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
-    HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y, Z)
+    HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(
+      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y, Z)
   else
     TReflectionMemory.HookLeaked('Get3DObject');
 end;
@@ -91,10 +95,10 @@ var
 begin
   for i := 0 to ToFree + 1 do
   begin
-    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][i]);
-    if HookCache[Ord(Key)][i] = 0 then
+    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][I]);
+    if HookCache[Ord(Key)][I] = 0 then
       Continue;
-    HookCache[Ord(Key)][i] := 0;
+    HookCache[Ord(Key)][I] := 0;
   end;
 end;
 
@@ -114,7 +118,7 @@ begin
     Reflect.Internals.Status('All cached object references free''d from memory');
 end;
 
-procedure ReflectFreeHookCache;
+procedure ReflectFree;
 begin
   Reflect.Smart.FreeAllObjects;
   ObjectCache.Free;
@@ -124,13 +128,15 @@ end;
 
 begin
   ObjectCache.Init;
-  ObjectCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\ObjectDefs.txt');
+  ObjectCache.LoadFromFile(
+    IncludePath + 'AeroLib\reflection\lib\internal\ObjectDefs.txt');
   NpcCache.Init;
-  NpcCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\NpcDefs.txt');
+  NpcCache.LoadFromFile(
+    IncludePath + 'AeroLib\reflection\lib\internal\NpcDefs.txt');
   ItemCache.Init;
-  ItemCache.LoadFromFile(IncludePath + 'AeroLib\reflection\lib\internal\ItemDefs.txt');
-
-  AddOnTerminate('ReflectFreeHookCache');
+  ItemCache.LoadFromFile(
+    IncludePath + 'AeroLib\reflection\lib\internal\ItemDefs.txt');
+  AddOnTerminate('ReflectFree');
   SetLength(HookCache, 11);
   SetLength(HookCache[TCacheKey.ckNull], 10817);
   SetLength(HookCache[TCacheKey.ckSceneTile], 10817);

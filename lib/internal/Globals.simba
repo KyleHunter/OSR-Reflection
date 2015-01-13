@@ -40,6 +40,7 @@ var
   Reflect: TReflectionLib;
   ObjectCache, NpcCache, ItemCache: TStringList;
 
+
   {Constants}
 
 const
@@ -48,19 +49,19 @@ const
 
       {Bank}
 
-  WIDGET_Bank_Container = 12;
-  WIDGET_Bank_TotalItems_Child = 3;
-  WIDGET_Bank_ItemSlots_Child = 10;
+  Widget_Bank_Container = 12;
+  Widget_Bank_TotalItems_Child = 3;
+  Widget_Bank_ItemSlots_Child = 10;
 
       {Chat}
 
-  WIDGET_Chat_Container = 137;
-  WIDGET_Chat_Child = 2;
+  Widget_Chat_Container = 137;
+  Widget_Chat_Child = 2;
 
       {Inventory}
 
-  WIDGET_Inventory_Container = 149;
-  WIDGET_Inventory_Child = 0;
+  Widget_Inventory_Container = 149;
+  Widget_Inventory_Child = 0;
 
 
 
