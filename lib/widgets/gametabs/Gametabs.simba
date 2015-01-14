@@ -38,12 +38,6 @@ begin
   if Reflect.Gametab.Current = TabNum then
     Exit;
   TabWidget.GetChild(Widget_Gametab_Container, TabNum);
-        Box := IntToBox(
-        TabWidget.GetX,
-        TabWidget.GetY,
-        TabWidget.GetX + TabWidget.GetWidth,
-        TabWidget.GetY + TabWidget.GetHeight
-      );
-  MouseBox(Box, Mouse_Left);
+  TabWidget.Interact;
   TabWidget.Free;
 end;

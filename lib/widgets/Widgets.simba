@@ -198,3 +198,26 @@ begin
     Reflect.Smart.GetFieldBoolean(Self.Reference, Widget_IsHidden);
   Parent.Free;
 end;
+
+function TReflectWidget.GetBounds: TBox;
+begin
+  Result.X1 := Self.GetX;
+  Result.Y1 := Self.GetY;
+  Result.X2 := Result.X1 + Self.GetWidth;
+  Result.Y2 := Result.Y1 + Self.GetHeight;
+end;
+
+procedure TReflectWidget.Interact(Option: string = '');
+var
+  Bounds: TBox;
+begin
+  Bounds := Self.GetBounds;
+  if Option = '' then
+    GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Left)
+  else
+  begin
+    GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Right);
+    RandomRange(50, 150);
+    ChooseOption(Option);
+  end;
+end;
