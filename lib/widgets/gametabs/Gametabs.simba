@@ -35,7 +35,7 @@ var
   TabWidget: TReflectWidget;
   Box: TBox;
 begin
-  if Reflect.Gametab.CurrentTab = TabNum then
+  if Reflect.Gametab.Current = TabNum then
     Exit;
   TabWidget.GetChild(Widget_Gametab_Container, TabNum);
         Box := IntToBox(
