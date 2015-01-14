@@ -12,6 +12,7 @@ type
   TReflectionMemory = type Pointer;
   TReflectionBank = type Pointer;
   TReflectionChat = type Pointer;
+  TReflectionGametab = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -25,6 +26,7 @@ type
     Widget: TReflectionWidget;
     Bank: TReflectionBank;
     Chat: TReflectionChat;
+    Gametab: TReflectionGametab;
 end;
 
   TTile = TPoint;
@@ -39,6 +41,23 @@ var
 
 const
 
+    {Gametab}
+
+  Gametab_ClanChat = 31;
+  Gametab_FriendsList = 32;
+  Gametab_IgnoreList = 33;
+  Gametab_Logout = 34;
+  Gametab_Options = 35;
+  Gametab_Emotes = 36;
+  Gametab_MusicPlayer = 37;
+  Gametab_CombatOptions = 48;
+  Gametab_Stats = 49;
+  Gametab_QuestList = 50;
+  Gametab_Inventory = 51;
+  Gametab_WornEquipment = 52;
+  Gametab_Prayer = 53;
+  Gametab_Magic = 54;
+
     {Widgets}
 
       {Bank}
@@ -52,10 +71,65 @@ const
   Widget_Chat_Container = 137;
   Widget_Chat_Child = 2;
 
-      {Inventory}
+      {GameTab}
+
+  Widget_Gametab_Container = 548;
+
+        {ClanChat}
+
+  Widget_ClanChat_Container = 589;
+
+        {FriendsList}
+
+  Widget_FriendsList_Container = 429;
+
+        {FriendsList}
+
+  Widget_IgnoreList_Container = 432;
+
+        {Logout}
+
+  Widget_Logout_Container = 182;
+
+        {Options}
+
+  Widget_Options_Container = 261;
+
+        {Emotes}
+
+  Widget_Emotes_Container = 216;
+
+        {MusicPlayer}
+
+  Widget_MusicPlayer_Container = 239;
+
+        {CombatOptions}
+
+  Widget_CombatOptions_Container = 593;
+
+        {Stats}
+
+  Widget_Stats_Container = 320;
+
+        {QuestList}
+
+  Widget_QuestList_Container = 274;
+
+        {Inventory}
 
   Widget_Inventory_Container = 149;
-  Widget_Inventory_Child = 0;
+
+        {WornEquipment}
+
+  Widget_WornEquipment_Container = 387;
+
+        {Prayer}
+
+  Widget_Prayer_Container = 271;
+
+        {Magic}
+
+  Widget_Magic_Container = 218;
 
 
 

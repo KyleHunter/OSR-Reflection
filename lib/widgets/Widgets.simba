@@ -175,12 +175,12 @@ begin
   Parent.Free;
 end;
 
-function TReflectWidget.X: Integer;
+function TReflectWidget.GetAbsoluteX: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_AbsoluteX);
 end;
 
-function TReflectWidget.Y: Integer;
+function TReflectWidget.GetAbsoluteY: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_AbsoluteY);
 end;

@@ -5,6 +5,7 @@
 {$include AeroLib/Reflection/lib/internal/Mapwalk.simba}
 {$include AeroLib/Reflection/lib/internal/Item.simba}
 {$include AeroLib/Reflection/lib/widgets/Widgets.simba}
+{$include AeroLib/Reflection/lib/widgets/gametabs/Gametabs.simba}
 {$include AeroLib/Reflection/lib/widgets/gametabs/Inventory.simba}
 {$include AeroLib/Reflection/lib/widgets/Bank.simba}
 {$include AeroLib/Reflection/lib/widgets/Chat.simba}

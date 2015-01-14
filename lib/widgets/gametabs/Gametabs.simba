@@ -1,0 +1,49 @@
+
+function TReflectionGametab.CurrentTab: Integer;
+var
+  TempWidget: TReflectWidget;
+  Containers, Gametabs: TIntegerArray;
+  I: Integer;
+begin
+  Containers := [Widget_ClanChat_Container, Widget_FriendsList_Container,
+    Widget_IgnoreList_Container, Widget_Logout_Container,
+    Widget_Options_Container, Widget_Emotes_Container,
+    Widget_MusicPlayer_Container, Widget_CombatOptions_Container,
+    Widget_Stats_Container, Widget_QuestList_Container,
+    Widget_Inventory_Container, Widget_WornEquipment_Container,
+    Widget_Prayer_Container, Widget_Magic_Container
+  ];
+  Gametabs := [Gametab_ClanChat, Gametab_FriendsList, Gametab_IgnoreList,
+    Gametab_Logout, Gametab_Options, Gametab_Emotes, Gametab_MusicPlayer,
+    Gametab_CombatOptions, Gametab_Stats, Gametab_QuestList, Gametab_Inventory,
+    Gametab_WornEquipment, Gametab_Prayer, Gametab_Magic
+  ];
+  for I := 0 to High(Gametabs) do
+  begin
+    TempWidget.GetChild(Containers[I], 0);
+    if not TempWidget.IsHidden then
+    begin
+      TempWidget.Free;
+      Exit(Gametabs[I]);
+    end;
+    TempWidget.Free;
+  end;
+end;
+
+procedure TReflectionGametab.OpenTab(TabNum: Integer);
+var
+  TabWidget: TReflectWidget;
+  Box: TBox;
+begin
+  if Reflect.Gametab.CurrentTab = TabNum then
+    Exit;
+  TabWidget.GetChild(Widget_Gametab_Container, TabNum);
+        Box := IntToBox(
+        TabWidget.GetX,
+        TabWidget.GetY,
+        TabWidget.GetX + TabWidget.GetWidth,
+        TabWidget.GetY + TabWidget.GetHeight
+      );
+  MouseBox(Box, Mouse_Left);
+  TabWidget.Free;
+end;
