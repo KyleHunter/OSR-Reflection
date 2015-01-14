@@ -18,14 +18,29 @@ begin
   Self.ObjRef := SmartGetFieldObject(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
+procedure SmartObj.GetFieldObject(Hook: THook); Overload;
+begin
+  Self.GetFieldObject(Self.ObjRef, Hook);
+end;
+
 function TReflectionSmart.GetFieldLongL(Ref: Integer; Hook: THook): Integer;
 begin
 	Result := SmartGetFieldLongL(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
+function SmartObj.GetFieldLongL(Hook: THook): Integer;
+begin
+  Result := SmartGetFieldLongL(Os_Smart.__Target, Self.ObjRef, Hook.Path);
+end;
+
 function TReflectionSmart.GetFieldInt(Ref: Integer; Hook: THook): Integer;
 begin
 	Result := SmartGetFieldInt(Os_Smart.__Target, Ref, Hook.Path) * Hook.Multi;
+end;
+
+function SmartObj.GetFieldInt(Hook: THook): Integer;
+begin
+  Result := SmartGetFieldInt(Os_Smart.__Target, Self.ObjRef, Hook.Path) * Hook.Multi;
 end;
 
 function TReflectionSmart.GetFieldShort(Ref: Integer; Hook: THook): Integer;
@@ -41,6 +56,11 @@ end;
 function TReflectionSmart.GetFieldDouble(Ref: Integer; Hook: THook): Extended;
 begin
 	Result := SmartGetFieldDouble(Os_Smart.__Target, Ref, Hook.Path);
+end;
+
+function TReflectionSmart.GetFieldBoolean(Ref: Integer; Hook: THook): Boolean;
+begin
+  Result := SmartGetFieldBoolean(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldByte(Ref: Integer; Hook: THook): Integer;
@@ -85,13 +105,13 @@ begin
 end;
 
 function TReflectionSmart.GetFieldArrayLongH(
-  Ref: Integer; Hook: THook; Index: Integer): Extended;
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayLongH(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayLongL(
-  Ref: Integer; Hook: THook; Index: Integer): Extended;
+  Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
 	Result := SmartGetFieldArrayLongL(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;

@@ -64,6 +64,24 @@ const
  Widget_WidgetID: THook =             ['p', -1461666791];
  Widget_Name: THook =                 ['bw', 1];
  Widget_GetText: THook =              ['by', 1];
+ Widget_IsHidden: THook =             ['m', 1];
+ Widget_GetX: THook =                 ['v', -390752323];
+ Widget_GetY: THook =                 ['r', 112553361];
+ Widget_RelativeX: THook =            ['y', 1385300551];
+ Widget_RelativeY: THook =            ['q', 1837313373];
+ Widget_ScrollX: THook =              ['o', 220128809];
+ Widget_ScrollY: THook =              ['a', 746761335];
+ Widget_GetWidth: THook =             ['x', -1987926391];
+ Widget_GetHeight: THook =            ['t', -258292311];
+ Widget_GetParentID: THook =          ['e', -1603274503];
+ Widget_BoundsIndex: THook =          ['dm', -915793549];
+
+{WidgetNode = b}
+ WidgetNode_ID: THook =               ['g', -1145575163];
+
+{HashTable = fl}
+ HashTable_Buckets: THook =           ['j', 1];
+ HashTable_Size: THook =              ['g', 1];
 
 {GameShell = ef}
 
@@ -109,6 +127,11 @@ const
  Client_CurrentWorld: THook =         ['client.b', 1640745123];
  Client_LoginState: THook =           ['client.f', 12560521];
  Client_PlayerIndex: THook =          ['client.hg', 615607115];
+ Client_WidgetPositionX: THook =      ['client.lo', 1];
+ Client_WidgetPositionY: THook =      ['client.lt', 1];
+ Client_WidgetWidths: THook =         ['client.lp', 1];
+ Client_WidgetHeights: THook =        ['client.li', 1];
+ Client_WidgetNodeCache: THook =      ['client.jm', 1];
 
 {Region = cc}
  Region_SceneTiles: THook =           ['c', 1];
@@ -138,12 +161,3 @@ const
 {Item = a}
  Item_ID: THook =                     ['g', -1952791939];
  Item_StackSizes: THook =             ['j', 1213359117];
-
-  Client_WidgetXPositions: THook =     ['client.lo', 1];
- Client_WidgetYPositions: THook =     ['client.lt', 1];
-  Widget_RelativeX: THook =            ['r', 112553361];
- Widget_RelativeY: THook =            ['v', -390752323];
- Widget_ParentWidgetID: THook = ['e', -1603274503];
- Widget_Width: THook = ['x', -1987926391];
- Widget_Height: THook = ['t', -258292311];
- Widget_BoundsIndex: THook = ['dm', -915793549];
