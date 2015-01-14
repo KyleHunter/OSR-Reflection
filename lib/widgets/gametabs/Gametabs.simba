@@ -1,5 +1,5 @@
 
-function TReflectionGametab.CurrentTab: Integer;
+function TReflectionGametab.Current: Integer;
 var
   TempWidget: TReflectWidget;
   Containers, Gametabs: TIntegerArray;
@@ -30,7 +30,7 @@ begin
   end;
 end;
 
-procedure TReflectionGametab.OpenTab(TabNum: Integer);
+procedure TReflectionGametab.Open(TabNum: Integer);
 var
   TabWidget: TReflectWidget;
   Box: TBox;
