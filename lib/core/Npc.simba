@@ -13,7 +13,7 @@ procedure TReflectNPC.Null;
 begin
   with Self do
   begin
-    ObjRef := 0;
+    Reference := 0;
     Name := '';
     SpokenText := '';
     Actions := [];
@@ -124,7 +124,7 @@ begin
     SetLength(Self, H + 1);
     with Self[I - C] do
     begin
-      ObjRef := HookCache[TCacheKey.ckNpcNode][I];
+      Reference := HookCache[TCacheKey.ckNpcNode][I];
       Index := Indices[I];
       SpokenText := GetSpokenText;
       Health := GetHealth;
@@ -202,19 +202,19 @@ end;
 
 procedure TReflectNPC.GetIndex(TheIndex: Integer);
 var
-  NpcNode, NpcDef: SmartObj;
+  NpcNode, NpcDef: TReflectPointer;
 begin
   NpcNode.GetFieldArrayObject(0, Client_LocalNpcs, TheIndex);
-  NpcDef.GetFieldObject(NpcNode.ObjRef, Npc_Definition);
+  NpcDef.GetFieldObject(NpcNode.Reference, Npc_Definition);
   with Self do
   begin
-    ObjRef := NpcNode.ObjRef;
+    Reference := NpcNode.Reference;
     Index := TheIndex;
     SpokenText := GetSpokenText;
     Health := GetHealth;
     MaxHealth := GetMaxHealth;
     Tile := GetTile;
-    Id := Reflect.Smart.GetFieldInt(NpcDef.ObjRef,
+    Id := Reflect.Smart.GetFieldInt(NpcDef.Reference,
       NpcDefinition_ID);
     Animation := GetAnimation;
     InteractingIndex := GetInteractingIndex;

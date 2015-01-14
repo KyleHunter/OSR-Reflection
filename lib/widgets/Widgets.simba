@@ -1,34 +1,34 @@
 
-type TReflectWidget = type(TData);
+type TReflectWidget = type(TReflectPointer);
 
 procedure TReflectWidget.GetChild(ContainerIndex, ChildIndex: Integer);
 begin
-  Self.ObjRef := Reflect.Smart.GetFieldArray2DObject(0, Client_GetWidgets,
+  Self.Reference := Reflect.Smart.GetFieldArray2DObject(0, Client_GetWidgets,
     ContainerIndex, ChildIndex);
 end;
 
 function TReflectWidget.GetWidgetID: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_WidgetID);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_WidgetID);
 end;
 
 function TReflectWidget.GetParentID: Integer;
 var
   HeadUID, I: Integer;
-  CurrentNode, HeadNode, Table, TempNode: SmartObj;
+  CurrentNode, HeadNode, Table, TempNode: TReflectPointer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetParentID);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetParentID);
   if (Result > 0) then
     Exit;
 
   Result := Sar(Self.GetWidgetID, 16);
   Table.GetFieldObject(0, Client_WidgetNodeCache);
   try
-    for I := 0 to Reflect.Smart.GetArraySize(Table.ObjRef, HashTable_Buckets, 0) - 1 do
+    for I := 0 to Reflect.Smart.GetArraySize(Table.Reference, HashTable_Buckets, 0) - 1 do
     begin
-      HeadNode.GetFieldArrayObject(Table.ObjRef, HashTable_Buckets, I);
+      HeadNode.GetFieldArrayObject(Table.Reference, HashTable_Buckets, I);
       HeadUID := HeadNode.GetFieldLongL(Node_UID);
-      CurrentNode.GetFieldObject(HeadNode.ObjRef, Node_Next);
+      CurrentNode.GetFieldObject(HeadNode.Reference, Node_Next);
       while HeadUID <> CurrentNode.GetFieldLongL(Node_UID) do
       begin
         if Result = CurrentNode.GetFieldInt(WidgetNode_ID) then
@@ -63,52 +63,52 @@ end;
 
 function TReflectWidget.GetBoundsIndex: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_BoundsIndex);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_BoundsIndex);
 end;
 
 function TReflectWidget.ValidChild(ContainerIndex, ChildIndex: Integer): Boolean;
 var
-  ChildRef: SmartObj;
+  ChildRef: TReflectPointer;
 begin
   ChildRef.GetFieldArray2DObject(0, Client_GetWidgets, ContainerIndex, ChildIndex);
-  Result := ChildRef.ObjRef > 0;
+  Result := ChildRef.Reference > 0;
   ChildRef.Free;
 end;
 
 function TReflectWidget.HasGrandChild: Boolean;
 begin
-  Result := Reflect.Smart.GetArraySize(Self.ObjRef, Widget_Children, 0) > 0;
+  Result := Reflect.Smart.GetArraySize(Self.Reference, Widget_Children, 0) > 0;
 end;
 
 procedure TReflectWidget.GetGrandChild(Child: TReflectWidget; Index: Integer);
 begin
-  Self.ObjRef := Reflect.Smart.GetFieldArrayObject(Child.ObjRef,
+  Self.Reference := Reflect.Smart.GetFieldArrayObject(Child.Reference,
     Widget_Children, Index);
 end;
 
 function TReflectWidget.GetText: String;
 begin
-  Result := Reflect.Smart.GetFieldString(Self.ObjRef, Widget_GetText);
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Widget_GetText);
 end;
 
 function TReflectWidget.GetItemID: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ItemID);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ItemID);
 end;
 
 function TReflectWidget.GetItemStackSizes: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ItemAmount);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ItemAmount);
 end;
 
 function TReflectWidget.GetRelativeX: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_RelativeX);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeX);
 end;
 
 function TReflectWidget.GetRelativeY: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_RelativeY);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeY);
 end;
 
 function TReflectWidget.HasValidBoundsIndex: Boolean;
@@ -119,22 +119,22 @@ end;
 
 function TReflectWidget.GetScrollX: Integer;
 begin
-  Exit(Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ScrollX));
+  Exit(Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollX));
 end;
 
 function TReflectWidget.GetScrollY: Integer;
 begin
-  Exit(Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_ScrollY));
+  Exit(Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollY));
 end;
 
 function TReflectWidget.GetWidth: Integer;
 begin
-  Exit(Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetWidth));
+  Exit(Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetWidth));
 end;
 
 function TReflectWidget.GetHeight: Integer;
 begin
-  Exit(Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetHeight));
+  Exit(Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetHeight));
 end;
 
 function TReflectWidget.GetBoundsX: Integer;
@@ -156,7 +156,7 @@ var
 begin
   if not Parent.GetParent(Self.GetParentID) then
     Exit(Self.GetBoundsX);
-  Result := Parent.GetX + Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetX);
+  Result := Parent.GetX + Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetX);
   Dec(Result, Self.GetScrollX);
   Parent.Free;
 end;
@@ -167,19 +167,19 @@ var
 begin
   if not Parent.GetParent(Self.GetParentID) then
     Exit(Self.GetBoundsY);
-  Result := Parent.GetY + Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetY);
+  Result := Parent.GetY + Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetY);
   Dec(Result, Self.GetScrollY);
   Parent.Free;
 end;
 
 function TReflectWidget._GetX: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetX);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetX);
 end;
 
 function TReflectWidget._GetY: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Widget_GetY);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_GetY);
 end;
 
 function TReflectWidget.GetPosition: TPoint;
@@ -192,11 +192,6 @@ var
   Parent: TReflectWidget;
 begin
   Result := (Parent.GetParent(Self.GetParentID) and Parent.IsHidden) or
-    Reflect.Smart.GetFieldBoolean(Self.ObjRef, Widget_IsHidden);
+    Reflect.Smart.GetFieldBoolean(Self.Reference, Widget_IsHidden);
   Parent.Free;
-end;
-
-procedure TReflectWidget.Free;
-begin
-  Reflect.Smart.FreeObject(Self.ObjRef);
 end;

@@ -1,6 +1,8 @@
 
 type
-  SmartObj = type(TData);
+  TReflectPointer = record
+    Reference: Integer;
+end;
 
 function TReflectionSmart.GetArraySize(
   Ref: Integer; Hook: THook; Dimension: Integer): Integer;
@@ -13,14 +15,14 @@ begin
   Result := SmartGetFieldObject(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
-procedure SmartObj.GetFieldObject(Ref: Integer; Hook: THook);
+procedure TReflectPointer.GetFieldObject(Ref: Integer; Hook: THook);
 begin
-  Self.ObjRef := SmartGetFieldObject(Os_Smart.__Target, Ref, Hook.Path);
+  Self.Reference := SmartGetFieldObject(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
-procedure SmartObj.GetFieldObject(Hook: THook); Overload;
+procedure TReflectPointer.GetFieldObject(Hook: THook); Overload;
 begin
-  Self.GetFieldObject(Self.ObjRef, Hook);
+  Self.GetFieldObject(Self.Reference, Hook);
 end;
 
 function TReflectionSmart.GetFieldLongL(Ref: Integer; Hook: THook): Integer;
@@ -28,9 +30,9 @@ begin
 	Result := SmartGetFieldLongL(Os_Smart.__Target, Ref, Hook.Path);
 end;
 
-function SmartObj.GetFieldLongL(Hook: THook): Integer;
+function TReflectPointer.GetFieldLongL(Hook: THook): Integer;
 begin
-  Result := SmartGetFieldLongL(Os_Smart.__Target, Self.ObjRef, Hook.Path);
+  Result := SmartGetFieldLongL(Os_Smart.__Target, Self.Reference, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldInt(Ref: Integer; Hook: THook): Integer;
@@ -38,9 +40,9 @@ begin
 	Result := SmartGetFieldInt(Os_Smart.__Target, Ref, Hook.Path) * Hook.Multi;
 end;
 
-function SmartObj.GetFieldInt(Hook: THook): Integer;
+function TReflectPointer.GetFieldInt(Hook: THook): Integer;
 begin
-  Result := SmartGetFieldInt(Os_Smart.__Target, Self.ObjRef, Hook.Path) * Hook.Multi;
+  Result := SmartGetFieldInt(Os_Smart.__Target, Self.Reference, Hook.Path) * Hook.Multi;
 end;
 
 function TReflectionSmart.GetFieldShort(Ref: Integer; Hook: THook): Integer;
@@ -74,10 +76,10 @@ begin
 	Result := SmartGetFieldArrayObject(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
-procedure SmartObj.GetFieldArrayObject(
+procedure TReflectPointer.GetFieldArrayObject(
   Ref: Integer; Hook: THook; Index: Integer);
 begin
-	Self.ObjRef := SmartGetFieldArrayObject(Os_Smart.__Target, Ref, Hook.Path, Index);
+	Self.Reference := SmartGetFieldArrayObject(Os_Smart.__Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayInt(
@@ -140,10 +142,10 @@ begin
 	Result := SmartGetFieldArray2DObject(Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
-procedure SmartObj.GetFieldArray2DObject(
+procedure TReflectPointer.GetFieldArray2DObject(
   Ref: Integer; Hook: THook; X, Y: Integer);
 begin
-	Self.ObjRef := SmartGetFieldArray2DObject(
+	Self.Reference := SmartGetFieldArray2DObject(
     Os_Smart.__Target, Ref, Hook.Path, X, Y);
 end;
 
@@ -208,10 +210,10 @@ begin
     Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-procedure SmartObj.GetFieldArray3DObject(
+procedure TReflectPointer.GetFieldArray3DObject(
   Ref: Integer; Hook: THook; X, Y, Z: Integer);
 begin
-	Self.ObjRef := SmartGetFieldArray3DObject(
+	Self.Reference := SmartGetFieldArray3DObject(
     Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
@@ -277,14 +279,14 @@ begin
     Os_Smart.__Target, Ref, Hook.Path, X, Y, Z);
 end;
 
-procedure TReflectionSmart.FreeObject(Pointer: Integer);
+procedure TReflectionSmart.FreeObject(Reference: Integer);
 begin
-	SmartFreeObject(Os_Smart.__Target, Pointer);
+	SmartFreeObject(Os_Smart.__Target, Reference);
 end;
 
-procedure SmartObj.Free;
+procedure TReflectPointer.Free;
 begin
-	SmartFreeObject(Os_Smart.__Target, Self.ObjRef);
+	SmartFreeObject(Os_Smart.__Target, Self.Reference);
 end;
 
 function TReflectionSmart.IsPathValid(Ref: Integer; Hook: THook): Boolean;

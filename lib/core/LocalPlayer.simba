@@ -10,7 +10,7 @@ begin
     Reflect.Mem.FreeObjects(ckLocalPlayer, False);
     Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_GetLocalPlayer, 0, 0)
   end;
-  Self.ObjRef := HookCache[TCacheKey.ckLocalPlayer][0];
+  Self.Reference := HookCache[TCacheKey.ckLocalPlayer][0];
 end;
 
 function TReflectLocalPlayer.IsAnimating: Boolean;

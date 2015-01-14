@@ -27,14 +27,8 @@ type
     Chat: TReflectionChat;
 end;
 
-  TData = record
-    ObjRef: Integer;
-  end;
-
   TTile = TPoint;
   TTileArray = array of TTile;
-
-  ObjRef = Integer;
 
 var
   Reflect: TReflectionLib;

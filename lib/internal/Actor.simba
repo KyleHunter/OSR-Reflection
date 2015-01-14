@@ -1,50 +1,50 @@
 type
-  TReflectActor = type(TData);
+  TReflectActor = type(TReflectPointer);
 
 function TReflectActor.GetSpokenText: string;
 begin
-  Result := Reflect.Smart.GetFieldString(Self.ObjRef, Actor_SpokenText);
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Actor_SpokenText);
 end;
 
 function TReflectActor.GetTile: TTile;
 begin
   Result.X := Reflect.Internals.BaseX +
-    Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_WorldX) div 128;
+    Reflect.Smart.GetFieldInt(Self.Reference, Actor_WorldX) div 128;
   Result.Y:= Reflect.Internals.BaseY +
-    Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_WorldY) div 128;
+    Reflect.Smart.GetFieldInt(Self.Reference, Actor_WorldY) div 128;
 end;
 
 function TReflectActor.GetQueue(Index: Integer = 0): TTile;
 begin
   Result := Point(Reflect.Smart.GetFieldArrayInt(
-    Self.ObjRef, Actor_QueueX, Index) + Reflect.Internals.BaseX,
-    Reflect.Smart.GetFieldArrayInt(Self.ObjRef, Actor_QueueY, 0) +
+    Self.Reference, Actor_QueueX, Index) + Reflect.Internals.BaseX,
+    Reflect.Smart.GetFieldArrayInt(Self.Reference, Actor_QueueY, 0) +
     Reflect.Internals.BaseY);
 end;
 
 function TReflectActor.GetAnimation: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_Animation);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Animation);
 end;
 
 function TReflectActor.GetHealth: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_Health);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Health);
 end;
 
 function TReflectActor.GetMaxHealth: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_MaxHealth);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_MaxHealth);
 end;
 
 function TReflectActor.GetInteractingIndex: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_InteractingIndex);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_InteractingIndex);
 end;
 
 function TReflectActor.GetCombatCycle: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.ObjRef, Actor_CombatCycle);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_CombatCycle);
 end;
 
 function TReflectActor.IsMoving: Boolean;

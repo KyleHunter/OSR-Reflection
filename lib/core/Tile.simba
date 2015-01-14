@@ -32,13 +32,13 @@ end;
 
 function TReflectionInternals.GetGlobalTile: TTile;
 var
-  Me: SmartObj;
+  Me: TReflectPointer;
 begin
   Me.GetFieldObject(0, Client_GetLocalPlayer);
   Result.X := Reflect.Smart.GetFieldInt(0, Client_BaseX) +
-    Reflect.Smart.GetFieldInt(Me.ObjRef, Actor_WorldX) div 128;
+    Reflect.Smart.GetFieldInt(Me.Reference, Actor_WorldX) div 128;
   Result.Y:= Reflect.Smart.GetFieldInt(0, Client_BaseY) +
-    Reflect.Smart.GetFieldInt(Me.ObjRef, Actor_WorldY) div 128;
+    Reflect.Smart.GetFieldInt(Me.Reference, Actor_WorldY) div 128;
   Me.Free;
 end;
 

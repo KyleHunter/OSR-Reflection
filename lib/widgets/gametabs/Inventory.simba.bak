@@ -15,12 +15,12 @@ begin
     WIDGET_Inventory_Child);
   for I := 0 to 27 do
   begin
-    TheId := Reflect.Smart.GetFieldArrayInt(InvWidget.Reference, Widget_GetIDs, I);
+    TheId := Reflect.Smart.GetFieldArrayInt(InvWidget.Pointer, Widget_GetIDs, I);
     if (TheId > 0) then
     begin
       Inc(Count);
       SetLength(Self, Count);
-      TheQuantity := Reflect.Smart.GetFieldArrayInt(InvWidget.Reference,
+      TheQuantity := Reflect.Smart.GetFieldArrayInt(InvWidget.Pointer,
         Widget_StackSizes, I);
       with Self[Count - 1] do
       begin
