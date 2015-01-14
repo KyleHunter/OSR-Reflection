@@ -14,7 +14,7 @@ var
 begin
   for I := 0 to 2047 do
   begin
-    Player.GetFieldArrayObject(0, Client_GetLocalPlayers, I);
+    Player.GetFieldArrayObject(0, Client_LocalPlayers, I);
     if Player.Reference > 0 then
     begin
       SetLength(Self, Iteration + 1);

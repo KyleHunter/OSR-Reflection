@@ -15,7 +15,8 @@ begin
     WIDGET_Inventory_Child);
   for I := 0 to 27 do
   begin
-    TheId := Reflect.Smart.GetFieldArrayInt(InvWidget.Reference, Widget_GetIDs, I);
+    TheId := Reflect.Smart.GetFieldArrayInt(
+      InvWidget.Reference, Widget_InvIDs, I);
     if (TheId > 0) then
     begin
       Inc(Count);

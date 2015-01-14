@@ -4,18 +4,18 @@ type
 procedure TReflectLocalPlayer.Create;
 begin
   if HookCache[TCacheKey.ckLocalPlayer][0] = 0 then
-    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_GetLocalPlayer, 0, 0)
+    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
   else
   begin
     Reflect.Mem.FreeObjects(ckLocalPlayer, False);
-    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_GetLocalPlayer, 0, 0)
+    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
   end;
   Self.Reference := HookCache[TCacheKey.ckLocalPlayer][0];
 end;
 
 function TReflectLocalPlayer.IsAnimating: Boolean;
 begin
-  Result := TReflectActor.GetAnimation > - 1;
+  Result := Self.GetAnimation > -1;
 end;
 
 function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;

@@ -34,7 +34,7 @@ function TReflectionInternals.GetGlobalTile: TTile;
 var
   Me: TReflectPointer;
 begin
-  Me.GetFieldObject(0, Client_GetLocalPlayer);
+  Me.GetFieldObject(0, Client_LocalPlayer);
   Result.X := Reflect.Smart.GetFieldInt(0, Client_BaseX) +
     Reflect.Smart.GetFieldInt(Me.Reference, Actor_WorldX) div 128;
   Result.Y:= Reflect.Smart.GetFieldInt(0, Client_BaseY) +
@@ -44,7 +44,7 @@ end;
 
 function TReflectionTiles.GetPlane: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(0, Client_GetPlane);
+  Result := Reflect.Smart.GetFieldInt(0, Client_Plane);
 end;
 
 	{*Credit Krazy_Meerkat*}
@@ -123,9 +123,9 @@ begin
   Angle := -Reflect.Compass.AngleRad;
   Temp := Reflect.Internals.GetGlobalTile;
   X := (Tile.X - Temp.X) * 4 - 2;
-  Y := (Temp.Y - tile.Y) * 4 - 2;
-  result.X := round((X * cos(angle)) + (Y * sin(Angle))) + 643;
-  result.Y := round((Y * cos(angle)) - (X * sin(Angle))) + 83;
+  Y := (Temp.Y - Tile.Y) * 4 - 2;
+  Result.X := Round((X * Cos(Angle)) + (Y * Sin(Angle))) + 643;
+  Result.Y := Round((Y * Cos(angle)) - (X * Sin(Angle))) + 83;
 end;
 
 	{*Credit BenLand100, modified by Brandon*}
@@ -140,7 +140,7 @@ begin
     Result := 0;
     Exit;
   end;
-  CurPlane := Reflect.Smart.GetFieldInt(0, Client_GetPlane);
+  CurPlane := Reflect.Smart.GetFieldInt(0, Client_Plane);
   GroundSetting := Reflect.Smart.GetFieldArray3DByte(0,
     Client_TileSettings, 1, X, Y);
   if ((CurPlane < 3) and ((GroundSetting and 2) <> 0)) then

@@ -57,23 +57,23 @@ const
 
 {Widget = ec}
  Widget_Children: THook =             ['dx', 1];
- Widget_GetIDs: THook =               ['dc', 1];
+ Widget_InvIDs: THook =               ['dc', 1];
  Widget_StackSizes: THook =           ['dk', 1];
  Widget_ItemAmount: THook =           ['dw', -555895615];
  Widget_ItemID: THook =               ['ds', 1369596475];
  Widget_WidgetID: THook =             ['p', -1461666791];
  Widget_Name: THook =                 ['bw', 1];
- Widget_GetText: THook =              ['by', 1];
+ WidgetText: THook =              ['by', 1];
  Widget_IsHidden: THook =             ['m', 1];
- Widget_GetX: THook =                 ['v', -390752323];
- Widget_GetY: THook =                 ['r', 112553361];
+ Widget_AbsoluteX: THook =            ['v', -390752323];
+ Widget_AbsoluteY: THook =            ['r', 112553361];
  Widget_RelativeX: THook =            ['y', 1385300551];
  Widget_RelativeY: THook =            ['q', 1837313373];
+ Widget_Width: THook =                ['x', -1987926391];
+ Widget_Height: THook =               ['t', -258292311];
+ Widget_ParentID: THook =             ['e', -1603274503];
  Widget_ScrollX: THook =              ['o', 220128809];
  Widget_ScrollY: THook =              ['a', 746761335];
- Widget_GetWidth: THook =             ['x', -1987926391];
- Widget_GetHeight: THook =            ['t', -258292311];
- Widget_GetParentID: THook =          ['e', -1603274503];
  Widget_BoundsIndex: THook =          ['dm', -915793549];
 
 {WidgetNode = b}
@@ -87,8 +87,8 @@ const
 
 {Client = client}
  Client_LoopCycle: THook =            ['client.v', -104058127];
- Client_GetRegion: THook =            ['client.dd', 1];
- Client_GetPlane: THook =             ['bs.hs', 1458950069];
+ Client_Region: THook =               ['client.dd', 1];
+ Client_Plane: THook =                ['bs.hs', 1458950069];
  Client_MenuCount: THook =            ['client.ip', 41640419];
  Client_MenuWidth: THook =            ['bv.id', -1377744169];
  Client_MenuHeight: THook =           ['client.ib', -1129284701];
@@ -99,9 +99,9 @@ const
  Client_MenuY: THook =                ['cn.hv', 2006274017];
  Client_BaseX: THook =                ['w.cx', -1676109665];
  Client_BaseY: THook =                ['f.cr', -484655533];
- Client_GetWidgets: THook =           ['ec.g', 1];
- Client_GetLocalPlayer: THook =       ['en.hn', 1];
- Client_GetLocalPlayers: THook =      ['client.gc', 1];
+ Client_Widgets: THook =              ['ec.g', 1];
+ Client_LocalPlayer: THook =          ['en.hn', 1];
+ Client_LocalPlayers: THook =         ['client.gc', 1];
  Client_TileSettings: THook =         ['c.j', 1];
  Client_TileHeights: THook =          ['c.g', 1];
  Client_LocalNpcs: THook =            ['client.bi', 1];

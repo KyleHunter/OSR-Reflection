@@ -152,7 +152,7 @@ begin
   BaseY := Reflect.Internals.BaseY;
   Plane := Reflect.Tiles.GetPlane;
   if HookCache[TCacheKey.ckRegion][0] = 0 then
-    Reflect.Mem.GetObject(ckNull, ckRegion, Client_GetRegion, 0, 0);
+    Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
   Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles, 0, 0, Plane,
     RealTile.X - BaseX, RealTile.Y - BaseY);
   Self.GetHooks(_Object, ObjectHook, SceneHook);
@@ -174,7 +174,7 @@ begin
   Distance := Round(Distance / 2);
   Temp.GetHooks(__Object, ObjectHook, SceneHook);
   if HookCache[TCacheKey.ckRegion][0] = 0 then
-    Reflect.Mem.GetObject(ckNull, ckRegion, Client_GetRegion, 0, 0);
+    Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
   BaseX := Reflect.Internals.BaseX;
   BaseY := Reflect.Internals.BaseY;
   Position := Point(Position.X - BaseX, Position.Y - BaseY);
