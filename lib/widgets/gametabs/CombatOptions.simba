@@ -4,9 +4,8 @@ var
   RetaliateWidget: TReflectWidget;
   OnOff: string;
 begin
-  RetaliateWidget.GetChild(Widget_CombatOptions_Container, 28);
+  RetaliateWidget.GetWidget(Widget_CombatOptions_Container, 28);
   OnOff := Between('(', ')', RetaliateWidget.GetText);
-
   case TurnOn of
     True:
     begin
@@ -33,12 +32,12 @@ var
   StyleWidget: TReflectWidget;
   I: Integer;
 const
-  ChildIndexes = [6, 10, 14, 18];
+  ParentIndexes = [6, 10, 14, 18];
 begin
   Reflect.Gametab.Open(Gametab_CombatOptions);
-  for I := 0 to High(ChildIndexes) do
+  for I := 0 to High(ParentIndexes) do
   begin
-    StyleWidget.GetChild(Widget_CombatOptions_Container, ChildIndexes[I]);
+    StyleWidget.GetWidget(Widget_CombatOptions_Container, ParentIndexes[I]);
     if AttackStyle = StyleWidget.GetText then
     begin
       StyleWidget.Interact;
@@ -54,7 +53,7 @@ function TReflectionGametab.GetWeildedWeapon: string;
 var
   WeaponWidget: TReflectWidget;
 begin
-  WeaponWidget.GetChild(Widget_CombatOptions_Container, 1);
+  WeaponWidget.GetWidget(Widget_CombatOptions_Container, 1);
   Result := WeaponWidget.GetText;
   WeaponWidget.Free;
 end;

@@ -8,20 +8,20 @@ TReflectBankItemArray = array of TReflectBankItem;
 
 function TReflectionBank.IsOpen: Boolean;
 var
-  BankRef : TReflectWidget;
+  BankWidget : TReflectWidget;
 begin
-  Result := BankRef.ValidChild(WIDGET_Bank_Container, 0);
+  Result := BankWidget.ValidParent(WIDGET_Bank_Container, 0);
 end;
 
 function TReflectionBank.ItemCount: Integer;
 var
-  BankChild: TReflectWidget;
+  BankWidget: TReflectWidget;
 begin
   if not Reflect.Bank.IsOpen then
     Exit;
-  BankChild.GetChild(WIDGET_Bank_Container, WIDGET_Bank_TotalItems_Child);
-  Result := StrToInt(BankChild.GetText);
-  BankChild.Free;
+  BankWidget.GetWidget(WIDGET_Bank_Container, WIDGET_Bank_TotalItems_Child);
+  Result := StrToInt(BankWidget.GetText);
+  BankWidget.Free;
 end;
 
 procedure TReflectBankItemArray.GetAll;
@@ -29,23 +29,23 @@ var
   TheChild, TheGrandChild: TReflectPointer;
   ItemCount, I: Integer;
   Temp: TReflectBankItemArray;
-  BankChild, BankGrandChild: TReflectWidget;
+  BankWidget, BankChild: TReflectWidget;
 begin
   if not Reflect.Bank.IsOpen then
     Exit;
   ItemCount := Reflect.Bank.ItemCount;
   SetLength(Temp, ItemCount);
-  BankChild.GetChild(WIDGET_Bank_Container, WIDGET_Bank_ItemSlots_Child);
+  BankWidget.GetWidget(WIDGET_Bank_Container, WIDGET_Bank_ItemSlots_Child);
   for I := 0 to ItemCount - 1 do
   begin
-    BankGrandChild.GetGrandChild(BankChild, I);
-    Temp[I].Id := BankGrandChild.GetItemId;
+    BankChild.GetChild(BankWidget, I);
+    Temp[I].Id := BankChild.GetItemId;
     Temp[I].LoadDef;
     Temp[I].BankSlot := I;
-    Temp[I].Quantity := BankGrandChild.GetItemStackSizes;
-    BankGrandChild.Free
+    Temp[I].Quantity := BankChild.GetItemStackSizes;
+    BankChild.Free
   end;
   Self := Temp;
-  BankChild.Free;
+  BankWidget.Free;
 end;
 

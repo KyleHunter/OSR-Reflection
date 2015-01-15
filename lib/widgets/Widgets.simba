@@ -2,10 +2,10 @@
 type
   TReflectWidget = type(TReflectPointer);
 
-procedure TReflectWidget.GetChild(ContainerIndex, ChildIndex: Integer);
+procedure TReflectWidget.GetWidget(ContainerIndex, ParentIndex: Integer);
 begin
   Self.Reference := Reflect.Smart.GetFieldArray2DObject(0, Client_Widgets,
-    ContainerIndex, ChildIndex);
+    ContainerIndex, ParentIndex);
 end;
 
 function TReflectWidget.GetWidgetID: Integer;
@@ -52,9 +52,9 @@ end;
 function TReflectWidget.GetParent(ParentID: Integer): Boolean;
 begin
   Result := False;
-  if (ParentID >= 0) and Self.ValidChild(ParentID shr 16, ParentID and $FFFF) then
+  if (ParentID >= 0) and Self.ValidParent(ParentID shr 16, ParentID and $FFFF) then
   begin
-    Self.GetChild(ParentID shr 16, ParentID and $FFFF);
+    Self.GetWidget(ParentID shr 16, ParentID and $FFFF);
     if Self.GetParentID = ParentID then
       Self.Free
     else
@@ -67,23 +67,23 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_BoundsIndex);
 end;
 
-function TReflectWidget.ValidChild(ContainerIndex, ChildIndex: Integer): Boolean;
+function TReflectWidget.ValidParent(ContainerIndex, ParentIndex: Integer): Boolean;
 var
-  ChildRef: TReflectPointer;
+  ParentRef: TReflectPointer;
 begin
-  ChildRef.GetFieldArray2DObject(0, Client_Widgets, ContainerIndex, ChildIndex);
-  Result := ChildRef.Reference > 0;
-  ChildRef.Free;
+  ParentRef.GetFieldArray2DObject(0, Client_Widgets, ContainerIndex, ParentIndex);
+  Result := ParentRef.Reference > 0;
+  ParentRef.Free;
 end;
 
-function TReflectWidget.HasGrandChild: Boolean;
+function TReflectWidget.HasChild: Boolean;
 begin
   Result := Reflect.Smart.GetArraySize(Self.Reference, Widget_Children, 0) > 0;
 end;
 
-procedure TReflectWidget.GetGrandChild(Child: TReflectWidget; Index: Integer);
+procedure TReflectWidget.GetChild(Parent: TReflectWidget; Index: Integer);
 begin
-  Self.Reference := Reflect.Smart.GetFieldArrayObject(Child.Reference,
+  Self.Reference := Reflect.Smart.GetFieldArrayObject(Parent.Reference,
     Widget_Children, Index);
 end;
 
@@ -217,7 +217,7 @@ begin
   else
   begin
     GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Right);
-    RandomRange(130, 250);
+    RandomRange(50, 150);
     ChooseOption(Option);
   end;
 end;

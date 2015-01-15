@@ -1,12 +1,50 @@
 
 function TReflectionChat.GetLastMessage: string;
 var
-  ChatChild, ChatGrandChild: TReflectWidget;
+  ChatWidget, ChatChild: TReflectWidget;
 begin
-  ChatChild.GetChild(WIDGET_Chat_Container, WIDGET_Chat_Child);
-  ChatGrandChild.GetGrandChild(ChatChild, 1);
-  Result := Reflect.Internals.RemoveFormatting(ChatGrandChild.GetText);
+  ChatWidget.GetWidget(WIDGET_Chat_Container, 2);
+  ChatChild.GetChild(ChatWidget, 1);
+  Result := Reflect.Internals.RemoveFormatting(ChatChild.GetText);
+  ChatWidget.Free;
   ChatChild.Free;
-  ChatGrandChild.Free;
 end;
+
+function TReflectionChat.NpcChooseOption(Options: TStringArray): Boolean;
+var
+  NpcWidget: TReflectWidget;
+  I, J, S: Integer;
+begin
+  for I := 0 to 600 do
+    for J := 0 to 6 do
+    begin
+    if (InIntArray(
+      [90, 137, 182, 239, 261, 271, 274, 320, 429, 432, 548, 589, 593], I))
+      or (not NpcWidget.ValidParent(I, J)) then
+      continue;
+    if (not NpcWidget.ValidParent(I, J)) then
+      Continue;
+    NpcWidget.GetWidget(I, J);
+    for S := 0 to High(Options) do
+      if Pos(Options[S], Trim(NpcWidget.GetText)) > 0 then
+        begin
+          NpcWidget.Interact;
+          NpcWidget.Free;
+          Exit(True);
+        end;
+    NpcWidget.Free;
+  end;
+end;
+
+function TReflectionChat.NpcChooseOption(Option: string): Boolean; overload;
+begin
+  Result := Reflect.Chat.NpcChooseOption([Option]);
+end;
+
+function TReflectionChat.NpcClickToContinue: Boolean;
+begin
+  Result := Reflect.Chat.NpcChooseOption('continue');
+end;
+
+
 

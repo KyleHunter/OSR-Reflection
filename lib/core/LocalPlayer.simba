@@ -18,6 +18,23 @@ begin
   Result := Self.GetAnimation > -1;
 end;
 
+function TReflectLocalPlayer.IsLoggedIn: Boolean;
+begin
+  Result := Reflect.Internals.GetLoginState = 30;
+end;
+
+procedure TReflectLocalPlayer.Logout;
+var
+  LogoutWidget: TReflectWidget;
+begin
+  if not Self.IsLoggedIn then
+    Exit;
+  Reflect.Gametab.Open(Gametab_Logout);
+  LogoutWidget.GetWidget(Widget_Logout_Container, 6);
+  LogoutWidget.Interact;
+  LogoutWidget.Free;
+end;
+
 function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;
 begin
   Result := Reflect.Smart.GetFieldArrayInt(0, Client_CurrentLevels, SkillConst);

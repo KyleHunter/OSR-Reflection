@@ -20,7 +20,7 @@ begin
   ];
   for I := 0 to High(Gametabs) do
   begin
-    TempWidget.GetChild(Containers[I], 0);
+    TempWidget.GetWidget(Containers[I], 0);
     if not TempWidget.IsHidden then
     begin
       TempWidget.Free;
@@ -37,7 +37,7 @@ var
 begin
   if Reflect.Gametab.Current = TabNum then
     Exit;
-  TabWidget.GetChild(Widget_Gametab_Container, TabNum);
+  TabWidget.GetWidget(Widget_Gametab_Container, TabNum);
   TabWidget.Interact;
   TabWidget.Free;
 end;
