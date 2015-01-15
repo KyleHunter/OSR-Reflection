@@ -217,7 +217,7 @@ begin
   else
   begin
     GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Right);
-    RandomRange(50, 150);
+    RandomRange(130, 250);
     ChooseOption(Option);
   end;
 end;

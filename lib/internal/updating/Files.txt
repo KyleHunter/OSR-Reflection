@@ -77,6 +77,9 @@
 (Reflection\Lib\Widgets\Gametabs\Gametabs.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/Gametabs.simba)
 
+(Reflection\Lib\Widgets\Gametabs\CombatOptions.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
+
 
 
 

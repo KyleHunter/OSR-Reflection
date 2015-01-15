@@ -7,6 +7,7 @@
 {$include AeroLib/Reflection/lib/widgets/Widgets.simba}
 {$include AeroLib/Reflection/lib/widgets/gametabs/Gametabs.simba}
 {$include AeroLib/Reflection/lib/widgets/gametabs/Inventory.simba}
+{$include AeroLib/Reflection/lib/widgets/gametabs/CombatOptions.simba}
 {$include AeroLib/Reflection/lib/widgets/Bank.simba}
 {$include AeroLib/Reflection/lib/widgets/Chat.simba}
 {$include AeroLib/Reflection/lib/core/Compass.simba}

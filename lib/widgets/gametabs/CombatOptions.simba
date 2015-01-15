@@ -1,0 +1,63 @@
+
+procedure TReflectionGametab.Retaliate(TurnOn: Boolean);
+var
+  RetaliateWidget: TReflectWidget;
+  OnOff: string;
+begin
+  RetaliateWidget.GetChild(Widget_CombatOptions_Container, 28);
+  OnOff := Between('(', ')', RetaliateWidget.GetText);
+
+  case TurnOn of
+    True:
+    begin
+      if OnOff = 'Off' then
+      begin
+        Reflect.Gametab.Open(Gametab_CombatOptions);
+        RetaliateWidget.Interact;
+      end;
+    end;
+    False:
+    begin
+      if OnOff = 'On' then
+      begin
+        Reflect.Gametab.Open(Gametab_CombatOptions);
+        RetaliateWidget.Interact;
+      end;
+    end;
+  end;
+  RetaliateWidget.Free;
+end;
+
+procedure TReflectionGametab.ChooseAttackStyle(AttackStyle: string);
+var
+  StyleWidget: TReflectWidget;
+  I: Integer;
+const
+  ChildIndexes = [6, 10, 14, 18];
+begin
+  Reflect.Gametab.Open(Gametab_CombatOptions);
+  for I := 0 to High(ChildIndexes) do
+  begin
+    StyleWidget.GetChild(Widget_CombatOptions_Container, ChildIndexes[I]);
+    if AttackStyle = StyleWidget.GetText then
+    begin
+      StyleWidget.Interact;
+      StyleWidget.Free;
+      Exit;
+    end;
+    StyleWidget.Free;
+  end;
+  Reflect.Internals.Warn(AttackStyle + ' is not a valid AttackStyle');
+end;
+
+function TReflectionGametab.GetWeildedWeapon: string;
+var
+  WeaponWidget: TReflectWidget;
+begin
+  WeaponWidget.GetChild(Widget_CombatOptions_Container, 1);
+  Result := WeaponWidget.GetText;
+  WeaponWidget.Free;
+end;
+
+
+
