@@ -80,7 +80,7 @@ var
 begin
   Result := False;
   T.Start;
-  while TReflectActor.GetAnimation = - 1 do
+  while TReflectActor.GetAnimation = -1 do
   begin
     Wait(WaitPerLoop);
     if (T.TimeElapsed >= Timeout) then
@@ -121,7 +121,7 @@ begin
     Exit;
   HumanMMouse(Point, 0, 0);
   GetMousePos(X, Y);
-  if Reflect.Text.WaitUpText('Walk here', 50) then
+  if Reflect.Text.IsUpText('Walk here', 50) then
     FastClick(Mouse_Left)
   else
   begin
