@@ -89,7 +89,7 @@ end;
 
 function TReflectWidget.GetText: String;
 begin
-  Result := Reflect.Smart.GetFieldString(Self.Reference, WidgetText);
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Widget_Text);
 end;
 
 function TReflectWidget.GetItemID: Integer;
