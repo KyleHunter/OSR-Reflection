@@ -155,7 +155,7 @@ begin
   if Reflect.Internals.CheckIncludeUpdate then
   begin
     Reflect.Internals.Status('Update Available!');
-    ChangeLog := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSRReflection/master/lib/internal/updating/ChangeLog.txt');
+    ChangeLog := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/ChangeLog.txt');
     NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
     Multi:= MultiBetween(NewFileName, '(', ')');
     for I := 0 to High(Multi) do
