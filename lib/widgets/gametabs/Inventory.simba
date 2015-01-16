@@ -24,7 +24,7 @@ begin
         Widget_StackSizes, I);
       with Self[Count - 1] do
       begin
-        Id := TheId;
+        Id := TheId - 1;
         LoadDef;
         Quantity := TheQuantity - 1;
         InvSlot := I + 1;

@@ -1,7 +1,7 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 5;
+  IncludeRevision = 6;
   SubRev = 0;
   R_MAJOR = 0;
   R_MINOR = 1;
@@ -145,7 +145,7 @@ end;
 procedure SetupReflection;
 var
   NewFile, I: Integer;
-  OnlineVersion, NewFileName: String;
+  OnlineVersion, NewFileName, ChangeLog: string;
   Multi: TStringArray;
   Toggle: Boolean;
 begin
@@ -155,6 +155,7 @@ begin
   if Reflect.Internals.CheckIncludeUpdate then
   begin
     Reflect.Internals.Status('Update Available!');
+    ChangeLog := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSRReflection/master/lib/internal/updating/ChangeLog.txt');
     NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
     Multi:= MultiBetween(NewFileName, '(', ')');
     for I := 0 to High(Multi) do
@@ -186,6 +187,7 @@ begin
         Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
     finally
       CloseFile(NewFile);
+      Writeln(ChangeLog);
       Reflect.Internals.Status('Update Completed.');
       Reflect.Internals.Status('Please Restart Script.');
       TerminateScript;
