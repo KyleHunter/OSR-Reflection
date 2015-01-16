@@ -2,18 +2,6 @@
 #### -  Check for capital letters in the extension caused by git  - ####
 #### -           Reflection.Simba is not to be put here           - ####
 
-(Reflection\Lib\Internal\Updating\Files.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt)
-
-(Reflection\Lib\Internal\Updating\RemovedFiles.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Removed%20Files.txt)
-
-(Reflection\Lib\Internal\Updating\Update.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Update.txt)
-
-(Reflection\Lib\Internal\Updating\ChangeLog.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/ChangeLog.txt)
-
 (Reflection\Lib\Core\Compass.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Compass.simba)
 
@@ -91,21 +79,3 @@
 
 (Reflection\Lib\Widgets\Gametabs\CombatOptions.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
