@@ -1,6 +1,8 @@
 {$include AeroLib/Reflection/lib/internal/Globals.simba}
 {$include AeroLib/Reflection/lib/internal/Hooks.simba}
 {$include AeroLib/Reflection/lib/internal/Smart.simba}
+{$include AeroLib/Reflection/lib/core/input/Mouse.simba}
+{$include AeroLib/Reflection/lib/core/input/Keyboard.simba}
 {$include AeroLib/Reflection/lib/internal/Memory.simba}
 {$include AeroLib/Reflection/lib/internal/Mapwalk.simba}
 {$include AeroLib/Reflection/lib/internal/Item.simba}

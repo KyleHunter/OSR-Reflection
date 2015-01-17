@@ -1,0 +1,128 @@
+
+  {*Credit Flight*}
+procedure TReflectionMouse.Move(Pnt: TPoint; RanX, RanY: Integer);
+var
+  T : Timer;
+  VeloX,VeloY,WindX,WindY,VeloMag,Dist,RandomDist,LastDist,D, Wind: Extended;
+  LastX,LastY,Msp,W,TDist, TempXs, TempYs: Integer;
+  Sqrt2,Sqrt3,Sqrt5,MaxStep,Rcnc, Xs, Ys, Xe, Ye: Extended;
+  txt : TStringArray;
+begin
+  Msp  := MouseSpeed;
+  Sqrt2 := Sqrt(2);
+  Sqrt3 := Sqrt(3);
+  Sqrt5 := Sqrt(5);
+  getMousePos(TempXs, TempYs);
+  Xs := TempXs;
+  Ys := TempYs;
+  Xe := RandomRange(Pnt.X-ranX, Pnt.X+ranX);
+  Ye := RandomRange(Pnt.Y-ranY, Pnt.Y+ranY);
+  TDist := Distance(Round(Xs), Round(Ys), Round(Xe), Round(Ye));
+  T.Start();
+  repeat
+    if (T.TimeElapsed > 10000) then
+      Break;
+    Dist:= Hypot(xs - xe, ys - ye);
+    Wind:= MinE(5, Dist);
+    if (Dist < 1) then
+      Dist := 1;
+    D := (Round((Round(TDist) * 0.3)) / 7);
+    if (D > 25) then
+      D := 25;
+    if (D < 5) then
+      D := 5;
+    Rcnc := Random(6);
+    if (Rcnc = 1) then
+      D := RandomRange(2,3);
+    if (D <= Round(Dist)) then
+      MaxStep := D
+    else
+      MaxStep := Round(Dist);
+    if Dist >= ((random(MouseSpeed) / 2.0 + MouseSpeed) / 10.0) * 10 then
+    begin
+      WindX:= WindX / Sqrt3 + (Random(Round(Wind) * 2 + 1) - Wind) / Sqrt5;
+      WindY:= WindY / Sqrt3 + (Random(Round(Wind) * 2 + 1) - Wind) / Sqrt5;
+    end else
+    begin
+      WindX := WindX / Sqrt2;
+      WindY := WindY / Sqrt2;
+    end;
+    VeloX := VeloX + WindX;
+    VeloY := VeloY + WindY;
+    VeloX := VeloX + 7 * (Xe - Xs) / Dist;
+    VeloY := VeloY + 7 * (Ye - Ys) / Dist;
+    if (Hypot(VeloX, VeloY) > MaxStep) then
+    begin
+      RandomDist := MaxStep / 2.0 + Random(Round(MaxStep) div 2);
+      VeloMag := Sqrt(VeloX * VeloX + VeloY * VeloY);
+      VeloX := (VeloX / VeloMag) * RandomDist;
+      VeloY := (VeloY / VeloMag) * RandomDist;
+    end;
+    LastX := Round(Xs);
+    LastY := Round(Ys);
+    Xs := Xs + VeloX;
+    Ys := Ys + VeloY;
+    if (LastX <> Round(Xs)) or (LastY <> Round(Ys)) then
+      MoveMouse(Round(Xs), Round(Ys));
+    W := (Random((Round(100 / Msp)))*6);
+    if (W < 5) then
+      W := 5;
+    W := Round(W * 0.9);
+    Wait(W);
+    LastDist:= Dist;
+  until(Hypot(Xs - Xe, Ys - Ye) < 1)
+
+  if (Round(Xe) <> Round(Xs)) or (Round(Ye) <> Round(Ys)) then
+    MoveMouse(Round(Xe), Round(Ye));
+end;
+
+procedure TReflectionMouse.Click(Button: Integer);
+var
+  X, Y: Integer;
+begin
+  if (Button <> Mouse_Left) and (Button <> Mouse_Right) then
+    Reflect.Internals.Warn(
+      IntToStr(Button) + ' Is not a Valid Button for .Click');
+  GetMousePos(X, Y);
+  holdMouse(X, Y, Button);
+  Wait(RandomRange(150, 210));
+  GetMousePos(X, Y);
+  ReleaseMouse(X, Y, Button);
+end;
+
+procedure TReflectionMouse.Box(X1, Y1, X2, Y2, ClickType: Integer);
+var
+  Pnt : TPoint;
+begin
+  GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
+  Reflect.Mouse.Move(Pnt, 3, 3);
+  Wait(RandomRange(80, 150));
+  Reflect.Mouse.Click(ClickType);
+end;
+
+procedure TReflectionMouse.Box(_Box: TBox; ClickType: Integer); overload;
+var
+  Pnt : TPoint;
+begin
+  GaussBox(Pnt.X, Pnt.Y, _Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
+  Reflect.Mouse.Move(Pnt, 3, 3);
+  Wait(RandomRange(80, 150));
+  Reflect.Mouse.Click(ClickType);
+end;
+
+procedure TReflectionMouse.MoveBox(
+  X1, Y1, X2, Y2, ClickType: Integer);
+var
+  Pnt : TPoint;
+begin
+  GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
+  Reflect.Mouse.Move(Pnt, 3, 3);
+end;
+
+procedure TReflectionMouse.MoveBox(_Box: TBox; ClickType: Integer); overload;
+var
+  Pnt : TPoint;
+begin
+  GaussBox(Pnt.X, Pnt.Y, _Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
+  Reflect.Mouse.Move(Pnt, 3, 3);
+end;
