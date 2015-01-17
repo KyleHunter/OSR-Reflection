@@ -10,7 +10,7 @@ function TReflectionBank.IsOpen: Boolean;
 var
   BankWidget : TReflectWidget;
 begin
-  Result := BankWidget.ValidParent(WIDGET_Bank_Container, 0);
+  Result := BankWidget.ValidWidget(WIDGET_Bank_Container, 0);
 end;
 
 function TReflectionBank.ItemCount: Integer;

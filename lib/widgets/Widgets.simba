@@ -52,7 +52,7 @@ end;
 function TReflectWidget.GetParent(ParentID: Integer): Boolean;
 begin
   Result := False;
-  if (ParentID >= 0) and Self.ValidParent(ParentID shr 16, ParentID and $FFFF) then
+  if (ParentID >= 0) and Self.ValidWidget(ParentID shr 16, ParentID and $FFFF) then
   begin
     Self.GetWidget(ParentID shr 16, ParentID and $FFFF);
     if Self.GetParentID = ParentID then
@@ -67,7 +67,7 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_BoundsIndex);
 end;
 
-function TReflectWidget.ValidParent(ContainerIndex, ParentIndex: Integer): Boolean;
+function TReflectWidget.ValidWidget(ContainerIndex, ParentIndex: Integer): Boolean;
 var
   ParentRef: TReflectPointer;
 begin
