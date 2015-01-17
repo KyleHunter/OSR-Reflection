@@ -2,7 +2,7 @@
 type
   TReflectItem = record
     Name: string;
-    Id, Quantity, HighAlchValue: Integer;
+    Id, HighAlchValue: Integer;
     InvActions, GroundActions: TStringArray;
   end;
 

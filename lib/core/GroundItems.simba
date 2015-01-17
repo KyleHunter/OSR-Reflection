@@ -1,6 +1,7 @@
 type
   TReflectGroundItem = record(TReflectItem)
     Tile: TTile;
+    Quantity: Integer;
   end;
 
   TReflectGroundItemArray = array of TReflectGroundItem;

@@ -1,7 +1,7 @@
 
 type
   TReflectInvItem = record(TReflectItem)
-    InvSlot: Integer;
+    InvSlot, Quantity: Integer;
   end;
 
   TReflectInvItemArray = Array of TReflectInvItem;

@@ -1,0 +1,107 @@
+
+type
+  TReflectWornEquipment = record(TReflectItem)
+    EquipSlot: Integer;
+  end;
+
+  TReflectWornEquipmentArray = Array of TReflectWornEquipment;
+
+procedure TReflectWornEquipment.Null;
+begin
+  Self.HighAlchValue := 0;
+  Self.Id := 0;
+  Self.InvActions := [''];
+  Self.Name := '';
+  Self.EquipSlot := 0;
+end;
+
+procedure TReflectWornEquipmentArray.GetAll;
+var
+  EquipmentWidget, EquipmentChild: TReflectWidget;
+  I, Count: Integer;
+begin
+  SetLength(Self, 11);
+  Reflect.Gametab.Open(GameTab_WornEquipment);
+  for I := WornEquipment_Helmet to WornEquipment_Quiver do
+  begin
+    EquipmentWidget.GetWidget(Widget_WornEquipment_Container, I);
+    EquipmentChild.GetChild(EquipmentWidget, 1);
+    if EquipmentChild.IsHidden then
+    begin
+      EquipmentChild.Free;
+      EquipmentWidget.Free;
+      Continue;
+    end;
+    if EquipmentChild.GetItemId <> -1 then
+    begin
+      with Self[Count] do
+      begin
+        Id := EquipmentChild.GetItemId;
+        LoadDef;
+        EquipSlot := I;
+      end;
+      Inc(Count);
+    end;
+    EquipmentChild.Free;
+    EquipmentWidget.Free;
+  end;
+  SetLength(Self, Count);
+end;
+
+procedure TReflectWornEquipment.AtSlot(Slot: Integer);
+var
+  EquipmentWidget, EquipmentChild: TReflectWidget;
+begin
+  Self.Null;
+  if not InRange(Slot, WornEquipment_Helmet, WornEquipment_Quiver) then
+  begin
+    Reflect.Internals.Warn(
+      IntToStr(Slot) + ' is not a valid worn equipment slot');
+    Exit;
+  end;
+  Reflect.Gametab.Open(GameTab_WornEquipment);
+  EquipmentWidget.GetWidget(Widget_WornEquipment_Container, Slot);
+  EquipmentChild.GetChild(EquipmentWidget, 1);
+  if (EquipmentChild.IsHidden) or (EquipmentChild.GetItemId = -1) then
+  begin
+    EquipmentChild.Free;
+    EquipmentWidget.Free;
+    Exit;
+  end;
+  with Self do
+  begin
+    Id := EquipmentChild.GetItemId;
+    LoadDef;
+    EquipSlot := Slot;
+  end;
+    EquipmentChild.Free;
+    EquipmentWidget.Free;
+end;
+
+procedure TReflectionGametab.RemoveWornEquipment(Slot: Integer);
+var
+  EquipmentWidget, EquipmentChild: TReflectWidget;
+begin
+  if not InRange(Slot, WornEquipment_Helmet, WornEquipment_Quiver) then
+  begin
+    Reflect.Internals.Warn(
+      IntToStr(Slot) + ' is not a valid worn equipment slot');
+    Exit;
+  end;
+  Reflect.Gametab.Open(GameTab_WornEquipment);
+  EquipmentWidget.GetWidget(Widget_WornEquipment_Container, Slot);
+  EquipmentChild.GetChild(EquipmentWidget, 1);
+  if (not EquipmentChild.IsHidden) and (EquipmentChild.GetItemId <> -1) then
+    EquipmentChild.Interact;
+  EquipmentChild.Free;
+  EquipmentWidget.Free;
+end;
+
+procedure TReflectWornEquipment.Remove;
+begin
+  if Self.Id <> 0 then
+    Reflect.Gametab.RemoveWornEquipment(Self.EquipSlot);
+end;
+
+
+

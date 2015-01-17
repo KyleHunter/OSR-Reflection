@@ -1,7 +1,7 @@
 
 type
   TReflectBankItem = record(TReflectItem)
-  BankSlot: Integer;
+  BankSlot, Quantity: Integer;
 end;
 
 TReflectBankItemArray = array of TReflectBankItem;

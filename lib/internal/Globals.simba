@@ -125,6 +125,17 @@ const
         {WornEquipment}
 
   Widget_WornEquipment_Container = 387;
+  WornEquipment_Helmet := 6;
+  WornEquipment_Cape := 7;
+  WornEquipment_Necklace := 8;
+  WornEquipment_Weapon := 9;
+  WornEquipment_Body := 10;
+  WornEquipment_Sheild := 11;
+  WornEquipment_Legs := 12;
+  WornEquipment_Gloves := 13;
+  WornEquipment_Boots := 14;
+  WornEquipment_Ring := 15;
+  WornEquipment_Quiver := 16;
 
         {Prayer}
 
