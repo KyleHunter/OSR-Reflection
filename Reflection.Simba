@@ -7,23 +7,53 @@ const
   R_MINOR = 1;
 {$i AeroLib/reflection/lib/internal/Includes.simba}
 
-procedure TReflectionInternals.Warn(Message: String; warnType: Integer = R_MINOR);
+procedure TReflectionInternals.Warn(Message: string; warnType: Integer = R_MINOR);
 var
-  S : String;
+  S: string;
 begin
   case WarnType of
-    R_MAJOR : S := 'Major';
-    R_MINOR : S := 'Warn';
+    R_MAJOR: S := 'Major';
+    R_MINOR: S := 'Warn';
   end;
-  WriteLn('[' + S + ']' + ' [Reflection error] ' + Message);
+  WriteLn('[' + S + '] [Reflection error] ' + Message);
   if warnType = R_MAJOR then
     terminateScript;
   Wait(2000);
 end;
 
-procedure TReflectionInternals.Status(Message: String);
+procedure TReflectionInternals.Status(Message: string);
 begin
-  WriteLn('[Status]' + ' [Reflection] ' + Message);
+  WriteLn('[Status] [Reflection] ' + Message);
+end;
+
+procedure TReflectionInternals.Status(
+  Frmt: String; Args: TVariantArray); Overload;
+begin
+  Reflect.Internals.Status(Format(Frmt, Args));
+end;
+
+procedure TReflectionInternals.SetupSmart;
+var
+  EndTime: LongWord;
+begin
+  {$IFDEF AL_SMART}
+    Reflect.Smart.Create(Os_Smart);
+  {$ENDIF AL_SMART}
+  {$IFNDEF SMART}
+    Reflect.Internals.Warn('It appears SMART is not defined. Please add '
+    + '{$DEFINE SMART} before including Reflection.', R_MAJOR);
+  {$ENDIF SMART}
+  {$IFNDEF AL_SMART}
+    Reflect.Smart.Create;
+    EndTime := GetTimeRunning + 120000;
+    while GetTimeRunning < EndTime do
+    begin
+      if InRange(Reflect.Internals.GetLoginState, 10, 30) then
+        Exit;
+      Wait(100);
+    end;
+    Reflect.Internals.Warn('Failed to detect or load OSRS.', R_MAJOR);
+  {$ENDIF AL_SMART}
 end;
 
 procedure TReflectionInternals.HooksValid;
@@ -193,6 +223,7 @@ begin
       TerminateScript;
     end;
   end;
+  Reflect.Internals.SetupSmart;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
   Reflect.Internals.Status('Reflection succesfully setup!');

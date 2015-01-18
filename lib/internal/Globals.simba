@@ -1,7 +1,18 @@
-
+{$IFDECL AL_VERSION_MAIN}
+  {$DEFINE AL}
+  {$IFDECL OS_SMART}
+    {$DEFINE AL_SMART}
+  {$ENDIF OS_SMART}
+{$ENDIF AL_VERSION_MAIN}
 
 type
-  TReflectionSmart = type Pointer;
+  TReflectionSmart = record
+    Target, PID: Integer;
+    Width, Height: Integer;
+    ForceNew: Boolean;
+    Graphics: TGraphics;
+    UserAgent: string;
+  end;
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;

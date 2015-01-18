@@ -1,3 +1,6 @@
+{$IFNDECL OS_SMART}
+  {$include AeroLib/Reflection/lib/internal/Libraries.simba}
+{$ENDIF OS_SMART}
 {$include AeroLib/Reflection/lib/internal/Globals.simba}
 {$include AeroLib/Reflection/lib/internal/Hooks.simba}
 {$include AeroLib/Reflection/lib/internal/Smart.simba}

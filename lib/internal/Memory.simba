@@ -32,7 +32,7 @@ procedure TReflectionMemory.GetObject(Ref, Key: TCacheKey; Hook: THook; Index,
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
     HookCache[Ord(Key)][Index] := SmartGetFieldObject(
-      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
+      Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
@@ -42,7 +42,8 @@ procedure TReflectionMemory.GetObjectArray(Ref, Key: TCacheKey; Hook: THook;
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
     HookCache[Ord(Key)][Index] := SmartGetFieldArrayObject(
-      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, ArIndex)
+      Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
+      ArIndex)
   else
     TReflectionMemory.HookLeaked('GetObject');
 end;
@@ -52,7 +53,8 @@ procedure TReflectionMemory.Get2DObject(Ref, Key: TCacheKey; Hook: THook; Index,
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
     HookCache[Ord(Key)][Index] := SmartGetFieldArray2DObject(
-      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y)
+      Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
+      X, Y)
   else
     TReflectionMemory.HookLeaked('Get2DObject');
 end;
@@ -62,7 +64,8 @@ procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
 begin
   if (HookCache[Ord(Key)][Index] = 0) then
     HookCache[Ord(Key)][Index] := SmartGetFieldArray3DObject(
-      Os_Smart.__Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path, X, Y, Z)
+      Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
+      X, Y, Z)
   else
     TReflectionMemory.HookLeaked('Get3DObject');
 end;
@@ -73,7 +76,7 @@ var
 begin
   for i := 0 to High(HookCache[Ord(Key)]) do
   begin
-    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][i]);
+    SmartFreeObject(Reflect.Smart.Target, HookCache[Ord(Key)][i]);
     if HookCache[Ord(Key)][i] = 0 then
     begin
       if Safe then
@@ -95,7 +98,7 @@ var
 begin
   for i := 0 to ToFree + 1 do
   begin
-    SmartFreeObject(Os_Smart.__Target, HookCache[Ord(Key)][I]);
+    SmartFreeObject(Reflect.Smart.Target, HookCache[Ord(Key)][I]);
     if HookCache[Ord(Key)][I] = 0 then
       Continue;
     HookCache[Ord(Key)][I] := 0;
@@ -111,7 +114,7 @@ begin
     for L := 0 to High(HookCache[I]) do
       if HookCache[i][l] <> 0 then
       begin
-        SmartFreeObject(Os_Smart.__Target, HookCache[I][l]);
+        SmartFreeObject(Reflect.Smart.Target, HookCache[I][l]);
         HookCache[I][l] := 0;
       end;
   if Free then
