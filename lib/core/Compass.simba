@@ -3,7 +3,7 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraPitch);
 end;
 
-  {*Credit: Nava2*} 
+  {*Credit: Nava2*}
 function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
 var
   E: Extended;
@@ -62,7 +62,7 @@ begin
     Radians(Reflect.Smart.GetFieldInt(0, Client_CameraYaw) / 2048.0 * 360);
 end;
 
-  {*Credit: Nielsie95 & Nava2, Modified by Krazy Meerkat*} 
+  {*Credit: Nielsie95 & Nava2, Modified by Krazy Meerkat*}
 //Helper function for TReflectCompass.Make
 function TReflectionInternals.MinCheck(Angle, DirectionDeg: Extended): Extended;
 begin
@@ -99,14 +99,14 @@ begin
   repeat
     Wait(16);
     Angle:= (360 - Reflect.Compass.AngleDeg);
-    if (((Mark.TimeElapsed > 6000)  and (I < 1.0)) or
-        ((Mark.TimeElapsed > 10000) and (I < 2.0)) or
-        ((Mark.TimeElapsed > 14000) and (I < 3.0))) then
+    if (((Mark.ElapsedTime > 6000)  and (I < 1.0)) or
+        ((Mark.ElapsedTime > 10000) and (I < 2.0)) or
+        ((Mark.ElapsedTime > 14000) and (I < 3.0))) then
     begin
       I := I + 1.0;
     end;
   until ((Angle < 0) or
-    (Mark.TimeElapsed > 14000) or
+    (Mark.ElapsedTime > 14000) or
     (Reflect.Internals.MinCheck(Angle, DirectionDeg) <= (7.0 + I)));
   if Left then
     KeyUp(vk_Left)

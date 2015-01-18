@@ -20,7 +20,7 @@ begin
   TDist := Distance(Round(Xs), Round(Ys), Round(Xe), Round(Ye));
   T.Start();
   repeat
-    if (T.TimeElapsed > 10000) then
+    if (T.ElapsedTime > 10000) then
       Break;
     Dist:= Hypot(xs - xe, ys - ye);
     Wind:= MinE(5, Dist);

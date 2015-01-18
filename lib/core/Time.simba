@@ -1,15 +1,40 @@
 
-
 type TReflectTimer = record
-  Time: Int64;
+  StartTime, TotalRan: Int64;
+  IsRunning: Boolean;
+end;
+
+procedure TReflectTimer.Pause;
+begin
+  if not Self.IsRunning then
+    Exit;
+  Self.IsRunning := False;
+  Inc(Self.TotalRan, GetSystemTime - Self.StartTime);
+end;
+
+procedure TReflectTimer.Reset;
+begin
+  Self.StartTime := Self.TotalRan := 0;
+  Self.IsRunning := False;
 end;
 
 procedure TReflectTimer.Start;
 begin
-  Time := GetSystemTime();
+  if Self.IsRunning then
+    Exit;
+  Self.IsRunning := True;
+  Self.StartTime := GetSystemTime;
 end;
 
-function TReflectTimer.TimeElapsed: Integer;
+procedure TReflectTimer.Restart;
 begin
-  Result := GetSystemTime - Time;
+  Self.Reset;
+  Self.Start;
+end;
+
+function TReflectTimer.ElapsedTime: Int64;
+begin
+  Result := Self.TotalRan;
+  if Self.IsRunning then
+    Inc(Result, GetSystemTime - Self.StartTime);
 end;

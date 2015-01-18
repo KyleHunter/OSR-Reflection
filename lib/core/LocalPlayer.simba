@@ -108,7 +108,7 @@ begin
   while Distance(Self.GetTile.X, Self.GetTile.Y, Self.GetDestination.X,
       Self.GetDestination.Y) > TileDist do
   begin
-    if TimeOut.TimeElapsed > 10000 then
+    if TimeOut.ElapsedTime > 10000 then
       Exit(False);
     Wait(250);
   end;
@@ -125,7 +125,7 @@ begin
   while TReflectActor.GetAnimation = -1 do
   begin
     Wait(WaitPerLoop);
-    if (T.TimeElapsed >= Timeout) then
+    if (T.ElapsedTime >= Timeout) then
       Exit;
   end;
   Result := True;
@@ -176,7 +176,7 @@ begin
   Timer.Start;
   while Self.IsMoving do
     Wait(250);
-  Result := Timer.TimeElapsed < 30000;
+  Result := Timer.ElapsedTime < 30000;
 end;
 
 	{*Credit AwkwardSaw*}
@@ -215,7 +215,7 @@ begin
         K.Start;
         repeat
           Wait(RandomRange(1500, 2500));
-        until((K.TimeElapsed > 2000) or Self.FFlag(30));
+        until((K.ElapsedTime > 2000) or Self.FFlag(30));
         MMF := MM;
         if (I = H) then
           Self.FFlag(5)

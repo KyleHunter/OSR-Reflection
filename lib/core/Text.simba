@@ -144,7 +144,7 @@ begin
   while UT = '' do
   begin
     UT := Reflect.Text.GetUpText;
-    if T.timeElapsed > 1000 then
+    if T.ElapsedTime > 1000 then
       Exit;
     Wait(50+Random(50));
   end;

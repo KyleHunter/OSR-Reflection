@@ -34,7 +34,7 @@ end;
 
 procedure TReflectionInternals.SetupSmart;
 var
-  EndTime: LongWord;
+  Timer: TReflectTimer;
 begin
   {$IFDEF AL_SMART}
     Reflect.Smart.Create(Os_Smart);
@@ -45,8 +45,8 @@ begin
   {$ENDIF SMART}
   {$IFNDEF AL_SMART}
     Reflect.Smart.Create;
-    EndTime := GetTimeRunning + 120000;
-    while GetTimeRunning < EndTime do
+    Timer.Start;
+    while Timer.ElapsedTime < 120000 do
     begin
       if InRange(Reflect.Internals.GetLoginState, 10, 30) then
         Exit;
