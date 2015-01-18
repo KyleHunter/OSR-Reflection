@@ -129,7 +129,7 @@ var
   I, H, T: integer;
 begin
   Temp.GetAll(Distance);
-  if VariantIsString(Item) then
+  if Reflect.Misc.VariantIsString(Item) then
   begin
     H := High(Temp);
     SetLength(Temp1, H + 1);

@@ -213,7 +213,7 @@ var
   I, H, T: integer;
 begin
   Temp.GetAll(__Object, Distance);
-  if VariantIsString(Obj) then
+  if Reflect.Misc.VariantIsString(Obj) then
   begin
     H := High(Temp);
     SetLength(Temp1, H + 1);

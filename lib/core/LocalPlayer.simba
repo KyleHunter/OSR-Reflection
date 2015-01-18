@@ -90,10 +90,35 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;;
 end;
 
+function TReflectLocalPlayer.GetDestination: TTile;
+begin
+  if Reflect.Smart.GetFieldInt(0, Client_DestinationX) = 0 then
+    Exit(Self.GetTile);
+  Result := Point(Reflect.Smart.GetFieldInt(
+    0, Client_DestinationX) + Reflect.Internals.BaseX,
+    Reflect.Smart.GetFieldInt(0, Client_DestinationY) +
+    Reflect.Internals.BaseY);
+end;
+
+function TReflectLocalPlayer.FFlag(TileDist: Integer): Boolean;
+var
+  TimeOut: TReflectTimer;
+begin
+  TimeOut.Start;
+  while Distance(Self.GetTile.X, Self.GetTile.Y, Self.GetDestination.X,
+      Self.GetDestination.Y) > TileDist do
+  begin
+    if TimeOut.TimeElapsed > 10000 then
+      Exit(False);
+    Wait(250);
+  end;
+  Exit(True);
+end;
+
 function TReflectLocalPlayer.WaitForAnimation(
   WaitPerLoop, Timeout: Integer): Boolean;
 var
-  T: Timer;
+  T: TReflectTimer;
 begin
   Result := False;
   T.Start;
@@ -119,9 +144,9 @@ begin
   if not Reflect.Map.TileOnMM(Tile) then
     Exit;
   Point := Reflect.Tiles.TileToMM(Tile);
-  HumanMMouse(Point, 0, 0);
+  Reflect.Mouse.Move(Point, 0, 0);
   Wait(RandomRange(150, 220));
-  FastClick(Mouse_Left);
+  Reflect.Mouse.Click(Mouse_Left);
   Result := True;
 end;
 
@@ -129,27 +154,28 @@ function TReflectLocalPlayer.WalkToTileMS(Tile: TTile): Boolean;
 var
   Point: TPoint;
   X, Y: Integer;
-  Time: Timer;
+  Timer: TReflectTimer;
 begin
   if not isLoggedIn then
     Exit;
   Point := Reflect.Tiles.TileToMS(Tile);
   if (Point.X = -1) and (Point.Y = -1) then
     Exit;
-  HumanMMouse(Point, 0, 0);
+  Reflect.Mouse.Move(Point, 0, 0);
   GetMousePos(X, Y);
   if Reflect.Text.IsUpText('Walk here', 50) then
-    FastClick(Mouse_Left)
+    Reflect.Mouse.Click(Mouse_Left)
   else
   begin
-    FastClick(Mouse_Right);
+    Reflect.Mouse.Click(Mouse_Right);
     Wait(RandomRange(400, 500));
     if not Reflect.Text.ChooseOption('Walk here') then
       Reflect.Text.ChooseOption('Cancel')
   end;
   Wait(RandomRange(120, 180));
   Timer.Start;
-  FFlag(5);
+  while Self.IsMoving do
+    Wait(250);
   Result := Timer.TimeElapsed < 30000;
 end;
 
@@ -160,10 +186,9 @@ var
   I, H, T, Fails, lP: integer;
   P, MM, MMF: TPoint;
   Temp: TTileArray;
-  K: Timer;
+  K: TReflectTimer;
 begin
   Temp := CopyTPA(Path);
-  ColorToleranceSpeed(1);
   T := GetSystemTime + 10000 + Random(2000);
   Fails := 0;
   lP := 0;
@@ -190,12 +215,12 @@ begin
         K.Start;
         repeat
           Wait(RandomRange(1500, 2500));
-        until((K.TimeElapsed > 2000) or FFlag(30));
+        until((K.TimeElapsed > 2000) or Self.FFlag(30));
         MMF := MM;
         if (I = H) then
-          FFlag(5)
+          Self.FFlag(5)
         else
-          FFlag(25);
+          Self.FFlag(25);
         T := GetSystemTime + 7000 + Random(1000);
         Break;
       end;
@@ -259,12 +284,6 @@ begin
     Exit;
   TheNpc.GetIndex(Self.GetInteractingIndex);
 end;
-
-
-
-
-
-
 
 
 

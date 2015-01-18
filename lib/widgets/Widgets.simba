@@ -213,11 +213,11 @@ var
 begin
   Bounds := Self.GetBounds;
   if Option = '' then
-    GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Left)
+    Reflect.Mouse.Box(Bounds, Mouse_Left)
   else
   begin
-    GaussMouseBox(Bounds.X1, Bounds.Y1, Bounds.X2, Bounds.Y2, Mouse_Right);
+    Reflect.Mouse.Box(Bounds, Mouse_Right);
     RandomRange(50, 150);
-    ChooseOption(Option);
+    Reflect.Text.ChooseOption(Option);
   end;
 end;

@@ -19,7 +19,7 @@ begin
       Continue;
     Result := Result + Text[I];
   end;
-  Result := Replace(Result, '  ', ' ');
+  Result := Replace(Result, '  ', ' ',[rfReplaceAll]);
 end;
 
 function TReflectionInternals.GetMenuIndex(
@@ -90,16 +90,16 @@ begin
   begin
     GetMousePos(MenuX, MenuY);
     if Left then
-      HumanMMouse(Point(
+      Reflect.Mouse.Move(Point(
         MenuX - 30 - MenuWidth + Random(10), MenuY + RandomRange(-2, 2)), 2, 2)
     else
-      HumanMMouse(Point(
+      Reflect.Mouse.Move(Point(
         MenuX + 30 + MenuWidth + Random(10), MenuY + RandomRange(-2, 2)), 2, 2);
     Exit;
   end;
-  HumanMMouse(Point(MenuX + XOff, MenuY + YOff), 2, 2);
+  Reflect.Mouse.Move(Point(MenuX + XOff, MenuY + YOff), 2, 2);
   Wait(RandomRange(100, 250));
-  FastClick(Mouse_Left);
+  Reflect.Mouse.Click(Mouse_Left);
   Result := True;
 end;
 
@@ -137,7 +137,7 @@ function TReflectionText.IsUpTextMulti(UpText: TStringArray): Boolean;
 var
   I: integer;
   UT: string;
-  T: Timer;
+  T: TReflectTimer;
 begin
   Result := False;
   T.Start;

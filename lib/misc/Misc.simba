@@ -41,6 +41,44 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_LoginState);
 end;
 
+function TReflectionMisc.VariantIsInteger(const V: Variant): Boolean;
+begin
+  case VarType(V) of
+    VarByte, VarShortInt, VarSmallInt, VarWord, VarInteger, VarLongWord,
+      VarInt64: Result := True;
+    else
+      Result := False;
+  end;
+end;
+
+function TReflectionMisc.VariantIsFloat(const V: Variant): Boolean;
+begin
+  case VarType(V) of
+    VarCurrency, VarSingle, VarDouble: Result := True;
+    else
+      Result := False;
+  end;
+end;
+
+function TReflectionMisc.VariantIsNumber(const v: Variant): Boolean;
+begin
+  Result := VariantIsInteger(V) or VariantIsFloat(v);
+end;
+
+function TReflectionMisc.VariantIsString(const v: Variant): Boolean;
+begin
+  case VarType(V) of
+    VarOleStr, VarString: Result := True;
+    else
+      Result := False;
+  end;
+end;
+
+function TReflectionMisc.VariantIsBoolean(const V: Variant): Boolean;
+begin
+  Result := VarType(v) = VarBoolean;
+end;
+
 {$loadlib prosocks}
 Function TReflectionInternals.GetPage(Url: string): string;
 var

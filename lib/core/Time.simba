@@ -1,0 +1,15 @@
+
+
+type TReflectTimer = record
+  Time: Int64;
+end;
+
+procedure TReflectTimer.Start;
+begin
+  Time := GetSystemTime();
+end;
+
+function TReflectTimer.TimeElapsed: Integer;
+begin
+  Result := GetSystemTime - Time;
+end;

@@ -5,6 +5,16 @@
   {$ENDIF OS_SMART}
 {$ENDIF AL_VERSION_MAIN}
 
+{$IFNDEF AL}
+type
+  TGraphics = record
+    __Bmp: TMufasaBitmap;
+    __Init: boolean;
+    __Width: Integer;
+    __Height: Integer;
+end;
+{$ENDIF AL}
+
 type
   TReflectionSmart = record
     Target, PID: Integer;
@@ -13,6 +23,7 @@ type
     Graphics: TGraphics;
     UserAgent: string;
   end;
+
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;
@@ -26,6 +37,7 @@ type
   TReflectionGametab = type Pointer;
   TReflectionMouse = type Pointer;
   TReflectionKeyboard = type Pointer;
+  TReflectionMath = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -42,6 +54,8 @@ type
     Gametab: TReflectionGametab;
     Mouse: TReflectionMouse;
     KeyBoard: TReflectionKeyboard;
+    Math: TReflectionMath;
+    MouseSpeed: Integer;
 end;
 
   TTile = TPoint;
@@ -50,7 +64,6 @@ end;
 var
   Reflect: TReflectionLib;
   ObjectCache, NpcCache, ItemCache: TStringList;
-
 
   {Constants}
 
@@ -156,8 +169,35 @@ const
 
   Widget_Magic_Container = 218;
 
+{$IFNDEF AL}
+    {Keyboard}
 
+  Vk_Enter = {$IFDEF LINUX}10{$ELSE}Vk_Return{$ENDIF};
 
+    {MiniMap Edge Points}
+
+  MMX1 = 570;
+  MMY1 = 9;
+  MMX2 = 716;
+  MMY2 = 155;
+
+    {MiniMap Center Point}
+
+  MMCX = 643;
+  MMCY = 83;
+
+    {Main Screen EdgePoints}
+  MSX1 = 4;
+  MSY1 = 4;
+  MSX2 = 515;
+  MSY2 = 337;
+
+    {Main Screen Centre Points}
+
+  MSCX = 259;
+  MSCY = 170;
+
+{$ENDIF AL}
 
 
 

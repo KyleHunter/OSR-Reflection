@@ -8,6 +8,68 @@ type
 var
   _ReflectionSmartList: array of Pointer;
 
+  {$IFNDEF AL}
+  __Bmp__Pointers: array of ^TGraphics;
+
+{Credits Flight for TGraphics Functions}
+procedure TGraphics.Create(Width, Height: Integer; Ptr: Uint32);
+begin
+  Self.__Bmp.Init(Client.GetMBitmaps);
+  Self.__Bmp.SetPersistentMemory(Ptr, Width, Height);
+  Self.__Init := True;
+  Self.__Width := Width;
+  Self.__Height := Height;
+  Self.__Bmp.SetTransparentColor(0);
+  Insert(@Self, __Bmp__Pointers);
+  AddOnTerminate('__TGraphicsFreeAll');
+end;
+
+Procedure delete(Ptr: Pointer; var Pointers: Array of Pointer); overload;
+var
+  I, J: Integer = 0;
+  Ptrs: Array of Pointer;
+begin
+  setLength(Ptrs, Length(Pointers));
+  For I := 0 To High(Pointers) do
+    if (Pointers[I] <> Ptr) then
+    begin
+      Ptrs[J] := Pointers[I];
+      Inc(J);
+    end;
+  SetLength(Ptrs, J);
+  Pointers := Ptrs;
+end;
+
+Procedure Delete(Ptr: ^TGraphics; var Pointers: Array of ^TGraphics); overload;
+var
+  I, J: Integer = 0;
+  Ptrs: Array of ^TGraphics;
+begin
+  SetLength(Ptrs, Length(Pointers));
+  For I := 0 To High(Pointers) do
+    if (Pointers[I] <> Ptr) then
+    begin
+      Ptrs[J] := Pointers[I];
+      Inc(J);
+    end;
+  SetLength(Ptrs, J);
+  Pointers := Ptrs;
+end;
+
+procedure TGraphics.Free;
+begin
+  try
+    Self.__Bmp.ResetPersistentMemory;
+    Self.__Bmp.Free;
+  except
+  end;
+  Self.__Init   := False;
+  Self.__Width  := 0;
+  Self.__Height := 0;
+  Delete(@Self, __Bmp__Pointers);
+end;
+  {$ENDIF AL}
+
 function TReflectionSmart.Init: Boolean;
 begin
   if Self.Target = 0 then
@@ -32,7 +94,7 @@ begin
   Self.ForceNew := True;
   Self.Graphics.Free;
   Self.UserAgent := '';
-  Delete(Pointer(@Self), _ReflectionSmartList);
+  Delete(@Self, _ReflectionSmartList);
 end;
 
 function TReflectionSmart.Pair: Boolean;
@@ -78,7 +140,7 @@ begin
     Exit;
   World := Self.GetWorld;
   Reflect.Internals.Status('Using world %s.', [World]);
-  Self.Target := SmartSpawnClient('java.exe', ReplaceWrap(PluginPath, '\',
+  Self.Target := SmartSpawnClient('java.exe', StringReplace(PluginPath, '\',
     '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
     'j1', Width, Height, '', UserAgent, '', '');
   if Self.Target = 0 then

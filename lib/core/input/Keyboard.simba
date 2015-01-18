@@ -1,4 +1,13 @@
 
+procedure TReflectionKeyboard.TypeByte(B: Byte);
+begin
+  if (B = 13) then
+    B := 10;
+  KeyDown(B);
+  Wait(10 + Random(50));
+  KeyUp(B);
+end;
+
 procedure TReflectionKeyboard.TypeSend(Text: String; Send: Boolean = True);
 var
   I: Integer;
@@ -9,5 +18,5 @@ begin
     Wait(20 + Random(40));
   end;
   if Send then
-    typeByte(VK_ENTER);
+    Reflect.Keyboard.TypeByte(Vk_Enter);
 end;

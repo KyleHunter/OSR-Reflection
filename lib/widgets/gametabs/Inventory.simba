@@ -34,13 +34,31 @@ begin
   InvWidget.Free;
 end;
 
+  {Credit Boreas}
+function TReflectionInternals.InvBox(I : Integer): TBox;
+var
+  Slot1, Slot6: TBox;
+begin
+  if not InRange(I, 1, 28) then
+  begin
+    Reflect.Internals.Warn('Incorrect index: ' + IntToStr(I));
+    Exit;
+  end;
+  Slot1 := [563, 213, 594, 244];
+  Slot6 := [605, 249, 31415, 92653];
+  Result.X1 := Slot1.X1 + ((((I + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
+  Result.Y1 := Slot1.Y1 + ((((I - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
+  Result.X2 := Result.X1 + (Slot1.X2 - Slot1.X1);
+  Result.Y2 := Result.Y1 + (Slot1.Y2 - Slot1.Y1);
+end;
+
 procedure TReflectInvItemArray.Get(Item: Variant);
 var
   Temp, Temp1: TReflectInvItemArray;
   I, H, T: integer;
 begin
   Temp.GetAll;
-  if VariantIsString(Item) then
+  if Reflect.Misc.VariantIsString(Item) then
   begin
     H := High(Temp);
     SetLength(Temp1, H + 1);
@@ -88,8 +106,8 @@ var
 begin
   if Self.InvSlot < 0 then
     Exit;
-  Box := InvBox(Self.InvSlot);
-  MouseBox(Box, ClickType);
+  Box := Reflect.Internals.InvBox(Self.InvSlot);
+  Reflect.Mouse.Box(Box, ClickType);
   Result := True;
 end;
 

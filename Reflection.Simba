@@ -23,7 +23,7 @@ end;
 
 procedure TReflectionInternals.Status(Message: string);
 begin
-  WriteLn('[Status] [Reflection] ' + Message);
+  WriteLn('[Reflection] [Status] ' + Message);
 end;
 
 procedure TReflectionInternals.Status(
@@ -58,9 +58,6 @@ end;
 
 procedure TReflectionInternals.HooksValid;
 begin
-  if MouseSpeed = 0 then
-    Reflect.Internals.Warn(
-      'It appears InitAL; is below SetupReflection in current script', R_MAJOR);
   if ((Reflect.Internals.GetLoginState < 10) or
       (Reflect.Internals.GetLoginState > 30)) then
     Reflect.Internals.Warn(
@@ -223,8 +220,9 @@ begin
       TerminateScript;
     end;
   end;
+  Reflect.MouseSpeed := 20;
   Reflect.Internals.SetupSmart;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
-  Reflect.Internals.Status('Reflection succesfully setup!');
+  Reflect.Internals.Status('Successfully setup!');
 end;

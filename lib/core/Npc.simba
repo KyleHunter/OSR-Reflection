@@ -151,7 +151,7 @@ var
   I, H, T: Integer;
 begin
   Temp.GetAll;
-  if VariantIsString(Npc) then
+  if Reflect.Misc.VariantIsString(Npc) then
   begin
     H := High(Temp);
     SetLength(Temp1, H + 1);

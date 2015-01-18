@@ -8,9 +8,9 @@ function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
 var
   E: Extended;
 begin
-  if VariantIsNumber(dir) then
+  if Reflect.Misc.VariantIsNumber(dir) then
     Result := FixD(dir + 0.0)
-  else if VariantIsString(Dir) then
+  else if Reflect.Misc.VariantIsString(Dir) then
     case LowerCase(Dir) of
       'n', 'north': Result := 0;
       'e', 'east': Result := 90;
@@ -75,11 +75,11 @@ function TReflectionCompass.Make(Direction: Variant): Boolean;
 var
   StartAngle, Angle, DirectionDeg, I: Extended;
   Left: Boolean;
-  Mark: Timer;
+  Mark: TReflectTimer;
 begin
   Result := False;
   StartAngle := (360 - Reflect.Compass.AngleDeg);
-  if ((StartAngle < 0) or (not IsLoggedIn)) then
+  if (StartAngle < 0) then
     Exit;
   DirectionDeg := Reflect.Internals.VariantToDirection(Direction);
   if (Reflect.Internals.MinCheck(StartAngle, DirectionDeg) <= 8.0) then

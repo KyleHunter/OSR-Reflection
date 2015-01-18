@@ -4,6 +4,8 @@
 {$include AeroLib/Reflection/lib/internal/Globals.simba}
 {$include AeroLib/Reflection/lib/internal/Hooks.simba}
 {$include AeroLib/Reflection/lib/internal/Smart.simba}
+{$include AeroLib/Reflection/lib/core/Math.simba}
+{$include AeroLib/Reflection/lib/core/Time.simba}
 {$include AeroLib/Reflection/lib/core/input/Mouse.simba}
 {$include AeroLib/Reflection/lib/core/input/Keyboard.simba}
 {$include AeroLib/Reflection/lib/internal/Memory.simba}

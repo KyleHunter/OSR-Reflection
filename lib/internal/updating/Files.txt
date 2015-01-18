@@ -2,6 +2,12 @@
 #### -  Check for capital letters in the extension caused by git  - ####
 #### -           Reflection.Simba is not to be put here           - ####
 
+(Reflection\Lib\Core\Math.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Math.simba)
+
+(Reflection\Lib\Core\Time.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Time.simba)
+
 (Reflection\Lib\Core\Compass.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Compass.simba)
 

@@ -132,6 +132,8 @@ const
  Client_WidgetWidths: THook =         ['client.li', 1];
  Client_WidgetHeights: THook =        ['client.lx', 1];
  Client_WidgetNodeCache: THook =      ['client.jy', 1];
+ Client_DestinationX: THook =         ['client.mj', 1431893173];
+ Client_DestinationY: THook =         ['client.me', -1723608963];
 
 {Region = cq}
  Region_SceneTiles: THook =           ['p', 1];
