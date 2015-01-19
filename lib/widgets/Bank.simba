@@ -109,8 +109,16 @@ var
   Box: TBox;
 begin
   Box := BankChild.GetBounds;
+  if Amount = 1 then
+  begin
+    Reflect.Mouse.Box(Box, Mouse_Left);
+    BankChild.Free;
+    Exit(True);
+  end;
   Reflect.Mouse.Box(Box, Mouse_Right);
   Wait(500);
+  if Amount = -1 then
+    Reflect.Text.ChooseOption('All');
   if Reflect.Internals.OptionExists(IntToStr(Amount)) then
     Reflect.Text.ChooseOption(IntToStr(Amount))
   else

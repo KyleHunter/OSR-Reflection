@@ -1,5 +1,5 @@
 
-  {*Credit Flight*}
+  {*Credit Benland100 & Flight*}
 procedure TReflectionMouse.Move(Pnt: TPoint; RanX, RanY: Integer);
 var
   T : TReflectTimer;
