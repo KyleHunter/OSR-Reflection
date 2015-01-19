@@ -169,7 +169,7 @@ begin
   end;
 end;
 
-procedure SetupReflection;
+procedure TReflectionInternals.UpdateAll;
 var
   NewFile, I: Integer;
   OnlineVersion, NewFileName, ChangeLog: string;
@@ -189,7 +189,7 @@ begin
     begin
       if not(Toggle) then
       begin
-        NewFileName := IncludePath + 'Aerolib\' + Multi[I];
+        NewFileName := IncludePath + 'AeroLib\' + Multi[I];
         Toggle := True;
       end else
       begin
@@ -206,7 +206,7 @@ begin
       end;
     end;
     try
-      NewFileName := includePath + 'AeroLib\reflection\Reflection.simba';
+      NewFileName := IncludePath + 'AeroLib\reflection\Reflection.simba';
       NewFile := Rewritefile(NewFileName, True);
       WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/Reflection.Simba'));
       Reflect.Internals.Status('Updated ' + NewFileName);
@@ -220,6 +220,14 @@ begin
       TerminateScript;
     end;
   end;
+end;
+
+procedure SetupReflection;
+begin
+  if DirectoryExists(IncludePath + 'AeroLib\Reflection\.git\') then
+    Reflect.Internals.Status('Git repository detected, not updating.')
+  else
+    Reflect.Internals.UpdateAll;
   Reflect.MouseSpeed := 20;
   Reflect.Internals.SetupSmart;
   Reflect.Internals.HooksValid;
