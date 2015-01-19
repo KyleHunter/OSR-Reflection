@@ -52,7 +52,7 @@ end;
 function TReflectWidget.GetParent(ParentID: Integer): Boolean;
 begin
   Result := False;
-  if (ParentID >= 0) and Self.ValidWidget(ParentID shr 16, ParentID and $FFFF) then
+  if (ParentID >= 0) and Self.Exists(ParentID shr 16, ParentID and $FFFF) then
   begin
     Self.GetWidget(ParentID shr 16, ParentID and $FFFF);
     if Self.GetParentID = ParentID then
@@ -67,13 +67,13 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_BoundsIndex);
 end;
 
-function TReflectWidget.ValidWidget(ContainerIndex, ParentIndex: Integer): Boolean;
+function TReflectWidget.Exists(ContainerIndex, ParentIndex: Integer): Boolean;
 var
-  ParentRef: TReflectPointer;
+  Parent: TReflectPointer;
 begin
-  ParentRef.GetFieldArray2DObject(0, Client_Widgets, ContainerIndex, ParentIndex);
-  Result := ParentRef.Reference > 0;
-  ParentRef.Free;
+  Parent.GetFieldArray2DObject(0, Client_Widgets, ContainerIndex, ParentIndex);
+  Result := Parent.Reference > 0;
+  Parent.Free;
 end;
 
 function TReflectWidget.HasChild: Boolean;
@@ -196,6 +196,15 @@ var
 begin
   Result := (Parent.GetParent(Self.GetParentID) and Parent.IsHidden) or
     Reflect.Smart.GetFieldBoolean(Self.Reference, Widget_IsHidden);
+  Parent.Free;
+end;
+
+function TReflectWidget.IsValid(ContainerIndex, ParentIndex: Integer): Boolean;
+var
+  Parent: TReflectWidget;
+begin
+  Parent.GetWidget(ContainerIndex, ParentIndex);
+  Result := (Parent.Reference > 0) and (not Parent.IsHidden);
   Parent.Free;
 end;
 

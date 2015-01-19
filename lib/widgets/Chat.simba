@@ -20,9 +20,9 @@ begin
     begin
     if (InIntArray(
       [90, 137, 182, 239, 261, 271, 274, 320, 429, 432, 548, 589, 593], I))
-      or (not NpcWidget.ValidWidget(I, J)) then
+      or (not NpcWidget.Exists(I, J)) then
       continue;
-    if (not NpcWidget.ValidWidget(I, J)) then
+    if (not NpcWidget.Exists(I, J)) then
       Continue;
     NpcWidget.GetWidget(I, J);
     for S := 0 to High(Options) do

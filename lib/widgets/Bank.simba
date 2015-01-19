@@ -10,7 +10,7 @@ function TReflectionBank.IsOpen: Boolean;
 var
   BankWidget : TReflectWidget;
 begin
-  Result := BankWidget.ValidWidget(Widget_Bank_Container, 0);
+  Result := BankWidget.Exists(Widget_Bank_Container, 0);
 end;
 
 function TReflectionBank.ItemCount: Integer;
@@ -115,23 +115,20 @@ begin
     Reflect.Text.ChooseOption(IntToStr(Amount))
   else
   begin
-  TimeOut.Start;
-  AmountWidget.GetWidget(548, 119);
-  BankChild.Interact('X');
-  while (AmountWidget.IsHidden) do
-  begin
-    Wait(200);
-    if TimeOut.ElapsedTime > 5000 then
+    TimeOut.Start;
+    BankChild.Interact('X');
+    while (not AmountWidget.IsValid(548, 119)) do
     begin
-      AmountWidget.Free;
-      Exit(False);
+      Wait(200);
+      if TimeOut.ElapsedTime > 5000 then
+      begin
+        AmountWidget.Free;
+        Exit(False);
+      end;
     end;
-    AmountWidget.Free;
-    AmountWidget.GetWidget(548, 119);
-  end;
-  Wait(RandomRange(500, 750));
-  Reflect.KeyBoard.TypeSend(ToStr(Amount));
-  BankChild.Free;
+    Wait(RandomRange(500, 750));
+    Reflect.KeyBoard.TypeSend(ToStr(Amount));
+    BankChild.Free;
   end;
 end;
 
@@ -183,7 +180,7 @@ begin
     begin
       BankChild.Free;
       Reflect.KeyBoard.TypeSend(Self.Name[L], False);
-      Wait(200);
+      Wait(RandomRange(500, 700));
       BankChild := Reflect.Internals.GetBankItem(Self);
       Center := MiddleBox(BankChild.GetBounds);
       Inc(L);
