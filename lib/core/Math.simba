@@ -735,3 +735,8 @@ begin
   for i := 0 to high(result) do
     result[i] := Reflect.Math.GridBox(i + 1, columns, rows, w, h, diffX, diffY, starTPoint);
 end;
+
+begin
+  Reflect.Math.LoadCoSineArrays;
+  Reflect.Math.SetupGauss;
+end;
