@@ -27,7 +27,7 @@ begin
 end;
 
 procedure TReflectionInternals.Status(
-  Frmt: String; Args: TVariantArray); Overload;
+  Frmt: String; Args: TVariantArray); overload;
 begin
   Reflect.Internals.Status(Format(Frmt, Args));
 end;

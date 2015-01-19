@@ -111,11 +111,11 @@ begin
   Box := BankChild.GetBounds;
   if Amount = 1 then
   begin
-    Reflect.Mouse.Box(Box, Mouse_Left);
+    Reflect.Mouse.Move(Box, Mouse_Left);
     BankChild.Free;
     Exit(True);
   end;
-  Reflect.Mouse.Box(Box, Mouse_Right);
+  Reflect.Mouse.Move(Box, Mouse_Right);
   Wait(500);
   if Amount = -1 then
     Reflect.Text.ChooseOption('All');

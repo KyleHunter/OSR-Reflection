@@ -107,7 +107,7 @@ begin
   if Self.InvSlot < 0 then
     Exit;
   Box := Reflect.Internals.InvBox(Self.InvSlot);
-  Reflect.Mouse.Box(Box, ClickType);
+  Reflect.Mouse.Move(Box, ClickType);
   Result := True;
 end;
 

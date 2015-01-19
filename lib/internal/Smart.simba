@@ -145,7 +145,7 @@ begin
 end;
 
 procedure TReflectionSmart.Create(
-  Width, Height: Integer; UserAgent: string); Overload;
+  Width, Height: Integer; UserAgent: string); overload;
 var
   World: Variant;
 begin
@@ -170,7 +170,7 @@ begin
 end;
 
 {$IFDEF AL_SMART}
-  procedure TReflectionSmart.Create(Smart: TSmart); Overload;
+  procedure TReflectionSmart.Create(Smart: TSmart); overload;
   begin
     Self.Target := Smart.__Target;
     Self.PID := Smart.__PID;
@@ -198,7 +198,7 @@ begin
   Self.Reference := SmartGetFieldObject(Reflect.Smart.Target, Ref, Hook.Path);
 end;
 
-procedure TReflectPointer.GetFieldObject(Hook: THook); Overload;
+procedure TReflectPointer.GetFieldObject(Hook: THook); overload;
 begin
   Self.GetFieldObject(Self.Reference, Hook);
 end;

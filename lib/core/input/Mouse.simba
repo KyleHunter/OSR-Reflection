@@ -75,13 +75,24 @@ begin
     MoveMouse(Round(Xe), Round(Ye));
 end;
 
+procedure TReflectionMouse.Move(
+  Pnt: TPoint; RanX, RanY, ClickType: Integer); overload;
+begin
+  Reflect.Mouse.Move(Pnt, RanX, RanY);
+  Wait(RandomRange(80, 150));
+  Reflect.Mouse.Click(ClickType);
+end;
+
 procedure TReflectionMouse.Click(Button: Integer);
 var
   X, Y: Integer;
 begin
   if (Button <> Mouse_Left) and (Button <> Mouse_Right) then
+  begin
     Reflect.Internals.Warn(
       IntToStr(Button) + ' Is not a Valid Button for .Click');
+    Exit;
+  end;
   GetMousePos(X, Y);
   HoldMouse(X, Y, Button);
   Wait(RandomRange(150, 210));
@@ -89,39 +100,28 @@ begin
   ReleaseMouse(X, Y, Button);
 end;
 
-procedure TReflectionMouse.Box(X1, Y1, X2, Y2, ClickType: Integer);
+procedure TReflectionMouse.Move(X1, Y1, X2, Y2, ClickType: Integer); overload;
 var
   Pnt : TPoint;
 begin
   Reflect.Math.GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
-  Reflect.Mouse.Move(Pnt, 3, 3);
-  Wait(RandomRange(80, 150));
-  Reflect.Mouse.Click(ClickType);
+  Reflect.Mouse.Move(Pnt, 3, 3, ClickType);
 end;
 
-procedure TReflectionMouse.Box(_Box: TBox; ClickType: Integer); overload;
-var
-  Pnt : TPoint;
+procedure TReflectionMouse.Move(_Box: TBox; ClickType: Integer); overload;
 begin
-  Reflect.Math.GaussBox(Pnt.X, Pnt.Y, _Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
-  Reflect.Mouse.Move(Pnt, 3, 3);
-  Wait(RandomRange(80, 150));
-  Reflect.Mouse.Click(ClickType);
+  Reflect.Mouse.Move(_Box.X1, _Box.Y1, _Box.X2, _Box.Y2, ClickType);
 end;
 
-procedure TReflectionMouse.MoveBox(
-  X1, Y1, X2, Y2: Integer);
+procedure TReflectionMouse.Move(X1, Y1, X2, Y2: Integer); overload;
 var
-  Pnt : TPoint;
+  Pnt: TPoint;
 begin
   Reflect.Math.GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
   Reflect.Mouse.Move(Pnt, 3, 3);
 end;
 
-procedure TReflectionMouse.MoveBox(_Box: TBox); overload;
-var
-  Pnt : TPoint;
+procedure TReflectionMouse.Move(_Box: TBox); overload;
 begin
-  Reflect.Math.GaussBox(Pnt.X, Pnt.Y, _Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
-  Reflect.Mouse.Move(Pnt, 3, 3);
+  Reflect.Mouse.Move(_Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
 end;

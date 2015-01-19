@@ -103,7 +103,7 @@ begin
   Result := True;
 end;
 
-function TReflectionText.ChooseOption(Option: string; Time: Integer): Boolean; Overload;
+function TReflectionText.ChooseOption(Option: string; Time: Integer): Boolean; overload;
 var
   T: Integer;
 begin
@@ -160,7 +160,7 @@ begin
   Result := Reflect.Text.IsUpTextMulti([UpText]);
 end;
 
-function TReflectionText.IsUpTextMulti(S: TStringArray; Time: Integer): Boolean; Overload;
+function TReflectionText.IsUpTextMulti(S: TStringArray; Time: Integer): Boolean; overload;
 var
   T: UInt64;
 begin
@@ -177,7 +177,7 @@ begin
   end;
 end;
 
-function TReflectionText.IsUpText(S: string; Time: Integer): Boolean; Overload;
+function TReflectionText.IsUpText(S: string; Time: Integer): Boolean; overload;
 begin
   Result := Reflect.Text.IsUpTextMulti([S], Time);
 end;

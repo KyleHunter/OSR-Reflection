@@ -223,12 +223,12 @@ begin
   Bounds := Self.GetBounds;
   if Option = '' then
   begin
-    Reflect.Mouse.Box(Bounds, Mouse_Left);
+    Reflect.Mouse.Move(Bounds, Mouse_Left);
     Exit(True);
   end
   else
   begin
-    Reflect.Mouse.Box(Bounds, Mouse_Right);
+    Reflect.Mouse.Move(Bounds, Mouse_Right);
     RandomRange(50, 150);
     Result := Reflect.Text.ChooseOption(Option);
   end;

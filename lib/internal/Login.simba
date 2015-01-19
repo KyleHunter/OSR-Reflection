@@ -11,8 +11,8 @@ var
 begin
   if not InIntArrayEx(Worlds, I, World) then
     Exit;
-  Reflect.Mouse.Box(5, 465, 105, 495, Mouse_Left);
+  Reflect.Mouse.Move(5, 465, 105, 495, Mouse_Left);
   Wait(RandomRange(250, 500));
-  Reflect.Mouse.Box(GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
+  Reflect.Mouse.Move(GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
     Mouse_Left);
 end;
