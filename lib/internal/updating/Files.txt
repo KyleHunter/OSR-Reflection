@@ -85,3 +85,9 @@
 
 (Reflection\Lib\Widgets\Gametabs\CombatOptions.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
+
+(Reflection\Lib\Core\input\Mouse.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Mouse.simba)
+
+(Reflection\Lib\Core\input\Keyboard.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Keyboard.simba)
