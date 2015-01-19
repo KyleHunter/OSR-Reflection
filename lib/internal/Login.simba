@@ -1,0 +1,18 @@
+
+procedure TReflectionInternals.SelectWorld(World: Integer);
+const
+  Worlds: TIntegerArray = [301, 320, 343, 366, 302, 321, 344, 367, 303, 322,
+   345, 368, 304, 325, 346, 369, 305, 326, 349, 370, 306, 327, 350, 373, 308,
+   328, 351, 374, 309, 329, 352, 375, 310, 330, 353, 376, 311, 333, 354, 377,
+   312, 334, 357, 378, 313, 335, 358, 381, 314, 336, 359, 382, 316, 337, 360,
+   383, 317, 338, 361, 384, 318, 341, 362, 393, 319, 342, 365, 394];
+var
+  I: Integer;
+begin
+  if not InIntArrayEx(Worlds, I, World) then
+    Exit;
+  Reflect.Mouse.Box(5, 465, 105, 495, Mouse_Left);
+  Wait(RandomRange(250, 500));
+  Reflect.Mouse.Box(GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
+    Mouse_Left);
+end;
