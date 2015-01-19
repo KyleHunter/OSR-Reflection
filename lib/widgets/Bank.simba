@@ -181,6 +181,7 @@ begin
   begin
     SearchWidget.GetWidget(12, 23);
     SearchWidget.Interact;
+    SearchWidget.Free;
     Wait(RandomRange(200, 500));
     L = 1;
     while ((BankChild.IsHidden) or
