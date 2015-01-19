@@ -215,7 +215,7 @@ n2_gauss
 
 .. code-block:: pascal
 
-    function n2_gauss(): Extended;
+    function n2_gauss: Extended;
 
 Calculates a standard normal value (N(0, 1)).
 
@@ -226,7 +226,7 @@ By definition, 68.2% of points will lie within +/- 1*sigma, 95.4% within +/- 2.
     by: Nava2
 
 *)
-function TReflectionMath.n2_gauss(): Extended;
+function TReflectionMath.n2_gauss: Extended;
 var
   r: Extended;
   i: Integer;
@@ -246,7 +246,7 @@ GaussMarsPolar
 
 .. code-block:: pascal
 
-    function GaussMarsPolar(): Extended;
+    function GaussMarsPolar: Extended;
 
 Calculates a standard normal value (N(0, 1]).
 
@@ -261,9 +261,12 @@ By definition, 68.2% of points will lie within +/- 1*sigma, 95.4% within +/- 2.
     by: BenLand100
 
 *)
-function TReflectionMath.GaussMarsPolar(): Extended;
+function GaussMarsPolar1: Extended;
+var
+  Temp: Extended;
 begin
-  Result := sqrt(-2.0*ln(RandomE()))*cos(2.0*PI*RandomE());
+  Temp := sqrt(-2.0 * ln(RandomE)) * cos(2.0 * PI * RandomE);
+  Result := Temp;
 end;
 
 (*
@@ -273,7 +276,7 @@ SetupGauss
 
 .. code-block:: pascal
 
-    procedure setupGauss();
+    procedure setupGauss;
 
 Sets up the necessary constants for the gaussian functions used in the Gaussian
 math functions internally to SRL.
@@ -283,11 +286,11 @@ math functions internally to SRL.
    by: SRL Development Team
 
 *)
-procedure TReflectionMath.setupGauss();
+procedure TReflectionMath.setupGauss;
 begin
   srl_GaussDev_Point := 0.4;
   srl_GaussDev_Range := 0.3;
-  srl_GaussRand := @GaussMarsPolar;
+  srl_GaussRand := @GaussMarsPolar1;
 end;
 
 
@@ -319,7 +322,7 @@ Example:
 
 function TReflectionMath.GaussRand(mean, dev: Extended): Extended;
 begin
-  result := mean + dev*srl_GaussRand();
+  result := mean + dev*srl_GaussRand;
 end;
 
 
@@ -362,7 +365,7 @@ begin
     swap(eAngle, sAngle);
 
   { random angle about the center }
-  angle := sAngle + (eAngle-sAngle)*srl_GaussRand()/2.0;
+  angle := sAngle + (eAngle-sAngle)*srl_GaussRand/2.0;
 
   { get normal pt about zero, where 68% lie within .5*maxRad }
   radius := Reflect.Math.GaussRand(maxRad,maxRad*srl_GaussDev_Point) - maxRad;
@@ -450,7 +453,7 @@ GaussRandom
     function GaussRandom(maxExt: Integer): Integer;
 
 Computes a normally distributed number in [0, maxExt). Thus, it behaves like
-Random() would be expected to. But normally distributed about maxExt/2.
+Random would be expected to. But normally distributed about maxExt/2.
 
 It is a wrapper for `iGaussRange`.
 

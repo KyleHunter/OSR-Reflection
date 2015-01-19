@@ -207,17 +207,20 @@ begin
   Result.Y2 := Result.Y1 + Self.GetHeight;
 end;
 
-procedure TReflectWidget.Interact(Option: string = '');
+function TReflectWidget.Interact(Option: string = ''): Boolean;
 var
   Bounds: TBox;
 begin
   Bounds := Self.GetBounds;
   if Option = '' then
-    Reflect.Mouse.Box(Bounds, Mouse_Left)
+  begin
+    Reflect.Mouse.Box(Bounds, Mouse_Left);
+    Exit(True);
+  end
   else
   begin
     Reflect.Mouse.Box(Bounds, Mouse_Right);
     RandomRange(50, 150);
-    Reflect.Text.ChooseOption(Option);
+    Result := Reflect.Text.ChooseOption(Option);
   end;
 end;

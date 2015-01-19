@@ -110,7 +110,7 @@ begin
 end;
 
 procedure TReflectionMouse.MoveBox(
-  X1, Y1, X2, Y2, ClickType: Integer);
+  X1, Y1, X2, Y2: Integer);
 var
   Pnt : TPoint;
 begin
@@ -118,7 +118,7 @@ begin
   Reflect.Mouse.Move(Pnt, 3, 3);
 end;
 
-procedure TReflectionMouse.MoveBox(_Box: TBox; ClickType: Integer); overload;
+procedure TReflectionMouse.MoveBox(_Box: TBox); overload;
 var
   Pnt : TPoint;
 begin
