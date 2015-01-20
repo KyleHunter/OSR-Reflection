@@ -132,13 +132,13 @@ end;
 begin
   ObjectCache.Init;
   ObjectCache.LoadFromFile(
-    IncludePath + 'AeroLib\reflection\lib\internal\ObjectDefs.txt');
+    IncludePath + 'reflection\lib\internal\ObjectDefs.txt');
   NpcCache.Init;
   NpcCache.LoadFromFile(
-    IncludePath + 'AeroLib\reflection\lib\internal\NpcDefs.txt');
+    IncludePath + 'reflection\lib\internal\NpcDefs.txt');
   ItemCache.Init;
   ItemCache.LoadFromFile(
-    IncludePath + 'AeroLib\reflection\lib\internal\ItemDefs.txt');
+    IncludePath + 'reflection\lib\internal\ItemDefs.txt');
   AddOnTerminate('ReflectFree');
   SetLength(HookCache, 11);
   SetLength(HookCache[TCacheKey.ckNull], 10817);
