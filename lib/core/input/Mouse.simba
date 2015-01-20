@@ -95,7 +95,7 @@ begin
   end;
   GetMousePos(X, Y);
   HoldMouse(X, Y, Button);
-  Wait(RandomRange(150, 210));
+  Wait(RandomRange(90, 160));
   GetMousePos(X, Y);
   ReleaseMouse(X, Y, Button);
 end;

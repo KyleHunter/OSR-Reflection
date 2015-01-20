@@ -1,11 +1,11 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 6;
+  IncludeRevision = 7;
   SubRev = 0;
   R_MAJOR = 0;
   R_MINOR = 1;
-{$i AeroLib/reflection/lib/internal/Includes.simba}
+{$i Reflection/lib/internal/Includes.simba}
 
 procedure TReflectionInternals.Warn(Message: string; warnType: Integer = R_MINOR);
 var

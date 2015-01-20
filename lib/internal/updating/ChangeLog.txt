@@ -1,7 +1,7 @@
 [Reflection]
  Update # 6:
   [Bugs]:
-   Fixed ID error in Inventory.
+  
   [Improvements]:
-   Added this changelog. 
+   Adds Mouse functions, Bank functions, changes include location to Includes/Reflection 
 [End]
