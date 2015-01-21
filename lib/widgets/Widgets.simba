@@ -233,3 +233,24 @@ begin
     Result := Reflect.Text.ChooseOption(Option);
   end;
 end;
+
+function TReflectWidget.Interact(
+  Option: string = ''; Offset: Integer): Boolean; overload;
+var
+  Bounds: TBox;
+begin
+  Bounds := Self.GetBounds;
+  Bounds := [Bounds.X1 + Offset,
+    Bounds.Y1 + Offset, Bounds.X2 - Offset, Bounds.Y2 - Offset];
+  if Option = '' then
+  begin
+    Reflect.Mouse.Move(Bounds, Mouse_Left);
+    Exit(True);
+  end
+  else
+  begin
+    Reflect.Mouse.Move(Bounds, Mouse_Right);
+    RandomRange(50, 150);
+    Result := Reflect.Text.ChooseOption(Option);
+  end;
+end;

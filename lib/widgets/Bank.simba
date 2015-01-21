@@ -109,6 +109,7 @@ var
   Box: TBox;
 begin
   Box := BankChild.GetBounds;
+  Box := [Box.X1 + 10, Box.Y1 + 10, Box.X2 - 10, Box.Y2 - 10];
   if Amount = 1 then
   begin
     Reflect.Mouse.Move(Box, Mouse_Left);
