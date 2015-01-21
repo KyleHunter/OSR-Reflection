@@ -48,7 +48,7 @@ begin
     Timer.Start;
     while Timer.ElapsedTime < 120000 do
     begin
-      if InRange(Reflect.Internals.GetLoginState, 10, 30) then
+      if InRange(Reflect.Login.GetState, 10, 30) then
         Exit;
       Wait(100);
     end;
@@ -58,8 +58,8 @@ end;
 
 procedure TReflectionInternals.HooksValid;
 begin
-  if ((Reflect.Internals.GetLoginState < 10) or
-      (Reflect.Internals.GetLoginState > 30)) then
+  if ((Reflect.Login.GetState < 10) or
+      (Reflect.Login.GetState > 30)) then
     Reflect.Internals.Warn(
       'Hooks are outdated.  No need to post about it, we are currently working on it.', R_MAJOR);
 end;

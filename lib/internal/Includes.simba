@@ -4,9 +4,9 @@
 {$include Reflection/lib/internal/Globals.simba}
 {$include Reflection/lib/internal/Hooks.simba}
 {$include Reflection/lib/internal/Smart.simba}
+{$include Reflection/lib/core/Time.simba}
 {$include Reflection/lib/internal/Login.simba}
 {$include Reflection/lib/core/Math.simba}
-{$include Reflection/lib/core/Time.simba}
 {$include Reflection/lib/core/input/Mouse.simba}
 {$include Reflection/lib/core/input/Keyboard.simba}
 {$include Reflection/lib/internal/Memory.simba}

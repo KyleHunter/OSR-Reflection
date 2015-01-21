@@ -38,6 +38,9 @@
 (Reflection\Lib\Internal\Globals.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Globals.simba)
 
+(Reflection\Lib\Internal\Login.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
+
 (Reflection\Lib\Internal\Hooks.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba)
 

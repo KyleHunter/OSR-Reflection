@@ -38,6 +38,7 @@ type
   TReflectionMouse = type Pointer;
   TReflectionKeyboard = type Pointer;
   TReflectionMath = type Pointer;
+  TReflectionLogin = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -55,6 +56,7 @@ type
     Mouse: TReflectionMouse;
     KeyBoard: TReflectionKeyboard;
     Math: TReflectionMath;
+    Login: TReflectionLogin;
     MouseSpeed: Integer;
 end;
 
@@ -199,5 +201,17 @@ const
 
 {$ENDIF AL}
 
+    {Login}
 
+  Login_FirstScreen = 1;
+  Login_SecondScreen = 2;
+  Login_ExistingUserBox: TBox = [390, 272, 529, 307];
+  Login_LoginBox: TBox = [312, 254, 550, 266];
+  Login_PasswordBox: TBox = [341, 271, 550, 285];
+  Login_ResponseBox: TBox = [210, 208, 550, 233];
+  Login_WorldBox: TBox = [12, 464, 99, 496];
+  Login_Text_Yellow = 65535;
+  Login_Text_White = 16777215;
+  Login_LoginBox_Byte = 0;
+  Login_PasswordBox_Byte = 1;
 

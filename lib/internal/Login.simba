@@ -1,4 +1,127 @@
 
+function TReflectionLogin.GetState: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_LoginState);
+end;
+
+function TReflectionLogin.AtLogin: Boolean;
+begin
+  Result := Reflect.Login.GetState = 10;
+end;
+
+function TReflectionLogin.WhichScreen: Integer;
+  var
+    ColorCount: Integer;
+begin
+  ColorCount := CountColor(Login_Text_Yellow, 305, 235, 460, 255);
+  case ColorCount of
+    101..500: Result := Login_FirstScreen;
+    0..100: Result := Login_SecondScreen;
+  end;
+end;
+
+function TReflectionLogin.OpenFirstScreen: Boolean;
+begin
+  if Reflect.Login.WhichScreen = Login_SecondScreen then
+    Exit(True);
+  Reflect.Mouse.Move(Login_ExistingUserBox, Mouse_Left);
+  Wait(RandomRange(200, 450));
+  Result := Reflect.Login.WhichScreen = Login_SecondScreen;
+end;
+
+function TReflectionLogin.GetCursor: Byte;
+var
+  TimeOut: UInt64;
+begin
+  TimeOut := GetTickCount64 + Random(2000, 3000);
+  repeat
+    if (CountColor(Login_Text_Yellow, Login_LoginBox.X1, Login_LoginBox.Y1,
+      Login_LoginBox.X2, Login_LoginBox.Y2) > 10) then
+        Exit(Login_LoginBox_Byte);
+    if (CountColor(Login_Text_Yellow, Login_PasswordBox.X1,
+      Login_PasswordBox.Y1, Login_PasswordBox.X2,
+      Login_PasswordBox.Y2) > 10) then
+        Exit(Login_PasswordBox_Byte);
+    Wait(Random(50, 100));
+  until (GetTickCount64 > TimeOut);
+end;
+
+procedure TReflectionLogin.SetCursor(const New: Integer);
+begin
+  if (Reflect.Login.GetCursor = New) then
+    Exit;
+  while (Reflect.Login.GetCursor <> New) do
+  begin
+    Reflect.Keyboard.TypeKey(Vk_Tab);
+    Wait(Random(350, 650));
+  end;
+end;
+
+{ Credit SRL }
+function TReflectionLogin.LoginPlayer(Username, Password: string): Boolean;
+var
+  Timeout: UInt64 := GetTickCount64 + Random(7500, 8000);
+  Clear: array [0..1] of Boolean;
+  LoginTimer: TReflectTimer;
+begin
+  if Reflect.Login.GetState = 30 then
+    Exit(True);
+  Result := True;
+  if (not Reflect.Login.AtLogin) or (not Reflect.Login.OpenFirstScreen) then
+    Exit(False);
+  Clear[Login_LoginBox_Byte] := CountColor(Login_Text_White, Login_LoginBox.X1,
+    Login_LoginBox.Y1, Login_LoginBox.X2, Login_LoginBox.Y2);
+  Clear[Login_PasswordBox_Byte] := CountColor(Login_Text_White,
+    Login_PasswordBox.X1, Login_PasswordBox.Y1, Login_PasswordBox.X2,
+      Login_PasswordBox.Y2);
+  if (Reflect.Login.GetCursor <> Login_LoginBox_Byte) then
+    Reflect.Login.SetCursor(Login_LoginBox_Byte);
+  if (Clear[Login_LoginBox_Byte]) then
+    while (CountColor(Login_Text_White, Login_LoginBox.X1, Login_LoginBox.Y1,
+      Login_LoginBox.X2, Login_LoginBox.Y2) > 5) and
+        (Timeout > GetTickCount64) do
+    begin
+      Reflect.Keyboard.TypeKey(VK_BACK);
+      Wait(Random(30, 120));
+    end;
+  Reflect.Keyboard.TypeSend(Username);
+  if (Reflect.Login.GetCursor <> Login_PasswordBox_Byte) then
+    Reflect.Login.SetCursor(Login_PasswordBox_Byte);
+  if (Clear[Login_PasswordBox_Byte]) then
+    while (CountColor(Login_Text_White, Login_PasswordBox.X1,
+      Login_PasswordBox.Y1, Login_PasswordBox.X2, Login_PasswordBox.Y2) > 5)
+      and (Timeout > GetTickCount64) do
+    begin
+      Reflect.Keyboard.TypeKey(VK_BACK);
+      Wait(Random(30, 120));
+    end;
+  Reflect.Keyboard.TypeSend(Password);
+  LoginTimer.Start;
+  Result := Reflect.Login.GetState = 30;
+  while not Result do
+  begin
+    if LoginTimer.ElapsedTime > 5000 then
+      Exit(False);
+    Result := Reflect.Login.GetState = 30;
+    Wait(RandomRange(450, 750));
+    if Result then
+      Reflect.Mouse.Move(280, 300, 490, 370, Mouse_Left);
+  end;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 procedure TReflectionInternals.SelectWorld(World: Integer);
 const
   Worlds: TIntegerArray = [301, 320, 343, 366, 302, 321, 344, 367, 303, 322,
@@ -16,3 +139,6 @@ begin
   Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
     Mouse_Left);
 end;
+
+
+

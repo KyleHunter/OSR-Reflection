@@ -1,5 +1,8 @@
 type
-  TReflectLocalPlayer = type(TReflectActor);
+  TReflectLocalPlayer = record(TReflectActor)
+  Username, Password: string;
+  Active: Boolean;
+end;
 
 procedure TReflectLocalPlayer.Create;
 begin
@@ -20,7 +23,7 @@ end;
 
 function TReflectLocalPlayer.IsLoggedIn: Boolean;
 begin
-  Result := Reflect.Internals.GetLoginState = 30;
+  Result := Reflect.Login.GetState = 30;
 end;
 
 procedure TReflectLocalPlayer.Logout;
@@ -33,6 +36,27 @@ begin
   LogoutWidget.GetWidget(Widget_Logout_Container, 6);
   LogoutWidget.Interact;
   LogoutWidget.Free;
+end;
+
+procedure TReflectLocalPlayer.Login;
+var
+  FailCount: Integer;
+begin
+  if (Length(Self.Username) = 0) or (Length(Self.Password) = 0) then
+    Self.Active := False;
+  if not Self.Active then
+    Reflect.Internals.Warn(Self.Username + ' Is not active', R_Major);
+  while FailCount < 3 do
+  begin
+    if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
+    begin
+      Self.Create;
+      Exit;
+    end;
+    Inc(FailCount);
+    Wait(RandomRange(1200, 1500));
+  end;
+  Self.Active := False;
 end;
 
 function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;
