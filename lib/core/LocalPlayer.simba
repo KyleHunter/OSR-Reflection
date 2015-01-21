@@ -51,6 +51,7 @@ begin
     if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
     begin
       Self.Create;
+      Wait(RandomRange(700, 1300));
       Exit;
     end;
     Inc(FailCount);
@@ -61,8 +62,11 @@ end;
 
 procedure TReflectLocalPlayer.EnterPin;
 begin
+  Wait(RandomRange(600, 900));
   if not Reflect.Bank.IsPinOpen then
-    Exit;
+    Wait(RandomRange(800, 900));;
+  if Self.Pin = '' then
+    Self.Active = False;
   Self.Active := Reflect.Bank.EnterPin(Self.Pin);
 end;
 

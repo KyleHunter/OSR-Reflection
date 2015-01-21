@@ -242,6 +242,8 @@ const
 begin
   if Reflect.Bank.IsOpen then
     Exit(True);
+  if not Reflect.Bank.IsPinOpen then
+    Exit(False);
   for PinNum := 1 to 4 do
   begin
     for BoxNum := 0 to 9 do
