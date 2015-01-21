@@ -1,7 +1,8 @@
 [Reflection]
- Update # 6:
-  [Bugs]:
-  
+ Update # 7:
+  [Bugs]: Fixes small random Bank
+   Withdrawing.  
   [Improvements]:
-   Adds Mouse functions, Bank functions, changes include location to Includes/Reflection 
+   Adds complete login support, 
+   TReflectTimer type.
 [End]
