@@ -39,6 +39,7 @@ type
   TReflectionKeyboard = type Pointer;
   TReflectionMath = type Pointer;
   TReflectionLogin = type Pointer;
+  TReflectionTime = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -57,6 +58,7 @@ type
     KeyBoard: TReflectionKeyboard;
     Math: TReflectionMath;
     Login: TReflectionLogin;
+    Time: TReflectionTime;
     MouseSpeed: Integer;
 end;
 
@@ -198,6 +200,20 @@ const
 
   MSCX = 259;
   MSCY = 170;
+
+    {Date}
+
+  Date_Formal = 1;
+  Date_Month  = 2;
+  Date_Day    = 3;
+
+    {Time}
+
+  Time_Formal = 0;
+  Time_Short  = 1;
+  Time_Abbrev = 2;
+  Time_Bare   = 3;
+  Time_Fstop  = 4;
 
 {$ENDIF AL}
 
