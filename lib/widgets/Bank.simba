@@ -224,6 +224,42 @@ begin
   Result := Temp.Withdraw(Amount);
 end;
 
+function TReflectionBank.IsPinOpen: Boolean;
+var
+  PinWidget: TReflectWidget;
+begin
+  Result := PinWidget.IsValid(213, 3);
+end;
 
-
+function TReflectionBank.EnterPin(ThePin: string): Boolean
+var
+  PinWidget: TReflectWidget;
+  NumberChild:  TReflectWidget;
+  NumberBoxChild: TReflectWidget;
+  PinNum, BoxNum, EnterNumber, Count: Integer;
+const
+  NumberChildIndexs: TIntegerArray = [16, 18, 20, 22, 24, 26, 28, 30, 32, 34];
+begin
+  if Reflect.Bank.IsOpen then
+    Exit(True);
+  for PinNum := 1 to 4 do
+  begin
+    for BoxNum := 0 to 9 do
+    begin
+      PinWidget.GetWidget(Widget_PinScreen_Container, NumberChildIndexs[BoxNum]);
+      NumberChild.GetChild(PinWidget, 1);
+      if ThePin[PinNum] = NumberChild.GetText then
+      begin
+        NumberBoxChild.GetChild(PinWidget, 0);
+        NumberBoxChild.Interact;
+        Wait(RandomRange(250, 350));
+        NumberBoxChild.Free;
+        BoxNum := 9;
+      end;
+      PinWidget.Free;
+      NumberChild.Free;
+    end;
+  end;
+  Result := Reflect.Bank.IsOpen;
+end;
 

@@ -1,6 +1,6 @@
 type
   TReflectLocalPlayer = record(TReflectActor)
-  Username, Password: string;
+  Username, Password, Pin: string;
   Active: Boolean;
 end;
 
@@ -57,6 +57,13 @@ begin
     Wait(RandomRange(1200, 1500));
   end;
   Self.Active := False;
+end;
+
+procedure TReflectLocalPlayer.EnterPin;
+begin
+  if not Reflect.Bank.IsPinOpen then
+    Exit;
+  Self.Active := Reflect.Bank.EnterPin(Self.Pin);
 end;
 
 function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;

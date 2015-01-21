@@ -97,6 +97,7 @@ const
   Widget_Bank_Container = 12;
   Widget_Bank_TotalItems_Child = 3;
   Widget_Bank_ItemSlots_Child = 10;
+  Widget_PinScreen_Container = 213;
 
       {Chat}
 
