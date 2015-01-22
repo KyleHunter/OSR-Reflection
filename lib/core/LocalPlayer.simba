@@ -135,17 +135,18 @@ begin
     Reflect.Internals.BaseY);
 end;
 
-function TReflectLocalPlayer.FFlag(TileDist: Integer): Boolean;
+function TReflectLocalPlayer.FFlag(
+  TileDist: Integer; Timeout: Integer = -1): Boolean;
 var
-  TimeOut: TReflectTimer;
+  Timer: TReflectTimer;
 begin
-  TimeOut.Start;
+  Timer.Start;
   while Distance(Self.GetTile.X, Self.GetTile.Y, Self.GetDestination.X,
       Self.GetDestination.Y) > TileDist do
   begin
-    if TimeOut.ElapsedTime > 10000 then
+    if (Timeout > 0) and (Timer.ElapsedTime > Timeout) then
       Exit(False);
-    Wait(250);
+    Wait(RandomRange(200, 250));
   end;
   Exit(True);
 end;
@@ -153,14 +154,14 @@ end;
 function TReflectLocalPlayer.WaitForAnimation(
   WaitPerLoop, Timeout: Integer): Boolean;
 var
-  T: TReflectTimer;
+  Timer: TReflectTimer;
 begin
   Result := False;
-  T.Start;
+  Timer.Start;
   while TReflectActor.GetAnimation = -1 do
   begin
     Wait(WaitPerLoop);
-    if (T.ElapsedTime >= Timeout) then
+    if (Timer.ElapsedTime >= Timeout) then
       Exit;
   end;
   Result := True;
@@ -214,55 +215,57 @@ begin
   Result := Timer.ElapsedTime < 30000;
 end;
 
-	{*Credit AwkwardSaw*}
 function TReflectLocalPlayer.WalkPathMM(
   Path: TTileArray; Reverse: Boolean = False): Boolean;
 var
-  I, H, T, Fails, lP: integer;
-  P, MM, MMF: TPoint;
-  Temp: TTileArray;
-  K: TReflectTimer;
+  I, L, PrevL, Attempts: Integer;
 begin
-  Temp := CopyTPA(Path);
-  T := GetSystemTime + 10000 + Random(2000);
-  Fails := 0;
-  lP := 0;
+  if Length(Path) = 0 then
+    Exit;
   if Reverse then
-    InvertTpa(Temp);
-  H := High(Temp);
-  while (not Result) and (GetSystemTime < T) and (Fails < 5) do
+    InvertTPA(Path);
+  PrevL := -1;
+  while not Result do
   begin
-    if (not IsLoggedIn()) then
-      Exit;
-    P := Reflect.Internals.GetGlobalTile;
-    for I := H downto 0 do
+    for I := High(Path) downto L do
     begin
-      if ((I - lP) > 3) then
-        Continue
-      else
-        lP := I;
-      MM := Reflect.Tiles.TileToMM(Temp[I]);
-      if (MM.X = MMF.X) and (MM.Y = MMF.Y) then
-        Inc(Fails);
-      if Reflect.Map.TileOnMM(Temp[i]) then
+      if Reflect.Map.TileOnMM(Path[I]) and
+        Self.WalkToTileMM(Path[I]) and
+        Self.FFLag(RandomRange(2, 5)) then
+        if (L := I) = High(Path) then
+          Exit(True)
+        else if I <> PrevL then
+        begin
+          Attempts := 0;
+          Break;
+        end
+        else if Inc(Attempts) <= 5 then
+          Break;
+      if I = PrevL then
       begin
-        TReflectLocalPlayer.WalkToTileMM(Temp[i]);
-        K.Start;
-        repeat
-          Wait(RandomRange(1500, 2500));
-        until((K.ElapsedTime > 2000) or Self.FFlag(30));
-        MMF := MM;
-        if (I = H) then
-          Self.FFlag(5)
-        else
-          Self.FFlag(25);
-        T := GetSystemTime + 7000 + Random(1000);
-        Break;
+        Reflect.Internals.Warn('Failed to find Tile ' + ToStr(Path[I]) +
+          ' on MM.');
+        Exit;
       end;
     end;
-    Result := (I = H);
+    PrevL := L;
   end;
-  FFlag(5);
+end;
+
+function TReflectLocalPlayer.WalkStraightPathMM(
+  Path: TTileArray; Reverse: Boolean = False): Boolean;
+var
+  I: Integer;
+begin
+  if Length(Path) = 0 then
+    Exit;
+  if Reverse then
+    InvertTPA(Path);
+  for I := 0 to High(Path) do
+    if not ((Reflect.Map.TileOnMM(Path[I]) and
+      Self.WalkToTileMM(Path[I])) or Self.BlindWalkMM(Path[I])) then
+      Exit(False);
+  Result := True;
 end;
 
 function TReflectLocalPlayer.BlindWalkMS(
@@ -290,26 +293,11 @@ end;
 
 function TReflectLocalPlayer.BlindWalkMM(
   Tile: TTile; Dist: Integer = 5): Boolean;
-var
-  I, Tries: Integer;
-  OurTile, DestTile: TTile;
-  CTRLPoints: TTileArray;
 begin
-  repeat
-    OurTile := Reflect.Internals.GetGlobalTile;
-    CtrlPoints := Reflect.Internals.WindPath(
-      OurTile.x, OurTile.y, Tile.x, Tile.y, 5.0, 2.5, 0.0, 0.0, 1.5, 1.0);
-    Inc(Tries);
-    if(Tries > 20)then
-      Exit;
-    for I:= High(CtrlPoints) downto 0 do
-      if TReflectLocalPlayer.WalkToTileMM(CtrlPoints[I]) then
-      begin
-        Wait(RandomRange(2000, 3500));
-        Result := Reflect.Tiles.DistanceFromTile(Tile) <= Dist;
-        Break;
-      end;
-  until(Result);
+  Result := (Reflect.Map.TileOnMM(Tile) and Self.WalkToTileMM(Tile)) or
+    Self.WalkPathMM(Reflect.Internals.WindPath(
+      Self.GetTile.X, Self.GetTile.Y, Tile.X, Tile.Y,
+      5.0, 2.5, 0.0, 0.0, 1.0, 1.0));
 end;
 
 procedure TReflectLocalPlayer.GetInteractingNpc(var TheNpc: TReflectNpc);
@@ -319,6 +307,3 @@ begin
     Exit;
   TheNpc.GetIndex(Self.GetInteractingIndex);
 end;
-
-
-
