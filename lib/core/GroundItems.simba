@@ -45,17 +45,19 @@ var
 begin
   Reflect.Mem.Get3DObject(ckNull, ckGroundArray, Client_GroundItems, 0, 0,
     Plane, Tile.X, Tile.Y);
+  if HookCache[ckGroundArray][0] = 0 then
+    Exit;
   Reflect.Mem.GetObject(ckGroundArray, ckGroundList, LinkedList_Head, 0, 0);
   Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_next, 1, 0);
   SetLength(Temp, 128);
-  while (HookCache[TCacheKey.ckGroundList][Iteration] > 0) and
-    (HookCache[TCacheKey.ckGroundList][iteration] <>
-    HookCache[TCacheKey.ckGroundList][iteration + 1]) do
+  while (HookCache[ckGroundList][Iteration] > 0) and
+    (HookCache[ckGroundList][iteration] <>
+    HookCache[ckGroundList][iteration + 1]) do
   begin
     Id := Reflect.Smart.GetFieldInt(
-      HookCache[TCacheKey.ckGroundList][Iteration + 1], Item_Id);
+      HookCache[ckGroundList][Iteration + 1], Item_Id);
     Quantity := Reflect.Smart.GetFieldInt(
-      HookCache[TCacheKey.ckGroundList][Iteration + 1], Item_StackSizes);
+      HookCache[ckGroundList][Iteration + 1], Item_StackSizes);
     if (Id < 0) or (Quantity < 0) then
       Break;
     Temp[Iteration].Id := Id;
