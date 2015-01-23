@@ -17,6 +17,7 @@
 {$include Reflection/lib/widgets/gametabs/Inventory.simba}
 {$include Reflection/lib/widgets/gametabs/CombatOptions.simba}
 {$include Reflection/lib/widgets/gametabs/WornEquipment.simba}
+{$include Reflection/lib/widgets/gametabs/Prayer.simba}
 {$include Reflection/lib/widgets/Bank.simba}
 {$include Reflection/lib/widgets/Chat.simba}
 {$include Reflection/lib/core/Compass.simba}

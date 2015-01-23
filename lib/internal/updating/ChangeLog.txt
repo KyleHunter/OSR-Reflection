@@ -1,8 +1,5 @@
 [Reflection]
- Update # 7:
-  [Bugs]: Fixes small random Bank
-   Withdrawing.  
+ Update # 6:[Bugs]:Fixed a few Memory managing bugs.
   [Improvements]:
-   Adds complete login support, 
-   TReflectTimer type.
+ Full Prayer support 
 [End]

@@ -98,6 +98,9 @@
 (Reflection\Lib\Widgets\Gametabs\WornEquipment.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/WornEquipment.simba)
 
+(Reflection\Lib\Widgets\Gametabs\Prayer.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/Prayer.simba)
+
 (Reflection\Lib\Core\input\Mouse.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Mouse.simba)
 

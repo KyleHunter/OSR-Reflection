@@ -5,16 +5,17 @@
   {$ENDIF OS_SMART}
 {$ENDIF AL_VERSION_MAIN}
 
+{$IFNDEF AL}
 type
-  {$IFNDEF AL}
-    TGraphics = record
-      __Bmp: TMufasaBitmap;
-      __Init: boolean;
-      __Width: Integer;
-      __Height: Integer;
-    end;
-  {$ENDIF AL}
+  TGraphics = record
+    __Bmp: TMufasaBitmap;
+    __Init: boolean;
+    __Width: Integer;
+    __Height: Integer;
+end;
+{$ENDIF AL}
 
+type
   TReflectionSmart = record
     Target, PID: Integer;
     Width, Height: Integer;
@@ -23,7 +24,7 @@ type
     UserAgent: string;
   end;
 
-  {$SCOPEDENUMS ON}
+   {$SCOPEDENUMS ON}
     TReflectLoggerLevel = (Debug, Status, Warn, Error, Fatal);
   {$SCOPEDENUMS OFF}
 
@@ -31,7 +32,7 @@ type
     Name: String;
     Level: TReflectLoggerLevel;
   end;
-
+  
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;
@@ -55,7 +56,7 @@ type
     Compass: TReflectionCompass;
     Tiles: TReflectionTiles;
     Map: TReflectionMap;
-    Logger: TReflectLogger;
+	Logger: TReflectLogger;
     Misc: TReflectionMisc;
     Internals: TReflectionInternals;
     Text: TReflectionText;
@@ -178,6 +179,39 @@ const
         {Prayer}
 
   Widget_Prayer_Container = 271;
+
+  _Prayer_AllPrayers = [[4, $1], [5, $2], [6, $4], [7, $8], [22, $40000],
+    [23, $80000],[8, $10], [9, $20], [10, $40], [11, $80], [12, $100],
+    [24, $100000], [25, $200000], [13, $200], [14, $400], [15, $800],
+    [16, $1000], [17, $2000], [18, $4000], [26, $400000], [27, $800000],
+    [19, $8000], [20, $10000], [21, $20000], [28, $2000000], [29, $4000000]];
+
+  Prayer_ThickSkin = [4, $1];
+  Prayer_BurstOfStrength = [5, $2];
+  Prayer_ClarityOfThought = [6, $4];
+  Prayer_RockSkin = [7, $8];
+  Prayer_SharpEye = [22, $40000];
+  Prayer_MysticWill = [23, $80000];
+  Prayer_SuperHumanStrength = [8, $10];
+  Prayer_ImprovedReflexes = [9, $20];
+  Prayer_RapidRestore = [10, $40];
+  Prayer_RapidHeal = [11, $80];
+  Prayer_ProtectItem = [12, $100];
+  Prayer_HawkEye = [24, $100000];
+  Prayer_MysticLore = [25, $200000];
+  Prayer_SteelSkin = [13, $200];
+  Prayer_UltimateStrength = [14, $400];
+  Prayer_IncredibleReflexes = [15, $800];
+  Prayer_ProtectFromMagic = [16, $1000];
+  Prayer_ProtectFromMissiles = [17, $2000];
+  Prayer_ProtectFromMeele = [18, $4000];
+  Prayer_EagleEye = [26, $400000];
+  Prayer_MysticMight = [27, $800000];
+  Prayer_Retribution = [19, $8000];
+  Prayer_Redemption = [20, $10000];
+  Prayer_Smite = [21, $20000];
+  Prayer_Chivalry = [28, $2000000];
+  Prayer_Piety = [29, $4000000];
 
         {Magic}
 

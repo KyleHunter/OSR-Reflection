@@ -1,8 +1,8 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 8;
-  SubRev = 3;
+  IncludeRevision = 9;
+  SubRev = 0;
 {$i Reflection/lib/internal/Includes.simba}
 
 procedure TReflectionInternals.SetupSmart;
