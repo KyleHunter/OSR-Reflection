@@ -45,7 +45,7 @@ begin
   if (Length(Self.Username) = 0) or (Length(Self.Password) = 0) then
     Self.Active := False;
   if not Self.Active then
-    Reflect.Internals.Warn(Self.Username + ' Is not active', R_Major);
+    Reflect.Logger.Fatal('%s is not active.', [Self.Username]);
   while FailCount < 3 do
   begin
     if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
@@ -243,8 +243,7 @@ begin
           Break;
       if I = PrevL then
       begin
-        Reflect.Internals.Warn('Failed to find Tile ' + ToStr(Path[I]) +
-          ' on MM.');
+        Reflect.Logger.Warn('Failed to find Tile %s on MM.', [ToStr(Path[I])]);
         Exit;
       end;
     end;

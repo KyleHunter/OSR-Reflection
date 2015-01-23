@@ -16,7 +16,7 @@ begin
     Result := SettingArray[Setting]
   else
   begin
-    Reflect.Internals.Warn('Incorrect setting index passed to GetSetting');
+    Reflect.Logger.Warn('Incorrect setting index passed to GetSetting');
     Result := -1;
   end;
 end;
@@ -88,4 +88,17 @@ begin
   SetLength(Result, Res.size);
   MemMove(Res.Memory^, Result[1], Res.Size);
   Pro_FreeSocket(S);
+end;
+
+function TReflectionMisc.Time(): string;
+var
+  I: Integer;
+  TimeInts: array[0..3] of UInt16;
+begin
+  DecodeTime(Now(), TimeInts[0], TimeInts[1], TimeInts[2], TimeInts[3]);
+  for I := 0 to High(TimeInts) do
+    if I = High(TimeInts) then
+      Result += PadZ(IntToStr(TimeInts[I]), 3)
+    else
+      Result += PadZ(IntToStr(TimeInts[I]), 2) + ':';
 end;

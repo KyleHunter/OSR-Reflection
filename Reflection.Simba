@@ -2,35 +2,8 @@
 
 const
   IncludeRevision = 8;
-  SubRev = 1;
-  R_MAJOR = 0;
-  R_MINOR = 1;
+  SubRev = 2;
 {$i Reflection/lib/internal/Includes.simba}
-
-procedure TReflectionInternals.Warn(Message: string; warnType: Integer = R_MINOR);
-var
-  S: string;
-begin
-  case WarnType of
-    R_MAJOR: S := 'Major';
-    R_MINOR: S := 'Warn';
-  end;
-  WriteLn('[' + S + '] [Reflection error] ' + Message);
-  if warnType = R_MAJOR then
-    terminateScript;
-  Wait(2000);
-end;
-
-procedure TReflectionInternals.Status(Message: string);
-begin
-  WriteLn('[Reflection] [Status] ' + Message);
-end;
-
-procedure TReflectionInternals.Status(
-  Frmt: String; Args: TVariantArray); overload;
-begin
-  Reflect.Internals.Status(Format(Frmt, Args));
-end;
 
 procedure TReflectionInternals.SetupSmart;
 var
@@ -40,8 +13,8 @@ begin
     Reflect.Smart.Create(Os_Smart);
   {$ENDIF AL_SMART}
   {$IFNDEF SMART}
-    Reflect.Internals.Warn('It appears SMART is not defined. Please add '
-    + '{$DEFINE SMART} before including Reflection.', R_MAJOR);
+    Reflect.Logger.Fatal('It appears SMART is not defined. Please add '
+    + '{$DEFINE SMART} before including Reflection.');
   {$ENDIF SMART}
   {$IFNDEF AL_SMART}
     Reflect.Smart.Create;
@@ -52,38 +25,38 @@ begin
         Exit;
       Wait(100);
     end;
-    Reflect.Internals.Warn('Failed to detect or load OSRS.', R_MAJOR);
+    Reflect.Logger.Fatal('Failed to detect or load OSRS.');
   {$ENDIF AL_SMART}
 end;
 
 procedure TReflectionInternals.HooksValid;
 begin
-  if ((Reflect.Login.GetState < 10) or
-      (Reflect.Login.GetState > 30)) then
-    Reflect.Internals.Warn(
-      'Hooks are outdated.  No need to post about it, we are currently working on it.', R_MAJOR);
+  if (Reflect.Login.GetState < 10) or
+      (Reflect.Login.GetState > 30) then
+    Reflect.Logger.Fatal('Hooks are outdated. No need to post about it, we are'
+    + ' currently working on it.');
 end;
 
 procedure TReflectionInternals.UpdateHooks;
 var
   OnlineVersion, NewFileName: string;
-  NewFile: Integer
+  NewFile: Integer;
 begin
   OnlineVersion := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Update.txt');
   OnlineVersion := Between('hookrev = ''', '''', OnlineVersion);
   if (Trim(OnlineVersion) > ReflectionRevision) then
   begin
-    Reflect.Internals.Status('Hook update available!');
+    Reflect.Logger.Status('Hook update available!');
     try
       NewFileName := IncludePath + 'reflection\lib\internal\' + 'Hooks.simba';
       NewFile := Rewritefile(NewFileName, true);
       WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba'));
     except
-        Reflect.Internals.Warn('Failed Updated Hooks', R_MAJOR);
+        Reflect.Logger.Fatal('Failed Updated Hooks');
     finally
       CloseFile(NewFile);
-      Reflect.Internals.Status('Hook update completed.');
-      Reflect.Internals.Status('Please restart script..');
+      Reflect.Logger.Status('Hook update completed.');
+      Reflect.Logger.Status('Please restart script..');
       TerminateScript;
     end;
   end;
@@ -99,7 +72,7 @@ begin
   TempSubRev := Between('includesubrev = ''', '''', Full);
   if (StrToInt(TempRev) > IncludeRevision) or StrToInt(TempSubRev) > SubRev then
     begin
-      Reflect.Internals.Warn('Reflection Update Available');
+        Reflect.Logger.Warn('Reflection Update Available');
       Result := True;
     end;
 end;
@@ -137,9 +110,9 @@ begin
           CloseFile(NewFile);
           NewFile := Rewritefile(NewFileName, true);
           WriteFileString(NewFile, Reflect.Internals.GetPage(Multi[I]));
-          Reflect.Internals.Status('Added new file ' + NewFileName);
+          Reflect.Logger.Status('Added new file ' + NewFileName);
         except
-          Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
+          Reflect.Logger.Fatal('Fatal error writing to ' + NewFileName);
         finally
           CloseFile(NewFile);
         end;
@@ -164,7 +137,7 @@ begin
     if FileExists(OldFileName) then
     begin
       DeleteFile(OldFileName);
-      Reflect.Internals.Status('Removed file ' + Multi[I]);
+      Reflect.Logger.Status('Removed file ' + Multi[I]);
     end;
   end;
 end;
@@ -181,7 +154,7 @@ begin
   Reflect.Internals.DeleteOldFiles;
   if Reflect.Internals.CheckIncludeUpdate then
   begin
-    Reflect.Internals.Status('Update Available!');
+    Reflect.Logger.Status('Update Available!');
     ChangeLog := Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/ChangeLog.txt');
     NewFileName:= Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Files.txt');
     Multi:= MultiBetween(NewFileName, '(', ')');
@@ -196,9 +169,9 @@ begin
         try
           NewFile := Rewritefile(NewFileName, true);
           WriteFileString(NewFile, Reflect.Internals.GetPage(Multi[I]));
-          Reflect.Internals.Status('Updated ' + NewFileName);
+          Reflect.Logger.Status('Updated ' + NewFileName);
         except
-            Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
+            Reflect.Logger.Fatal('Fatal error writing to ' + NewFileName);
         finally
           CloseFile(NewFile);
         end;
@@ -209,14 +182,14 @@ begin
       NewFileName := IncludePath + 'reflection\Reflection.simba';
       NewFile := Rewritefile(NewFileName, True);
       WriteFileString(NewFile, Reflect.Internals.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/Reflection.Simba'));
-      Reflect.Internals.Status('Updated ' + NewFileName);
+      Reflect.Logger.Status('Updated ' + NewFileName);
     except
-        Reflect.Internals.Warn('Fatal error writing to ' + NewFileName, R_MAJOR);
+        Reflect.Logger.Fatal('Fatal error writing to ' + NewFileName);
     finally
       CloseFile(NewFile);
       Writeln(ChangeLog);
-      Reflect.Internals.Status('Update Completed.');
-      Reflect.Internals.Status('Please Restart Script.');
+      Reflect.Logger.Status('Update Completed.');
+      Reflect.Logger.Status('Please Restart Script.');
       TerminateScript;
     end;
   end;
@@ -224,20 +197,20 @@ end;
 
 procedure TReflectionLib.Setup;
 begin
+  Reflect.Logger.Init('Reflection');
   if DirectoryExists(IncludePath + 'Reflection\.git\') then
-    Reflect.Internals.Status('Git repository detected, not updating.')
+    Reflect.Logger.Status('Git repository detected, not updating.')
   else
     Reflect.Internals.UpdateAll;
   Reflect.MouseSpeed := 20;
   Reflect.Internals.SetupSmart;
   Reflect.Internals.HooksValid;
   Reflect.Internals.SetupCurves;
-  Reflect.Internals.Status('Successfully setup!');
+  Reflect.Logger.Status('Successfully setup!');
 end;
 
 procedure SetupReflection;
 begin
-  Reflect.Internals.Warn('Please change "SetupReflection" to "Reflect.Setup"');
+  Reflect.Logger.Warn('Please change "SetupReflection" to "Reflect.Setup"');
   Reflect.Setup;
 end;
-

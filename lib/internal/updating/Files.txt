@@ -71,6 +71,9 @@
 (Reflection\Lib\Internal\Login.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
 
+(Reflection\Lib\Misc\Logger.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Logger.simba)
+
 (Reflection\Lib\Misc\Misc.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Misc.simba)
 
@@ -91,6 +94,9 @@
 
 (Reflection\Lib\Widgets\Gametabs\CombatOptions.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
+
+(Reflection\Lib\Widgets\Gametabs\WornEquipment.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/WornEquipment.simba)
 
 (Reflection\Lib\Core\input\Mouse.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Mouse.simba)

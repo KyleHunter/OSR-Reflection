@@ -97,8 +97,7 @@ begin
     Self.Graphics.Create(Self.Width, Self.Height, SmartDebugArray(Self.Target));
     SmartSetDebug(Self.Target, True);
     Insert(@Self, _ReflectionSmartList);
-    Reflect.Internals.Status('Paired with SMART client %d.',
-      TVariantArray([Self.PID]));
+    Reflect.Logger.Status('Paired with SMART client %d.', [Self.PID]);
     Result := True;
   except
   end;
@@ -156,16 +155,16 @@ begin
   if (not Self.ForceNew) and Self.Pair then
     Exit;
   World := Self.GetWorld;
-  Reflect.Internals.Status('Using world %s.', [World]);
+  Reflect.Logger.Status('Using world %s.', [World]);
   Self.Target := SmartSpawnClient('java.exe', StringReplace(PluginPath, '\',
     '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
     'j1', Width, Height, '', UserAgent, '', '');
   if Self.Target = 0 then
-    Reflect.Internals.Warn('Failed to spawn SMART client.', R_MAJOR);
+    Reflect.Logger.Fatal('Failed to spawn SMART client.');
   if not Self.Init then
   begin
     SmartFreeClient(Self.Target);
-    Reflect.Internals.Warn('Failed to pair SMART client.', R_MAJOR);
+    Reflect.Logger.Fatal('Failed to pair SMART client.');
   end;
 end;
 

@@ -55,8 +55,7 @@ begin
   Self.Null;
   if not InRange(Slot, WornEquipment_Helmet, WornEquipment_Quiver) then
   begin
-    Reflect.Internals.Warn(
-      IntToStr(Slot) + ' is not a valid worn equipment slot');
+    Reflect.Logger.Warn('%d is not a valid worn equipment slot', [Slot]);
     Exit;
   end;
   Reflect.Gametab.Open(GameTab_WornEquipment);
@@ -84,8 +83,7 @@ var
 begin
   if not InRange(Slot, WornEquipment_Helmet, WornEquipment_Quiver) then
   begin
-    Reflect.Internals.Warn(
-      IntToStr(Slot) + ' is not a valid worn equipment slot');
+    Reflect.Logger.Warn('%d is not a valid worn equipment slot', [Slot]);
     Exit;
   end;
   Reflect.Gametab.Open(GameTab_WornEquipment);

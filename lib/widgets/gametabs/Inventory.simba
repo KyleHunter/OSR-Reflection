@@ -41,7 +41,7 @@ var
 begin
   if not InRange(I, 1, 28) then
   begin
-    Reflect.Internals.Warn('Incorrect index: ' + IntToStr(I));
+    Reflect.Logger.Warn('Incorrect index: %d', [I]);
     Exit;
   end;
   Slot1 := [563, 213, 594, 244];

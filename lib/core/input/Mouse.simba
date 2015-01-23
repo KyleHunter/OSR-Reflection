@@ -89,7 +89,7 @@ var
 begin
   if (Button <> Mouse_Left) and (Button <> Mouse_Right) then
   begin
-    Reflect.Internals.Warn(
+    Reflect.Logger.Warn(
       IntToStr(Button) + ' Is not a Valid Button for .Click');
     Exit;
   end;

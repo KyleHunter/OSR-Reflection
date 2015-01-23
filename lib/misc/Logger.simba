@@ -1,0 +1,42 @@
+procedure TReflectLogger.Debug(Text: string; Args: TVariantArray = [])
+begin
+  Self.Log(TReflectLoggerLevel.Debug, Text, Args);
+end;
+
+procedure TReflectLogger.Status(Text: string; Args: TVariantArray = [])
+begin
+  Self.Log(TReflectLoggerLevel.Status, Text, Args);
+end;
+
+procedure TReflectLogger.Warn(Text: string; Args: TVariantArray = [])
+begin
+  Self.Log(TReflectLoggerLevel.Warn, Text, Args);
+end;
+
+procedure TReflectLogger.Error(Text: string; Args: TVariantArray = [])
+begin
+  Self.Log(TReflectLoggerLevel.Error, Text, Args);
+end;
+
+procedure TReflectLogger.Fatal(Text: string; Args: TVariantArray = [])
+begin
+  Self.Log(TReflectLoggerLevel.Fatal, Text, Args);
+end;
+
+procedure TReflectLogger.Init(
+  Name: String; Level: TReflectLoggerLevel = TReflectLoggerLevel.Status);
+begin
+  Self.Name := Name;
+  Self.Level := Level;
+end;
+
+procedure TReflectLogger.Log(
+  Level: TReflectLoggerLevel; Text: string; Args: TVariantArray = []);
+begin
+  if Level < Self.Level then
+    Exit;
+  WriteLn('[', Reflect.Misc.Time(), '] [', Self.Name, '] [', Level, '] ',
+    Format(Text, Args));
+  if Level = TReflectLoggerLevel.Fatal then
+    TerminateScript;
+end;

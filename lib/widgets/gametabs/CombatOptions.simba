@@ -46,7 +46,7 @@ begin
     end;
     StyleWidget.Free;
   end;
-  Reflect.Internals.Warn(AttackStyle + ' is not a valid AttackStyle');
+  Reflect.Logger.Warn('%s is not a valid AttackStyle.', [AttackStyle]);
 end;
 
 function TReflectionGametab.GetWeildedWeapon: string;

@@ -21,6 +21,7 @@
 {$include Reflection/lib/widgets/Chat.simba}
 {$include Reflection/lib/core/Compass.simba}
 {$include Reflection/lib/core/Tile.simba}
+{$include Reflection/lib/misc/Logger.simba}
 {$include Reflection/lib/misc/Misc.simba}
 {$include Reflection/lib/core/Text.simba}
 {$include Reflection/lib/internal/Actor.simba}

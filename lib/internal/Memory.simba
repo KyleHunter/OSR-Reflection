@@ -118,7 +118,7 @@ begin
         HookCache[I][l] := 0;
       end;
   if Free then
-    Reflect.Internals.Status('All cached object references free''d from memory');
+    Reflect.Logger.Status('All cached object references free''d from memory');
 end;
 
 procedure ReflectFree;
