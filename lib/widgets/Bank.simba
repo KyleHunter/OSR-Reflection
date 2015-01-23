@@ -121,7 +121,7 @@ begin
   if Amount = -1 then
     Reflect.Text.ChooseOption('All');
   if Reflect.Internals.OptionExists(IntToStr(Amount)) then
-    Reflect.Text.ChooseOption(IntToStr(Amount))
+    Reflect.Text.ChooseOption(IntToStr(Amount) + ' ')
   else
   begin
     TimeOut.Start;
