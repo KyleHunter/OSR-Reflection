@@ -1,5 +1,5 @@
 [Reflection]
- Update # 6:[Bugs]:Fixed a few Memory managing bugs.
+ Update # 9:[Bugs]:Fixed a few Memory managing bugs.
   [Improvements]:
  Full Prayer support 
 [End]

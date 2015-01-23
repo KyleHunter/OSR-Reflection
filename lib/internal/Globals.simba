@@ -24,7 +24,7 @@ type
     UserAgent: string;
   end;
 
-   {$SCOPEDENUMS ON}
+  {$SCOPEDENUMS ON}
     TReflectLoggerLevel = (Debug, Status, Warn, Error, Fatal);
   {$SCOPEDENUMS OFF}
 
@@ -56,7 +56,7 @@ type
     Compass: TReflectionCompass;
     Tiles: TReflectionTiles;
     Map: TReflectionMap;
-	Logger: TReflectLogger;
+	  Logger: TReflectLogger;
     Misc: TReflectionMisc;
     Internals: TReflectionInternals;
     Text: TReflectionText;
@@ -70,7 +70,7 @@ type
     Login: TReflectionLogin;
     Time: TReflectionTime;
     MouseSpeed: Integer;
-end;
+  end;
 
   TTile = TPoint;
   TTileArray = array of TTile;
