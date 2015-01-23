@@ -45,7 +45,7 @@ var
 begin
   Reflect.Mem.Get3DObject(ckNull, ckGroundArray, Client_GroundItems, 0, 0,
     Plane, Tile.X, Tile.Y);
-  if HookCache[ckGroundArray][0] = 0 then
+  if HookCache[ckGroundArray][0] < 1 then
     Exit;
   Reflect.Mem.GetObject(ckGroundArray, ckGroundList, LinkedList_Head, 0, 0);
   Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_next, 1, 0);

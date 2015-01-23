@@ -72,33 +72,33 @@ end;
 
 procedure TReflectionMemory.FreeObjects(Key: TCacheKey; Safe: Boolean);
 var
-  i: Integer;
+  I: Integer;
 begin
-  for i := 0 to High(HookCache[Ord(Key)]) do
+  for I := 0 to High(HookCache[Ord(Key)]) do
   begin
-    SmartFreeObject(Reflect.Smart.Target, HookCache[Ord(Key)][i]);
-    if HookCache[Ord(Key)][i] = 0 then
+    Reflect.Smart.FreeObject(HookCache[Ord(Key)][I]);
+    if HookCache[Ord(Key)][I] = 0 then
     begin
       if Safe then
         Continue
       else
         begin
-          HookCache[Ord(Key)][i] := 0;
+          HookCache[Ord(Key)][I] := 0;
           Exit;
         end;
     end;
-    HookCache[Ord(Key)][i] := 0;
+    HookCache[Ord(Key)][I] := 0;
   end;
 end;
 
 procedure TReflectionMemory.FreeObjects(Key: TCacheKey; ToFree: Integer);
   overload;
 var
-  i: Integer;
+  I: Integer;
 begin
   for i := 0 to ToFree + 1 do
   begin
-    SmartFreeObject(Reflect.Smart.Target, HookCache[Ord(Key)][I]);
+    Reflect.Smart.FreeObject(HookCache[Ord(Key)][I]);
     if HookCache[Ord(Key)][I] = 0 then
       Continue;
     HookCache[Ord(Key)][I] := 0;
@@ -112,9 +112,9 @@ var
 begin
     for I := 1 to High(HookCache) do
     for L := 0 to High(HookCache[I]) do
-      if HookCache[i][l] <> 0 then
+      if HookCache[I][l] <> 0 then
       begin
-        SmartFreeObject(Reflect.Smart.Target, HookCache[I][l]);
+        Reflect.Smart.FreeObject(HookCache[I][L]);
         HookCache[I][l] := 0;
       end;
   if Free then

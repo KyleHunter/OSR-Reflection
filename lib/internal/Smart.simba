@@ -459,12 +459,14 @@ end;
 
 procedure TReflectionSmart.FreeObject(Reference: Integer);
 begin
-	SmartFreeObject(Reflect.Smart.Target, Reference);
+  if not Reflect.Smart.IsNull(Reference) then
+    SmartFreeObject(Reflect.Smart.Target, Reference);
 end;
 
 procedure TReflectPointer.Free;
 begin
-	SmartFreeObject(Reflect.Smart.Target, Self.Reference);
+  if not Reflect.Smart.IsNull(Self.Reference) then
+	  SmartFreeObject(Reflect.Smart.Target, Self.Reference);
 end;
 
 function TReflectionSmart.IsPathValid(Ref: Integer; Hook: THook): Boolean;
