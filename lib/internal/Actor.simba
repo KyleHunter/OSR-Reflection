@@ -52,3 +52,15 @@ begin
   Result := (Self.GetQueue.X <> Self.GetTile.X) or
     (Self.GetQueue.Y <> Self.GetTile.Y);
 end;
+
+function TReflectActor.IsUnderAttack: Boolean;
+begin
+  Result := (Self.GetCombatCycle > Reflect.Internals.GetClientLoopCycle);
+end;
+
+function TReflectActor.UnderAttack: Boolean;
+begin
+  Reflect.Logger.Warn('Please change %s to %s.',
+    ['TReflectActor.UnderAttack', 'TReflectActor.IsUnderAttack']);
+  Result := Self.IsUnderAttack;
+end;

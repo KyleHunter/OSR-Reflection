@@ -167,11 +167,6 @@ begin
   Result := True;
 end;
 
-function TReflectLocalPlayer.UnderAttack: Boolean;
-begin
-  Result := (Self.GetCombatCycle > Reflect.Internals.GetClientLoopCycle);
-end;
-
 function TReflectLocalPlayer.WalkToTileMM(Tile: TTile): Boolean;
 var
   Point: TPoint;
