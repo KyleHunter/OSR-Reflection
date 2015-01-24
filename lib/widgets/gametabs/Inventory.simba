@@ -1,4 +1,3 @@
-
 type
   TReflectInvItem = record(TReflectItem)
     InvSlot, Quantity: Integer;
@@ -55,7 +54,7 @@ end;
 procedure TReflectInvItemArray.Get(Item: Variant);
 var
   Temp, Temp1: TReflectInvItemArray;
-  I, H, T: integer;
+  I, H, T: Integer;
 begin
   Temp.GetAll;
   if Reflect.Misc.VariantIsString(Item) then
@@ -111,21 +110,46 @@ begin
   Result := True;
 end;
 
-function TReflectInvItemArray.IsFull: Boolean;
+function TReflectionInventory.Contains(TheItem: Variant): Boolean;
 var
-  I, C: Integer;
-  RItems: TReflectInvItemArray;
+  RItem: TReflectInvItem;
 begin
-  RItems.GetAll;
-  Result := Length(RItems) = 28;
+  Result := RItem.Find(TheItem);
 end;
 
-function TReflectInvItemArray.Count: Integer;
-var
-  I: Integer;
-  RItems: TReflectInvItemArray;
+function TReflectionInventory.Find(
+  var InvItem: TReflectInvItem; TheItem: Variant): Boolean;
 begin
-  RItems.GetAll;
-  Result := Length(RItems);
+  Result := InvItem.Find(TheItem);
 end;
 
+function TReflectionInventory.GetAll: TReflectInvItemArray;
+begin
+  Result.GetAll;
+end;
+
+function TReflectionInventory.GetAll(
+  TheItem: Variant): TReflectInvItemArray; overload;
+begin
+  Result.Get(TheItem);
+end;
+
+function TReflectionInventory.Count: Integer;
+begin
+  Result := Length(Self.GetAll);
+end;
+
+function TReflectionInventory.Count(TheItem: Variant): Integer; overload;
+begin
+  Result := Length(Self.GetAll(TheItem));
+end;
+
+function TReflectionInventory.IsEmpty: Boolean;
+begin
+  Result := Self.Count = 0;
+end;
+
+function TReflectionInventory.IsFull: Boolean;
+begin
+  Result := Self.Count = 28;
+end;
