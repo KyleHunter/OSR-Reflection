@@ -32,7 +32,7 @@ type
     Name: String;
     Level: TReflectLoggerLevel;
   end;
-
+  
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;
@@ -44,7 +44,6 @@ type
   TReflectionBank = type Pointer;
   TReflectionChat = type Pointer;
   TReflectionGametab = type Pointer;
-  TReflectionInventory = type Pointer;
   TReflectionMouse = type Pointer;
   TReflectionKeyboard = type Pointer;
   TReflectionMath = type Pointer;
@@ -65,7 +64,6 @@ type
     Bank: TReflectionBank;
     Chat: TReflectionChat;
     Gametab: TReflectionGametab;
-    Inv: TReflectionInventory;
     Mouse: TReflectionMouse;
     KeyBoard: TReflectionKeyboard;
     Math: TReflectionMath;
