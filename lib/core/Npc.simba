@@ -112,6 +112,11 @@ begin
   H := High(Indices);
   for I := 0 to H do
   begin
+    if (HookCache[TCacheKey.ckNpcNode][I] <> 0) then
+    begin
+      Reflect.Mem.FreeObjects(TCacheKey.ckNpcDef, True);
+      Reflect.Mem.FreeObjects(TCacheKey.ckNpcNode, True);
+    end;
     Reflect.Mem.GetObjectArray(
       ckNull, ckNpcNode, Client_LocalNpcs, I, I, Indices[I]);
     if (HookCache[TCacheKey.ckNpcNode][I] = 0) then
@@ -120,7 +125,6 @@ begin
       Continue;
     end;
     Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, I, I);
-    Reflect.Mem.GetObject(ckNpcNode, ckNpcOverHead, Actor_SpokenText, I, I);
     SetLength(Self, H + 1);
     with Self[I - C] do
     begin
@@ -140,9 +144,6 @@ begin
     end;
   end;
   SetLength(Self, I - C);
-  Reflect.Mem.FreeObjects(ckNpcDef, True);
-  Reflect.Mem.FreeObjects(ckNpcNode, True);
-  Reflect.Mem.FreeObjects(ckNpcOverHead, True);
 end;
 
 procedure TReflectNPCArray.Get(Npc: Variant);
@@ -201,27 +202,33 @@ begin
 end;
 
 procedure TReflectNPC.GetIndex(TheIndex: Integer);
-var
-  NpcNode, NpcDef: TReflectPointer;
 begin
-  NpcNode.GetFieldArrayObject(0, Client_LocalNpcs, TheIndex);
-  NpcDef.GetFieldObject(NpcNode.Reference, Npc_Definition);
+  if TheIndex < 1 then
+    Exit;
+  if (HookCache[TCacheKey.ckNpcNode][0] <> 0) then
+  begin
+    Reflect.Mem.FreeObjects(TCacheKey.ckNpcDef, False);
+    Reflect.Mem.FreeObjects(TCacheKey.ckNpcNode, False);
+  end;
+  Reflect.Mem.GetObjectArray(
+    ckNull, ckNpcNode, Client_LocalNpcs, 0, 0, TheIndex);
+  if (HookCache[TCacheKey.ckNpcNode][0] = 0) then
+    Exit;
+  Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, 0, 0);
   with Self do
   begin
-    Reference := NpcNode.Reference;
+    Reference := HookCache[TCacheKey.ckNpcNode][0];
     Index := TheIndex;
     SpokenText := GetSpokenText;
     Health := GetHealth;
     MaxHealth := GetMaxHealth;
     Tile := GetTile;
-    Id := Reflect.Smart.GetFieldInt(NpcDef.Reference,
-      NpcDefinition_ID);
+      Id := Reflect.Smart.GetFieldInt(HookCache[TCacheKey.ckNpcDef][0],
+        NpcDefinition_ID);
     Animation := GetAnimation;
     InteractingIndex := GetInteractingIndex;
     Queue := GetQueue;
     CombatCycle := GetCombatCycle;
     LoadDef;
   end;
-  NpcNode.Free;
-  NpcDef.Free;
 end;

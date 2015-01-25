@@ -1,5 +1,5 @@
 type THook = record
-  Path: String;
+  Path: string;
   Multi: Integer;
 end;
 

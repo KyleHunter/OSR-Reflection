@@ -459,13 +459,13 @@ end;
 
 procedure TReflectionSmart.FreeObject(Reference: Integer);
 begin
-  if not Reflect.Smart.IsNull(Reference) then
+  if Reference > 0 then
     SmartFreeObject(Reflect.Smart.Target, Reference);
 end;
 
 procedure TReflectPointer.Free;
 begin
-  if not Reflect.Smart.IsNull(Self.Reference) then
+  if Self.Reference > 0 then
 	  SmartFreeObject(Reflect.Smart.Target, Self.Reference);
 end;
 
@@ -520,8 +520,8 @@ begin
   StrInt := Reflect.Smart.GetFieldArrayObject(Ref, Hook, Index);
   SetLength(Result, 512);
   SetLength(Result, Reflect.Smart.StringFromString(StrInt, Result));
-  Result := Replace(Result, 'Â', '', [rfReplaceAll]);
-  Result := Replace(Result, #160, #32, [rfReplaceAll]);
+  Result := Replace(Result, 'Â', '', [RfReplaceAll]);
+  Result := Replace(Result, #160, #32, [RfReplaceAll]);
   Reflect.Smart.FreeObject(StrInt);
 end;
 

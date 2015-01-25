@@ -108,7 +108,6 @@ end;
 procedure TReflectionSmart.FreeAllObjects;
 var
   I, L: Integer;
-  Free: Boolean;
 begin
     for I := 1 to High(HookCache) do
     for L := 0 to High(HookCache[I]) do
@@ -117,8 +116,7 @@ begin
         Reflect.Smart.FreeObject(HookCache[I][L]);
         HookCache[I][l] := 0;
       end;
-  if Free then
-    Reflect.Logger.Status('All cached object references free''d from memory');
+    Reflect.Logger.Status('All cached references free''d from memory');
 end;
 
 procedure ReflectFree;
