@@ -109,7 +109,12 @@ begin
   end;
 end;
 
-procedure TReflectionInternals.SelectWorld(World: Integer);
+function TReflectionLogin.AtWorldScreen: Boolean;
+begin
+  Result := CountColor(0, 2, 30, 100, 400) > 10000;
+end;
+
+function TReflectionLogin.SelectWorld(World: Integer): Boolean;
 const
   Worlds: TIntegerArray = [301, 320, 343, 366, 302, 321, 344, 367, 303, 322,
    345, 368, 304, 325, 346, 369, 305, 326, 349, 370, 306, 327, 350, 373, 308,
@@ -120,11 +125,11 @@ var
   I: Integer;
 begin
   if not InIntArrayEx(Worlds, I, World) then
-    Exit;
-  Reflect.Mouse.Move(5, 465, 105, 495, Mouse_Left);
+    Exit(False);
   Wait(RandomRange(250, 500));
   Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
     Mouse_Left);
+  Result := True;
 end;
 
 

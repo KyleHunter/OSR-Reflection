@@ -60,6 +60,23 @@ begin
   Self.Active := False;
 end;
 
+procedure TReflectLocalPlayer.ChangeWorld(World: Integer);
+const
+  ClickSwitchButton: Tbox = [5, 465, 105, 495];
+begin
+  if Self.IsLoggedIn then
+  begin
+    Self.Logout;
+    while not Reflect.Login.AtLogin do
+      Wait(300);
+  end;
+  Reflect.Mouse.Move(ClickSwitchButton, Mouse_Left);
+  Wait(RandomRange(500, 700));
+  if Reflect.Login.SelectWorld(World) then
+  Wait(RandomRange(550, 650));
+  Self.Login;
+end;
+
 procedure TReflectLocalPlayer.EnterPin;
 begin
   Wait(RandomRange(600, 900));
