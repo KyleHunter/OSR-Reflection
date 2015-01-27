@@ -183,7 +183,7 @@ begin
   Y := Y - Reflect.Internals.CameraY;
   Z := Z - Reflect.Internals.CameraZ;
   CurveX := Reflect.Internals.GetYaw;
-  CurveY := Reflect.Internals.GetPitch;
+  CurveY := Reflect.Compass.GetPitch;
   CurveCosX := CURVECOS[Floor(CurveX)];
   CurveCosY := CURVECOS[Floor(CurveY)];
   CurveSinX := CURVESIN[Floor(CurveX)];

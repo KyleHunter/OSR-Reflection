@@ -1,6 +1,47 @@
-function TReflectionInternals.GetPitch: Extended;
+function TReflectionCompass.GetPitch: Extended;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraPitch);
+end;
+
+procedure TReflectionCompass.MakePitch(Pitch: Integer);
+var
+  CurrPitch: Extended;
+  MoveUp: Boolean;
+  TimeOut: TReflectTimer;
+begin
+  if not InRange(Pitch, 0, 10) then
+  begin
+    Reflect.Logger.Warn('MakePitch() must have a value between 0 - 10');
+    Exit;
+  end;
+  CurrPitch := (Self.GetPitch - 128) / 25.5;
+  if (CurrPitch - Pitch) < 0 then
+    MoveUp := True;
+  TimeOut.Start;
+  case MoveUp of
+    True:
+    begin
+      KeyDown(vk_Up);
+      while CurrPitch < Pitch do
+      begin
+        CurrPitch := (Self.GetPitch - 128) / 25.5;
+        if TimeOut.ElapsedTime > RandomRange(2200, 3200) then
+          Break;
+      end;
+      KeyUp(vk_Up);
+    end;
+    False:
+    begin
+      KeyDown(vk_Down);
+      while CurrPitch > Pitch do
+      begin
+        CurrPitch := (Self.GetPitch - 128) / 25.5;
+        if TimeOut.ElapsedTime > RandomRange(2200, 3200) then
+          Break;
+      end;
+      KeyUp(vk_Down);
+    end;
+  end;
 end;
 
   {*Credit: Nava2*}
