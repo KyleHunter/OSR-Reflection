@@ -14,7 +14,8 @@ end;
 
 procedure TReflectTimer.Reset;
 begin
-  Self.StartTime := Self.TotalRan := 0;
+  Self.TotalRan := 0;
+  Self.StartTime := self.TotalRan;
   Self.IsRunning := False;
 end;
 
