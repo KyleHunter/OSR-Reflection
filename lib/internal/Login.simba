@@ -105,7 +105,10 @@ begin
     Result := Reflect.Login.GetState = 30;
     Wait(RandomRange(450, 750));
     if Result then
+    begin
       Reflect.Mouse.Move(280, 300, 490, 370, Mouse_Left);
+      Wait(RandomRange(1600, 2200));
+    end;
   end;
 end;
 
