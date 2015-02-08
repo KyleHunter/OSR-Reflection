@@ -68,6 +68,9 @@
 (Reflection\Lib\Internal\Smart.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Smart.simba)
 
+(Reflection\Lib\Internal\Graphics.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Graphics.simba)
+
 (Reflection\Lib\Internal\Login.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
 

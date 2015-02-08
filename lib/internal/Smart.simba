@@ -7,84 +7,23 @@ type
 var
   _ReflectionSmartList: array of Pointer;
 
-  {$IFNDEF AL}
-  __Bmp__Pointers: array of ^TGraphics;
-
-{Credits Flight for TGraphics Functions}
-procedure __TGraphicsFreeAll;
-var
-  I: Integer;
-begin
-  For I := 0 To High(__Bmp__Pointers) Do
-    if (__Bmp__Pointers[I] <> nil) then
-    begin
-      try
-        __Bmp__Pointers[I]^.__Bmp.ResetPersistentMemory;
-      except end;
-      __Bmp__Pointers[I]^.__Bmp.Free;
-      __Bmp__Pointers[I]^.__Init := False;
-      __Bmp__Pointers[I]^.__Width := 0;
-      __Bmp__Pointers[I]^.__Height := 0;
-    end;
-end;
-
-procedure TGraphics.Create(Width, Height: Integer; Ptr: Uint32);
-begin
-  Self.__Bmp.Init(Client.GetMBitmaps);
-  Self.__Bmp.SetPersistentMemory(Ptr, Width, Height);
-  Self.__Init := True;
-  Self.__Width := Width;
-  Self.__Height := Height;
-  Self.__Bmp.SetTransparentColor(0);
-  Insert(@Self, __Bmp__Pointers);
-  AddOnTerminate('__TGraphicsFreeAll');
-end;
-
-Procedure Delete(Ptr: Pointer; var Pointers: Array of Pointer); overload;
-var
-  I, J: Integer = 0;
-  Ptrs: Array of Pointer;
-begin
-  setLength(Ptrs, Length(Pointers));
-  For I := 0 To High(Pointers) do
-    if (Pointers[I] <> Ptr) then
-    begin
-      Ptrs[J] := Pointers[I];
-      Inc(J);
-    end;
-  SetLength(Ptrs, J);
-  Pointers := Ptrs;
-end;
-
-Procedure Delete(Ptr: ^TGraphics; var Pointers: Array of ^TGraphics); overload;
-var
-  I, J: Integer = 0;
-  Ptrs: Array of ^TGraphics;
-begin
-  SetLength(Ptrs, Length(Pointers));
-  For I := 0 To High(Pointers) do
-    if (Pointers[I] <> Ptr) then
-    begin
-      Ptrs[J] := Pointers[I];
-      Inc(J);
-    end;
-  SetLength(Ptrs, J);
-  Pointers := Ptrs;
-end;
-
-procedure TGraphics.Free;
-begin
-  try
-    Self.__Bmp.ResetPersistentMemory;
-    Self.__Bmp.Free;
-  except
+{$IFNDEF AL}
+  procedure Delete(Ptr: Pointer; var Pointers: Array of Pointer); overload;
+  var
+    I, J: Integer = 0;
+    Ptrs: array of Pointer;
+  begin
+    setLength(Ptrs, Length(Pointers));
+    for I := 0 to High(Pointers) do
+      if (Pointers[I] <> Ptr) then
+      begin
+        Ptrs[J] := Pointers[I];
+        Inc(J);
+      end;
+    SetLength(Ptrs, J);
+    Pointers := Ptrs;
   end;
-  Self.__Init   := False;
-  Self.__Width  := 0;
-  Self.__Height := 0;
-  Delete(@Self, __Bmp__Pointers);
-end;
-  {$ENDIF AL}
+{$ENDIF AL}
 
 function TReflectionSmart.Init: Boolean;
 begin
@@ -167,7 +106,7 @@ begin
   end;
 end;
 
-{$IFDEF AL_SMART}
+{$IFDEF AL_SMART  }
   procedure TReflectionSmart.Create(Smart: TSmart); overload;
   begin
     Self.Target := Smart.__Target;
@@ -175,7 +114,7 @@ end;
     Self.Width := Smart.__Width;
     Self.Height := Smart.__Height;
     Self.ForceNew := Smart.__ForceNew;
-    Self.Graphics := Smart.__Graphics;
+    Self.Graphics.Create(Self.Width, Self.Height, SmartDebugArray(Self.Target));
     Self.UserAgent := Smart.__UserAgent;
   end;
 {$ENDIF AL_SMART}

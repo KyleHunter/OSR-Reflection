@@ -5,22 +5,19 @@
   {$ENDIF OS_SMART}
 {$ENDIF AL_VERSION_MAIN}
 
-{$IFNDEF AL}
 type
-  TGraphics = record
-    __Bmp: TMufasaBitmap;
-    __Init: boolean;
-    __Width: Integer;
-    __Height: Integer;
-end;
-{$ENDIF AL}
+  TReflectGraphics = record
+    Bmp: TMufasaBitmap;
+    IsInit: Boolean;
+    Width: Integer;
+    Height: Integer;
+  end;
 
-type
   TReflectionSmart = record
     Target, PID: Integer;
     Width, Height: Integer;
     ForceNew: Boolean;
-    Graphics: TGraphics;
+    Graphics: TReflectGraphics;
     UserAgent: string;
   end;
 
@@ -32,7 +29,7 @@ type
     Name: String;
     Level: TReflectLoggerLevel;
   end;
-  
+
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;
@@ -51,6 +48,7 @@ type
   TReflectionTime = type Pointer;
 
   TReflectionLib = record
+    Graphics: TReflectGraphics;
     Smart: TReflectionSmart;
     Mem: TReflectionMemory;
     Compass: TReflectionCompass;
