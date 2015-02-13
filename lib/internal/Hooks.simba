@@ -100,7 +100,7 @@ const
  Client_BaseX: THook =                ['co.cu', 1899451807];
  Client_BaseY: THook =                ['an.cx', -1363749287];
  Client_Widgets: THook =              ['er.e', 1];
- Client_LocalPlayer: THook =          ['client.js', 1];
+ Client_LocalPlayer: THook =          ['am.ho', 1];
  Client_LocalPlayers: THook =         ['client.gf', 1];
  Client_TileSettings: THook =         ['l.v', 1];
  Client_TileHeights: THook =          ['l.e', 1];
