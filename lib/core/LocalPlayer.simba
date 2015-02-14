@@ -79,12 +79,13 @@ end;
 
 procedure TReflectLocalPlayer.EnterPin;
 begin
-  Wait(RandomRange(600, 900));
   if not Reflect.Bank.IsPinOpen then
-    Wait(RandomRange(800, 900));;
+    Exit;
+
   if Self.Pin = '' then
     Self.Active = False;
-  Self.Active := Reflect.Bank.EnterPin(Self.Pin);
+
+  Reflect.Bank.EnterPin(Self.Pin);
 end;
 
 function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;

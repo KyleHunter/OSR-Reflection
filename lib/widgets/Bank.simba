@@ -1,4 +1,3 @@
-
 type
   TReflectBankItem = record(TReflectItem)
   Quantity: Integer;
@@ -116,29 +115,37 @@ begin
     BankChild.Free;
     Exit(True);
   end;
+
   Reflect.Mouse.Move(Box, Mouse_Right);
-  Wait(500);
   if Amount = -1 then
-    Reflect.Text.ChooseOption('All');
+  begin
+    Result := Reflect.Text.ChooseOption('All', 200+Random(100));
+    BankChild.Free;
+    Exit;
+  end;
+
   if Reflect.Internals.OptionExists(IntToStr(Amount)) then
-    Reflect.Text.ChooseOption(IntToStr(Amount) + ' ')
+    Result := Reflect.Text.ChooseOption(IntToStr(Amount) + ' ')
   else
   begin
     TimeOut.Start;
     BankChild.Interact('X');
     while (not AmountWidget.IsValid(548, 119)) do
     begin
-      Wait(200);
+      Wait(100+Random(100));
       if TimeOut.ElapsedTime > 5000 then
       begin
         AmountWidget.Free;
+        BankChild.Free;
         Exit(False);
       end;
     end;
     Wait(RandomRange(500, 750));
     Reflect.KeyBoard.TypeSend(ToStr(Amount));
-    BankChild.Free;
+    Result := True;
   end;
+
+  BankChild.Free;
 end;
 
 function TReflectionInternals.GetBankItem(
@@ -172,11 +179,10 @@ var
   Center: TPoint;
 begin
   if (not Reflect.Bank.IsOpen) or (Self.Id = 0) then
-    Exit;
+    Exit(False);
   BankChild := Reflect.Internals.GetBankItem(Self);
   Center := MiddleBox(BankChild.GetBounds);
-  if (not BankChild.IsHidden) and
-    (PointInBox(Center,[22, 80, 480, 292])) then
+  if (not BankChild.IsHidden)and(PointInBox(Center,[22, 80, 480, 292])) then
     Reflect.Internals.WithDrawBankItem(BankChild, Amount)
   else
   begin
@@ -195,9 +201,8 @@ begin
       Center := MiddleBox(BankChild.GetBounds);
       Inc(L);
     end;
-    Reflect.Internals.WithDrawBankItem(BankChild, Amount);
+    Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount);
   end;
-  Result := True;
 end;
 
 function TReflectionBank.GetAll: TReflectBankItemArray;
@@ -275,4 +280,3 @@ begin
   end;
   Result := Reflect.Bank.IsOpen;
 end;
-
