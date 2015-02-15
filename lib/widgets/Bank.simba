@@ -124,7 +124,7 @@ begin
     Exit;
   end;
 
-  if Reflect.Internals.OptionExists(IntToStr(Amount)) then
+  if Reflect.Internals.OptionExists(IntToStr(Amount) + ' ') then
     Result := Reflect.Text.ChooseOption(IntToStr(Amount) + ' ')
   else
   begin
@@ -180,10 +180,11 @@ var
 begin
   if (not Reflect.Bank.IsOpen) or (Self.Id = 0) then
     Exit(False);
+
   BankChild := Reflect.Internals.GetBankItem(Self);
   Center := MiddleBox(BankChild.GetBounds);
   if (not BankChild.IsHidden)and(PointInBox(Center,[22, 80, 480, 292])) then
-    Reflect.Internals.WithDrawBankItem(BankChild, Amount)
+    Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount)
   else
   begin
     SearchWidget.GetWidget(12, 23);
