@@ -113,7 +113,7 @@ begin
   begin
     if Reflect.Internals.IsMenuOpen then
     begin
-      Result := Reflect.Text.ChooseOption(Option);;
+      Result := Reflect.Text.ChooseOption(Option);
       Exit;
     end;
     Wait(20 + Random(20));
