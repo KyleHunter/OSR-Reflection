@@ -8,7 +8,7 @@ type
     Id, Height, Width: Integer;
     Walkable: Boolean;
     ObjectType: TObjType;
-    Tile: TTile;
+    Tile, Offset: TTile;
   end;
 
   TReflectObjectArray = Array of TReflectObject;
@@ -88,32 +88,42 @@ procedure TReflectObject.GetObject(__Object: TObjType; Hash,
 var
   Id: Integer;
   Temp: TReflectObject;
+  LocalTile: TTile;
 begin
-    if (__Object <> objGame) then
-    begin
-      Reflect.Mem.GetObject(ckSceneTile, ckObject, SceneObject, Iteration,
-        Iteration);
-      if HookCache[TCacheKey.ckObject][Iteration] = 0 then
-        Exit;
-      Id := Reflect.Smart.GetFieldInt(
-        HookCache[TCacheKey.ckObject][Iteration], Hash);
-      Id := (Id shr 14) and $7fff;
-    end
-    else
-    begin
-      Reflect.Mem.GetObjectArray(ckSceneTile, ckObject, SceneObject, Iteration,
-        Iteration, 0);
-      if HookCache[TCacheKey.ckObject][Iteration] = 0 then
-        Exit;
-      Id := Reflect.Smart.GetFieldInt(
-        HookCache[TCacheKey.ckObject][Iteration], Hash);
-      Id := (Id shr 14) and $7fff;
-    end;
-    Self.Id := Id;
-    Self.Tile := RealTile;
-    Self.ObjectType := __Object;
-    Self.LoadDef;
+  if (__Object <> objGame) then
+  begin
+    Reflect.Mem.GetObject(ckSceneTile, ckObject, SceneObject, Iteration,
+      Iteration);
+    if HookCache[TCacheKey.ckObject][Iteration] = 0 then
+      Exit;
+    Id := Reflect.Smart.GetFieldInt(
+      HookCache[TCacheKey.ckObject][Iteration], Hash);
+    Id := (Id shr 14) and $7fff;
+  end
+  else
+  begin
+    Reflect.Mem.GetObjectArray(ckSceneTile, ckObject, SceneObject, Iteration,
+      Iteration, 0);
+    if HookCache[TCacheKey.ckObject][Iteration] = 0 then
+      Exit;
+    Id := Reflect.Smart.GetFieldInt(
+      HookCache[ckObject][Iteration], Hash);
+    Id := (Id shr 14) and $7fff;
   end;
+  Self.Id := Id;
+  Self.Tile := RealTile;
+  Self.ObjectType := __Object;
+  Self.LoadDef;
+  if Self.ObjectType = objGame then
+  begin
+    LocalTile := Point(Reflect.Smart.GetFieldInt(
+      HookCache[ckObject][Iteration], GameObject_OffsetX),
+      Reflect.Smart.GetFieldInt(
+      HookCache[ckObject][Iteration], GameObject_OffsetY));
+    Self.Offset := Point(LocalTile.X + Reflect.Internals.BaseX, LocalTile.Y +
+      Reflect.Internals.BaseY);
+  end;
+end;
 
 procedure TReflectObject.GetHooks(__Object: TObjType; var ObjHook: THook;
   var SceneHook: THook);
@@ -262,4 +272,25 @@ begin
     Self := Temp[0];
   end;
 end;
+
+function TReflectObject.GetMSPoint: TPoint;
+var
+  OffsetX, OffsetY, XShift, YShift: Extended;
+  Tile: TPoint;
+begin
+  if Self.ObjectType <> ObjGame then
+    Exit(Self.Tile);
+  Tile := Self.Tile;
+  OffsetX := (Tile.X + Self.Offset.X) / 2;
+  OffsetY := (Tile.Y + Self.Offset.Y) / 2;
+  XShift := Frac(OffsetX) * 128;
+  YShift := Frac(OffsetY) * 128;
+  if Self.Offset.X mod 2 = 0 then
+    XShift := XShift * -1;
+  if Self.Offset.Y mod 2 = 0 then
+    YShift := YShift * -1;
+  Result := Reflect.Tiles.TileToMs(Point(Round(OffsetX), Round(OffsetY)),
+    Round(XShift), Round(YShift), 0);
+end;
+
 
