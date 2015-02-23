@@ -182,9 +182,9 @@ begin
   HighX := Position.X + Distance;
   HighY := Position.Y + Distance;
   if HighX > 103 then
-    HighX := 103;
+    HighX := 102;
   if HighY > 103 then
-    HighY := 103;
+    HighY := 102;
   SetLength(Self, 10817);
   for X := Position.X - Distance to HighX do
     for Y := Position.Y - Distance to HighY do

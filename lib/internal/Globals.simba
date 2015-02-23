@@ -46,6 +46,7 @@ type
   TReflectionMath = type Pointer;
   TReflectionLogin = type Pointer;
   TReflectionTime = type Pointer;
+  TReflectionInventory = type Pointer;
 
   TReflectionLib = record
     Graphics: TReflectGraphics;
@@ -68,6 +69,7 @@ type
     Login: TReflectionLogin;
     Time: TReflectionTime;
     MouseSpeed: Integer;
+    Inv: TReflectionInventory;
   end;
 
   TTile = TPoint;

@@ -34,22 +34,21 @@ begin
   InvWidget.Free;
 end;
 
-  {Credit Boreas}
-function TReflectionInternals.InvBox(I : Integer): TBox;
+function TReflectInvItem.GetMSPoint: TPoint;
 var
-  Slot1, Slot6: TBox;
+  Slot1, Slot6, Temp: TBox;
+  Pnt: TPoint;
 begin
-  if not InRange(I, 1, 28) then
-  begin
-    Reflect.Logger.Warn('Incorrect index: %d', [I]);
+  if not InRange(Self.InvSlot, 1, 28) then
     Exit;
-  end;
   Slot1 := [563, 213, 594, 244];
   Slot6 := [605, 249, 31415, 92653];
-  Result.X1 := Slot1.X1 + ((((I + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
-  Result.Y1 := Slot1.Y1 + ((((I - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
-  Result.X2 := Result.X1 + (Slot1.X2 - Slot1.X1);
-  Result.Y2 := Result.Y1 + (Slot1.Y2 - Slot1.Y1);
+  Temp.X1 := Slot1.X1 + ((((Self.InvSlot + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
+  Temp.Y1 := Slot1.Y1 + ((((Self.InvSlot - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
+  Temp.X2 := Temp.X1 + (Slot1.X2 - Slot1.X1);
+  Temp.Y2 := Temp.Y1 + (Slot1.Y2 - Slot1.Y1);
+  Reflect.Math.GaussBox(Pnt.X, Pnt.Y, Temp.X1, Temp.Y1, Temp.X2, Temp.Y2);
+  Result := Pnt;
 end;
 
 procedure TReflectInvItemArray.Get(Item: Variant);
@@ -99,18 +98,6 @@ begin
   Result := True;
 end;
 
-function TReflectInvItem.Click(ClickType: Integer):
-  Boolean;
-var
-  Box: TBox;
-begin
-  if Self.InvSlot < 0 then
-    Exit;
-  Box := Reflect.Internals.InvBox(Self.InvSlot);
-  Reflect.Mouse.Move(Box, ClickType);
-  Result := True;
-end;
-
 function TReflectInvItemArray.IsFull: Boolean;
 var
   I, C: Integer;
@@ -127,5 +114,90 @@ var
 begin
   RItems.GetAll;
   Result := Length(RItems);
+end;
+
+function TReflectionInventory.Count: Integer;
+var
+  I: Integer;
+  _Items: TReflectInvItemArray;
+begin
+  _Items.GetAll;
+  Result := Length(_Items);
+end;
+
+function TReflectionInventory.IsFull: Boolean;
+begin
+  Result := Reflect.Inv.Count = 28;
+end;
+
+function TReflectionInventory.IsEmpty: Boolean;
+begin
+  Result := Reflect.Inv.Count = 0;
+end;
+
+function TReflectionInventory.Contains(TheItem: TStringArray): Boolean;
+var
+  _Item: TReflectInvItem;
+  I: Integer;
+begin
+  for I := 0 to High(TheItem) do
+  begin
+    if _Item.Find(TheItem[I]) then
+      Exit(True);
+  end;
+end;
+
+function TReflectionInventory.Contains(
+  TheItem: TIntegerArray): Boolean; overload;
+var
+  _Item: TReflectInvItem;
+  I: Integer;
+begin
+  for I := 0 to High(TheItem) do
+  begin
+    if _Item.Find(TheItem[I]) then
+      Exit(True);
+  end;
+end;
+
+function TReflectionInventory.Drop(Item: Variant): Boolean;
+var
+  Temp: TReflectInvItem;
+begin
+  if Temp.Find(Item) then
+  begin
+    Reflect.Mouse.Move(Temp.GetMSPoint, 2, 2);
+    Wait(RandomRange(160, 250));
+    Reflect.Mouse.Click(Mouse_Right);
+    Result := Reflect.Text.ChooseOption('Drop');
+  end;
+end;
+
+procedure TReflectionInventory.DropAll;
+var
+  Temp: TReflectInvItemArray;
+  ItemCount, I: Integer;
+begin
+  Temp.GetAll;
+  ItemCount := Length(Temp);
+  for I := 0 to ItemCount do
+    Self.Drop(Temp[I].Id);
+end;
+
+function TReflectInvItem.Drop: Boolean;
+begin
+  Reflect.Mouse.Move(Self.GetMSPoint, 2, 2);
+  Wait(RandomRange(160, 250));
+  Reflect.Mouse.Click(Mouse_Right);
+  Result := Reflect.Text.ChooseOption('Drop');
+end;
+
+procedure TReflectInvItemArray.Drop;
+var
+  ItemCount, I: Integer;
+begin
+  ItemCount := Length(Self);
+  for I := 0 to ItemCount do
+    Reflect.Inv.Drop(Self[I].Id);
 end;
 
