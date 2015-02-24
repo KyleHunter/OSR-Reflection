@@ -1,20 +1,4 @@
 
-type
-  TReflectWornEquipment = record(TReflectItem)
-    EquipSlot: Integer;
-  end;
-
-  TReflectWornEquipmentArray = Array of TReflectWornEquipment;
-
-procedure TReflectWornEquipment.Null;
-begin
-  Self.HighAlchValue := 0;
-  Self.Id := 0;
-  Self.InvActions := [''];
-  Self.Name := '';
-  Self.EquipSlot := 0;
-end;
-
 procedure TReflectWornEquipmentArray.GetAll;
 var
   EquipmentWidget, EquipmentChild: TReflectWidget;
@@ -37,7 +21,6 @@ begin
       with Self[Count] do
       begin
         Id := EquipmentChild.GetItemId;
-        LoadDef;
         EquipSlot := I;
       end;
       Inc(Count);
@@ -52,7 +35,6 @@ procedure TReflectWornEquipment.AtSlot(Slot: Integer);
 var
   EquipmentWidget, EquipmentChild: TReflectWidget;
 begin
-  Self.Null;
   if not InRange(Slot, WornEquipment_Helmet, WornEquipment_Quiver) then
   begin
     Reflect.Logger.Warn('%d is not a valid worn equipment slot', [Slot]);
@@ -70,7 +52,6 @@ begin
   with Self do
   begin
     Id := EquipmentChild.GetItemId;
-    LoadDef;
     EquipSlot := Slot;
   end;
     EquipmentChild.Free;

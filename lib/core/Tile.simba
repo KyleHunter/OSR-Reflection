@@ -18,7 +18,7 @@ type
 var
   CURVESIN, CURVECOS: TIntegerArray;
 
-procedure TReflectionInternals.SetupCurves;
+procedure TReflectionTiles.SetupCurves;
 var
   I: Integer;
 begin
@@ -30,7 +30,7 @@ begin
   end;
 end;
 
-function TReflectionInternals.GetGlobalTile: TTile;
+function TReflectionTiles.GetGlobalTile: TTile;
 var
   Me: TReflectPointer;
 begin
@@ -53,7 +53,7 @@ var
   Angle: Extended;
   Me: TPoint;
 begin
-  Me:= Reflect.Internals.GetGlobalTile;
+  Me:= Reflect.Tiles.GetGlobalTile;
   Angle:= (Degrees(ArcTan2(Tile.Y - Me.Y, Tile.X - Me.X))) - 90;
   if (Angle < 0) then
       Angle:= 360 + angle;
@@ -65,7 +65,10 @@ function TReflectionTiles.DistanceFromTile(Tile: TTile): Integer;
 var
   Loc: TPoint;
 begin
-  Loc := Reflect.Internals.GetGlobalTile;
+  if (Tile.X > 100000) or (Tile.X < -100000) or (Tile.Y > 100000) or
+    (Tile.Y < -100000) then
+    Exit;
+  Loc := Reflect.Tiles.GetGlobalTile;
   Result :=  Distance(Tile.X, Tile.Y, Loc.X, Loc.Y);
 end;  
 
@@ -81,8 +84,8 @@ var
   I, numpoints, Inside, X, Y: Integer;
 begin
   NumPoints := Length(Area);
-  X := Reflect.Internals.GetGlobalTile.Y;
-  X := Reflect.Internals.GetGlobalTile.Y;
+  X := Reflect.Tiles.GetGlobalTile.Y;
+  X := Reflect.Tiles.GetGlobalTile.Y;
   if (NumPoints < 3) then
     Exit;
   XOld := Area[NumPoints - 1].X;
@@ -121,7 +124,7 @@ var
   Temp: TTile;
 begin
   Angle := -Reflect.Compass.AngleRad;
-  Temp := Reflect.Internals.GetGlobalTile;
+  Temp := Reflect.Tiles.GetGlobalTile;
   X := (Tile.X - Temp.X) * 4 - 2;
   Y := (Temp.Y - Tile.Y) * 4 - 2;
   Result.X := Round((X * Cos(Angle)) + (Y * Sin(Angle))) + 643;
@@ -179,10 +182,10 @@ begin
     Exit;
   end;
   Z := -Height;
-  X := X - Reflect.Internals.CameraX;
-  Y := Y - Reflect.Internals.CameraY;
-  Z := Z - Reflect.Internals.CameraZ;
-  CurveX := Reflect.Internals.GetYaw;
+  X := X - Reflect.Compass.CameraX;
+  Y := Y - Reflect.Compass.CameraY;
+  Z := Z - Reflect.Compass.CameraZ;
+  CurveX := Reflect.Compass.GetYaw;
   CurveY := Reflect.Compass.GetPitch;
   CurveCosX := CURVECOS[Floor(CurveX)];
   CurveCosY := CURVECOS[Floor(CurveY)];

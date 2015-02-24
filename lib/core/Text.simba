@@ -1,7 +1,8 @@
 
 {* Text functions credit to Frement *}
 
-function TReflectionInternals.RemoveFormatting(Text: string): string;
+{$IFNDEF CODEINSIGHT}
+function TReflectionText.RemoveFormatting(Text: string): string;
 var
   I: Integer;
   Skip: Boolean;
@@ -22,7 +23,7 @@ begin
   Result := Replace(Result, '  ', ' ',[rfReplaceAll]);
 end;
 
-function TReflectionInternals.GetMenuIndex(
+function TReflectionText.GetMenuIndex(
   Option: String; Options: TStringArray): Integer;
 var
   I: Integer;
@@ -38,12 +39,12 @@ begin
   end;
 end;
 
-function TReflectionInternals.IsMenuOpen: Boolean;
+function TReflectionText.IsMenuOpen: Boolean;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen);
 end;
 
-function TReflectionInternals.GetMenuOptions: TStringArray;
+function TReflectionText.GetMenuOptions: TStringArray;
 var
   Count, I, J: Integer;
   Act, Opt: string;
@@ -55,17 +56,18 @@ begin
     Act := '';
     Opt := '';
     Act := Trim(Reflect.Smart.GetFieldArrayString(0, Client_MenuActions, I));
-    Opt := Reflect.Internals.RemoveFormatting(Trim(
+    Opt := Reflect.Text.RemoveFormatting(Trim(
       Reflect.Smart.GetFieldArrayString(0, Client_MenuOptions, I)));
     Result[J] := Trim(Act + ' ' + Opt);
     Inc(J);
   end;
 end;
 
-function TReflectionInternals.OptionExists(Option: string): Boolean;
+function TReflectionText.OptionExists(Option: string): Boolean;
 begin
-  Result := (Reflect.Internals.GetMenuIndex(Option, Reflect.Internals.GetMenuOptions) <> -1);
+  Result := (Reflect.Text.GetMenuIndex(Option, Reflect.Text.GetMenuOptions) <> -1);
 end;
+{$ENDIF}
 
 function TReflectionText.ChooseOption(Option: string): Boolean;
 var
@@ -73,10 +75,10 @@ var
   Options: TStringArray;
   Left: Boolean;
 begin
-  Options := Reflect.Internals.GetMenuOptions;
-  if not Reflect.Internals.IsMenuOpen then
+  Options := Reflect.Text.GetMenuOptions;
+  if not Reflect.Text.IsMenuOpen then
     Exit;
-  Index := Reflect.Internals.GetMenuIndex(Option, Options);
+  Index := Reflect.Text.GetMenuIndex(Option, Options);
   MenuX := Reflect.Smart.GetFieldInt(0, Client_MenuX) + 4;
   MenuY := Reflect.Smart.GetFieldInt(0, Client_MenuY) + 4;
   MenuWidth := Reflect.Smart.GetFieldInt(0, Client_MenuWidth);
@@ -111,9 +113,9 @@ begin
   T := GetSystemTime + Time;
   while GetSystemTime < T do
   begin
-    if Reflect.Internals.IsMenuOpen then
+    if Reflect.Text.IsMenuOpen then
     begin
-      Result := Reflect.Text.ChooseOption(Option);
+      Result := Reflect.Text.ChooseOption(Option);;
       Exit;
     end;
     Wait(20 + Random(20));
@@ -124,7 +126,7 @@ function TReflectionText.GetUpText: string;
 var
   Options: TStringArray;
 begin
-  Options := Reflect.Internals.GetMenuOptions;
+  Options := Reflect.Text.GetMenuOptions;
   if (High(Options) - 1) > 0 then
     Result := Options[0] + ' / ' + ToStr(High(Options) - 1) + ' more options'
   else

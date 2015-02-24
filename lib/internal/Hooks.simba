@@ -1,7 +1,3 @@
-type THook = record
-  Path: string;
-  Multi: Integer;
-end;
 
 const
   ReflectionRevision = '73';
@@ -165,12 +161,12 @@ const
  GameObject_OffsetY: THook =          ['z', 106685067];
 
 {FloorDecoration = cn}
- GroundDecoration_Render: THook =      ['k', 1];
- GroundDecoration_LocalX: THook =      ['e', -322435311];
- GroundDecoration_LocalY: THook =      ['i', -2016553023];
- GroundDecoration_Plane: THook =       ['b', 1094891375];
- GroundDecoration_ID: THook =          ['h', 194009537];
- GroundDecoration_Flags: THook =       ['p', -1133823737];
+ FloorDecoration_Render: THook =      ['k', 1];
+ FloorDecoration_LocalX: THook =      ['e', -322435311];
+ FloorDecoration_LocalY: THook =      ['i', -2016553023];
+ FloorDecoration_Plane: THook =       ['b', 1094891375];
+ FloorDecoration_ID: THook =          ['h', 194009537];
+ FloorDecoration_Flags: THook =       ['p', -1133823737];
 
 {WallDecoration = ce}
  WallDecoration_ID: THook =           ['z', 1300414769];

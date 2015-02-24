@@ -1,0 +1,313 @@
+
+procedure TReflectLocalPlayer.Create;
+begin
+  if HookCache[TCacheKey.ckLocalPlayer][0] = 0 then
+    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
+  else
+  begin
+    Reflect.Mem.FreeObjects(ckLocalPlayer, False);
+    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
+  end;
+  Self.Reference := HookCache[TCacheKey.ckLocalPlayer][0];
+end;
+
+function TReflectLocalPlayer.IsAnimating: Boolean;
+begin
+  Result := Self.GetAnimation > -1;
+end;
+
+function TReflectLocalPlayer.IsLoggedIn: Boolean;
+begin
+  Result := Reflect.Login.GetState = 30;
+end;
+
+procedure TReflectLocalPlayer.Logout;
+var
+  LogoutWidget: TReflectWidget;
+begin
+  if not Self.IsLoggedIn then
+    Exit;
+  Reflect.Gametab.Open(Gametab_Logout);
+  LogoutWidget.GetWidget(Widget_Logout_Container, 6);
+  LogoutWidget.Interact;
+  LogoutWidget.Free;
+end;
+
+procedure TReflectLocalPlayer.Login;
+var
+  FailCount: Integer;
+begin
+  if (Length(Self.Username) = 0) or (Length(Self.Password) = 0) then
+    Self.Active := False;
+  if not Self.Active then
+    Reflect.Logger.Fatal('%s is not active.', [Self.Username]);
+  while FailCount < 3 do
+  begin
+    if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
+    begin
+      Self.Create;
+      Wait(RandomRange(700, 1300));
+      Exit;
+    end;
+    Inc(FailCount);
+    Wait(RandomRange(1200, 1500));
+  end;
+  Self.Active := False;
+end;
+
+procedure TReflectLocalPlayer.ChangeWorld(World: Integer);
+const
+  ClickSwitchButton: Tbox = [5, 465, 105, 495];
+begin
+  if Self.IsLoggedIn then
+  begin
+    Self.Logout;
+    while not Reflect.Login.AtLogin do
+      Wait(300);
+  end;
+  Reflect.Mouse.Move(ClickSwitchButton, Mouse_Left);
+  Wait(RandomRange(500, 700));
+  if Reflect.Login.SelectWorld(World) then
+  Wait(RandomRange(550, 650));
+  Self.Login;
+end;
+
+procedure TReflectLocalPlayer.EnterPin;
+begin
+  if not Reflect.Bank.IsPinOpen then
+    Exit;
+  if Self.Pin = '' then
+    Self.Active = False;
+  Reflect.Bank.EnterPin(Self.Pin);
+end;
+
+function TReflectLocalPlayer.GetSkillLevel(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_CurrentLevels, SkillConst);
+end;
+
+function TReflectLocalPlayer.GetMaxSkillLevel(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_RealLevels, SkillConst);
+end;
+
+function TReflectLocalPlayer.GetSkillExp(SkillConst: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst);
+end;
+
+function TReflectLocalPlayer.GetRunEnergy: integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_Energy);
+end;
+
+function TReflectLocalPlayer.IsAutoRetaliateOn: Boolean;
+begin
+  Result := Reflect.Misc.GetSetting(172) = 0;
+end;
+
+function TReflectLocalPlayer.IsRunOn: Boolean;
+begin
+  Result := Reflect.Misc.GetSetting(173) = 1;
+end;
+
+function TReflectLocalPlayer.IsPoisoned: Boolean;
+begin
+  Result := Reflect.Misc.GetSetting(102) > 0;
+end;
+
+function TReflectLocalPlayer.AutoCasting: Boolean;
+begin
+  Result := Reflect.Misc.GetSetting(108) > 0;
+end;
+
+function TReflectLocalPlayer.GetSpecPercent: Integer;
+begin
+  Result := Reflect.Misc.GetSetting(300) div 10;
+end;
+
+function TReflectLocalPlayer.GetWeight: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_Weight);
+end;
+
+function TReflectLocalPlayer.GetPlayerIndex: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;;
+end;
+
+function TReflectLocalPlayer.GetDestination: TTile;
+begin
+  if Reflect.Smart.GetFieldInt(0, Client_DestinationX) = 0 then
+    Exit(Self.GetTile);
+  Result := Point(Reflect.Smart.GetFieldInt(
+    0, Client_DestinationX) + Reflect.Misc.BaseX,
+    Reflect.Smart.GetFieldInt(0, Client_DestinationY) +
+    Reflect.Misc.BaseY);
+end;
+
+function TReflectLocalPlayer.FFlag(
+  TileDist: Integer; Timeout: Integer = -1): Boolean;
+var
+  Timer: TReflectTimer;
+begin
+  Timer.Start;
+  while Distance(Self.GetTile.X, Self.GetTile.Y, Self.GetDestination.X,
+      Self.GetDestination.Y) > TileDist do
+  begin
+    if (Timeout > 0) and (Timer.ElapsedTime > Timeout) then
+      Exit(False);
+    Wait(RandomRange(200, 250));
+  end;
+  Exit(True);
+end;
+
+function TReflectLocalPlayer.WaitForAnimation(
+  WaitPerLoop, Timeout: Integer): Boolean;
+var
+  Timer: TReflectTimer;
+begin
+  Result := False;
+  Timer.Start;
+  while TReflectActor.GetAnimation = -1 do
+  begin
+    Wait(WaitPerLoop);
+    if (Timer.ElapsedTime >= Timeout) then
+      Exit;
+  end;
+  Result := True;
+end;
+
+function TReflectLocalPlayer.WalkToTileMM(Tile: TTile): Boolean;
+var
+  Point: TPoint;
+begin
+  Result := False;
+  if not Reflect.Map.TileOnMM(Tile) then
+    Exit;
+  Point := Reflect.Tiles.TileToMM(Tile);
+  Reflect.Mouse.Move(Point, 0, 0);
+  Wait(RandomRange(150, 220));
+  Reflect.Mouse.Click(Mouse_Left);
+  Result := True;
+end;
+
+function TReflectLocalPlayer.WalkToTileMS(Tile: TTile): Boolean;
+var
+  Point: TPoint;
+  X, Y: Integer;
+  Timer: TReflectTimer;
+begin
+  if not isLoggedIn then
+    Exit;
+  Point := Reflect.Tiles.TileToMS(Tile);
+  if (Point.X = -1) and (Point.Y = -1) then
+    Exit;
+  Reflect.Mouse.Move(Point, 0, 0);
+  GetMousePos(X, Y);
+  if Reflect.Text.IsUpText('Walk here', 50) then
+    Reflect.Mouse.Click(Mouse_Left)
+  else
+  begin
+    Reflect.Mouse.Click(Mouse_Right);
+    Wait(RandomRange(400, 500));
+    if not Reflect.Text.ChooseOption('Walk here') then
+      Reflect.Text.ChooseOption('Cancel')
+  end;
+  Wait(RandomRange(120, 180));
+  Timer.Start;
+  while Self.IsMoving do
+    Wait(250);
+  Result := Timer.ElapsedTime < 30000;
+end;
+
+function TReflectLocalPlayer.WalkPathMM(
+  Path: TTileArray; Reverse: Boolean = False): Boolean;
+var
+  I, L, PrevL, Attempts: Integer;
+begin
+  if Length(Path) = 0 then
+    Exit;
+  if Reverse then
+    InvertTPA(Path);
+  PrevL := -1;
+  while not Result do
+  begin
+    for I := High(Path) downto L do
+    begin
+      if Reflect.Map.TileOnMM(Path[I]) and
+        Self.WalkToTileMM(Path[I]) and
+        Self.FFLag(RandomRange(2, 5)) then
+        if (L := I) = High(Path) then
+          Exit(True)
+        else if I <> PrevL then
+        begin
+          Attempts := 0;
+          Break;
+        end
+        else if Inc(Attempts) <= 5 then
+          Break;
+      if I = PrevL then
+      begin
+        Reflect.Logger.Warn('Failed to find Tile %s on MM.', [ToStr(Path[I])]);
+        Exit;
+      end;
+    end;
+    PrevL := L;
+  end;
+end;
+
+function TReflectLocalPlayer.WalkStraightPathMM(
+  Path: TTileArray; Reverse: Boolean = False): Boolean;
+var
+  I: Integer;
+begin
+  if Length(Path) = 0 then
+    Exit;
+  if Reverse then
+    InvertTPA(Path);
+  for I := 0 to High(Path) do
+    if not ((Reflect.Map.TileOnMM(Path[I]) and
+      Self.WalkToTileMM(Path[I])) or Self.BlindWalkMM(Path[I])) then
+      Exit(False);
+  Result := True;
+end;
+
+function TReflectLocalPlayer.BlindWalkMS(
+  Tile: TTile; Dist: Integer = 2): Boolean;
+var
+  I, Tries: Integer;
+  OurTile, DestTile: TTile;
+  CTRLPoints: TPointArray;
+begin
+  repeat
+  OurTile := Reflect.Tiles.GetGlobalTile;
+  CtrlPoints := Reflect.Map.WindPath(
+    OurTile.x, OurTile.y, Tile.x, Tile.y, 5.0, 2.5, 0.0, 0.0, 1.5, 1.0);
+  Inc(Tries);
+  if(Tries > 20)then
+    Exit;
+  for I := High(CtrlPoints) downto 0 do
+  if TReflectLocalPlayer.WalkToTileMS(CtrlPoints[I]) then
+  begin
+    Result := Reflect.Tiles.DistanceFromTile(Tile) <= Dist;
+    Break;
+  end;
+  until(Result);
+end;
+
+function TReflectLocalPlayer.BlindWalkMM(
+  Tile: TTile; Dist: Integer = 5): Boolean;
+begin
+  Result := (Reflect.Map.TileOnMM(Tile) and Self.WalkToTileMM(Tile)) or
+    Self.WalkPathMM(Reflect.Map.WindPath(
+      Self.GetTile.X, Self.GetTile.Y, Tile.X, Tile.Y,
+      5.0, 2.5, 0.0, 0.0, 1.0, 1.0));
+end;
+
+procedure TReflectLocalPlayer.GetInteractingNpc(var TheNpc: TReflectNpc);
+begin
+  if Self.GetInteractingIndex = -1 then
+    Exit;
+  TheNpc.GetIndex(Self.GetInteractingIndex);
+end;

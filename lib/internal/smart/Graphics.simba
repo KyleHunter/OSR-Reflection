@@ -1,0 +1,313 @@
+{Credits to Flight & AeroLib for most of Graphics.simba}
+
+{$IFNDEF AL}
+const
+  clBlack = 0;
+  clWhite = 16777215;
+  clRed = 255;
+  clGreen = 32768;
+  clBlue = 16711680;
+  clYellow = 65535;
+  clOrange = 26367;
+  clAqua = 16776960;
+  clPurple = 8388736;
+  clTeal = 8421376;
+  clGray = 8421504;
+  clLime = 65280;
+  clSilver = 12632256;
+  clPink = 11772650;
+  clFuchsia = 16711935;
+  clNavy = 8388608;
+  clMaroon = 128;
+  clOutline_black = 65536;
+  clOutline_white = 16777215;
+{$ENDIF AL}
+
+var
+  _TReflectionGraphicsList: array of ^TReflectionGraphics
+
+procedure _TReflectionGraphicsFreeAll;
+var
+  I: Integer;
+begin
+  for I := 0 to High(_TReflectionGraphicsList) do
+    if (_TReflectionGraphicsList[I] <> nil) then
+    begin
+      try
+        _TReflectionGraphicsList[I]^.Bmp.ResetPersistentMemory;
+      except end;
+      _TReflectionGraphicsList[I]^.Bmp.Free;
+      _TReflectionGraphicsList[I]^.IsInit := False;
+      _TReflectionGraphicsList[I]^.Width := 0;
+      _TReflectionGraphicsList[I]^.Height := 0;
+    end;
+end;
+
+{$IFNDEF AL}
+procedure Delete(Ptr: ^TReflectionGraphics; var Pointers: array of ^TReflectionGraphics); overload;
+var
+  I, J: Integer = 0;
+  Ptrs: array of ^TReflectionGraphics;
+begin
+  SetLength(Ptrs, Length(Pointers));
+  for I := 0 to High(Pointers) do
+    if (Pointers[I] <> Ptr) then
+    begin
+      Ptrs[J] := Pointers[I];
+      Inc(J);
+    end;
+  SetLength(Ptrs, J);
+  Pointers := Ptrs;
+end;
+{$ENDIF AL}
+
+procedure TReflectionGraphics.Create(Img: Integer; Copy: Boolean = False);
+begin
+  Self.Bmp.Init(Client.GetMBitmaps);
+  if (Copy) then
+    Self.Bmp := GetMufasaBitmap(CopyBitmap(Img))
+  else
+    Self.Bmp := GetMufasaBitmap(Img);
+  Self.IsInit := True;
+  Self.Width := Self.Bmp.GetWidth();
+  Self.Height := Self.Bmp.GetHeight();
+  Self.Bmp.SetTransparentColor(0);
+  Insert(@Self, _TReflectionGraphicsList);
+  AddOnTerminate('_TReflectionGraphicsFreeAll');
+end;
+
+procedure TReflectionGraphics.Create(Img: TMufasaBitmap; Copy: Boolean = False); overload
+begin
+  Self.Bmp.Init(Client.GetMBitmaps);
+  if (Copy) then
+    Self.Bmp := GetMufasaBitmap(CopyBitmap(Img.GetIndex)) //Self.Bmp := Img.Copy(0, 0, Img.Width, Img.Height)
+  else
+    Self.Bmp := Img;
+  Self.IsInit := True;
+  Self.Width := Img.GetWidth();
+  Self.Width := Img.GetHeight();
+  Self.Bmp.SetTransparentColor(0);
+  Insert(@Self, _TReflectionGraphicsList);
+  AddOnTerminate('_TReflectionGraphicsFreeAll');
+end;
+
+procedure TReflectionGraphics.Create(Width, Height: Integer); overload;
+begin
+  Self.Free;
+  Self.Bmp.Init(Client.GetMBitmaps);
+  Self.Bmp.SetSize(Width, Height);
+  Self.IsInit := True;
+  Self.Width := Width;
+  Self.Height := Height;
+  Self.Bmp.SetTransparentColor(0);
+  Insert(@Self, _TReflectionGraphicsList);
+  AddOnTerminate('_TReflectionGraphicsFreeAll');
+end;
+
+procedure TReflectionGraphics.Create(Width, Height: Integer; Ptr: Uint32); overload
+begin
+  Self.Bmp.Init(Client.GetMBitmaps);
+  Self.Bmp.SetPersistentMemory(Ptr, Width, Height);
+  Self.IsInit := True;
+  Self.Width := Width;
+  Self.Height := Height;
+  Self.Bmp.SetTransparentColor(0);
+  Insert(@Self, _TReflectionGraphicsList);
+  AddOnTerminate('_TReflectionGraphicsFreeAll');
+end;
+
+procedure TReflectionGraphics.Free;
+begin
+  try
+    Self.Bmp.ResetPersistentMemory;
+    Self.Bmp.Free;
+  except end;
+  Self.IsInit   := False;
+  Self.Width  := 0;
+  Self.Height := 0;
+  Delete(@Self, _TReflectionGraphicsList);
+end;
+
+Function TReflectionGraphics.ToBitmap(Copy: Boolean = True): Integer;
+begin
+  if (Copy) then
+    Result := CopyBitmap(Self.Bmp.GetIndex())
+  else
+    Result := Self.Bmp.GetIndex();
+end;
+
+procedure TReflectionGraphics.Clear;
+begin
+  if (Self.Bmp.GetTransparentColor <> -1) then
+    Self.Bmp.drawClear(Self.Bmp.GetTransparentColor)
+  else
+    Self.Bmp.DrawClear(0);
+end;
+
+procedure TReflectionGraphics.ClearArea(X1, Y1, X2, Y2: Integer);
+begin
+  Self.ClearArea(IntToBox(X1, Y1, X2, Y2));
+end;
+
+procedure TReflectionGraphics.ClearArea(Area: TBox); overload;
+begin
+  if (Self.Bmp.GetTransparentColor <> -1) then
+    Self.Bmp.Rectangle(Area, Self.Bmp.GetTransparentColor)
+  else
+    Self.Bmp.Rectangle(Area, 0);
+end;
+
+procedure TReflectionGraphics.DrawBox(X1, Y1, X2, Y2: Integer; Fill: Boolean = False; Colour: TColor = clRed);
+begin
+  Self.DrawBox(IntToBox(X1, Y1, X2, Y2), Fill, Colour);
+end;
+
+procedure TReflectionGraphics.DrawBox(Box: TBox; Fill: Boolean = False; Colour: TColor = clRed); overload;
+var
+  TPA: array of TPoint;
+begin
+  if (Fill) then
+    Self.Bmp.Rectangle(Box, Colour)
+  else
+    begin
+      TPA := EdgeFromBox(Box);
+      try
+        Self.Bmp.DrawTPA(TPA, Colour);
+      except
+      end;
+    end;
+end;
+
+procedure TReflectionGraphics.DrawClippedBox(Box, ClipArea: TBox; Fill: Boolean = False; Colour: TColor = clRed);
+var
+  TPA: array of TPoint;
+begin
+  if (Fill) Then
+  begin
+    TPA := TPAFromBox(Box);
+    FilterPointsBox(TPA, ClipArea.X1, ClipArea.Y1, ClipArea.X2, ClipArea.Y2);
+    Self.Bmp.DrawTPA(TPA, Colour);
+  end else
+    begin
+      TPA := EdgeFromBox(Box);
+      FilterPointsBox(TPA, ClipArea.X1, ClipArea.Y1, ClipArea.X2, ClipArea.Y2);
+      Self.Bmp.DrawTPA(TPA, Colour);
+    end;
+end;
+
+procedure TReflectionGraphics.DrawBoxes(Boxes: array of TBox; Colour: TColor = clRed; Fill: Boolean = False);
+var
+  I: Integer;
+begin
+  for I := 0 to High(Boxes) do
+    Self.DrawBox(Boxes[I], Fill, Colour);
+end;
+
+procedure TReflectionGraphics.DrawTPA(TPA: array of TPoint; Colour: TColor = clRed; Erase: Boolean = False);
+begin
+  if (Erase) then Self.Clear;
+  Self.Bmp.DrawTPA(TPA, Colour);
+end;
+
+procedure TReflectionGraphics.DrawATPA(ATPA: array of array of TPoint; Erase: Boolean = False);
+var
+  I, L: Integer;
+  Colours: array of TColor;
+begin
+  if (Erase) then Self.Clear;
+  Colours := [clWhite, clRed, clGreen, clBlue, clYellow, clOrange, clAqua, clPurple, clTeal, clGray, clLime, clSilver, clPink, clFuchsia, clNavy];
+  L := High(Colours);
+
+  for I := 0 to High(ATPA) do
+  begin
+    Self.Bmp.DrawTPA(ATPA[I], Colours[I div L + I mod L]);
+  end;
+end;
+
+procedure TReflectionGraphics.DrawATPA(ATPA: array of array of TPoint; Colours: array of TColor; Erase: Boolean = False); overload;
+begin
+  if (Erase) then Self.Clear;
+  Self.Bmp.DrawATPA(ATPA, Colours);
+end;
+
+procedure TReflectionGraphics.DrawLine(P, Q: TPoint; Colour: TColor = clRed; Erase: Boolean = False);
+begin
+  if (Erase) then Self.Clear;
+  Self.Bmp.LineTo(P, Q, Colour);
+end;
+
+procedure TReflectionGraphics.DrawCircle(Center: TPoint; Radius: Integer; Colour: TColor = clRed; Fill: Boolean = False);
+begin
+  Self.DrawEllipse(Center, Radius, Radius, Colour, Fill);
+end;
+
+procedure TReflectionGraphics.DrawEllipse(Center: TPoint; XRadius, YRadius: Integer; Colour: TColor = clRed; Fill: Boolean = False);
+var
+  TPA: array of TPoint;
+begin
+  TPA := TPAFromEllipse(Center.X, Center.Y, XRadius, YRadius);
+  if (Fill) then FillEllipse(TPA);
+  Self.DrawTPA(TPA, Colour, False);
+end;
+
+procedure TReflectionGraphics.DrawBitmap(Bitmap: Integer; Location: TPoint = Point(0, 0); Erase: Boolean = False);
+begin
+  if (Erase) then Self.Clear;
+  FastDrawTransparent(Location.X, Location.Y, Bitmap, Self.Bmp.GetIndex);
+  //Self.Bmp.FastDrawTransparent(Location.X, Location.Y, GetMufasaBitmap(Bitmap));
+end;
+
+procedure TReflectionGraphics.DrawBitmap(Bitmap: TMufasaBitmap; Location: TPoint = Point(0, 0); Erase: Boolean = False); overload;
+begin
+  if (Erase) then Self.Clear;
+  FastDrawTransparent(Location.X, Location.Y, Bitmap.GetIndex, Self.Bmp.GetIndex);
+  //Self.Bmp.FastDrawTransparent(Location.X, Location.Y, Bitmap);
+end;
+
+procedure TReflectionGraphics.DrawClippedText(Text, Font: string; Position: TPoint; Colour: TColor = clRed);
+var
+  I, W, H: Integer;
+  TPA: array of TPoint;
+begin
+  TPA := TPAFromText(Text, Font, W, H);
+  OffsetTPA(TPA, Position);
+  for I := 0 to High(TPA) do
+    if (PointInBox(TPA[I], IntToBox(0, 0, Self.Bmp.GetWidth - 1, Self.Bmp.GetHeight - 1))) then
+      Self.Bmp.DrawTPA([TPA[I]], Colour);
+end;
+
+procedure TReflectionGraphics.DrawSystemText(Text, Font: string; Size: Integer; Position: TPoint; Color: TColor = clRed);
+var
+  F: TFont;
+  Bmp: Integer;
+begin
+  F.Init();
+  //F.Name := Font;
+  //F.Size := Size;
+  //F.Style := [];
+  //LoadSystemFont(Font, 'Temporary');
+  Bmp := BitmapFromText(Text, 'Temporary');
+
+  FreeBitmap(Bmp);
+  F.Free();
+end;
+
+Function TReflectionGraphics.GetInternalBitmap: TMufasaBitmap;
+begin
+  Result := Self.Bmp;
+end;
+
+Function TReflectionGraphics.Width: Integer;
+begin
+  Result := Self.Width;
+end;
+
+Function TReflectionGraphics.Height: Integer;
+begin
+  Result := Self.Height;
+end;
+
+Function TReflectionGraphics.IsInitialized: Boolean;
+begin
+  Result := Self.IsInit;
+end;

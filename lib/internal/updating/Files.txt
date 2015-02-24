@@ -11,20 +11,20 @@
 (Reflection\Lib\Core\Compass.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Compass.simba)
 
-(Reflection\Lib\Core\GroundItems.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/GroundItems.simba)
+(Reflection\Lib\Core\renderable\GroundItems.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/GroundItems.simba)
 
-(Reflection\Lib\Core\LocalPlayer.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/LocalPlayer.simba)
+(Reflection\Lib\Core\renderable\LocalPlayer.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/LocalPlayer.simba)
 
-(Reflection\Lib\Core\Npc.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Npc.simba)
+(Reflection\Lib\Core\renderable\Npc.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Npc.simba)
 
-(Reflection\Lib\Core\Objects.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Objects.simba)
+(Reflection\Lib\Core\renderable\Objects.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Objects.simba)
 
-(Reflection\Lib\Core\Players.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Players.simba)
+(Reflection\Lib\Core\renderable\Players.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Players.simba)
 
 (Reflection\Lib\Core\Text.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Text.simba)
@@ -32,8 +32,8 @@
 (Reflection\Lib\Core\Tile.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Tile.simba)
 
-(Reflection\Lib\Internal\Actor.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Actor.simba)
+(Reflection\Lib\core\renderable\Actor.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Actor.simba)
 
 (Reflection\Lib\Internal\Globals.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Globals.simba)
@@ -47,35 +47,32 @@
 (Reflection\Lib\Internal\Includes.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Includes.simba)
 
-(Reflection\Lib\Internal\Item.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Item.simba)
-
-(Reflection\Lib\Internal\ItemDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/ItemDefs.txt)
+(Reflection\Lib\Internal\definitions\ItemDefs.txt)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/ItemDefs.txt)
 
 (Reflection\Lib\Internal\Mapwalk.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Mapwalk.simba)
 
-(Reflection\Lib\Internal\Memory.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Memory.simba)
+(Reflection\Lib\Internal\smart\Memory.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Memory.simba)
 
-(Reflection\Lib\Internal\NpcDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/NpcDefs.txt)
+(Reflection\Lib\Internal\definitions\NpcDefs.txt)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/NpcDefs.txt)
 
-(Reflection\Lib\Internal\ObjectDefs.txt)
+(Reflection\Lib\Internal\definitions\ObjectDefs.txt)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/ObjectDefs.txt)
 
-(Reflection\Lib\Internal\Smart.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Smart.simba)
-
-(Reflection\Lib\Internal\Graphics.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Graphics.simba)
+(Reflection\Lib\Internal\smart\Smart.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Smart.simba)
 
 (Reflection\Lib\Internal\Login.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
 
 (Reflection\Lib\Misc\Logger.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Logger.simba)
+
+(Reflection\Lib\Internal\smart\Graphics.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Graphics.simba)
 
 (Reflection\Lib\Misc\Misc.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Misc.simba)
@@ -109,3 +106,4 @@
 
 (Reflection\Lib\Core\input\Keyboard.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Keyboard.simba)
+

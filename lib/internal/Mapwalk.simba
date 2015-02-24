@@ -9,8 +9,9 @@ begin
   Result := Length(Temp) = 1;
 end;
 
+{$IFNDEF CODEINSIGHT}
 	{*Credit JuKKa*}
-function TReflectionInternals.WindPath(Xs, Ys, Xe, Ye, Gravity, Wind, MinWait,
+function TReflectionMap.WindPath(Xs, Ys, Xe, Ye, Gravity, Wind, MinWait,
   MaxWait, MaxStep, TargetArea: Extended): TPointArray;
 var
   VeloX, VeloY, WindX, WindY, VeloMag, Dist, RandomDist, LastDist: Extended;
@@ -58,3 +59,4 @@ begin
     LastDist:= Dist;
   end;
 end;
+{$ENDIF}

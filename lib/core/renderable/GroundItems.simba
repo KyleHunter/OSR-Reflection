@@ -1,0 +1,258 @@
+
+procedure TReflectGroundItemArray.Sort;
+var
+  I, C, L: integer;
+  Tpa: TPointArray;
+  Temp: TReflectGroundItemArray;
+begin
+  L := GetArrayLength(Self);
+  if L < 1 then
+    Exit;
+  SetArrayLength(Tpa, L);
+  SetArrayLength(Temp, L);
+  for I := 0 to L - 1 do
+    Tpa[I] := Self[I]._Tile;
+  sortTPAFrom(Tpa, Reflect.Tiles.GetGlobalTile);
+  for I := 0 to L - 1 do
+    for C := 0 to L - 1 do
+      if (Tpa[I].Y = Self[C]._Tile.Y) and (Tpa[I].X = Self[C]._Tile.X) then
+        Temp[I] := Self[C];
+  Self := Temp;
+end;
+
+function TReflectGroundItem.GetId: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Item_Id);
+end;
+
+function TReflectGroundItem.GetQuantity: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Item_StackSizes);
+end;
+
+function TReflectGroundItem.GetName: string;
+var
+  Line: string;
+  _Id: Integer;
+begin
+  _Id := Self.GetId;
+  Line := ItemCache.GetStrings(_Id);
+  Result := Between('''name'': ''', ''',', Line);
+end;
+
+function TReflectGroundItem.GetInvActions: TStringArray;
+var
+  Line, Temp: string;
+  _Id: Integer;
+begin
+  _Id := Self.GetId;
+  Line := ItemCache.GetStrings(_Id);
+  Temp := Between('''actions'': [''', ']', Line);
+  Temp := Copy(Temp, 1, Length(Temp) - 1);
+  Result := Explode(''',''',Temp);
+end;
+
+function TReflectGroundItem.GetGroundActions: TStringArray;
+var
+  Line, Temp: string;
+  _Id: Integer;
+begin
+  _Id := Self.GetId;
+  Line := ItemCache.GetStrings(_Id);
+  Temp := Between('''groundActions'': [''', ']', Line);
+  Temp := Copy(Temp, 1, Length(Temp) - 1);
+  Result := Explode(''',''',Temp);
+end;
+
+function TReflectGroundItem.GetHighAlchValue: Integer;
+var
+  Line: string;
+  _Id: Integer;
+begin
+  _Id := Self.GetId;
+  Line := ItemCache.GetStrings(_Id);
+  Result := StrToInt(Between('highAlchValue'': ', '}', Line));
+end;
+
+function TReflectGroundItem.GetTile: TTile;
+begin
+  Result := Self._Tile;
+end;
+
+function TReflectGroundItem.GetMSPoint: TPoint;
+begin
+  Result := Reflect.Tiles.TileToMs(Self.GetTile);
+end;
+
+{$IFNDEF CODEINSIGHT}
+procedure TReflectGroundItemArray._GetAt(_Tile: TPoint; BaseX, BaseY,
+  Plane: Integer);
+var
+  _Id, Quantity, Iteration, Start, I: Integer;
+  Temp: TReflectGroundItemArray;
+begin
+  Reflect.Mem.Get3DObject(ckNull, ckGroundArray, Client_GroundItems, 0, 0,
+    Plane, _Tile.X, _Tile.Y);
+  if HookCache[ckGroundArray][0] < 1 then
+    Exit;
+  for I := 0 to 999 do
+    if HookCache[ckGroundList][I] = 0 then
+    begin
+      Start := I;
+      Break;
+    end;
+  Reflect.Mem.GetObject(ckGroundArray, ckGroundList, LinkedList_Head, Start, 0);
+  Reflect.Mem.GetObject(ckGroundList, ckGroundList, Node_next, Start + 1, Start);
+  SetLength(Temp, 128);
+  while (HookCache[ckGroundList][Start + Iteration] > 0) and
+    (HookCache[ckGroundList][Start + Iteration] <>
+    HookCache[ckGroundList][Start + Iteration + 1]) do
+  begin
+    _Id := Reflect.Smart.GetFieldInt(
+      HookCache[ckGroundList][Start + Iteration + 1], Item_Id);
+    if (_Id < 0) or (_Id > 10000) then
+      Break;
+    Temp[Iteration]._Id := _Id;
+    Temp[Iteration]._Tile.X := _Tile.X + BaseX;
+    Temp[Iteration]._Tile.Y := _Tile.Y + BaseY;
+    Temp[Iteration].Reference :=
+      HookCache[ckGroundList][Start + Iteration + 1];
+    Reflect.Mem.GetObject(
+      ckGroundList, ckGroundList, Node_Next, Start + Iteration + 2, Start + Iteration + 1);
+    Inc(Iteration);
+  end;
+  SetLength(Temp, Iteration);
+  Self := Temp;
+end;
+{$ENDIF}
+
+procedure TReflectGroundItemArray.GetAll(Distance: Integer = 103);
+var
+   X, Y, BaseX, BaseY, Plane, L, I, H, HighX, HighY: Integer;
+   TempArray, TempArray2: TReflectGroundItemArray;
+   Position: TTile;
+begin
+  Reflect.Mem.FreeObjects(ckGroundList, False);
+  Position := Reflect.Tiles.GetGlobalTile;
+  Distance := Round(Distance / 2);
+  BaseX := Reflect.Misc.BaseX;
+  BaseY := Reflect.Misc.BaseY;
+  Position := Point(Position.X - BaseX, Position.Y - BaseY);
+  Plane := Reflect.Tiles.GetPlane;
+  HighX := Position.X + Distance;
+  HighY := Position.Y + Distance;
+  if HighX > 103 then
+    HighX := 103;
+  if HighY > 103 then
+    HighY := 103;
+  SetLength(Self, 10817);
+  for X := Position.X - Distance to HighX do
+    for Y := Position.Y - Distance to HighY do
+    begin
+      SetLength(TempArray, 0);
+      TempArray._GetAt(
+        Point(X, Y), BaseX, BaseY, Plane);
+      Reflect.Mem.FreeObjects(ckGroundArray, False);
+      L := Length(TempArray);
+      if (L > 0) then
+      begin
+        SetLength(TempArray2, Length(TempArray2) + L);
+        H := Length(TempArray2);
+        for I := 0 to High(TempArray) do
+          TempArray2[H - L + I] := TempArray[I];
+      end;
+    end;
+  Self := TempArray2;
+end;
+
+procedure TReflectGroundItemArray.GetAt(RealTile: TTile);
+var
+  BaseX, BaseY, Plane: Integer;
+begin
+  Reflect.Mem.FreeObjects(ckGroundList, False);
+  BaseX := Reflect.Misc.BaseX;
+  BaseY := Reflect.Misc.BaseY;
+  Plane := Reflect.Tiles.GetPlane;
+  Self._GetAt(
+    Point(RealTile.X - BaseX, RealTile.Y - BaseY), BaseX, BaseY, Plane);
+  Reflect.Mem.FreeObjects(ckGroundArray, False);
+  Reflect.Mem.FreeObjects(ckGroundList, False);
+end;
+
+procedure TReflectGroundItemArray.Get(Name: string; Distance: Integer = 103);
+var
+  Temp, Temp1: TReflectGroundItemArray;
+  I, H, T: Integer;
+begin
+  Temp.GetAll(Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  H := High(Temp);
+  SetLength(Temp1, H + 1);
+  for I := 0 to H do
+  begin
+    if (Temp[I].GetName = Name) then
+    begin
+      Temp1[T] := Temp[I];
+      Inc(T);
+    end;
+  end;
+  Setlength(Temp1, T);
+  Self := Temp1;
+  Self.Sort;
+end;
+
+procedure TReflectGroundItemArray.Get(
+  _Id: Integer; Distance: Integer = 103); overload;
+var
+  Temp, Temp1: TReflectGroundItemArray;
+  I, H, T: integer;
+begin
+  Temp.GetAll(Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  H := High(Temp);
+  SetLength(Temp1, H + 1);
+  for I := 0 to H do
+  begin
+    if (Temp[I].GetId = _Id) then
+    begin
+      Temp1[T] := Temp[I];
+      Inc(T);
+    end;
+  end;
+  Setlength(Temp1, T);
+  Self := Temp1;
+  Self.Sort;
+end;
+
+function TReflectGroundItem.Find(Name: string; Distance: Integer = 103): Boolean;
+var
+  Temp: TReflectGroundItemArray;
+begin
+  Temp.Get(Name, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;
+
+function TReflectGroundItem.Find(
+  _Id: Integer; Distance: Integer = 103): Boolean; overload;
+var
+  Temp: TReflectGroundItemArray;
+begin
+  Temp.Get(_Id, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;

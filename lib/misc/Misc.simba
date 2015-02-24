@@ -1,4 +1,4 @@
-function TReflectionInternals.GetSettingArray: TIntegerArray;
+function TReflectionMisc.GetSettingArray: TIntegerArray;
 var
   I: Integer;
 begin
@@ -7,11 +7,11 @@ begin
     Result[I] := Reflect.Smart.GetFieldArrayInt(0, Client_GameSettings, I)
 end;
 
-function TReflectionInternals.GetSetting(Setting: Integer): Integer;
+function TReflectionMisc.GetSetting(Setting: Integer): Integer;
 var
   SettingArray: TIntegerArray;
 begin
-  SettingArray := Reflect.Internals.GetSettingArray;
+  SettingArray := Reflect.Misc.GetSettingArray;
   if(Setting < Length(SettingArray))then
     Result := SettingArray[Setting]
   else
@@ -21,17 +21,17 @@ begin
   end;
 end;
 
-function TReflectionInternals.GetClientLoopCycle: Integer;
+function TReflectionMisc.GetClientLoopCycle: Integer;
 begin
   result := Reflect.Smart.GetFieldInt(0, Client_LoopCycle);
 end;
 
-function TReflectionInternals.BaseX: Integer;
+function TReflectionMisc.BaseX: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_BaseX);
 end;
 
-function TReflectionInternals.BaseY: Integer;
+function TReflectionMisc.BaseY: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_BaseY);
 end;
@@ -75,7 +75,7 @@ begin
 end;
 
 {$loadlib prosocks}
-Function TReflectionInternals.GetPage(Url: string): string;
+Function TReflectionMisc.GetPage(Url: string): string;
 var
   S: SSLSocket;
   Res: ProMemoryStruct;

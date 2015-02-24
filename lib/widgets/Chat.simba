@@ -5,7 +5,7 @@ var
 begin
   ChatWidget.GetWidget(WIDGET_Chat_Container, 2);
   ChatChild.GetChild(ChatWidget, 1);
-  Result := Reflect.Internals.RemoveFormatting(ChatChild.GetText);
+  Result := Reflect.Text.RemoveFormatting(ChatChild.GetText);
   ChatWidget.Free;
   ChatChild.Free;
 end;

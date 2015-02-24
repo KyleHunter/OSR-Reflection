@@ -5,7 +5,7 @@ var
 const
   PrayerSetting = 83;
 begin
-  VarpSetting := Reflect.Internals.GetSetting(PrayerSetting);
+  VarpSetting := Reflect.Misc.GetSetting(PrayerSetting);
   Result := (Prayer[1] and VarpSetting)  <> 0;
 end;
 

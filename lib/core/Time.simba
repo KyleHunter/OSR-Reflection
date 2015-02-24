@@ -1,9 +1,4 @@
 
-type TReflectTimer = record
-  StartTime, TotalRan: Int64;
-  IsRunning: Boolean;
-end;
-
 procedure TReflectTimer.Pause;
 begin
   if not Self.IsRunning then

@@ -1,11 +1,4 @@
 
-type
-  TReflectItem = record
-    Name: string;
-    Id, HighAlchValue: Integer;
-    InvActions, GroundActions: TStringArray;
-  end;
-
 procedure TReflectItem.LoadDef;
 var
   APath, Line, Temp: string;

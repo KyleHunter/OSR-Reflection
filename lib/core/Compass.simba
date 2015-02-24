@@ -44,8 +44,9 @@ begin
   end;
 end;
 
+{$IFNDEF CODEINSIGHT}
   {*Credit: Nava2*}
-function TReflectionInternals.VariantToDirection(Dir: Variant): Extended;
+function TReflectionCompass.VariantToDirection(Dir: Variant): Extended;
 var
   E: Extended;
 begin
@@ -72,22 +73,22 @@ begin
     end;
 end;
 
-function TReflectionInternals.GetYaw: Extended;
+function TReflectionCompass.GetYaw: Extended;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraYaw);
 end;
 
-function TReflectionInternals.CameraX: Extended;
+function TReflectionCompass.CameraX: Extended;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraX);
 end;
 
-function TReflectionInternals.CameraY: Extended;
+function TReflectionCompass.CameraY: Extended;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraY);
 end;
 
-function TReflectionInternals.CameraZ: Extended;
+function TReflectionCompass.CameraZ: Extended;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_CameraZ);
 end;
@@ -105,13 +106,13 @@ end;
 
   {*Credit: Nielsie95 & Nava2, Modified by Krazy Meerkat*}
 //Helper function for TReflectCompass.Make
-function TReflectionInternals.MinCheck(Angle, DirectionDeg: Extended): Extended;
+function TReflectionCompass.MinCheck(Angle, DirectionDeg: Extended): Extended;
 begin
   Result := MinE(Abs(Angle - (DirectionDeg + 360)),
     Abs((Angle + 360) - DirectionDeg));
   Result := MinE(Abs(Angle - DirectionDeg), Result);
 end;
-
+{$ENDIF}
 function TReflectionCompass.Make(Direction: Variant): Boolean;
 var
   StartAngle, Angle, DirectionDeg, I: Extended;
@@ -122,8 +123,8 @@ begin
   StartAngle := (360 - Reflect.Compass.AngleDeg);
   if (StartAngle < 0) then
     Exit;
-  DirectionDeg := Reflect.Internals.VariantToDirection(Direction);
-  if (Reflect.Internals.MinCheck(StartAngle, DirectionDeg) <= 8.0) then
+  DirectionDeg := Reflect.Compass.VariantToDirection(Direction);
+  if (Reflect.Compass.MinCheck(StartAngle, DirectionDeg) <= 8.0) then
   begin
     Result := True;
     Exit;
@@ -148,12 +149,12 @@ begin
     end;
   until ((Angle < 0) or
     (Mark.ElapsedTime > 14000) or
-    (Reflect.Internals.MinCheck(Angle, DirectionDeg) <= (7.0 + I)));
+    (Reflect.Compass.MinCheck(Angle, DirectionDeg) <= (7.0 + I)));
   if Left then
     KeyUp(vk_Left)
   else
     KeyUp(VK_Right);
   Wait(10);
-  Result := (Reflect.Internals.MinCheck(Angle, DirectionDeg) <= (7.0 + I));
+  Result := (Reflect.Compass.MinCheck(Angle, DirectionDeg) <= (7.0 + I));
 end;
 

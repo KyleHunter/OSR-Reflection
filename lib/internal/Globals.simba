@@ -6,18 +6,19 @@
 {$ENDIF AL_VERSION_MAIN}
 
 type
-  TReflectGraphics = record
+  TReflectionGraphics = record
     Bmp: TMufasaBitmap;
     IsInit: Boolean;
     Width: Integer;
     Height: Integer;
   end;
 
+type
   TReflectionSmart = record
     Target, PID: Integer;
     Width, Height: Integer;
     ForceNew: Boolean;
-    Graphics: TReflectGraphics;
+    Graphics: TReflectionGraphics;
     UserAgent: string;
   end;
 
@@ -29,7 +30,7 @@ type
     Name: String;
     Level: TReflectLoggerLevel;
   end;
-
+  
   TReflectionInternals = type Pointer;
   TReflectionCompass = type Pointer;
   TReflectionMap = type Pointer;
@@ -49,7 +50,6 @@ type
   TReflectionInventory = type Pointer;
 
   TReflectionLib = record
-    Graphics: TReflectGraphics;
     Smart: TReflectionSmart;
     Mem: TReflectionMemory;
     Compass: TReflectionCompass;
@@ -70,14 +70,125 @@ type
     Time: TReflectionTime;
     MouseSpeed: Integer;
     Inv: TReflectionInventory;
+    Graphics: TReflectionGraphics;
   end;
 
   TTile = TPoint;
   TTileArray = array of TTile;
 
+type THook = record
+  Path: string;
+  Multi: Integer;
+end;
+
+{$IFNDEF CODEINSIGHT}
+type
+  TObjectType = record
+  Index: Integer;
+  Flags, Height, Render, Orientation, LocalX, LocalY, OffsetX, OffsetY,
+    Plane, Id, RelativeX, RelativeY, SceneObject: THook;
+end;
+{$ENDIF}
+
 var
   Reflect: TReflectionLib;
   ObjectCache, NpcCache, ItemCache: TStringList;
+  ObjGame, ObjWallDecoration, ObjFloorDecoration, ObjBoundary: TObjectType;
+
+type
+  TReflectPointer = record
+    Reference: Integer;
+  end;
+
+  {Object Records}
+
+    {Actor}
+type
+  TReflectActor = type(TReflectPointer);
+
+    {Npcs}
+type
+  TReflectNPC = record(TReflectActor)
+{$IFNDEF CODEINSIGHT}
+    _DefReference: Integer;
+    _Tile: TTile;
+{$ENDIF}
+end;
+  TReflectNPCArray = array of TReflectNPC;
+
+      {GroundItems}
+type
+  TReflectGroundItem = record(TReflectPointer)
+{$IFNDEF CODEINSIGHT}
+    _Id: Integer;
+    _Name: string;
+    _Tile: TTile;
+{$ENDIF}
+  end;
+  TReflectGroundItemArray = array of TReflectGroundItem;
+
+      {LocalPlayer}
+  type
+    TReflectLocalPlayer = record(TReflectActor)
+    Username, Password, Pin: string;
+    Active: Boolean;
+  end;
+
+      {Objects}
+  type
+    TReflectObject = record(TReflectPointer)
+{$IFNDEF CODEINSIGHT}
+      _Id: Integer;
+      _ObjType: TObjectType;
+      _Name: string;
+      _Tile: TTile;
+{$ENDIF}
+  end;
+  TReflectObjectArray = array of TReflectObject;
+
+      {Players}
+  type
+    TReflectPlayer = record(TReflectActor)
+      Name: string;
+      Animation, Health, MaxHealth, InteractingIndex, CombatCycle: Integer;
+      Tile, Queue: TTile;
+  end;
+  TReflectPlayerArray = array of TReflectPlayer;
+
+      {Timer}
+  type 
+    TReflectTimer = record
+      StartTime, TotalRan: Int64;
+      IsRunning: Boolean;
+  end;
+
+      {Bank}
+  type
+    TReflectBankItem = record(TReflectPointer)
+{$IFNDEF CODEINSIGHT}
+      _Id, _Slot: Integer;
+      _Name: string;
+{$ENDIF}
+  end;
+  TReflectBankItemArray = array of TReflectBankItem;
+
+      {Inventory}
+  type
+    TReflectInvItem = record(TReflectPointer)
+{$IFNDEF CODEINSIGHT}
+      _InvSlot, _Id: Integer;
+      _Name: string;
+{$ENDIF}
+  end;
+TReflectInvItemArray = array of TReflectInvItem;
+
+      {Worn Equipment}
+  type
+    TReflectWornEquipment = record(TReflectPointer)
+      EquipSlot, Id: Integer;
+      Name: string;
+    end;
+  TReflectWornEquipmentArray = Array of TReflectWornEquipment;
 
   {Constants}
 

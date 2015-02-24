@@ -1,0 +1,325 @@
+
+{*Credit Widget, Modified by Lordsaturn*}
+procedure TReflectObjectArray.Sort;
+var
+  I, C, L: integer;
+  Tpa: TPointArray;
+  Temp: TReflectObjectArray;
+begin
+  L := GetArrayLength(Self);
+  if L < 1 then
+    Exit;
+  SetArrayLength(Tpa, L);
+  SetArrayLength(Temp, L);
+  for I := 0 to L - 1 do
+    Tpa[I] := Self[I]._Tile;
+  SortTPAFrom(Tpa, Reflect.Tiles.GetGlobalTile);
+  for I := 0 to L - 1 do
+    for C := 0 to L - 1 do
+      if (Tpa[I].Y = Self[C]._Tile.Y) and (Tpa[I].X = Self[C]._Tile.X) then
+        Temp[I] := Self[C];
+  Self := Temp;
+end;
+
+function TReflectObject.GetTile: TTile;
+var
+  LocalTile: TTile;
+begin
+  LocalTile := Point(Reflect.Smart.GetFieldInt(
+    Self.Reference, Self._ObjType.LocalX), Reflect.Smart.GetFieldInt(
+    Self.Reference, Self._ObjType.LocalY));
+  Result := Point(LocalTile.X + Reflect.Misc.BaseX, LocalTile.Y +
+    Reflect.Misc.BaseY);
+end;
+
+function TReflectObject.GetOffset: TTile;
+var
+  LocalTile: TTile;
+begin
+  if Self._ObjType.Index <> ObjGame.Index then
+  begin
+    Reflect.Logger.Warn('Only ObjGame has an Offset @.GetOffset');
+    Exit(Point(-1, -1));
+  end;
+  LocalTile := Point(Reflect.Smart.GetFieldInt(
+    Self.Reference, Self._ObjType.OffsetX), Reflect.Smart.GetFieldInt(
+    Self.Reference, Self._ObjType.OffsetY));
+  Result := Point(LocalTile.X + Reflect.Misc.BaseX, LocalTile.Y +
+    Reflect.Misc.BaseY);
+end;
+
+function TReflectObject.GetOrientation: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Orientation);
+end;
+
+function TReflectObject.GetId: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Id);
+  Result := (Result shr 14) and $7fff;
+end;
+
+function TReflectObject.GetName: string;
+var
+  Id: Integer;
+  Line: string;
+begin
+  Id := Self.GetId;
+  Line := ObjectCache.GetStrings(Id);
+  Result := Between('''name'': ''', ''',', Line);
+end;
+
+function TReflectObject.GetHeight: Integer;
+var
+  Id: Integer;
+  Line: string;
+begin
+  Id := Self.GetId;
+  Line := ObjectCache.GetStrings(Id);
+  Result := StrToInt(Between('height'': ', ',', Line));
+end;
+
+function TReflectObject.GetActions: TStringArray;
+var
+  Id: Integer;
+  Line, Temp: string;
+begin
+  Id := Self.GetId;
+  Line := ObjectCache.GetStrings(Id);
+  SetLength(Result, 5);
+  Temp := Between('''actions'': [''', ']', Line);
+  Temp := Copy(Temp, 1, Length(Temp) - 1);
+  Result := Explode(''',''',Temp);
+end;
+
+function TReflectObject.GetMSPoint: TPoint;
+var
+  OffsetX, OffsetY, XShift, YShift: Extended;
+  Tile: TPoint;
+begin
+  if Self._ObjType.Index <> ObjGame.Index then
+    Exit(Self.GetTile);
+  Tile := Self.GetTile;
+  OffsetX := (Tile.X + Self.GetOffset.X) / 2;
+  OffsetY := (Tile.Y + Self.GetOffset.Y) / 2;
+  XShift := Frac(OffsetX) * 128;
+  YShift := Frac(OffsetY) * 128;
+  if Self.GetOffset.X mod 2 = 0 then
+    XShift := XShift * -1;
+  if Self.GetOffset.Y mod 2 = 0 then
+    YShift := YShift * -1;
+  Result := Reflect.Tiles.TileToMs(Point(Round(OffsetX), Round(OffsetY)),
+    Round(XShift), Round(YShift), 0);
+end;
+
+{$IFNDEF CODEINSIGHT}
+procedure TReflectObject._GetObject(Iteration: Integer; _Tile: TTile);
+var
+  Id: Integer;
+  Temp: TReflectObject;
+begin
+  if (Self._ObjType.Index <> ObjGame.Index) then
+  begin
+    Reflect.Mem.GetObject(ckSceneTile, ckObject, Self._ObjType.SceneObject,
+      Iteration, Iteration);
+    Self.Reference := HookCache[ckObject][Iteration];
+    Self._Tile := _Tile;
+  end
+  else
+  begin
+    Reflect.Mem.GetObjectArray(ckSceneTile, ckObject,
+      Self._ObjType.SceneObject, Iteration, Iteration, 0);
+    Self.Reference := HookCache[ckObject][Iteration];
+    Self._Tile := _Tile;
+  end;
+end;
+{$ENDIF}
+procedure TReflectObjectArray.GetAll(ObjType: TObjectType; Distance: Integer);
+var
+  Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY: integer;
+  Temp: TReflectObject;
+  Position: TPoint;
+  ObjectHook, SceneHook: THook;
+begin
+  if not Reflect.Mem.IsNull(ckObject) then
+    Reflect.Mem.FreeObjects(ckObject, True);
+  Position := Reflect.Tiles.GetGlobalTile;
+  Distance := Round(Distance / 2);
+  if HookCache[TCacheKey.ckRegion][0] = 0 then
+    Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
+  BaseX := Reflect.Misc.BaseX;
+  BaseY := Reflect.Misc.BaseY;
+  Position := Point(Position.X - BaseX, Position.Y - BaseY);
+  Plane := Reflect.Tiles.GetPlane;
+  HighX := Position.X + Distance;
+  HighY := Position.Y + Distance;
+  if HighX > 103 then
+    HighX := 103;
+  if HighY > 103 then
+    HighY := 103;
+  SetLength(Self, 10817);
+  for X := Position.X - Distance to HighX do
+    for Y := Position.Y - Distance to HighY do
+    begin
+      Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles,
+        Count, 0, Plane, X, Y);
+      Temp._ObjType := ObjType;
+      Temp._GetObject(Count, Point(BaseX + X, BaseY + Y));
+      Inc(Count);
+      if Temp.Reference = 0 then
+        Continue;
+      Self[I] := Temp;
+      Inc(I);
+    end;
+    SetLength(Self, I);
+    Reflect.Mem.FreeObjects(ckSceneTile, Count);
+    Self.Sort;
+end;
+
+procedure TReflectObject.GetAt(ObjType: TObjectType; _Tile: TTile);
+var
+  ObjectHook, SceneHook: THook;
+  Multi, BaseX, BaseY, Plane: Integer;
+  Temp: TReflectObject;
+begin
+  if (HookCache[ckObject][0] <> 0) then
+    Reflect.Mem.FreeObjects(ckObject, True);
+  BaseX := Reflect.Misc.BaseX;
+  BaseY := Reflect.Misc.BaseY;
+  Plane := Reflect.Tiles.GetPlane;
+  if HookCache[TCacheKey.ckRegion][0] = 0 then
+    Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
+  Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles, 0, 0, Plane,
+    _Tile.X - BaseX, _Tile.Y - BaseY);
+  Self._ObjType := ObjType;
+  Self._GetObject(0, _Tile);
+  Reflect.Mem.FreeObjects(ckSceneTile, False);
+end;
+
+procedure TReflectObjectArray.Get(
+  ObjType: TObjectType; Name: string; Distance: Integer = 103);
+var
+  Temp, Temp1: TReflectObjectArray;
+  I, H, T: integer;
+begin
+  Temp.GetAll(ObjType, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  H := High(Temp);
+  SetLength(Temp1, H + 1);
+  for I := 0 to H do
+  begin
+    if (Temp[I].GetName = Name) then
+    begin
+      Temp1[T] := Temp[I];
+      Inc(T);
+    end;
+  end;
+  Setlength(Temp1, T);
+  Self := Temp1;
+  Self.Sort;
+end;
+
+procedure TReflectObjectArray.Get(
+  ObjType: TObjectType; Id: Integer; Distance: Integer = 103); overload;
+var
+  Temp, Temp1: TReflectObjectArray;
+  I, H, T: integer;
+begin
+  Temp.GetAll(ObjType, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  H := High(Temp);
+  SetLength(Temp1, H + 1);
+  for I := 0 to H do
+  begin
+    if (Temp[I].GetId = Id) then
+    begin
+      Temp1[T] := Temp[I];
+      Inc(T);
+    end;
+  end;
+  Setlength(Temp1, T);
+  Self := Temp1;
+  Self.Sort;
+end;
+
+function TReflectObject.Find(
+  ObjType: TObjectType; Name: string; Distance: Integer = 103): Boolean;
+var
+  Temp: TReflectObjectArray;
+begin
+  Temp.Get(ObjType, Name, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;
+
+function TReflectObject.Find(
+  ObjType: TObjectType; Id: Integer; Distance: Integer = 103): Boolean; overload;
+var
+  Temp: TReflectObjectArray;
+begin
+  Temp.Get(ObjType, Id, Distance);
+  if Length(Temp) = 0 then
+    Exit;
+  Temp.Sort;
+  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
+  begin
+    Result := True;
+    Self := Temp[0];
+  end;
+end;
+
+procedure TReflectionInternals.SetupObjects;
+begin
+  ObjGame.Index := 1;
+  ObjGame.Id := GameObject_ID;
+  ObjGame.Flags := GameObject_Flags;
+  ObjGame.Plane := GameObject_Plane;
+  ObjGame.Height := GameObject_Height;
+  ObjGame.Render := GameObject_Render;
+  ObjGame.Orientation := GameObject_Orientation;
+  ObjGame.LocalX := GameObject_LocalX;
+  ObjGame.LocalY := GameObject_LocalY;
+  ObjGame.OffsetX := GameObject_OffsetX;
+  ObjGame.OffsetY := GameObject_OffsetY;
+  ObjGame.SceneObject := SceneTile_GameObject;
+  ObjWallDecoration.Index := 2;
+  ObjWallDecoration.Id := WallDecoration_Id;
+  ObjWallDecoration.Flags := WallDecoration_Flags;
+  ObjWallDecoration.Plane := WallDecoration_Plane;
+  ObjWallDecoration.Height := WallDecoration_Height;
+  ObjWallDecoration.Render := WallDecoration_Renderable;
+  ObjWallDecoration.Orientation := WallDecoration_Orientation;
+  ObjWallDecoration.LocalX := WallDecoration_LocalX;
+  ObjWallDecoration.LocalY := WallDecoration_LocalY;
+  ObjWallDecoration.RelativeX := WallDecoration_RelativeX;
+  ObjWallDecoration.RelativeY := WallDecoration_RelativeY;
+  ObjWallDecoration.SceneObject := SceneTile_WallDecoration;
+  ObjFloorDecoration.Index := 3;
+  ObjFloorDecoration.Id := WallDecoration_Id;
+  ObjFloorDecoration.Flags := FloorDecoration_Flags;
+  ObjFloorDecoration.Plane := FloorDecoration_Plane;
+  ObjFloorDecoration.Render := FloorDecoration_Render;
+  ObjFloorDecoration.LocalX := FloorDecoration_LocalX;
+  ObjFloorDecoration.LocalY := FloorDecoration_LocalY;
+  ObjFloorDecoration.SceneObject := SceneTile_GroundDecoration;
+  ObjBoundary.Index := 4;
+  ObjBoundary.Id := BoundaryObject_Id;
+  ObjBoundary.Flags := BoundaryObject_Flags;
+  ObjBoundary.Plane := BoundaryObject_Plane;
+  ObjBoundary.Height := BoundaryObject_Height;
+  ObjBoundary.Render := BoundaryObject_Render;
+  ObjBoundary.Orientation := BoundaryObject_Orientation;
+  ObjBoundary.LocalX := BoundaryObject_LocalX;
+  ObjBoundary.LocalY := BoundaryObject_LocalY;
+  ObjBoundary.SceneObject := SceneTile_BoundaryObject;
+end;
+
+
