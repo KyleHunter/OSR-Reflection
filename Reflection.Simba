@@ -209,9 +209,3 @@ begin
   Reflect.Internals.SetupObjects;
   Reflect.Logger.Status('Successfully setup!');
 end;
-
-procedure SetupReflection;
-begin
-  Reflect.Logger.Warn('Please change "SetupReflection" to "Reflect.Setup"');
-  Reflect.Setup;
-end;
