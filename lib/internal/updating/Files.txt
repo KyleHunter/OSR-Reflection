@@ -60,7 +60,7 @@
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/NpcDefs.txt)
 
 (Reflection\Lib\Internal\definitions\ObjectDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/ObjectDefs.txt)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/ObjectDefs.txt)
 
 (Reflection\Lib\Internal\smart\Smart.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Smart.simba)
