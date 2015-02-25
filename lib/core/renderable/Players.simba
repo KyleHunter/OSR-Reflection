@@ -18,7 +18,6 @@ begin
         Reference := HookCache[ckPlayers][Iteration];
         Inc(Iteration);
       end;
-      //Player.Free;
     end;
   end;
 end;
