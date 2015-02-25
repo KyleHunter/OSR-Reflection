@@ -1,5 +1,5 @@
 [Reflection]
- Update # 11-1:[Bugs]:Fixes Error in definitions out of range
+ Update # 11-2:[Bugs]:Fixes Error in bank item access violation
   [Improvements]:
  :Complete rewrite of memory handling, adds numerous static and non static functions 
 [End]

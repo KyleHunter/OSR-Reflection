@@ -164,7 +164,6 @@ type
     TReflectBankItem = record(TReflectPointer)
 {$IFNDEF CODEINSIGHT}
       _Id, _Slot: Integer;
-      _Name: string;
 {$ENDIF}
   end;
   TReflectBankItemArray = array of TReflectBankItem;

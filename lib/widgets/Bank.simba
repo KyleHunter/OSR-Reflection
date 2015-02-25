@@ -252,7 +252,7 @@ begin
       (not PointInBox(Center,[22, 80, 480, 292]))) do
     begin
       BankChild.Free;
-      Reflect.KeyBoard.TypeSend(Self._Name[L], False);
+      Reflect.KeyBoard.TypeSend(Self.GetName, False);
       Wait(RandomRange(500, 700));
       BankChild := Reflect.Internals.GetBankItem(Self);
       Center := MiddleBox(BankChild.GetBounds);
