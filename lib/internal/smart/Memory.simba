@@ -14,7 +14,7 @@ Memory.Simba
 type
   TCacheKey = (ckNull, ckRegion, ckSceneTile, ckObject, ckNpcNode, ckNpcDef,
   ckNpcName, ckNpcOverHead, ckGroundArray, ckGroundList, ckLocalPlayer,
-  ckInvItems, ckBankItems);
+  ckInvItems, ckBankItems, ckPlayers);
 
 var
   HookCache: T2DIntegerArray;
@@ -153,7 +153,7 @@ begin
   ItemCache.LoadFromFile(
     IncludePath + 'reflection\lib\internal\definitions\ItemDefs.txt');
   AddOnTerminate('ReflectFree');
-  SetLength(HookCache, 13);
+  SetLength(HookCache, 14);
   SetLength(HookCache[ckNull], 10817);
   SetLength(HookCache[ckSceneTile], 10817);
   SetLength(HookCache[ckObject], 10817);
@@ -167,4 +167,5 @@ begin
   SetLength(HookCache[ckInvItems], 28);
   SetLength(HookCache[ckBankItems], 800);
   SetLength(HookCache[ckLocalPlayer], 1);
+  SetLength(HookCache[ckPlayers], 2047);
 end;

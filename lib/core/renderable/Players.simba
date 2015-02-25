@@ -4,6 +4,8 @@ var
   I, Iteration: Integer;
   Player: TReflectPointer;
 begin
+  if not Reflect.Mem.IsNull(ckPlayers) then
+    Reflect.Mem.FreeObjects(ckPlayers, True);
   for I := 0 to 2047 do
   begin
     Player.GetFieldArrayObject(0, Client_LocalPlayers, I);
@@ -12,17 +14,17 @@ begin
       SetLength(Self, Iteration + 1);
       with Self[Iteration] do
       begin
-        Name := Reflect.Smart.GetFieldString(Player.Reference, Player_Name);
-        Reference := Player.Reference;
-        Tile := GetTile;
-        Animation := GetAnimation;
-        InteractingIndex := GetInteractingIndex;
-        Health := GetHealth;
-        MaxHealth := GetMaxHealth;
-        CombatCycle := GetCombatCycle;
+        HookCache[ckPlayers][Iteration] := Player.Reference;
+        Reference := HookCache[ckPlayers][Iteration];
         Inc(Iteration);
       end;
+      //Player.Free;
     end;
-    Player.Free;
   end;
 end;
+
+function TReflectPlayer.GetName: string;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+end;
+
