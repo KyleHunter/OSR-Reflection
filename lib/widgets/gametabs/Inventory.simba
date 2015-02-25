@@ -5,6 +5,8 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
+  if not InRange(Id, 0, 12856) then
+    Exit;
   Line := ItemCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
 end;
@@ -15,6 +17,8 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
+  if not InRange(Id, 0, 12856) then
+    Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''actions'': [''', ']', Line);
   Temp := Copy(Temp, 1, Length(Temp) - 1);
@@ -27,6 +31,8 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
+  if not InRange(Id, 0, 12856) then
+    Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''groundActions'': [''', ']', Line);
   Temp := Copy(Temp, 1, Length(Temp) - 1);
@@ -39,6 +45,8 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
+  if not InRange(Id, 0, 12856) then
+    Exit;
   Line := ItemCache.GetStrings(Id);
   Result := StrToInt(Between('highAlchValue'': ', '}', Line));
 end;
@@ -46,7 +54,7 @@ end;
 function TReflectInvItem.GetQuantity: Integer;
 begin
   Result := Reflect.Smart.GetFieldArrayInt(Self.Reference,
-        Widget_StackSizes, Self._InvSlot - 1);
+    Widget_StackSizes, Self._InvSlot - 1);
 end;
 
 function TReflectInvItem.GetId: Integer;

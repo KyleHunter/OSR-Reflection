@@ -46,7 +46,7 @@ var
   Line: string;
 begin
   Id := Self.GetId;
-  if (Id > 6755) or (Id < 0) then
+  if not InRange(Id, 0, 6755) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -58,7 +58,7 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
-  if (Id > 6755) or (Id < 0) then
+  if not InRange(Id, 0, 6755) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Temp := Between('''actions'': [', ']', Line);
@@ -72,7 +72,7 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
-  if (Id > 6755) or (Id < 0) then
+  if not InRange(Id, 0, 6755) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Result := StrToInt(Between('combatLevel'': ', ',', Line));

@@ -1,5 +1,5 @@
 [Reflection]
- Update # 9:[Bugs]:Fixed a few Memory managing bugs.
+ Update # 11-1:[Bugs]:Fixes Error in definitions out of range
   [Improvements]:
- Full Prayer support 
+ :Complete rewrite of memory handling, adds numerous static and non static functions 
 [End]

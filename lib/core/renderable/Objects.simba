@@ -65,6 +65,8 @@ var
   Line: string;
 begin
   Id := Self.GetId;
+  if not InRange(Id, 0, 26873) then
+    Exit;
   Line := ObjectCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
 end;
@@ -75,6 +77,8 @@ var
   Line: string;
 begin
   Id := Self.GetId;
+  if not InRange(Id, 0, 26873) then
+    Exit;
   Line := ObjectCache.GetStrings(Id);
   Result := StrToInt(Between('height'': ', ',', Line));
 end;
@@ -85,6 +89,8 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
+  if not InRange(Id, 0, 26873) then
+    Exit;
   Line := ObjectCache.GetStrings(Id);
   SetLength(Result, 5);
   Temp := Between('''actions'': [''', ']', Line);
