@@ -159,7 +159,7 @@ begin
   Self := Temp[0];
 end;
 
-function TReflectInvItem.GetMainScreenPoint: TPoint;
+function TReflectInvItem.GetMSPoint: TPoint;
 var
   Slot1, Slot6, Temp: TBox;
   Pnt: TPoint;
@@ -226,7 +226,7 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetMainScreenPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetMSPoint, 2, 2);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
@@ -239,7 +239,7 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetMainScreenPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetMSPoint, 2, 2);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
@@ -259,7 +259,7 @@ end;
 
 function TReflectInvItem.Drop: Boolean;
 begin
-  Reflect.Mouse.Move(Self.GetMainScreenPoint, 2, 2);
+  Reflect.Mouse.Move(Self.GetMSPoint, 2, 2);
   Wait(RandomRange(160, 250));
   Reflect.Mouse.Click(Mouse_Right);
   Result := Reflect.Text.ChooseOption('Drop');
