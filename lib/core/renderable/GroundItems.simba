@@ -118,7 +118,7 @@ begin
   begin
     _Id := Reflect.Smart.GetFieldInt(
       HookCache[ckGroundList][Start + Iteration + 1], Item_Id);
-    if (_Id < 0) or (_Id > 10000) then
+    if (_Id < 0) or (_Id > 12856) then
       Break;
     Temp[Iteration]._Id := _Id;
     Temp[Iteration]._Tile.X := _Tile.X + BaseX;

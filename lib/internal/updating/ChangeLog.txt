@@ -1,5 +1,5 @@
 [Reflection]
- Update # 11-2:[Bugs]:Fixes Error in bank item access violation
+ Update # 11-3:[Bugs]:Fixes Error in ground items if ID was too high
   [Improvements]:
- :Complete rewrite of memory handling, adds numerous static and non static functions 
+ :Adds TReflectWidget.Interact(Offset: Integer);
 [End]

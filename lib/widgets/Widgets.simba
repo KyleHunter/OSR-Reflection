@@ -234,6 +234,18 @@ begin
   end;
 end;
 
+function TReflectWidget.Interact(Offset: Integer): Boolean; overload;
+var
+  Bounds: TBox;
+begin
+  Bounds := Self.GetBounds;
+  Bounds.X1 := Bounds.X1 + Offset;
+  Bounds.X2 := Bounds.X2 - Offset;
+  Bounds.Y1 := Bounds.Y1 + Offset;
+  Bounds.Y2 := Bounds.Y2 - Offset;
+  Reflect.Mouse.Move(Bounds, Mouse_Left);
+end;
+
 function TReflectWidget.Interact(
   Option: string = ''; Offset: Integer): Boolean; overload;
 var

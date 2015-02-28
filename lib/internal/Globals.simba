@@ -121,7 +121,6 @@ type
   TReflectGroundItem = record(TReflectPointer)
 {$IFNDEF CODEINSIGHT}
     _Id: Integer;
-    _Name: string;
     _Tile: TTile;
 {$ENDIF}
   end;
