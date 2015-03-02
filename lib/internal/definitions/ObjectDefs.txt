@@ -2691,7 +2691,7 @@
 {'ID': 2690,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Mine door entrance','walkable': true,'width': 1}
 {'ID': 2691,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Mine door entrance','walkable': true,'width': 1}
 {'ID': 2692,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Prison door','walkable': true,'width': 1}
-{'ID': 2693,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
+{'ID': 2693,'actions': ['Use','null','Collect','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
 {'ID': 2694,'actions': ['null','Climb-to','null','null','null'],'height': 1,'name': 'Rock','walkable': false,'width': 1}
 {'ID': 2695,'actions': ['null','Climb-to','null','null','null'],'height': 1,'name': 'Rock','walkable': false,'width': 1}
 {'ID': 2696,'actions': ['null','Climb-to','null','null','null'],'height': 1,'name': 'Rock','walkable': false,'width': 1}
@@ -3192,7 +3192,7 @@
 {'ID': 3191,'actions': ['null','Search','Shut','null','null'],'height': 1,'name': 'Drawers','walkable': true,'width': 1}
 {'ID': 3192,'actions': ['View','null','null','null','null'],'height': 3,'name': 'Scoreboard','walkable': true,'width': 2}
 {'ID': 3193,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Closed chest','walkable': true,'width': 1}
-{'ID': 3194,'actions': ['Bank','null','Shut','null','null'],'height': 1,'name': 'Open chest','walkable': true,'width': 1}
+{'ID': 3194,'actions': ['Bank','null','Collect','null','Shut'],'height': 1,'name': 'Open chest','walkable': true,'width': 1}
 {'ID': 3195,'actions': ['Buy','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
 {'ID': 3196,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Damaged armour','walkable': true,'width': 1}
 {'ID': 3197,'actions': ['Inspect','null','null','null','null'],'height': 6,'name': 'Trawler net','walkable': true,'width': 2}
@@ -4481,7 +4481,7 @@
 {'ID': 4480,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 4481,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 4482,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Tap','walkable': true,'width': 1}
-{'ID': 4483,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
+{'ID': 4483,'actions': ['Use','null','Collect','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
 {'ID': 4484,'actions': ['View','null','null','null','null'],'height': 1,'name': 'Scoreboard','walkable': true,'width': 1}
 {'ID': 4485,'actions': ['Climb','null','null','null','null'],'height': 1,'name': 'Iron ladder','walkable': true,'width': 1}
 {'ID': 4486,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -6082,7 +6082,7 @@
 {'ID': 6081,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank table','walkable': false,'width': 2}
 {'ID': 6082,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank table','walkable': false,'width': 2}
 {'ID': 6083,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed bank booth','walkable': false,'width': 1}
-{'ID': 6084,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 6084,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 6085,'actions': ['Climb-up','null','null','null','null'],'height': 2,'name': 'Stairs','walkable': true,'width': 1}
 {'ID': 6086,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Stairs','walkable': true,'width': 1}
 {'ID': 6087,'actions': ['Climb-up','null','null','null','null'],'height': 2,'name': 'Stairs','walkable': true,'width': 2}
@@ -9366,10 +9366,10 @@
 {'ID': 9365,'actions': ['Take-Coffin','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
 {'ID': 9366,'actions': ['Take-Coffin','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
 {'ID': 9367,'actions': ['Take-Coffin','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
-{'ID': 9368}
-{'ID': 9369}
-{'ID': 9370}
-{'ID': 9371}
+{'ID': 9368,'actions': ['Enter','null','null','null','null'],'height': 1,'name': 'Private portal','walkable': false,'width': 1}
+{'ID': 9369,'actions': ['Exit','null','null','null','null'],'height': 1,'name': 'Private portal','walkable': false,'width': 1}
+{'ID': 9370,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 9371,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 9372}
 {'ID': 9373,'actions': ['Check','null','null','null','null'],'height': 1,'name': 'Bird snare','walkable': false,'width': 1}
 {'ID': 9374,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bird snare','walkable': false,'width': 1}
@@ -9740,7 +9740,7 @@
 {'ID': 9739}
 {'ID': 9740}
 {'ID': 9741}
-{'ID': 9742}
+{'ID': 9742,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
 {'ID': 9743,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 9744,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ship's ladder','walkable': true,'width': 1}
 {'ID': 9745,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Ship's ladder','walkable': true,'width': 1}
@@ -10040,13 +10040,13 @@
 {'ID': 10039,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 10040,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 10041,'actions': ['Chop down','Talk to','null','null','null'],'height': 2,'name': 'Tree','walkable': true,'width': 2}
-{'ID': 10042}
-{'ID': 10043}
-{'ID': 10044}
+{'ID': 10042,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
+{'ID': 10043,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
+{'ID': 10044,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10045}
 {'ID': 10046}
 {'ID': 10047}
-{'ID': 10048}
+{'ID': 10048,'actions': ['Climb-down','Close','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': false,'width': 1}
 {'ID': 10049,'actions': ['Take-Coffin','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
 {'ID': 10050,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
 {'ID': 10051,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Grave','walkable': true,'width': 1}
@@ -10057,16 +10057,16 @@
 {'ID': 10056,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Dead tree','walkable': true,'width': 2}
 {'ID': 10057,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Tree stump','walkable': true,'width': 2}
 {'ID': 10058}
-{'ID': 10059}
-{'ID': 10060}
-{'ID': 10061}
-{'ID': 10062}
-{'ID': 10063}
-{'ID': 10064}
-{'ID': 10065}
-{'ID': 10066}
-{'ID': 10067}
-{'ID': 10068}
+{'ID': 10059,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10060,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Grand Exchange booth','walkable': false,'width': 1}
+{'ID': 10061,'actions': ['Exchange','null','Collect','null','null'],'height': 1,'name': 'Grand Exchange booth','walkable': false,'width': 1}
+{'ID': 10062,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10063,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
+{'ID': 10064,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10065,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10066,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10067,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10068,'actions': ['Board','null','null','null','null'],'height': 3,'name': 'Sacrificial boat','walkable': true,'width': 3}
 {'ID': 10069,'actions': ['null','null','null','null','null'],'height': 3,'walkable': false,'width': 3}
 {'ID': 10070,'actions': ['null','null','null','null','null'],'height': 4,'walkable': false,'width': 4}
 {'ID': 10071,'actions': ['null','null','null','null','null'],'height': 6,'walkable': false,'width': 6}
@@ -10515,7 +10515,7 @@
 {'ID': 10514,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Shelves','walkable': true,'width': 1}
 {'ID': 10515,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10516,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Wheelbarrow','walkable': true,'width': 1}
-{'ID': 10517,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 10517,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 10518,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed bank booth','walkable': false,'width': 1}
 {'ID': 10519,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10520,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -10560,7 +10560,7 @@
 {'ID': 10559,'actions': ['Climb-down','Close','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': true,'width': 1}
 {'ID': 10560,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
 {'ID': 10561,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
-{'ID': 10562,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
+{'ID': 10562,'actions': ['Use','null','Collect','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
 {'ID': 10563,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10564,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Banner','walkable': true,'width': 1}
 {'ID': 10565,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -10641,8 +10641,8 @@
 {'ID': 10640,'actions': ['Pray-at','null','null','null','null'],'height': 1,'name': 'Altar','walkable': false,'width': 2}
 {'ID': 10641,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Doric's Whetstone','walkable': true,'width': 2}
 {'ID': 10642,'actions': ['Leap','null','null','null','null'],'height': 2,'name': 'Gap','walkable': true,'width': 1}
-{'ID': 10643,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10644,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10643,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
+{'ID': 10644,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
 {'ID': 10645,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10646,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10647,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -10650,68 +10650,68 @@
 {'ID': 10649,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10650,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10651,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10652,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Evergreen.','walkable': true,'width': 5}
-{'ID': 10653,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Evergreen.','walkable': true,'width': 5}
-{'ID': 10654,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Evergreen.','walkable': true,'width': 5}
-{'ID': 10655,'actions': ['null','null','null','null','null'],'height': 6,'name': 'Evergreen.','walkable': true,'width': 6}
-{'ID': 10656,'actions': ['null','null','null','null','null'],'height': 6,'name': 'Evergreen.','walkable': true,'width': 6}
-{'ID': 10657,'actions': ['null','null','null','null','null'],'height': 6,'name': 'Evergreen.','walkable': true,'width': 6}
-{'ID': 10658,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Evergreen.','walkable': true,'width': 5}
-{'ID': 10659,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Evergreen.','walkable': true,'width': 5}
-{'ID': 10660,'actions': ['null','null','null','null','null'],'height': 7,'name': 'Evergreen.','walkable': true,'width': 7}
-{'ID': 10661,'actions': ['null','null','null','null','null'],'height': 6,'name': 'Evergreen.','walkable': true,'width': 6}
-{'ID': 10662,'actions': ['null','null','null','null','null'],'height': 6,'name': 'Evergreen.','walkable': true,'width': 6}
-{'ID': 10663,'actions': ['null','null','null','null','null'],'height': 7,'name': 'Evergreen.','walkable': true,'width': 7}
-{'ID': 10664,'actions': ['null','null','null','null','null'],'height': 3,'name': 'Tree','walkable': true,'width': 3}
-{'ID': 10665,'actions': ['null','null','null','null','null'],'height': 3,'name': 'Gifts','walkable': true,'width': 3}
-{'ID': 10666,'actions': ['Unwrap presents','null','null','null','null'],'height': 3,'name': 'Gifts','walkable': true,'width': 3}
-{'ID': 10667,'actions': ['null','null','null','null','null'],'height': 5,'walkable': true,'width': 5}
-{'ID': 10668,'actions': ['null','null','null','null','null'],'height': 7,'walkable': true,'width': 7}
-{'ID': 10669,'actions': ['null','null','null','null','null'],'height': 3,'walkable': true,'width': 3}
+{'ID': 10652,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10653,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10654,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10655,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10656,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10657,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10658,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Torch','walkable': false,'width': 1}
+{'ID': 10659,'actions': ['null','null','null','null','null'],'height': 3,'walkable': true,'width': 1}
+{'ID': 10660,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Fire','walkable': false,'width': 1}
+{'ID': 10661,'actions': ['Deposit','null','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
+{'ID': 10662,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Crate','walkable': false,'width': 1}
+{'ID': 10663,'actions': ['Cross','null','null','null','null'],'height': 1,'name': 'Stepping stone','walkable': false,'width': 1}
+{'ID': 10664,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10665,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10666,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10667,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10668,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10669,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10670,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
 {'ID': 10671,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Crate','walkable': true,'width': 2}
-{'ID': 10672,'actions': ['Take-marionette','null','null','null','null'],'height': 2,'name': 'Crate','walkable': true,'width': 2}
-{'ID': 10673,'actions': ['Paint-bauble','null','null','null','null'],'height': 1,'name': 'Paintcans','walkable': true,'width': 2}
-{'ID': 10674,'actions': ['Paint-bauble','null','null','null','null'],'height': 1,'name': 'Paintcans','walkable': true,'width': 2}
-{'ID': 10675,'actions': ['Paint-bauble','null','null','null','null'],'height': 1,'name': 'Paintcans','walkable': true,'width': 2}
-{'ID': 10676,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Workbench','walkable': true,'width': 2}
-{'ID': 10677,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Workbench','walkable': true,'width': 2}
-{'ID': 10678,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Workbench','walkable': true,'width': 2}
-{'ID': 10679,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 1}
-{'ID': 10680,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 1}
-{'ID': 10681,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 1}
-{'ID': 10682,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 2}
-{'ID': 10683,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 2}
-{'ID': 10684,'actions': ['Take-decoration','null','null','null','null'],'height': 1,'name': 'Decorations Box','walkable': true,'width': 2}
-{'ID': 10685,'actions': ['Take-decoration','null','null','null','null'],'height': 2,'name': 'Decorations Box','walkable': true,'width': 2}
-{'ID': 10686,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 10687,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 10688,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 10689,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 10690,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 10691,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 10692,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 10693,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 10694,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 10695,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 10696,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 10697,'actions': ['Add','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 10698,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': true,'width': 1}
-{'ID': 10699,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Trapdoor Steps','walkable': true,'width': 1}
-{'ID': 10700,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10701,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 10702,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 10703,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 10704,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 10705,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crates','walkable': true,'width': 1}
-{'ID': 10706,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Large Box','walkable': true,'width': 2}
-{'ID': 10707,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
-{'ID': 10708,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
-{'ID': 10709,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10710,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Paint Pots','walkable': true,'width': 1}
-{'ID': 10711,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10712,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 10713,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10672,'actions': ['Search','null','null','null','null'],'height': 2,'name': 'Crate','walkable': true,'width': 2}
+{'ID': 10673,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10674,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10675,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10676,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10677,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10678,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10679,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10680,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10681,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10682,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10683,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10684,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10685,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10686,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10687,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10688,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 10689,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10690,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10691,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10692,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10693,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10694,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10695,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10696,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10697,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10698,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10699,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10700,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10701,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10702,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10703,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10704,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10705,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10706,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10707,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10708,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10709,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10710,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10711,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10712,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 10713,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 10714,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 10715,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10716,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -10802,7 +10802,7 @@
 {'ID': 10801,'actions': ['Mine','Prospect','null','null','null'],'height': 1,'name': 'Rocks','walkable': false,'width': 1}
 {'ID': 10802,'actions': ['Mine','Prospect','null','null','null'],'height': 1,'name': 'Rocks','walkable': false,'width': 1}
 {'ID': 10803,'actions': ['Mine','Prospect','null','null','null'],'height': 1,'name': 'Rocks','walkable': false,'width': 1}
-{'ID': 10804,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': true,'width': 1}
+{'ID': 10804,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': false,'width': 1}
 {'ID': 10805,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Sandy's Desk','walkable': true,'width': 2}
 {'ID': 10806,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10807,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Sandy's Coffee Mug','walkable': true,'width': 1}
@@ -11336,7 +11336,7 @@
 {'ID': 11335,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bamboo Desk','walkable': false,'width': 1}
 {'ID': 11336,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bamboo Desk','walkable': false,'width': 1}
 {'ID': 11337,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bamboo Desk','walkable': false,'width': 1}
-{'ID': 11338,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 11338,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 11339,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Open chest','walkable': true,'width': 1}
 {'ID': 11340,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 1}
 {'ID': 11341,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed chest','walkable': true,'width': 1}
@@ -11696,27 +11696,27 @@
 {'ID': 11695,'actions': ['Churn','null','null','null','null'],'height': 1,'name': 'Dairy churn','walkable': false,'width': 1}
 {'ID': 11696,'actions': ['Churn','null','null','null','null'],'height': 1,'name': 'Dairy churn','walkable': false,'width': 1}
 {'ID': 11697,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Pie stall','walkable': true,'width': 2}
-{'ID': 11698}
-{'ID': 11699}
-{'ID': 11700}
-{'ID': 11701}
-{'ID': 11702}
-{'ID': 11703}
-{'ID': 11704}
-{'ID': 11705}
-{'ID': 11706}
-{'ID': 11707}
-{'ID': 11708}
-{'ID': 11709}
-{'ID': 11710}
-{'ID': 11711}
-{'ID': 11712}
-{'ID': 11713}
-{'ID': 11714}
-{'ID': 11715}
-{'ID': 11716}
-{'ID': 11717}
-{'ID': 11718}
+{'ID': 11698,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 11699,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11700,'actions': ['null','null','null','null','null'],'height': 3,'walkable': false,'width': 3}
+{'ID': 11701,'actions': ['Read','null','null','null','null'],'height': 1,'name': '<col=ff9040>Zul-Andra teleport</col>','walkable': false,'width': 1}
+{'ID': 11702,'actions': ['View','null','null','null','null'],'height': 1,'name': 'Telescope','walkable': false,'width': 1}
+{'ID': 11703,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Fairy ring','walkable': true,'width': 1}
+{'ID': 11704,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11705,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11706,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11707,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11708,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11709,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11710,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11711,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11712,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11713,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11714,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11715,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11716,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11717,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11718,'actions': ['null','null','null','null','null'],'height': 2,'walkable': false,'width': 2}
 {'ID': 11719,'actions': ['Open','Pick-lock','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
 {'ID': 11720,'actions': ['Open','Pick-lock','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
 {'ID': 11721,'actions': ['Open','Pick-lock','null','null','null'],'height': 1,'name': 'Gate','walkable': true,'width': 1}
@@ -11742,11 +11742,11 @@
 {'ID': 11741,'actions': ['Open','Search for traps','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
 {'ID': 11742,'actions': ['Open','Search for traps','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
 {'ID': 11743,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 11744,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 11744,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 11745,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 11746,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed bank booth','walkable': false,'width': 1}
 {'ID': 11747,'actions': ['Deposit','null','null','null','null'],'height': 1,'name': 'Bank Deposit Box','walkable': true,'width': 1}
-{'ID': 11748,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 11748,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 11749,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 11750,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 11751,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -11766,8 +11766,8 @@
 {'ID': 11765,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
 {'ID': 11766,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Gate','walkable': false,'width': 1}
 {'ID': 11767,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Gate','walkable': false,'width': 1}
-{'ID': 11768,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 11769,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 11768}
+{'ID': 11769}
 {'ID': 11770,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Gate','walkable': false,'width': 1}
 {'ID': 11771,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Gate','walkable': false,'width': 1}
 {'ID': 11772,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
@@ -12307,7 +12307,7 @@
 {'ID': 12306,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 12307,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 12308,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 12309,'actions': ['Bank','Buy-food','Buy-items','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
+{'ID': 12309,'actions': ['Bank','null','Collect','Buy-food','Buy-items'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
 {'ID': 12310,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chair','walkable': true,'width': 1}
 {'ID': 12311,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chair','walkable': true,'width': 1}
 {'ID': 12312,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chair','walkable': true,'width': 1}
@@ -12796,7 +12796,7 @@
 {'ID': 12795,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 12796,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Fire','walkable': false,'width': 1}
 {'ID': 12797,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 12798,'actions': ['Bank','null','null','null','null'],'height': 1,'name': 'Bank Booth','walkable': false,'width': 1}
+{'ID': 12798,'actions': ['Bank','null','Collect','null','null'],'height': 1,'name': 'Bank Booth','walkable': false,'width': 1}
 {'ID': 12799,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Bank Booth','walkable': false,'width': 1}
 {'ID': 12800,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank Booth','walkable': false,'width': 1}
 {'ID': 12801,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank Booth','walkable': false,'width': 1}
@@ -14365,7 +14365,7 @@
 {'ID': 14364,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Rocking chair','walkable': true,'width': 1}
 {'ID': 14365,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 14366,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Counter','walkable': false,'width': 2}
-{'ID': 14367,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 14367,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 14368,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 14369,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': false,'width': 1}
 {'ID': 14370,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crates','walkable': false,'width': 1}
@@ -15808,7 +15808,7 @@
 {'ID': 15807,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
 {'ID': 15808,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
 {'ID': 15809,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 15810}
+{'ID': 15810,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 15811,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 15812,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 15813,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -16008,7 +16008,7 @@
 {'ID': 16007,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Stepping log','walkable': false,'width': 1}
 {'ID': 16008,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16009,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 16010,'actions': ['Peer-Through','null','null','null','null'],'height': 1,'name': 'Telescope','walkable': true,'width': 1}
+{'ID': 16010,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 16011,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 16012,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Stepping Stone','walkable': false,'width': 1}
 {'ID': 16013,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Stepping stone','walkable': false,'width': 1}
@@ -16153,20 +16153,20 @@
 {'ID': 16152,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16153,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16154,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 16155}
-{'ID': 16156}
-{'ID': 16157}
-{'ID': 16158}
-{'ID': 16159}
-{'ID': 16160}
-{'ID': 16161}
-{'ID': 16162}
-{'ID': 16163}
-{'ID': 16164}
-{'ID': 16165}
-{'ID': 16166}
-{'ID': 16167}
-{'ID': 16168}
+{'ID': 16155,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16156,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16157,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16158,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16159,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16160,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16161,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16162,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16163,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16164,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16165,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16166,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16167,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
+{'ID': 16168,'actions': ['Inspect','Travel','null','null','null'],'height': 1,'name': 'Trapdoor','walkable': true,'width': 1}
 {'ID': 16169,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Table','walkable': true,'width': 2}
 {'ID': 16170,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Table','walkable': true,'width': 2}
 {'ID': 16171,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 2}
@@ -16456,12 +16456,12 @@
 {'ID': 16455,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16456,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16457,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 16458}
-{'ID': 16459}
-{'ID': 16460}
-{'ID': 16461}
-{'ID': 16462}
-{'ID': 16463}
+{'ID': 16458,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 16459,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 16460,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 16461,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 16462,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 16463,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16464}
 {'ID': 16465}
 {'ID': 16466}
@@ -16473,7 +16473,7 @@
 {'ID': 16472}
 {'ID': 16473}
 {'ID': 16474}
-{'ID': 16475,'actions': ['Donate','null','Donate-items','null','null'],'height': 2,'name': 'Well of Goodwill','walkable': false,'width': 2}
+{'ID': 16475}
 {'ID': 16476}
 {'ID': 16477,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 16478,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -16510,8 +16510,8 @@
 {'ID': 16509,'actions': ['Squeeze-through','null','null','null','null'],'height': 1,'name': 'Obstacle pipe','walkable': true,'width': 2}
 {'ID': 16510,'actions': ['Jump-over','null','null','null','null'],'height': 1,'name': 'Strange floor','walkable': false,'width': 1}
 {'ID': 16511,'actions': ['Squeeze-through','null','null','null','null'],'height': 1,'name': 'Obstacle pipe','walkable': true,'width': 2}
-{'ID': 16512,'actions': ['Climb-into','null','null','null','null'],'height': 1,'name': 'Underwall tunnel','walkable': true,'width': 1}
-{'ID': 16513,'actions': ['Climb-into','null','null','null','null'],'height': 1,'name': 'Underwall tunnel','walkable': true,'width': 1}
+{'ID': 16512}
+{'ID': 16513}
 {'ID': 16514,'actions': ['Climb','null','null','null','null'],'height': 1,'name': 'Rocks','walkable': true,'width': 1}
 {'ID': 16515,'actions': ['Climb','null','null','null','null'],'height': 1,'name': 'Rocks','walkable': true,'width': 1}
 {'ID': 16516,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -16640,7 +16640,7 @@
 {'ID': 16639,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Windswept Tree','walkable': true,'width': 2}
 {'ID': 16640,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Mast','walkable': true,'width': 1}
 {'ID': 16641,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Cooking range','walkable': true,'width': 1}
-{'ID': 16642,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 16642,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 16643,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed bank booth','walkable': false,'width': 1}
 {'ID': 16644,'actions': ['Open','null','null','null','null'],'height': 2,'name': 'Coffin','walkable': false,'width': 2}
 {'ID': 16645,'actions': ['Search','Close','null','null','null'],'height': 2,'name': 'Coffin','walkable': false,'width': 2}
@@ -16698,7 +16698,7 @@
 {'ID': 16697,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
 {'ID': 16698,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 2}
 {'ID': 16699,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 2}
-{'ID': 16700,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 16700,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 16701,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Light','walkable': true,'width': 1}
 {'ID': 16702,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Cooker','walkable': true,'width': 1}
 {'ID': 16703,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Cooker','walkable': true,'width': 1}
@@ -18489,7 +18489,7 @@
 {'ID': 18488,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 18489,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
 {'ID': 18490,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Door','walkable': true,'width': 1}
-{'ID': 18491,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 18491,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 18492,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed booth','walkable': false,'width': 1}
 {'ID': 18493,'actions': ['Read','null','null','null','null'],'height': 2,'name': 'Signpost','walkable': true,'width': 2}
 {'ID': 18494,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -19030,86 +19030,86 @@
 {'ID': 19029,'actions': ['Enter','null','null','null','null'],'height': 1,'name': 'Passageway','walkable': false,'width': 1}
 {'ID': 19030,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
 {'ID': 19031,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
-{'ID': 19032,'actions': ['Pull Up','null','null','null','null'],'height': 1,'name': 'Large root','walkable': true,'width': 1}
+{'ID': 19032}
 {'ID': 19033,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
 {'ID': 19034,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
 {'ID': 19035,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
-{'ID': 19036,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19037,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 19036}
+{'ID': 19037}
 {'ID': 19038,'actions': ['Dig-up','null','null','null','null'],'height': 1,'name': 'Wintumber tree','walkable': false,'width': 1}
-{'ID': 19039,'actions': ['Climb-down','Search','null','null','null'],'height': 2,'name': 'Cave entrance','walkable': true,'width': 2}
-{'ID': 19040,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': false,'width': 1}
-{'ID': 19041,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19042,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19043,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19044,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19045,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19046,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19047,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19048,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19049,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19050,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19051,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19052,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 19053,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 19054,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 19055,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 19056,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19057,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19058,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19059,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19060,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19061,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19062,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19063,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19064,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Paint cans','walkable': true,'width': 2}
-{'ID': 19065,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Large box','walkable': true,'width': 2}
-{'ID': 19066,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 19067,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 19068,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 19069,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 19070,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 19071,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crates','walkable': true,'width': 1}
-{'ID': 19072,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 19073,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 19074,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Crate','walkable': true,'width': 1}
-{'ID': 19075,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19076,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19077,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19078,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19079,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19080,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19081,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19082,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19083,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19084,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19085,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 1}
-{'ID': 19086,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 1}
-{'ID': 19087,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19088,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19089,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19090,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19091,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19092,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 19093,'actions': ['Climb','null','null','null','null'],'height': 1,'name': 'Climbing rope','walkable': true,'width': 1}
-{'ID': 19094,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 1}
-{'ID': 19095,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 1}
-{'ID': 19096,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 2}
-{'ID': 19097,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Decorations box','walkable': true,'width': 2}
-{'ID': 19098,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Decorations box','walkable': true,'width': 2}
-{'ID': 19099,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Paint cans','walkable': true,'width': 2}
-{'ID': 19100,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Paint cans','walkable': true,'width': 2}
-{'ID': 19101,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Paint cans','walkable': true,'width': 2}
-{'ID': 19102,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 19103,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 19104,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet heads','walkable': true,'width': 1}
-{'ID': 19105,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 19106,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 19107,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet torsos','walkable': true,'width': 2}
-{'ID': 19108,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet arms','walkable': true,'width': 1}
-{'ID': 19109,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Puppet legs','walkable': true,'width': 1}
-{'ID': 19110,'actions': ['Climb','null','null','null','null'],'height': 1,'name': 'Roots','walkable': true,'width': 1}
-{'ID': 19111,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Roots','walkable': true,'width': 1}
+{'ID': 19039}
+{'ID': 19040}
+{'ID': 19041}
+{'ID': 19042}
+{'ID': 19043}
+{'ID': 19044}
+{'ID': 19045}
+{'ID': 19046}
+{'ID': 19047}
+{'ID': 19048}
+{'ID': 19049}
+{'ID': 19050}
+{'ID': 19051}
+{'ID': 19052}
+{'ID': 19053}
+{'ID': 19054}
+{'ID': 19055}
+{'ID': 19056}
+{'ID': 19057}
+{'ID': 19058}
+{'ID': 19059}
+{'ID': 19060}
+{'ID': 19061}
+{'ID': 19062}
+{'ID': 19063}
+{'ID': 19064}
+{'ID': 19065}
+{'ID': 19066}
+{'ID': 19067}
+{'ID': 19068}
+{'ID': 19069}
+{'ID': 19070}
+{'ID': 19071}
+{'ID': 19072}
+{'ID': 19073}
+{'ID': 19074}
+{'ID': 19075}
+{'ID': 19076}
+{'ID': 19077}
+{'ID': 19078}
+{'ID': 19079}
+{'ID': 19080}
+{'ID': 19081}
+{'ID': 19082}
+{'ID': 19083}
+{'ID': 19084}
+{'ID': 19085}
+{'ID': 19086}
+{'ID': 19087}
+{'ID': 19088}
+{'ID': 19089}
+{'ID': 19090}
+{'ID': 19091}
+{'ID': 19092}
+{'ID': 19093}
+{'ID': 19094}
+{'ID': 19095}
+{'ID': 19096}
+{'ID': 19097}
+{'ID': 19098}
+{'ID': 19099}
+{'ID': 19100}
+{'ID': 19101}
+{'ID': 19102}
+{'ID': 19103}
+{'ID': 19104}
+{'ID': 19105}
+{'ID': 19106}
+{'ID': 19107}
+{'ID': 19108}
+{'ID': 19109}
+{'ID': 19110}
+{'ID': 19111}
 {'ID': 19112,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 19113,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 19114,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
@@ -20097,34 +20097,34 @@
 {'ID': 20096,'actions': ['null','null','null','null','null'],'height': 3,'name': 'Bed','walkable': true,'width': 3}
 {'ID': 20097,'actions': ['null','null','null','null','null'],'height': 3,'name': 'Bed','walkable': true,'width': 3}
 {'ID': 20098,'actions': ['null','null','null','null','null'],'height': 3,'walkable': true,'width': 3}
-{'ID': 20099,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20100,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Childerkin slaves','walkable': false,'width': 7}
-{'ID': 20101,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20102,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20103,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20104,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20105,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20106,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20107,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20108,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20109,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20110,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20111,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20112,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20113,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20114,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20115,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20116,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20117,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Childerkin slaves','walkable': true,'width': 7}
+{'ID': 20099}
+{'ID': 20100}
+{'ID': 20101}
+{'ID': 20102}
+{'ID': 20103}
+{'ID': 20104}
+{'ID': 20105}
+{'ID': 20106}
+{'ID': 20107}
+{'ID': 20108}
+{'ID': 20109}
+{'ID': 20110}
+{'ID': 20111}
+{'ID': 20112}
+{'ID': 20113}
+{'ID': 20114}
+{'ID': 20115}
+{'ID': 20116}
+{'ID': 20117}
 {'ID': 20118,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
-{'ID': 20119,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20120,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20121,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20122,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20123,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20124,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20125,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
-{'ID': 20126,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
+{'ID': 20119}
+{'ID': 20120}
+{'ID': 20121}
+{'ID': 20122}
+{'ID': 20123}
+{'ID': 20124}
+{'ID': 20125}
+{'ID': 20126}
 {'ID': 20127,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 2}
 {'ID': 20128,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Deadfall','walkable': false,'width': 2}
 {'ID': 20129,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Deadfall','walkable': false,'width': 2}
@@ -20323,7 +20323,7 @@
 {'ID': 20322,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Vault','walkable': true,'width': 2}
 {'ID': 20323,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Private bank booth','walkable': true,'width': 1}
 {'ID': 20324,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Private bank booth','walkable': true,'width': 1}
-{'ID': 20325,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 20325,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 20326,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 20327,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 20328,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
@@ -21299,7 +21299,7 @@
 {'ID': 21298}
 {'ID': 21299,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
 {'ID': 21300,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
-{'ID': 21301,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
+{'ID': 21301,'actions': ['Use','null','Collect','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
 {'ID': 21302,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Clay oven','walkable': true,'width': 1}
 {'ID': 21303,'actions': ['null','Smelt-ore','null','null','null'],'height': 1,'name': 'Clay forge','walkable': true,'width': 1}
 {'ID': 21304,'actions': ['Spin','null','null','null','null'],'height': 1,'name': 'Spinning wheel','walkable': true,'width': 1}
@@ -22817,7 +22817,7 @@
 {'ID': 22816,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bone rack','walkable': false,'width': 1}
 {'ID': 22817,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bone rack','walkable': true,'width': 1}
 {'ID': 22818,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bone rack','walkable': false,'width': 1}
-{'ID': 22819,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 22819,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 22820,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Desk','walkable': false,'width': 1}
 {'ID': 22821,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Desk','walkable': false,'width': 1}
 {'ID': 22822,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Bank safe','walkable': false,'width': 1}
@@ -24099,7 +24099,7 @@
 {'ID': 24098,'actions': ['Read','null','null','null','null'],'height': 1,'name': 'Notice board','walkable': true,'width': 1}
 {'ID': 24099,'actions': ['Read','null','null','null','null'],'height': 1,'name': 'Notice board','walkable': true,'width': 1}
 {'ID': 24100,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chest','walkable': true,'width': 1}
-{'ID': 24101,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 24101,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 24102,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Fountain','walkable': true,'width': 2}
 {'ID': 24103,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Chair','walkable': false,'width': 1}
 {'ID': 24104,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Statue','walkable': true,'width': 1}
@@ -24345,7 +24345,7 @@
 {'ID': 24344,'actions': ['Search','null','null','null','null'],'height': 1,'name': 'Crate','walkable': false,'width': 1}
 {'ID': 24345,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 2}
 {'ID': 24346,'actions': ['null','null','null','null','null'],'height': 2,'name': 'Bed','walkable': true,'width': 1}
-{'ID': 24347,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 24347,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 24348,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 24349,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Shelves','walkable': true,'width': 1}
 {'ID': 24350,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Stepladder','walkable': true,'width': 1}
@@ -25806,7 +25806,7 @@
 {'ID': 25805,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Large door','walkable': true,'width': 1}
 {'ID': 25806,'actions': ['Open','null','null','null','null'],'height': 1,'name': 'Large door','walkable': true,'width': 1}
 {'ID': 25807,'actions': ['Close','null','null','null','null'],'height': 1,'name': 'Large door','walkable': true,'width': 1}
-{'ID': 25808,'actions': ['null','Bank','null','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
+{'ID': 25808,'actions': ['null','Bank','Collect','null','null'],'height': 1,'name': 'Bank booth','walkable': false,'width': 1}
 {'ID': 25809,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Closed booth','walkable': false,'width': 1}
 {'ID': 25810,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 2}
 {'ID': 25811,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
@@ -26562,16 +26562,16 @@
 {'ID': 26561,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 2}
 {'ID': 26562,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 2}
 {'ID': 26563,'actions': ['null','null','null','null','null'],'height': 2,'walkable': false,'width': 2}
-{'ID': 26564,'actions': ['null','null','null','null','null'],'height': 3,'name': 'Haunted Tree','walkable': true,'width': 3}
-{'ID': 26565,'actions': ['null','null','null','null','null'],'height': 5,'name': 'Haunted Tree','walkable': true,'width': 5}
-{'ID': 26566,'actions': ['null','null','null','null','null'],'height': 4,'name': 'Large root','walkable': false,'width': 1}
-{'ID': 26567,'actions': ['null','null','null','null','null'],'height': 4,'name': 'Large root','walkable': true,'width': 1}
-{'ID': 26568,'actions': ['Hack','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
-{'ID': 26569,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
-{'ID': 26570,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
-{'ID': 26571,'actions': ['Hack','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
-{'ID': 26572,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
-{'ID': 26573,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Hanging roots','walkable': true,'width': 1}
+{'ID': 26564}
+{'ID': 26565}
+{'ID': 26566}
+{'ID': 26567}
+{'ID': 26568}
+{'ID': 26569}
+{'ID': 26570}
+{'ID': 26571}
+{'ID': 26572}
+{'ID': 26573}
 {'ID': 26574,'actions': ['null','null','null','null','null'],'height': 2,'walkable': true,'width': 3}
 {'ID': 26575,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Fire','walkable': false,'width': 1}
 {'ID': 26576,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Fire','walkable': false,'width': 1}
@@ -26703,9 +26703,9 @@
 {'ID': 26702,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 1}
 {'ID': 26703,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
 {'ID': 26704,'actions': ['Take','null','null','null','null'],'height': 1,'name': 'Snow','walkable': false,'width': 1}
-{'ID': 26705,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Cage','walkable': false,'width': 1}
-{'ID': 26706,'actions': ['null','null','null','null','null'],'height': 1,'name': 'Cage with gublinch','walkable': false,'width': 1}
-{'ID': 26707,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
+{'ID': 26705}
+{'ID': 26706}
+{'ID': 26707,'actions': ['Use','null','Collect','null','null'],'height': 1,'name': 'Bank chest','walkable': true,'width': 1}
 {'ID': 26708,'actions': ['null','null','null','null','null'],'height': 1,'walkable': false,'width': 2}
 {'ID': 26709,'actions': ['Enter','null','null','null','null'],'height': 2,'name': 'Cave','walkable': true,'width': 3}
 {'ID': 26710,'actions': ['Use','null','null','null','null'],'height': 1,'name': 'Crevice','walkable': true,'width': 1}
