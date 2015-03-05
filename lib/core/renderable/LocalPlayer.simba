@@ -40,12 +40,11 @@ begin
   if not Self.Active then
     Reflect.Logger.Fatal('%s is not active.', [Self.Username]);
   if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
-    Self.Create
-  else
   begin
-    Reflect.Logger.Warn('Login failed.');
+    Wait(RandomRange(450, 800));
+    Self.Create
+  end else
     Self.Active := False;
-  end;
 end;
 
 procedure TReflectLocalPlayer.ChangeWorld(World: Integer);

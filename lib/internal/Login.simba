@@ -101,7 +101,7 @@ begin
       case ColorCount of
         799, 863: Result := LOGIN_EnterUser;
         738, 1539, 1073, 492, 1721, 906, 1227,
-        1231, 1136, 777, 1700, 1666: Result := LOGIN_Problems;
+        1231, 1136, 777, 1700, 1666, 1783: Result := LOGIN_Problems;
       end;
     end;
     20: Result := Login_Connecting;
@@ -142,7 +142,7 @@ begin
         Wait(RandomRange(550, 650));
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
     end;
-    1700: {F2p world needed}
+    1700, 1783: {F2p world needed}
     begin
       Reflect.Logger.Warn('Changing world.');
       Reflect.Mouse.Move(IntToBox(5, 465, 105, 495), Mouse_Left);
