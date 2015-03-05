@@ -69,7 +69,7 @@ begin
   if not Reflect.Bank.IsPinOpen then
     Exit;
   if Self.Pin = '' then
-    Self.Active = False;
+    Self.Active := False;
   Reflect.Bank.EnterPin(Self.Pin);
 end;
 

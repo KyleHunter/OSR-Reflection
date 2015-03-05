@@ -36,7 +36,7 @@ begin
     Result := MembW
   else
     Result := FreeW;
-  If (Members) and (PVP)then
+  If (Members) and (PVP) then
     Result := CombineIntArray(PVPW, MembW);
 end;
 
@@ -96,32 +96,30 @@ begin
     begin
       ColorCount := CountColor(Login_Text_Yellow, 304, 237, 460, 256);
       If (ColorCount = 479) then
-        Exit(LOGIN_ExistingUser);
+        Exit(Login_ExistingUser);
       ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
       case ColorCount of
-        799, 863: Result := LOGIN_EnterUser;
+        799, 863: Result := Login_EnterUser;
         738, 1539, 1073, 492, 1721, 906, 1227,
-        1231, 1136, 777, 1700, 1666, 1783: Result := LOGIN_Problems;
+        1231, 1136, 777, 1700, 1666, 1783, 439, 210: Result := Login_Problems;
       end;
     end;
     20: Result := Login_Connecting;
     30:
-    If (CountColor(255, 302, 15, 466, 39) = 340)then
+    If (CountColor(255, 302, 15, 466, 39) = 340) then
       Result := Login_ClickToPlay;
   end;
 end;
 
-function TReflectionLogin.LoginProblems: boolean;
+function TReflectionLogin.LoginProblems: Boolean;
 var
   ColorCount: Integer;
 begin
   ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
   Case ColorCount of
-    738, 1539, 1136, 777, 1227, 1073: {Reasons to terminate}
-    begin
-      Reflect.Logger.Warn('We''ve been forced to terminate due to failing logging into your account.');
-      TerminateScript;
-    end;
+    738, 1539, 1136, 777, 1227, 1073: Reflect.Logger.Fatal(
+   'We''ve been forced to terminate due to failing logging into your account.');
+
     1721: {Too many incorrect logins}
     begin
       Reflect.Logger.Warn('Too many incorrect logins, waiting for 5 minutes');
@@ -151,6 +149,15 @@ begin
         Wait(RandomRange(550, 650));
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
     end;
+    439, 210: {PVP world -> Exit}
+    begin
+      Reflect.Mouse.Move(IntToBox(408, 310, 517, 333), Mouse_Left);
+      Reflect.Logger.Warn('Changing world.');
+      Reflect.Mouse.Move(IntToBox(5, 465, 105, 495), Mouse_Left);
+      Wait(RandomRange(500, 700));
+      if Reflect.Login.SelectWorld(RandomWorld(False)) then
+        Wait(RandomRange(550, 650));
+    end;
   end;
 end;
 
@@ -162,11 +169,13 @@ begin
   Clear[Login_LoginBox_Byte] := CountColor(Login_Text_White, Login_LoginBox.X1,
                                            Login_LoginBox.Y1, Login_LoginBox.X2,
                                            Login_LoginBox.Y2);
+
   Clear[Login_PasswordBox_Byte] := CountColor(Login_Text_White,
                                               Login_PasswordBox.X1,
                                               Login_PasswordBox.Y1,
                                               Login_PasswordBox.X2,
                                               Login_PasswordBox.Y2);
+
   if (Reflect.Login.GetCursor <> Login_LoginBox_Byte) then
     Reflect.Login.SetCursor(Login_LoginBox_Byte);
   if (Clear[Login_LoginBox_Byte]) then
@@ -182,6 +191,7 @@ begin
     while (CountColor(Login_Text_White, Login_PasswordBox.X1,
            Login_PasswordBox.Y1, Login_PasswordBox.X2,
            Login_PasswordBox.Y2) > 5) and (Timeout > GetTickCount64) do
+
     begin
       Reflect.Keyboard.TypeKey(Vk_Back);
       Wait(Random(30, 120));
