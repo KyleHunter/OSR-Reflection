@@ -369,8 +369,6 @@ const
 
     {Login}
 
-  Login_FirstScreen = 1;
-  Login_SecondScreen = 2;
   Login_ExistingUserBox: TBox = [390, 272, 529, 307];
   Login_LoginBox: TBox = [312, 254, 550, 266];
   Login_PasswordBox: TBox = [341, 271, 550, 285];
@@ -380,4 +378,9 @@ const
   Login_Text_White = 16777215;
   Login_LoginBox_Byte = 0;
   Login_PasswordBox_Byte = 1;
+  Login_ExistingUser = 0;
+  Login_EnterUser = 1;
+  Login_ClickToPlay = 2;
+  Login_Problems = 4;
+  Login_Connecting = 5;
 

@@ -34,25 +34,17 @@ begin
 end;
 
 procedure TReflectLocalPlayer.Login;
-var
-  FailCount: Integer;
 begin
   if (Length(Self.Username) = 0) or (Length(Self.Password) = 0) then
     Self.Active := False;
   if not Self.Active then
     Reflect.Logger.Fatal('%s is not active.', [Self.Username]);
-  while FailCount < 3 do
+  if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
   begin
-    if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
-    begin
-      Self.Create;
-      Wait(RandomRange(700, 1300));
-      Exit;
-    end;
-    Inc(FailCount);
-    Wait(RandomRange(1200, 1500));
-  end;
-  Self.Active := False;
+    Wait(RandomRange(450, 800));
+    Self.Create
+  end else
+    Self.Active := False;
 end;
 
 procedure TReflectLocalPlayer.ChangeWorld(World: Integer);
