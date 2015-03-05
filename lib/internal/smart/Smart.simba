@@ -400,10 +400,16 @@ begin
     SmartFreeObject(Reflect.Smart.Target, Reference);
 end;
 
+function TReflectPointer.NotNull: Boolean;
+begin
+  Result := Self.Reference > 0;
+end;
+
 procedure TReflectPointer.Free;
 begin
-  if Self.Reference > 0 then
+  if Self.NotNull then
 	  SmartFreeObject(Reflect.Smart.Target, Self.Reference);
+  Self.Reference := 0;
 end;
 
 function TReflectionSmart.IsPathValid(Ref: Integer; Hook: THook): Boolean;

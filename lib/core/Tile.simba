@@ -85,7 +85,7 @@ var
 begin
   NumPoints := Length(Area);
   X := Reflect.Tiles.GetGlobalTile.Y;
-  X := Reflect.Tiles.GetGlobalTile.Y;
+  Y := Reflect.Tiles.GetGlobalTile.Y;
   if (NumPoints < 3) then
     Exit;
   XOld := Area[NumPoints - 1].X;

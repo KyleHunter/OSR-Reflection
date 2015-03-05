@@ -17,6 +17,7 @@ function TReflectWidget.GetParentID: Integer;
 var
   HeadUID, I: Integer;
   CurrentNode, HeadNode, Table, TempNode: TReflectPointer;
+  Freed: Boolean;
 begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ParentID);
   if (Result > 0) then
@@ -38,7 +39,9 @@ begin
         CurrentNode.GetFieldObject(Node_Next);
         TempNode.Free;
       end;
+      Freed := True;
       HeadNode.Free;
+      CurrentNode.Free;
     end;
   finally
     HeadNode.Free;
@@ -72,8 +75,9 @@ var
   Parent: TReflectPointer;
 begin
   Parent.GetFieldArray2DObject(0, Client_Widgets, ContainerIndex, ParentIndex);
-  Result := Parent.Reference > 0;
-  Parent.Free;
+  Result := Parent.NotNull;
+  if Result then
+    Parent.Free;
 end;
 
 function TReflectWidget.HasChild: Boolean;
@@ -204,7 +208,7 @@ var
   Parent: TReflectWidget;
 begin
   Parent.GetWidget(ContainerIndex, ParentIndex);
-  Result := (Parent.Reference > 0) and (not Parent.IsHidden);
+  Result := (Parent.NotNull) and (not Parent.IsHidden);
   Parent.Free;
 end;
 
