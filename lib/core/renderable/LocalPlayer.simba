@@ -34,25 +34,18 @@ begin
 end;
 
 procedure TReflectLocalPlayer.Login;
-var
-  FailCount: Integer;
 begin
   if (Length(Self.Username) = 0) or (Length(Self.Password) = 0) then
     Self.Active := False;
   if not Self.Active then
     Reflect.Logger.Fatal('%s is not active.', [Self.Username]);
-  while FailCount < 3 do
+  if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
+    Self.Create
+  else
   begin
-    if Reflect.Login.LoginPlayer(Self.Username, Self.Password) then
-    begin
-      Self.Create;
-      Wait(RandomRange(700, 1300));
-      Exit;
-    end;
-    Inc(FailCount);
-    Wait(RandomRange(1200, 1500));
+    Reflect.Logger.Warn('Login failed.');
+    Self.Active := False;
   end;
-  Self.Active := False;
 end;
 
 procedure TReflectLocalPlayer.ChangeWorld(World: Integer);
@@ -77,7 +70,7 @@ begin
   if not Reflect.Bank.IsPinOpen then
     Exit;
   if Self.Pin = '' then
-    Self.Active := False;
+    Self.Active = False;
   Reflect.Bank.EnterPin(Self.Pin);
 end;
 
