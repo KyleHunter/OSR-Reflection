@@ -74,6 +74,7 @@ var
 begin
   Reflect.Mem.FreeObjects(ckInvItems, False);
   InvWidget.GetWidget(WIDGET_Inventory_Container, 0);
+  HookCache[ckNpcNode][0] := InvWidget.Reference;
   for I := 0 to 27 do
   begin
     TheId := Reflect.Smart.GetFieldArrayInt(
