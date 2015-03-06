@@ -193,7 +193,6 @@ var
 begin
   Count := Self.Count;
   T.Start;
-
   while T.ElapsedTime < MaxTime do
     if Self.Count <> Count then
       Exit(True);
