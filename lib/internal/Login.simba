@@ -130,6 +130,7 @@ begin
       Reflect.Logger.Warn('World is full, re-trying');
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
       Wait(RandomRange(1000, 2000));
+      Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
     end;
     492, 1231, 1666: {World change}
     begin
@@ -207,8 +208,9 @@ begin
   If Reflect.Login.GetState = 30 then
     Exit(True);
   repeat
-    Inc(Tries);
     CurState := Reflect.Login.LoginState;
+    If CurState = -1 then
+      Inc(Tries);
     T.Start;
     Case CurState of
       LOGIN_ExistingUser: Reflect.Mouse.Move(Login_ExistingUserBox, Mouse_Left);
@@ -217,10 +219,11 @@ begin
       LOGIN_Connecting: Wait(RandomRange(500, 1000));
       LOGIN_ClickToPlay:
       begin
-        Reflect.Mouse.Move(306, 309, 487, 364, Mouse_Left);
+        Wait(RandomRange(300, 600));
+        Reflect.Mouse.Move(330, 315, 483, 360, Mouse_Left);
         TLogged.Start;
         repeat
-          Result := Not (Reflect.Login.LoginState = LOGIN_ClickToPlay);
+          Result := (Reflect.Login.LoginState = -1);
           Wait(RandomRange(100, 200));
         until(TLogged.ElapsedTime > 8000)or(Result);
       end;
