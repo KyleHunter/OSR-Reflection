@@ -186,6 +186,19 @@ begin
   Result := Length(_Items);
 end;
 
+function TReflectionInventory.WaitChange(maxTime: Integer): Boolean;
+var
+  T: TReflectTimer;
+  Count: Integer;
+begin
+  Count := Self.Count;
+  T.Start;
+
+  while T.ElapsedTime < maxTime do
+    if Self.Count <> Count then
+      Exit(True);
+end;
+
 function TReflectionInventory.IsFull: Boolean;
 begin
   Result := Reflect.Inv.Count = 28;
