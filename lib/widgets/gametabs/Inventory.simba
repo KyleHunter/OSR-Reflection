@@ -186,7 +186,7 @@ begin
   Result := Length(_Items);
 end;
 
-function TReflectionInventory.WaitChange(maxTime: Integer): Boolean;
+function TReflectionInventory.WaitChange(MaxTime: Integer): Boolean;
 var
   T: TReflectTimer;
   Count: Integer;
@@ -194,7 +194,7 @@ begin
   Count := Self.Count;
   T.Start;
 
-  while T.ElapsedTime < maxTime do
+  while T.ElapsedTime < MaxTime do
     if Self.Count <> Count then
       Exit(True);
 end;
