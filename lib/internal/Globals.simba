@@ -206,6 +206,33 @@ const
   Gametab_Prayer = 53;
   Gametab_Magic = 54;
 
+  {$IFNDEF AL}
+    {Skills}
+  Skill_Attack        = 0;
+  Skill_Defence       = 1;
+  SKILL_Strength      = 2;
+  Skill_Hitpoints     = 3;    Skill_HP = Skill_Hitpoints;
+  Skill_Range         = 4;
+  Skill_Prayer        = 5;
+  Skill_Magic         = 6;
+  Skill_Cooking       = 7;
+  Skill_Woodcutting   = 8;
+  Skill_Fletching     = 9;
+  Skill_Fishing       = 10;
+  Skill_Firemaking    = 11;
+  Skill_Crafting      = 12;
+  Skill_Smithing      = 13;
+  Skill_Mining        = 14;
+  Skill_Herblore      = 15;
+  Skill_Agility       = 16;
+  Skill_Thieving      = 17;
+  Skill_Slayer        = 18;
+  Skill_Farming       = 19;
+  Skill_Runecrafting  = 20;
+  Skill_Hunter        = 21;
+  Skill_Construction  = 22;
+  {$ENDIF}
+
     {Widgets}
 
       {Bank}
