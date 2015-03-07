@@ -373,10 +373,16 @@ const
   MSX2 = 515;
   MSY2 = 337;
 
-    {Main Screen Centre Points}
+   {Main Screen Centre Points}
 
   MSCX = 259;
   MSCY = 170;
+
+   {Chat Screen EdgePoints}
+  MCX1 = 7;
+  MCY1 = 345;
+  MCX2 = 512;
+  MCY2 = 473;
 
     {Date}
 
