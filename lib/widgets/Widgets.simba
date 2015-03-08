@@ -222,13 +222,13 @@ var
 begin
   Bounds := Self.GetBounds;
   Reflect.Mouse.Move(Bounds);
-  if (Option = '') or (Reflect.Text.IsUpText(Option)) then
+  if (Option = '') or (Reflect.Text.IsUpText(Option, RandomRange(80, 120))) then
   begin
     Reflect.Mouse.Click(mouse_Left);
     Exit(True);
   end else
   begin
-    Reflect.Mouse.Move(Bounds, Mouse_Right);
+    Reflect.Mouse.Click(Mouse_Right);
     RandomRange(50, 150);
     Result := Reflect.Text.ChooseOption(Option);
   end;
@@ -254,13 +254,14 @@ begin
   Bounds := Self.GetBounds;
   Bounds := [Bounds.X1 + Offset, Bounds.Y1 + Offset,
              Bounds.X2 - Offset, Bounds.Y2 - Offset];
-  if (Option = '') or (Reflect.Text.IsUpText(Option)) then
+  Reflect.Mouse.Move(Bounds);
+  if (Option = '') or (Reflect.Text.IsUpText(Option, RandomRange(80, 120))) then
   begin
-    Reflect.Mouse.Move(Bounds, Mouse_Left);
+    Reflect.Mouse.Click(Mouse_Left);
     Exit(True);
   end else
   begin
-    Reflect.Mouse.Move(Bounds, Mouse_Right);
+    Reflect.Mouse.Click(Mouse_Right);
     RandomRange(50, 150);
     Result := Reflect.Text.ChooseOption(Option);
   end;
