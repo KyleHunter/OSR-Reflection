@@ -18,16 +18,16 @@ end;
 
 function TReflectLocalPlayer.IsLoggedIn: Boolean;
 begin
-  Result := Reflect.Login.GetState = 30;
+  Result := (Reflect.Login.GetClientState = 30) and (getColor(427, 489) = 16777215);
 end;
 
 procedure TReflectLocalPlayer.Logout;
 var
   LogoutWidget: TReflectWidget;
 begin
-  if not Self.IsLoggedIn then
+  if (not Self.IsLoggedIn) or (Reflect.Gametab.Open(Gametab_Logout)) then
     Exit;
-  Reflect.Gametab.Open(Gametab_Logout);
+
   LogoutWidget.GetWidget(Widget_Logout_Container, 6);
   LogoutWidget.Interact;
   LogoutWidget.Free;
