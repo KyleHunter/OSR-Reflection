@@ -1,3 +1,11 @@
+function TReflectionMouse.GetPoint: TPoint;
+var
+  X, Y: Integer;
+begin
+  GetMousePos(X, Y);
+  Result := Point(X, Y);
+end;
+
 
   {*Credit Benland100 & Flight*}
 procedure TReflectionMouse.Move(Pnt: TPoint; RanX, RanY: Integer);
