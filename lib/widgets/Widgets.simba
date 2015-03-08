@@ -222,7 +222,7 @@ var
 begin
   Bounds := Self.GetBounds;
   Reflect.Mouse.Move(Bounds);
-  if(Option = '')or(Reflect.Text.IsUpText(Option))then
+  if (Option = '') or (Reflect.Text.IsUpText(Option)) then
   begin
     Reflect.Mouse.Click(mouse_Left);
     Exit(True);
@@ -254,7 +254,7 @@ begin
   Bounds := Self.GetBounds;
   Bounds := [Bounds.X1 + Offset, Bounds.Y1 + Offset,
              Bounds.X2 - Offset, Bounds.Y2 - Offset];
-  if(Option = '')or(Reflect.Text.IsUpText(Option))then
+  if (Option = '') or (Reflect.Text.IsUpText(Option)) then
   begin
     Reflect.Mouse.Move(Bounds, Mouse_Left);
     Exit(True);

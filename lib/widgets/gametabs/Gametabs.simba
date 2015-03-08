@@ -42,11 +42,11 @@ begin
   if Not TabWidget.IsHidden then
   begin
     Tries := 0;
-    while (Tries < 3)and(not Result) do
+    while (Tries < 3) and (not Result) do
     begin
       TabWidget.Interact(3);
       T.Start;
-      while (T.elapsedTime < 2000)and(not Result) do
+      while (T.elapsedTime < 2000) and (not Result) do
       begin
         Result := (Reflect.Gametab.Current = TabNum);
         Wait(100 + Random(100));
