@@ -221,12 +221,12 @@ var
   Bounds: TBox;
 begin
   Bounds := Self.GetBounds;
-  if Option = '' then
+  Reflect.Mouse.Move(Bounds);
+  if(Option = '')or(Reflect.Text.IsUpText(Option))then
   begin
-    Reflect.Mouse.Move(Bounds, Mouse_Left);
+    Reflect.Mouse.Click(mouse_Left);
     Exit(True);
-  end
-  else
+  end else
   begin
     Reflect.Mouse.Move(Bounds, Mouse_Right);
     RandomRange(50, 150);
@@ -252,14 +252,13 @@ var
   Bounds: TBox;
 begin
   Bounds := Self.GetBounds;
-  Bounds := [Bounds.X1 + Offset,
-    Bounds.Y1 + Offset, Bounds.X2 - Offset, Bounds.Y2 - Offset];
-  if Option = '' then
+  Bounds := [Bounds.X1 + Offset, Bounds.Y1 + Offset,
+             Bounds.X2 - Offset, Bounds.Y2 - Offset];
+  if(Option = '')or(Reflect.Text.IsUpText(Option))then
   begin
     Reflect.Mouse.Move(Bounds, Mouse_Left);
     Exit(True);
-  end
-  else
+  end else
   begin
     Reflect.Mouse.Move(Bounds, Mouse_Right);
     RandomRange(50, 150);
