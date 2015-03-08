@@ -9,14 +9,14 @@ begin
     Widget_IgnoreList_Container, Widget_Logout_Container,
     Widget_Options_Container, Widget_Emotes_Container,
     Widget_MusicPlayer_Container, Widget_CombatOptions_Container,
-    Widget_Stats_Container, Widget_QuestList_Container,
-    Widget_Inventory_Container, Widget_WornEquipment_Container,
-    Widget_Prayer_Container, Widget_Magic_Container
+    Widget_Stats_Container, Widget_Inventory_Container,
+    Widget_WornEquipment_Container, Widget_Prayer_Container,
+    Widget_Magic_Container, Widget_QuestList_Container
   ];
   Gametabs := [Gametab_ClanChat, Gametab_FriendsList, Gametab_IgnoreList,
     Gametab_Logout, Gametab_Options, Gametab_Emotes, Gametab_MusicPlayer,
-    Gametab_CombatOptions, Gametab_Stats, Gametab_QuestList, Gametab_Inventory,
-    Gametab_WornEquipment, Gametab_Prayer, Gametab_Magic
+    Gametab_CombatOptions, Gametab_Stats, Gametab_Inventory,
+    Gametab_WornEquipment, Gametab_Prayer, Gametab_Magic, Gametab_QuestList
   ];
   for I := 0 to High(Gametabs) do
   begin
@@ -30,14 +30,31 @@ begin
   end;
 end;
 
-procedure TReflectionGametab.Open(TabNum: Integer);
+function TReflectionGametab.Open(TabNum: Integer): boolean;
 var
   TabWidget: TReflectWidget;
-  Box: TBox;
+  Tries: Integer;
+  T: TReflectTimer;
 begin
   if Reflect.Gametab.Current = TabNum then
-    Exit;
+    Exit(True);
   TabWidget.GetWidget(Widget_Gametab_Container, TabNum);
-  TabWidget.Interact;
+  if Not TabWidget.IsHidden then
+  begin
+    Tries := 0;
+    while (Tries < 3)and(not Result) do
+    begin
+      TabWidget.Interact(3);
+      T.Start;
+      while (T.elapsedTime < 2000)and(not Result) do
+      begin
+        Result := (Reflect.Gametab.Current = TabNum);
+        Wait(100 + Random(100));
+      end;
+      Inc(Tries);
+    end;
+    if (Result) then
+      Wait(250 + Random(300));
+  end;
   TabWidget.Free;
 end;
