@@ -185,6 +185,11 @@ TReflectInvItemArray = array of TReflectInvItem;
     end;
   TReflectWornEquipmentArray = Array of TReflectWornEquipment;
 
+    {Global variables}
+
+var
+  World: Integer;
+
   {Constants}
 
 const
