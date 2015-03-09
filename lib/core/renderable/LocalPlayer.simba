@@ -18,16 +18,16 @@ end;
 
 function TReflectLocalPlayer.IsLoggedIn: Boolean;
 begin
-  Result := Reflect.Login.GetState = 30;
+  Result := (Reflect.Login.GetClientState = 30) and (getColor(427, 489) = 16777215);
 end;
 
 procedure TReflectLocalPlayer.Logout;
 var
   LogoutWidget: TReflectWidget;
 begin
-  if not Self.IsLoggedIn then
+  if (not Self.IsLoggedIn) or (not Reflect.Gametab.Open(Gametab_Logout)) then
     Exit;
-  Reflect.Gametab.Open(Gametab_Logout);
+
   LogoutWidget.GetWidget(Widget_Logout_Container, 6);
   LogoutWidget.Interact;
   LogoutWidget.Free;
@@ -47,9 +47,9 @@ begin
     Self.Active := False;
 end;
 
-procedure TReflectLocalPlayer.ChangeWorld(World: Integer);
-const
-  ClickSwitchButton: Tbox = [5, 465, 105, 495];
+function TReflectLocalPlayer.ChangeWorld(World: Integer): Boolean;
+var
+  Tries: Integer;
 begin
   if Self.IsLoggedIn then
   begin
@@ -57,11 +57,15 @@ begin
     while not Reflect.Login.AtLogin do
       Wait(300);
   end;
-  Reflect.Mouse.Move(ClickSwitchButton, Mouse_Left);
-  Wait(RandomRange(500, 700));
-  if Reflect.Login.SelectWorld(World) then
-  Wait(RandomRange(550, 650));
-  Self.Login;
+  repeat
+    Inc(Tries);
+    If Reflect.Login.OpenWorldSelector then
+      Result := Reflect.Login.SelectWorld(World)
+    else
+      Wait(RandomRange(400, 700));
+  until (Result) or (Tries > 5);
+  If Result then
+    Self.Login;
 end;
 
 procedure TReflectLocalPlayer.EnterPin;

@@ -280,15 +280,28 @@ begin
   BankWidget.Free;
 end;
 
-procedure TReflectionBank.Close;
+function TReflectionBank.Close: Boolean;
 var
   BankWidget, BankChild: TReflectWidget;
+  Tries: Integer;
+  T: TReflectTimer;
 begin
   if not Reflect.Bank.IsOpen then
-    Exit;
-  BankWidget.GetWidget(WIDGET_Bank_Container, 1);
+    Exit(True);
+  BankWidget.GetWidget(Widget_Bank_Container, 1);
   BankChild.GetChild(BankWidget, 11);
-  BankChild.Interact;
+  while (Reflect.Bank.IsOpen) and (not Result) and (Tries < 4) do
+  begin
+    If BankChild.Interact('Close', 2)then
+    begin
+      T.Start;
+      while (T.ElapsedTime < 2000) and (Reflect.Bank.IsOpen)do
+        Wait(RandomRange(50, 100));
+      Result := (not Reflect.Bank.IsOpen);
+    end;
+    Inc(Tries);
+    Wait(RandomRange(100, 200));
+  end;
   BankChild.Free;
   BankWidget.Free;
 end;
@@ -360,11 +373,3 @@ begin
   end;
   Result := Reflect.Bank.IsOpen;
 end;
-
-
-
-
-
-
-
-

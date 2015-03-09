@@ -1,26 +1,3 @@
-function TReflectionLogin.AtWorldScreen: Boolean;
-begin
-  Result := CountColor(0, 2, 30, 100, 400) > 10000;
-end;
-
-function TReflectionLogin.SelectWorld(World: Integer): Boolean;
-const
-  Worlds: TIntegerArray = [301, 320, 343, 366, 302, 321, 344, 367, 303, 322,
-   345, 368, 304, 325, 346, 369, 305, 326, 349, 370, 306, 327, 350, 373, 308,
-   328, 351, 374, 309, 329, 352, 375, 310, 330, 353, 376, 311, 333, 354, 377,
-   312, 334, 357, 378, 313, 335, 358, 381, 314, 336, 359, 382, 316, 337, 360,
-   383, 317, 338, 361, 384, 318, 341, 362, 393, 319, 342, 365, 394];
-var
-  I: Integer;
-begin
-  if not InIntArrayEx(Worlds, I, World) then
-    Exit(False);
-  Wait(RandomRange(250, 500));
-  Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
-    Mouse_Left);
-  Result := True;
-end;
-
 function TReflectionLogin.SortWorlds(Members: Boolean; PVP: Boolean = False): TIntegerArray;
 var
   PVPW, FreeW, MembW: TIntegerArray;
@@ -48,14 +25,86 @@ begin
   Result := Worlds[Random(Length(Worlds))];
 end;
 
-function TReflectionLogin.GetState: Integer;
+function TReflectionLogin.GetClientState: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_LoginState);
 end;
 
 function TReflectionLogin.AtLogin: Boolean;
 begin
-  Result := Reflect.Login.GetState = 10;
+  Result := Reflect.Login.GetClientState = 10;
+end;
+
+function TReflectionLogin.AtWorldScreen: Boolean;
+begin
+  Result := CountColor(0, 2, 30, 100, 400) > 10000;
+end;
+
+function TReflectionLogin.OpenWorldSelector: Boolean;
+const
+  ClickSwitchButton: Tbox = [5, 465, 105, 495];
+var
+  T: TReflectTimer;
+  Tries: Integer;
+begin
+  if Reflect.Login.AtWorldScreen then
+    Exit(True);
+  repeat
+    If not Reflect.Login.AtLogin then
+      Exit(False);
+    Inc(Tries);
+    Reflect.Mouse.Move(ClickSwitchButton, Mouse_Left);
+    T.Start;
+    while (not Result) and (T.ElapsedTime < 5000) do
+      Result := Reflect.Login.AtWorldScreen;
+  until(Result)or(Tries > 4);
+end;
+
+function TReflectionLogin.SelectWorld(World: Integer): Boolean;
+const
+  Worlds: TIntegerArray = [301, 320, 343, 366, 302, 321, 344, 367, 303, 322,
+   345, 368, 304, 325, 346, 369, 305, 326, 349, 370, 306, 327, 350, 373, 308,
+   328, 351, 374, 309, 329, 352, 375, 310, 330, 353, 376, 311, 333, 354, 377,
+   312, 334, 357, 378, 313, 335, 358, 381, 314, 336, 359, 382, 316, 337, 360,
+   383, 317, 338, 361, 384, 318, 341, 362, 393, 319, 342, 365, 394];
+var
+  I: Integer;
+  T: TReflectTimer;
+begin
+  if (not InIntArrayEx(Worlds, I, World)) or (Not Reflect.Login.AtWorldScreen) then
+    Exit(False);
+  Wait(RandomRange(250, 500));
+  Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
+    Mouse_Left);
+  T.Start;
+  while (Reflect.Login.AtWorldScreen) and (T.ElapsedTime < 5000) do
+    Wait(RandomRange(100, 200));
+  Result := (not Reflect.Login.AtWorldScreen);
+end;
+
+function TReflectionLogin.GetLoginState: Integer;
+var
+  ColorCount: Integer;
+begin
+  Result := -1;
+  case Reflect.Login.GetClientState of
+    10:
+    begin
+      ColorCount := CountColor(Login_Text_Yellow, 304, 237, 460, 256);
+      If (ColorCount = 479) then
+        Exit(Login_ExistingUser);
+      ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
+      case ColorCount of
+        799, 863: Result := Login_EnterUser;
+        738, 1539, 1073, 492, 1721, 906, 1227,
+        1231, 1136, 777, 1700, 1666, 1783, 439, 210: Result := Login_Problems;
+      end;
+    end;
+    20: Result := Login_Connecting;
+    30:
+    If (CountColor(255, 302, 15, 466, 39) = 340) then
+      Result := Login_ClickToPlay;
+  end;
 end;
 
 function TReflectionLogin.GetCursor: Byte;
@@ -76,38 +125,18 @@ begin
 end;
 
 procedure TReflectionLogin.SetCursor(const New: Integer);
+var
+  T: TReflectTimer;
 begin
   if (Reflect.Login.GetCursor = New) then
     Exit;
-  while (Reflect.Login.GetCursor <> New) do
+  T.Start;
+  while (Reflect.Login.GetCursor <> New) and
+        (Reflect.Login.GetLoginState = Login_EnterUser) and
+        (T.ElapsedTime < 8000) do
   begin
     Reflect.Keyboard.TypeKey(Vk_Tab);
     Wait(Random(350, 650));
-  end;
-end;
-
-function TReflectionLogin.LoginState: integer;
-var
-  ColorCount: Integer;
-begin
-  Result := -1;
-  Case Reflect.Login.GetState of
-    10:
-    begin
-      ColorCount := CountColor(Login_Text_Yellow, 304, 237, 460, 256);
-      If (ColorCount = 479) then
-        Exit(Login_ExistingUser);
-      ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
-      case ColorCount of
-        799, 863: Result := Login_EnterUser;
-        738, 1539, 1073, 492, 1721, 906, 1227,
-        1231, 1136, 777, 1700, 1666, 1783, 439, 210: Result := Login_Problems;
-      end;
-    end;
-    20: Result := Login_Connecting;
-    30:
-    If (CountColor(255, 302, 15, 466, 39) = 340) then
-      Result := Login_ClickToPlay;
   end;
 end;
 
@@ -116,7 +145,7 @@ var
   ColorCount: Integer;
 begin
   ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
-  Case ColorCount of
+  case ColorCount of
     738, 1539, 1136, 777, 1227, 1073: Reflect.Logger.Fatal(
    'We''ve been forced to terminate due to failing logging into your account.');
 
@@ -205,14 +234,14 @@ var
   CurState, Tries: Integer;
   T, TLogged: TReflectTimer;
 begin
-  If Reflect.Login.GetState = 30 then
+  If (Reflect.Login.GetClientState = 30) and (GetColor(427, 489) = 16777215) then
     Exit(True);
   repeat
-    CurState := Reflect.Login.LoginState;
+    CurState := Reflect.Login.GetLoginState;
     If CurState = -1 then
       Inc(Tries);
     T.Start;
-    Case CurState of
+    case CurState of
       LOGIN_ExistingUser: Reflect.Mouse.Move(Login_ExistingUserBox, Mouse_Left);
       LOGIN_EnterUser: Reflect.Login.EnterDetails(Username, Password);
       LOGIN_Problems: Reflect.Login.LoginProblems;
@@ -223,15 +252,16 @@ begin
         Reflect.Mouse.Move(330, 315, 483, 360, Mouse_Left);
         TLogged.Start;
         repeat
-          Result := (Reflect.Login.LoginState = -1);
+          Result := (Reflect.Login.GetClientState = 30) and (GetColor(427, 489) = 16777215);
           Wait(RandomRange(100, 200));
-        until(TLogged.ElapsedTime > 8000)or(Result);
+        until(TLogged.ElapsedTime > 3000)or(Result);
       end;
       else
         Wait(RandomRange(100, 200));
     end;
-    If Not (InIntArray([LOGIN_Connecting, LOGIN_ClickToPlay], CurState))then
-      While(not CurState = LoginState + 1)and(T.ElapsedTime < 5000)do
+    If Not (InIntArray([Login_Connecting, Login_ClickToPlay], CurState))then
+      While(not CurState = Reflect.Login.GetLoginState + 1) and
+           (T.ElapsedTime < 5000) do
         Wait(RandomRange(100, 200));
   until(Tries > 30)or(Result);
 end;
