@@ -53,7 +53,7 @@ begin
     If not Reflect.Login.AtLogin then
       Exit(False);
     Inc(Tries);
-    Reflect.Mouse.Move(ClickSwitchButton, mouse_Left);
+    Reflect.Mouse.Move(ClickSwitchButton, Mouse_Left);
     T.Start;
     while (not Result) and (T.ElapsedTime < 5000) do
       Result := Reflect.Login.AtWorldScreen;
@@ -82,7 +82,7 @@ begin
   Result := (not Reflect.Login.AtWorldScreen);
 end;
 
-function TReflectionLogin.GetLoginState: integer;
+function TReflectionLogin.GetLoginState: Integer;
 var
   ColorCount: Integer;
 begin
@@ -234,7 +234,7 @@ var
   CurState, Tries: Integer;
   T, TLogged: TReflectTimer;
 begin
-  If (Reflect.Login.GetClientState = 30) and (getColor(427, 489) = 16777215) then
+  If (Reflect.Login.GetClientState = 30) and (GetColor(427, 489) = 16777215) then
     Exit(True);
   repeat
     CurState := Reflect.Login.GetLoginState;
@@ -252,14 +252,14 @@ begin
         Reflect.Mouse.Move(330, 315, 483, 360, Mouse_Left);
         TLogged.Start;
         repeat
-          Result := (Reflect.Login.GetClientState = 30) and (getColor(427, 489) = 16777215);
+          Result := (Reflect.Login.GetClientState = 30) and (GetColor(427, 489) = 16777215);
           Wait(RandomRange(100, 200));
         until(TLogged.ElapsedTime > 3000)or(Result);
       end;
       else
         Wait(RandomRange(100, 200));
     end;
-    If Not (InIntArray([LOGIN_Connecting, LOGIN_ClickToPlay], CurState))then
+    If Not (InIntArray([Login_Connecting, Login_ClickToPlay], CurState))then
       While(not CurState = Reflect.Login.GetLoginState + 1) and
            (T.ElapsedTime < 5000) do
         Wait(RandomRange(100, 200));

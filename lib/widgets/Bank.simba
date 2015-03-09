@@ -280,7 +280,7 @@ begin
   BankWidget.Free;
 end;
 
-function TReflectionBank.Close: boolean;
+function TReflectionBank.Close: Boolean;
 var
   BankWidget, BankChild: TReflectWidget;
   Tries: Integer;

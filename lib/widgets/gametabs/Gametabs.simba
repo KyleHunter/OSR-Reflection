@@ -30,7 +30,7 @@ begin
   end;
 end;
 
-function TReflectionGametab.Open(TabNum: Integer): boolean;
+function TReflectionGametab.Open(TabNum: Integer): Boolean;
 var
   TabWidget: TReflectWidget;
   Tries: Integer;
