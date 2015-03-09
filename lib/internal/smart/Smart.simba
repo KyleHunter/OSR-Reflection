@@ -65,9 +65,14 @@ end;
 
 function TReflectionSmart.GetWorld: string;
 begin
-  If (World = 0)then
+  if (World = 0) then
   begin
     Reflect.Logger.Status('World variable not set, trying random world..');
+    Result := Between('a href="http://oldschool', '.runescape.com/j1',
+    GetPage('http://oldschool.runescape.com/slu'));
+    if (Result <> '') and InRange(StrToIntDef(ExtractFromStr(Result, Numbers),
+      -1), 1, 78) then
+    Exit;
     Result := IntToStr(RandomRange(1, 78));
   end else
     Result := IntToStr(World - 300);
