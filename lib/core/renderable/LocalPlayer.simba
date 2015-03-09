@@ -63,7 +63,7 @@ begin
       Result := Reflect.Login.SelectWorld(World)
     else
       Wait(RandomRange(400, 700));
-  until(Result)or(Tries > 5);
+  until (Result) or (Tries > 5);
   If Result then
     Self.Login;
 end;

@@ -288,16 +288,16 @@ var
 begin
   if not Reflect.Bank.IsOpen then
     Exit(True);
-  BankWidget.GetWidget(WIDGET_Bank_Container, 1);
+  BankWidget.GetWidget(Widget_Bank_Container, 1);
   BankChild.GetChild(BankWidget, 11);
-  While (Reflect.Bank.IsOpen) and (Not Result) and (Tries < 4) do
+  while (Reflect.Bank.IsOpen) and (not Result) and (Tries < 4) do
   begin
     If BankChild.Interact('Close', 2)then
     begin
       T.Start;
-      While (T.ElapsedTime < 2000) and (Reflect.Bank.IsOpen)do
+      while (T.ElapsedTime < 2000) and (Reflect.Bank.IsOpen)do
         Wait(RandomRange(50, 100));
-      Result := (Not Reflect.Bank.IsOpen);
+      Result := (not Reflect.Bank.IsOpen);
     end;
     Inc(Tries);
     Wait(RandomRange(100, 200));
@@ -373,11 +373,3 @@ begin
   end;
   Result := Reflect.Bank.IsOpen;
 end;
-
-
-
-
-
-
-
-

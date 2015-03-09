@@ -224,7 +224,7 @@ begin
   Reflect.Mouse.Move(Bounds);
   if (Option = '') or (Reflect.Text.IsUpText(Option, RandomRange(80, 120))) then
   begin
-    Reflect.Mouse.Click(mouse_Left);
+    Reflect.Mouse.Click(Mouse_Left);
     Exit(True);
   end else
   begin

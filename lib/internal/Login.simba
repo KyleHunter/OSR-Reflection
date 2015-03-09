@@ -47,7 +47,7 @@ var
   T: TReflectTimer;
   Tries: Integer;
 begin
-  If Reflect.Login.AtWorldScreen then
+  if Reflect.Login.AtWorldScreen then
     Exit(True);
   repeat
     If not Reflect.Login.AtLogin then
@@ -55,7 +55,7 @@ begin
     Inc(Tries);
     Reflect.Mouse.Move(ClickSwitchButton, mouse_Left);
     T.Start;
-    While (not Result) and (T.ElapsedTime < 5000) do
+    while (not Result) and (T.ElapsedTime < 5000) do
       Result := Reflect.Login.AtWorldScreen;
   until(Result)or(Tries > 4);
 end;
@@ -77,9 +77,9 @@ begin
   Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 17, 87, 18, 93, 24, Point(242, 70)),
     Mouse_Left);
   T.Start;
-  While (Reflect.Login.AtWorldScreen) and (T.ElapsedTime < 5000) do
+  while (Reflect.Login.AtWorldScreen) and (T.ElapsedTime < 5000) do
     Wait(RandomRange(100, 200));
-  Result := (Not Reflect.Login.AtWorldScreen);
+  Result := (not Reflect.Login.AtWorldScreen);
 end;
 
 function TReflectionLogin.GetLoginState: integer;
@@ -87,7 +87,7 @@ var
   ColorCount: Integer;
 begin
   Result := -1;
-  Case Reflect.Login.GetClientState of
+  case Reflect.Login.GetClientState of
     10:
     begin
       ColorCount := CountColor(Login_Text_Yellow, 304, 237, 460, 256);
@@ -145,7 +145,7 @@ var
   ColorCount: Integer;
 begin
   ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
-  Case ColorCount of
+  case ColorCount of
     738, 1539, 1136, 777, 1227, 1073: Reflect.Logger.Fatal(
    'We''ve been forced to terminate due to failing logging into your account.');
 
@@ -241,7 +241,7 @@ begin
     If CurState = -1 then
       Inc(Tries);
     T.Start;
-    Case CurState of
+    case CurState of
       LOGIN_ExistingUser: Reflect.Mouse.Move(Login_ExistingUserBox, Mouse_Left);
       LOGIN_EnterUser: Reflect.Login.EnterDetails(Username, Password);
       LOGIN_Problems: Reflect.Login.LoginProblems;
@@ -260,7 +260,8 @@ begin
         Wait(RandomRange(100, 200));
     end;
     If Not (InIntArray([LOGIN_Connecting, LOGIN_ClickToPlay], CurState))then
-      While(not CurState = Reflect.Login.GetLoginState + 1)and(T.ElapsedTime < 5000)do
+      While(not CurState = Reflect.Login.GetLoginState + 1) and
+           (T.ElapsedTime < 5000) do
         Wait(RandomRange(100, 200));
   until(Tries > 30)or(Result);
 end;
