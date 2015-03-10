@@ -1,5 +1,4 @@
 [Reflection]
- Update # 11-4:[Bugs]:Refreshes Cache Files for rs updates
-  [Improvements]:
- :
+ Update # 12-0:[Bugs]:Multiple login, Bank, Inventory, and memory fixes
+  [Improvements]: Adds TReflectInvItem.GetBox, replaces TReflectInvItem.GetMSPoint with GetPoint
 [End]
