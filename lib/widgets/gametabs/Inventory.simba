@@ -160,21 +160,37 @@ begin
   Self := Temp[0];
 end;
 
-function TReflectInvItem.GetMSPoint: TPoint;
+function TReflectInvItem.GetBox: TBox;
 var
-  Slot1, Slot6, Temp: TBox;
-  Pnt: TPoint;
+  Slot1, Slot6: TBox;
 begin
   if not InRange(Self._InvSlot, 1, 28) then
     Exit;
   Slot1 := [563, 213, 594, 244];
   Slot6 := [605, 249, 31415, 92653];
-  Temp.X1 := Slot1.X1 + ((((Self._InvSlot + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
-  Temp.Y1 := Slot1.Y1 + ((((Self._InvSlot - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
-  Temp.X2 := Temp.X1 + (Slot1.X2 - Slot1.X1);
-  Temp.Y2 := Temp.Y1 + (Slot1.Y2 - Slot1.Y1);
-  Reflect.Math.GaussBox(Pnt.X, Pnt.Y, Temp.X1, Temp.Y1, Temp.X2, Temp.Y2);
-  Result := Pnt;
+  Result.X1 := Slot1.X1 + ((((Self._InvSlot + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
+  Result.Y1 := Slot1.Y1 + ((((Self._InvSlot - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
+  Result.X2 := Result.X1 + (Slot1.X2 - Slot1.X1);
+  Result.Y2 := Result.Y1 + (Slot1.Y2 - Slot1.Y1);
+end;
+
+function TReflectInvItem.GetPoint: TPoint;
+var
+  Temp: TPoint;
+begin
+  if not InRange(Self._InvSlot, 1, 28) then
+    Exit;
+  Reflect.Math.GaussBox(Temp.X, Temp.Y, Self.GetBox.X1, Self.GetBox.Y1,
+    Self.GetBox.X2, Self.GetBox.Y2);
+  Result := Temp;
+end;
+
+function TReflectInvItem.GetMSPoint: TPoint;
+begin
+  if not InRange(Self._InvSlot, 1, 28) then
+    Exit;
+  Reflect.Logger.Warn('Please Replace TReflectInvItem.GetMSPoint with TReflectInvItem.GetPoint');
+  Result := Self.GetPoint;
 end;
 
 function TReflectionInventory.Count: Integer;
@@ -286,7 +302,3 @@ begin
   for I := 0 to ItemCount do
     Reflect.Inv.Drop(Self[I]._Id);
 end;
-
-
-
-
