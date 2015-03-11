@@ -323,6 +323,55 @@ begin
   Result := Temp.Withdraw(Amount);
 end;
 
+function TReflectionBank.Deposit(Items: TStringArray;
+                                 Amount: TIntegerArray): Boolean;
+var
+  Inv: TReflectInvItem;
+  I: Integer;
+  TimeOut: TReflectTimer;
+  AmountWidget: TReflectWidget;
+begin
+  if not Reflect.Bank.IsOpen then
+    Exit(False);
+  for I:=0 to High(Items) do
+    if Inv.Find(Items[I]) then
+    begin
+      if Result then
+        Wait(RandomRange(100, 200));
+      if Amount[I] = 1 then
+      begin
+        Reflect.Mouse.Move(Inv.GetBox, Mouse_Left);
+        Result := True;
+        Continue;
+      end;
+      Reflect.Mouse.Move(Inv.GetBox, Mouse_Right);
+      if Amount[I] = -1 then
+      begin
+        Result := Reflect.Text.ChooseOption('All', 200 + Random(100));
+        Continue;
+      end;
+      if Reflect.Text.OptionExists(IntToStr(Amount[I]) + ' ') then
+        Result := Reflect.Text.ChooseOption(IntToStr(Amount[I]) + ' ')
+      else
+      begin
+        TimeOut.Start;
+        Reflect.Text.ChooseOption('X');
+        while (not AmountWidget.IsValid(548, 119)) do
+        begin
+          Wait(100 + Random(100));
+          if TimeOut.ElapsedTime > 5000 then
+          begin
+            AmountWidget.Free;
+            Continue;
+          end;
+        end;
+        Wait(RandomRange(500, 750));
+        Reflect.KeyBoard.TypeSend(ToStr(Amount[I]));
+        Result := True;
+      end;
+    end;
+end;
+
 function TReflectionBank.IsPinOpen: Boolean;
 var
   PinWidget: TReflectWidget;
