@@ -1,4 +1,4 @@
 [Reflection]
- Update # 12-0:[Bugs]:Multiple login, Bank, Inventory, and memory fixes
-  [Improvements]: Adds TReflectInvItem.GetBox, replaces TReflectInvItem.GetMSPoint with GetPoint
+ Update # 12-1:[Bugs]:Widget .GetBounds Error
+  [Improvements]: Adds TReflectionBank.Deposit
 [End]

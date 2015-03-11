@@ -116,6 +116,12 @@ type
 end;
   TReflectNPCArray = array of TReflectNPC;
 
+      {Players}
+type
+  TReflectPlayer = type TReflectActor;
+
+  TReflectPlayerArray = array of TReflectPlayer;
+
       {GroundItems}
 type
   TReflectGroundItem = record(TReflectPointer)
@@ -144,12 +150,6 @@ type
 {$ENDIF}
   end;
   TReflectObjectArray = array of TReflectObject;
-
-      {Players}
-  type
-    TReflectPlayer = type TReflectActor;
-
-  TReflectPlayerArray = array of TReflectPlayer;
 
       {Timer}
   type 

@@ -223,12 +223,9 @@ begin
   Result.Y1 := Self.GetY;
   Result.X2 := Result.X1 + Self.GetWidth;
   Result.Y2 := Result.Y1 + Self.GetHeight;
-  if (Result.X1 < MSX1) or (Result.Y1 < MSY1) or (Result.X2 > MSX2) or
-    (Result.Y2 > MSY2) then
-  begin
-    Reflect.Logger.Warn('TReflectWidget is Out of Bounds @ .GetBounds');
+  if (Result.X1 < MSX1 - 5) or (Result.Y1 < MSY1 - 5) or (Result.X2 > 764) or
+    (Result.Y2 > 502) then
     Exit(IntToBox(-1, -1, -1, -1));
-  end;
 end;
 
 function TReflectWidget.Interact(Option: string = ''): Boolean;
