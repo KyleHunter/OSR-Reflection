@@ -1,4 +1,4 @@
 [Reflection]
- Update # 12-1:[Bugs]:Widget .GetBounds Error
-  [Improvements]: Adds TReflectionBank.Deposit
+ Update # 12-2:[Bugs]: Small fixes to Inventory
+  [Improvements]:
 [End]

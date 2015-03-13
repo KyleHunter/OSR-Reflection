@@ -72,9 +72,9 @@ var
   I, TheId, TheQuantity, Count: Integer;
   InvWidget: TReflectWidget;
 begin
-  Reflect.Mem.FreeObjects(ckInvItems, False);
+  Reflect.Mem.FreeObjects(ckInvItems, True);
   InvWidget.GetWidget(WIDGET_Inventory_Container, 0);
-  HookCache[ckNpcNode][0] := InvWidget.Reference;
+  HookCache[ckInvItems][0] := InvWidget.Reference;
   for I := 0 to 27 do
   begin
     TheId := Reflect.Smart.GetFieldArrayInt(
@@ -255,7 +255,7 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetMSPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetPoint, 2, 2);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
@@ -268,7 +268,7 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetMSPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetPoint, 2, 2);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
@@ -288,7 +288,7 @@ end;
 
 function TReflectInvItem.Drop: Boolean;
 begin
-  Reflect.Mouse.Move(Self.GetMSPoint, 2, 2);
+  Reflect.Mouse.Move(Self.GetPoint, 2, 2);
   Wait(RandomRange(160, 250));
   Reflect.Mouse.Click(Mouse_Right);
   Result := Reflect.Text.ChooseOption('Drop');

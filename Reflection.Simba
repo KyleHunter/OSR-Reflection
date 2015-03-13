@@ -2,7 +2,7 @@
 
 const
   IncludeRevision = 12;
-  SubRev = 1;
+  SubRev = 2;
 {$i reflection/lib/internal/Includes.simba}
 
 procedure TReflectionInternals.SetupSmart;
