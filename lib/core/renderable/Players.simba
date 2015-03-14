@@ -30,6 +30,6 @@ end;
 
 function TReflectPlayer.GetIndex: Integer;
 begin
-  Result := Self._Index;
+  Result := Self._Index + 32768;
 end;
 
