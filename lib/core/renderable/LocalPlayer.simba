@@ -134,7 +134,8 @@ end;
 
 function TReflectLocalPlayer.GetDestination: TTile;
 begin
-  if Reflect.Smart.GetFieldInt(0, Client_DestinationX) = 0 then
+  if (Reflect.Smart.GetFieldInt(0, Client_DestinationX) = 0) or
+    (Reflect.Smart.GetFieldInt(0, Client_DestinationY) = 0) then
     Exit(Self.GetTile);
   Result := Point(Reflect.Smart.GetFieldInt(
     0, Client_DestinationX) + Reflect.Misc.BaseX,
