@@ -1,4 +1,4 @@
 [Reflection]
- Update # 12-2:[Bugs]: Small fixes to Inventory
-  [Improvements]:
+ Update # 12-2:[Bugs]: Adds additional check to TReflectLocalPlayer.GetDestination
+  [Improvements]: Adds Npc.GetIndex, Player.GetIndex, Npc.FindByIndex(Index)
 [End]

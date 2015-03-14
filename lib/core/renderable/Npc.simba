@@ -40,6 +40,11 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self._DefReference, NpcDefinition_ID);
 end;
 
+function TReflectNPC.GetIndex: Integer;
+begin
+  Result := Self._Index;
+end;
+
 function TReflectNPC.GetName: string;
 var
   Id: Integer;
@@ -106,6 +111,7 @@ begin
     Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, I, I);
     with Self[C] do
     begin
+      _Index := Indices[I];
       Reference := HookCache[ckNpcNode][I];
       _DefReference := HookCache[ckNpcDef][I];
       _Tile := GetTile;
@@ -186,20 +192,20 @@ begin
   Self := Temp[0];
 end;
 
-procedure TReflectNPC.GetIndex(TheIndex: Integer);
+function TReflectNPC.FindByIndex(NpcIndex: Integer): Boolean;
 begin
-  if TheIndex < 1 then
+  if NpcIndex < 1 then
     Exit;
-  if (HookCache[ckNpcNode][0] <> 0) then
-  begin
-    Reflect.Mem.FreeObjects(ckNpcDef, False);
-    Reflect.Mem.FreeObjects(ckNpcNode, False);
-  end;
+  Reflect.Mem.FreeObjects(ckNpcDef, False);
+  Reflect.Mem.FreeObjects(ckNpcNode, False);
   Reflect.Mem.GetObjectArray(
-    ckNull, ckNpcNode, Client_LocalNpcs, 0, 0, TheIndex);
+    ckNull, ckNpcNode, Client_LocalNpcs, 0, 0, NpcIndex);
   if (HookCache[ckNpcNode][0] = 0) then
-    Exit;
+    Exit
+    (False);
+  Result := True;
   Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, 0, 0);
   Self.Reference := HookCache[ckNpcNode][0];
   Self._DefReference := HookCache[ckNpcDef][0];
+  Self._Index := NpcIndex;
 end;

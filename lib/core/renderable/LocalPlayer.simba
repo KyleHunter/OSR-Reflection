@@ -129,7 +129,7 @@ end;
 
 function TReflectLocalPlayer.GetPlayerIndex: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;;
+  Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;
 end;
 
 function TReflectLocalPlayer.GetDestination: TTile;
@@ -306,5 +306,5 @@ procedure TReflectLocalPlayer.GetInteractingNpc(var TheNpc: TReflectNpc);
 begin
   if Self.GetInteractingIndex = -1 then
     Exit;
-  TheNpc.GetIndex(Self.GetInteractingIndex);
+  TheNpc.FindByIndex(Self.GetInteractingIndex);
 end;

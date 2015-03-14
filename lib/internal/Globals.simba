@@ -110,7 +110,7 @@ type
 type
   TReflectNPC = record(TReflectActor)
 {$IFNDEF CODEINSIGHT}
-    _DefReference: Integer;
+    _DefReference, _Index: Integer;
     _Tile: TTile;
 {$ENDIF}
 end;
@@ -118,7 +118,11 @@ end;
 
       {Players}
 type
-  TReflectPlayer = type TReflectActor;
+  TReflectPlayer = record(TReflectActor)
+{$IFNDEF CODEINSIGHT}
+    _Index: Integer;
+{$ENDIF}
+end;
 
   TReflectPlayerArray = array of TReflectPlayer;
 

@@ -14,6 +14,7 @@ begin
       SetLength(Self, Iteration + 1);
       with Self[Iteration] do
       begin
+        _Index := I;
         HookCache[ckPlayers][Iteration] := Player.Reference;
         Reference := HookCache[ckPlayers][Iteration];
         Inc(Iteration);
@@ -25,5 +26,10 @@ end;
 function TReflectPlayer.GetName: string;
 begin
   Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+end;
+
+function TReflectPlayer.GetIndex: Integer;
+begin
+  Result := Self._Index;
 end;
 
