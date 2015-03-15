@@ -22,7 +22,6 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ParentID);
   if (Result > 0) then
     Exit;
-
   Result := Sar(Self.GetWidgetID, 16);
   Table.GetFieldObject(0, Client_WidgetNodeCache);
   try
@@ -33,6 +32,8 @@ begin
       CurrentNode.GetFieldObject(HeadNode.Reference, Node_Next);
       while HeadUID <> CurrentNode.GetFieldLongL(Node_UID) do
       begin
+        if CurrentNode.GetFieldLongL(Node_UID) = -1 then
+          Break;
         if Result = CurrentNode.GetFieldInt(WidgetNode_ID) then
           Exit(CurrentNode.GetFieldLongL(Node_UID));
         TempNode := CurrentNode;
