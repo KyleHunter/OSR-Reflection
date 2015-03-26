@@ -77,44 +77,22 @@ begin
   Result := Reflect.Tiles.DistanceFromTile(Tile) < Dist;
 end;
 
-	{*Credit Felipe Monteiro de Carvalho, modified by Officer Barbrady*}
-function TReflectionTiles.InPolygon(Area: TPointArray): Boolean;
+function TReflectionTiles.InPolygon(const Poly: TPointArray): Boolean;
 var
-  XNew, YNew, XOld, YOld, X1, Y1, X2, Y2: Cardinal;
-  I, numpoints, Inside, X, Y: Integer;
+  P: TPoint;
+  I, J: Integer;
 begin
-  NumPoints := Length(Area);
-  X := Reflect.Tiles.GetGlobalTile.Y;
-  Y := Reflect.Tiles.GetGlobalTile.Y;
-  if (NumPoints < 3) then
-    Exit;
-  XOld := Area[NumPoints - 1].X;
-  YOld := Area[NumPoints - 1].Y;
-  for I := 0 to (NumPoints - 1) do
+  Result := False;
+  P := Reflect.Tiles.GetGlobalTile;
+  J := High(Poly);
+  for I := Low(Poly) to High(Poly) do
   begin
-    XNew := Area[I].X;
-    YNew := Area[I].Y;
-    if (XNew > XOld) then
-    begin
-      X1 := XOld;
-      X2 := XNew;
-      Y1 := YOld;
-      Y2 := YNew;
-    end
-    else
-    begin
-      X1 := XNew;
-      X2 := XOld;
-      Y1 := YNew;
-      Y2 := YOld;
-    end;
-    if (((XNew < X) = (X <= XOld)) and ((Y - Y1) * (X2 - X1) <
-      (Y2 - Y1) * (X - X1))) then
-      Inside := not Inside;
-    XOld := XNew;
-    YOld := YNew;
+    if ((((Poly[I].Y <= P.Y) and (P.Y < Poly[J].Y)) or ((Poly[J].Y <= P.Y) and
+     (P.Y < Poly[I].Y)) ) and (P.X < ((Poly[J].X - Poly[I].X) *
+     (P.Y - Poly[I].Y) / (Poly[J].Y - Poly[I].Y) + Poly[I].X))) then
+     Result := not Result;
+    J := I;
   end;
-  Result := Inside <> 0;
 end;
 
 	{*Credit BenLand100, modified by Krazy_Meerkat*}
