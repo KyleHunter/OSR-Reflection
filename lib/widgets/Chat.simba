@@ -1,13 +1,35 @@
 
-function TReflectionChat.GetLastMessage: string;
+function TReflectionChat.GetTextOnLine(Line: Integer; RemoveName: Boolean = False): String;
 var
+  I, J: Integer;
   ChatWidget, ChatChild: TReflectWidget;
 begin
-  ChatWidget.GetWidget(WIDGET_Chat_Container, 2);
-  ChatChild.GetChild(ChatWidget, 1);
-  Result := Reflect.Text.RemoveFormatting(ChatChild.GetText);
+  ChatWidget.GetWidget(Widget_Chat_Container, 2);
+  I := (Line * 2) - 2;
+  J := I + 1;
+  for I to J do
+    if (I = j) or (not RemoveName) then
+    begin
+      ChatChild.GetChild(ChatWidget, I);
+      Result := Result + Reflect.Text.RemoveFormatting(ChatChild.GetText);
+    end;
   ChatWidget.Free;
   ChatChild.Free;
+end;
+
+function TReflectionChat.GetLastMessage(RemoveName: Boolean = False): String;
+begin
+  Result := Self.GetTextOnLine(1, RemoveName);
+end;
+
+function TReflectionChat.Find(Text: String): Boolean;
+var
+  I: Integer;
+  Txt: String
+begin
+  for I := 1 to 8 do
+    Txt := Txt + Self.GetTextOnLine(I);
+  Result := Pos(Text, Txt) > 0;
 end;
 
 function TReflectionChat.NpcChooseOption(Options: TStringArray): Boolean;
