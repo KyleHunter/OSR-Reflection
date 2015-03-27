@@ -166,7 +166,7 @@ var
 begin
   Result := False;
   Timer.Start;
-  while TReflectActor.GetAnimation = -1 do
+  while Self.GetAnimation = -1 do
   begin
     Wait(WaitPerLoop);
     if (Timer.ElapsedTime >= Timeout) then
