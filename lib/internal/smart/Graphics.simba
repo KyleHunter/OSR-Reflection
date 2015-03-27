@@ -241,6 +241,18 @@ begin
   Self.DrawEllipse(Center, Radius, Radius, Colour, Fill);
 end;
 
+procedure TReflectionGraphics.DrawPolygon(Polygon: TPointArray; Color: TColor = clRed);
+var
+  I, H: Integer;
+begin
+  H := (High(Polygon) - 1);
+  if (H = -1) then
+    Exit;
+  for I := 0 to H do
+    Self.Bmp.LineTo(Polygon[I], Polygon[I + 1], Color);
+  Self.Bmp.LineTo(Polygon[H + 1], Polygon[0], Color);
+end;
+
 procedure TReflectionGraphics.DrawEllipse(Center: TPoint; XRadius, YRadius: Integer; Colour: TColor = clRed; Fill: Boolean = False);
 var
   TPA: array of TPoint;

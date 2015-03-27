@@ -133,3 +133,15 @@ procedure TReflectionMouse.Move(_Box: TBox); overload;
 begin
   Reflect.Mouse.Move(_Box.X1, _Box.Y1, _Box.X2, _Box.Y2);
 end;
+
+function TReflectionMouse.DidClick(Red: Boolean; MaxTime: Integer = 1000): Boolean;
+var
+  T: Integer;
+begin
+  T := GetSystemTime() + MaxTime;
+  while (GetSystemTime() < T) and (not Result) do
+  case Red of
+    True: Result := Reflect.Smart.GetFieldInt(0, Client_CrossHairColor) = 2;
+    False: Result := Reflect.Smart.GetFieldInt(0, Client_CrossHairColor) = 1;
+  end;
+end;
