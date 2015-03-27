@@ -334,7 +334,7 @@ begin
     Self.DrawClippedText(ToStr(NPCs[I].GetID), 'StatChars07', NPCs[I].GetMSPoint, Color)
 end;
 
-procedure TReflectionGraphics.DebugGroundItems(Distance: Integer = 103; Color: Integer = 65280);
+procedure TReflectionGraphics.DebugGroundItems(Distance: Integer = 20; Color: Integer = 65280);
 var
   I: Integer;
   Items: TReflectGroundItemArray;
@@ -354,7 +354,7 @@ begin
     Self.DrawClippedText(ToStr(Items[I].GetID), 'StatChars07', Items[I].GetPoint, Color)
 end;
 
-procedure TReflectionGraphics.DebugObjects(ObjType: TObjectType = objGame; Distance: Integer = 103; Color: Integer = 65280);
+procedure TReflectionGraphics.DebugObjects(ObjType: TObjectType = objGame; Distance: Integer = 20; Color: Integer = 65280);
 var
   I: Integer;
   Objects: TReflectObjectArray;
