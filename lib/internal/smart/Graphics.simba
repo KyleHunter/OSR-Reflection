@@ -304,22 +304,74 @@ begin
   F.Free();
 end;
 
-Function TReflectionGraphics.GetInternalBitmap: TMufasaBitmap;
+function TReflectionGraphics.GetInternalBitmap: TMufasaBitmap;
 begin
   Result := Self.Bmp;
 end;
 
-Function TReflectionGraphics.Width: Integer;
+function TReflectionGraphics.Width: Integer;
 begin
   Result := Self.Width;
 end;
 
-Function TReflectionGraphics.Height: Integer;
+function TReflectionGraphics.Height: Integer;
 begin
   Result := Self.Height;
 end;
 
-Function TReflectionGraphics.IsInitialized: Boolean;
+function TReflectionGraphics.IsInitialized: Boolean;
 begin
   Result := Self.IsInit;
 end;
+
+procedure TReflectionGraphics.DebugNPCs(Color: Integer = 65280);
+var
+  I: Integer;
+  NPCs: TReflectNPCArray;
+begin
+  NPCs.GetAll;
+  for I := 0 to High(NPCs) do
+    Self.DrawClippedText(ToStr(NPCs[I].GetID), 'StatChars07', NPCs[I].GetMSPoint, Color)
+end;
+
+procedure TReflectionGraphics.DebugGroundItems(Distance: Integer = 103; Color: Integer = 65280);
+var
+  I: Integer;
+  Items: TReflectGroundItemArray;
+begin
+  Items.GetAll(Distance);
+  for I := 0 to High(Items) do
+    Self.DrawClippedText(ToStr(Items[I].GetID), 'StatChars07', Items[I].GetMSPoint, Color)
+end;
+
+procedure TReflectionGraphics.DebugInvItems(Color: Integer = 65280);
+var
+  I: Integer;
+  Items: TReflectInvItemArray;
+begin
+  Items.GetAll;
+  for I := 0 to High(Items) do
+    Self.DrawClippedText(ToStr(Items[I].GetID), 'StatChars07', Items[I].GetPoint, Color)
+end;
+
+procedure TReflectionGraphics.DebugObjects(ObjType: TObjectType = objGame; Distance: Integer = 103; Color: Integer = 65280);
+var
+  I: Integer;
+  Objects: TReflectObjectArray;
+begin
+  Objects.GetAll(ObjType, Distance);
+  for I := 0 to High(Objects) do
+    Self.DrawClippedText(IntToStr(Objects[I].GetID), 'StatChars07', Objects[I].GetMSPoint, Color);
+end;
+
+procedure TReflectionGraphics.DebugPlayers(Color: Integer = 65280);
+var
+  I: Integer;
+  Players: TReflectPlayerArray
+begin
+  Players.GetAll;
+  for I := 0 to High(Players) do
+    Self.DrawClippedText(ToStr(Players[I].GetName), 'StatChars07', Players[I].GetMSPoint, Color)
+end;
+
+

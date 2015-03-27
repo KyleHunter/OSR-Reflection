@@ -209,3 +209,10 @@ begin
   Self._DefReference := HookCache[ckNpcDef][0];
   Self._Index := NpcIndex;
 end;
+
+function TReflectNPC.IsOnMS: Boolean;
+begin
+  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
+end;
+
+

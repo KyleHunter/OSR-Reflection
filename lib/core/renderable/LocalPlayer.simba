@@ -308,3 +308,29 @@ begin
     Exit;
   TheNpc.FindByIndex(Self.GetInteractingIndex);
 end;
+
+function TReflectLocalPlayer.WaitWhileMoving(WaitPerLoop: Integer = 500; MaxTime: Integer = 20000): Boolean;
+var
+  T: Integer;
+begin
+  T := GetSystemTime + MaxTime;
+  while (GetSystemTime < T) do
+  begin
+    if not Self.IsMoving then
+      Exit(True);
+    Wait(WaitPerLoop);
+  end;
+end;
+
+function TReflectLocalPlayer.WaitWhileAnimating(WaitPerLoop: Integer = 250; MaxTime: Integer = 20000): Boolean;
+var
+  T: Integer;
+begin
+  T := GetSystemTime + MaxTime;
+  while (GetSystemTime < T) do
+  begin
+    if Self.GetAnimation = -1 then
+      Exit(True);
+    Wait(WaitPerLoop);
+  end;
+end;

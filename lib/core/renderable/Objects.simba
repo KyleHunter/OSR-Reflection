@@ -282,6 +282,11 @@ begin
   end;
 end;
 
+function TReflectObject.IsOnMS: Boolean;
+begin
+  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
+end;
+
 procedure TReflectionInternals.SetupObjects;
 begin
   ObjGame.Index := 1;

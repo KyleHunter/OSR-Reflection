@@ -3,7 +3,7 @@
 {$ENDIF OS_SMART}
 {$include reflection/lib/internal/Globals.simba}
 {$include reflection/lib/internal/Hooks.simba}
-{$include reflection/lib/internal/smart/Graphics.simba}
+
 {$include reflection/lib/internal/smart/Smart.simba}
 {$include reflection/lib/core/Time.simba}
 {$include reflection/lib/internal/Login.simba}
@@ -31,3 +31,4 @@
 {$include reflection/lib/core/renderable/Players.simba}
 {$include reflection/lib/core/renderable/GroundItems.simba}
 {$include reflection/lib/core/renderable/Objects.simba}
+{$include reflection/lib/internal/smart/Graphics.simba}
