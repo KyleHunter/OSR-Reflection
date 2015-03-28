@@ -264,3 +264,8 @@ begin
     Self := Temp[0];
   end;
 end;
+
+function TReflectGroundItem.IsOnMS: Boolean;
+begin
+  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
+end;

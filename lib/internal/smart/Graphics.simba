@@ -304,22 +304,22 @@ begin
   F.Free();
 end;
 
-Function TReflectionGraphics.GetInternalBitmap: TMufasaBitmap;
+function TReflectionGraphics.GetInternalBitmap: TMufasaBitmap;
 begin
   Result := Self.Bmp;
 end;
 
-Function TReflectionGraphics.Width: Integer;
+function TReflectionGraphics.Width: Integer;
 begin
   Result := Self.Width;
 end;
 
-Function TReflectionGraphics.Height: Integer;
+function TReflectionGraphics.Height: Integer;
 begin
   Result := Self.Height;
 end;
 
-Function TReflectionGraphics.IsInitialized: Boolean;
+function TReflectionGraphics.IsInitialized: Boolean;
 begin
   Result := Self.IsInit;
 end;
