@@ -255,7 +255,7 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetPoint, 0, 0);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
@@ -268,11 +268,19 @@ var
 begin
   if Temp.Find(Item) then
   begin
-    Reflect.Mouse.Move(Temp.GetPoint, 2, 2);
+    Reflect.Mouse.Move(Temp.GetPoint, 0, 0);
     Wait(RandomRange(160, 250));
     Reflect.Mouse.Click(Mouse_Right);
     Result := Reflect.Text.ChooseOption('Drop');
   end;
+end;
+
+function TReflectInvItem.Drop: Boolean;
+begin
+  Reflect.Mouse.Move(Self.GetPoint, 0, 0);
+  Wait(RandomRange(160, 250));
+  Reflect.Mouse.Click(Mouse_Right);
+  Result := Reflect.Text.ChooseOption('Drop');
 end;
 
 procedure TReflectionInventory.DropAll;
@@ -283,15 +291,7 @@ begin
   Temp.GetAll;
   ItemCount := Length(Temp);
   for I := 0 to ItemCount do
-    Self.Drop(Temp[I]._Id);
-end;
-
-function TReflectInvItem.Drop: Boolean;
-begin
-  Reflect.Mouse.Move(Self.GetPoint, 2, 2);
-  Wait(RandomRange(160, 250));
-  Reflect.Mouse.Click(Mouse_Right);
-  Result := Reflect.Text.ChooseOption('Drop');
+    Temp[I].Drop;
 end;
 
 procedure TReflectInvItemArray.Drop;
