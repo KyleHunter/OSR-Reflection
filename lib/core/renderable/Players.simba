@@ -1,4 +1,19 @@
 
+function TReflectPlayer.GetName: string;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+end;
+
+function TReflectPlayer.GetIndex: Integer;
+begin
+  Result := Self._Index + 32768;
+end;
+
+function TReflectPlayer.GetMSPoint: TPoint;
+begin
+  Result := Reflect.Tiles.TileToMs(Self.GetTile);
+end;
+
 procedure TReflectPlayerArray.GetAll;
 var
   I, Iteration: Integer;
@@ -23,18 +38,41 @@ begin
   end;
 end;
 
-function TReflectPlayer.GetName: string;
+procedure TReflectPlayerArray.Get(Name: string);
+var
+  Temp, Temp1: TReflectPlayerArray;
+  I, H, T: integer;
 begin
-  Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+  Temp.GetAll;
+  if Length(Temp) = 0 then
+    Exit;
+  H := High(Temp);
+  SetLength(Temp1, H + 1);
+  for I := 0 to H do
+  begin
+    if (Temp[I].GetName = Name) then
+    begin
+      Temp1[T] := Temp[I];
+      Inc(T);
+    end;
+  end;
+  Setlength(Temp1, T);
+  Self := Temp1;
 end;
 
-function TReflectPlayer.GetIndex: Integer;
+function TReflectPlayer.Find(Name: string): Boolean;
+var
+  Temp: TReflectPlayerArray;
 begin
-  Result := Self._Index + 32768;
+  Temp.Get(Name);
+  if Length(Temp) = 0 then
+    Exit;
+  Result := True;
+  Self := Temp[0];
 end;
 
-function TReflectPlayer.GetMSPoint: TPoint;
+function TReflectPlayer.IsOnMS: Boolean;
 begin
-  Result := Reflect.Tiles.TileToMs(Self.GetTile);
+  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
 end;
 
