@@ -25,6 +25,8 @@ function TReflectObject.GetTile: TTile;
 var
   LocalTile: TTile;
 begin
+  if Self._ObjType.Index <> ObjGame.Index then
+    Exit(Self._Tile);
   LocalTile := Point(Reflect.Smart.GetFieldInt(
     Self.Reference, Self._ObjType.LocalX), Reflect.Smart.GetFieldInt(
     Self.Reference, Self._ObjType.LocalY));
