@@ -4,6 +4,7 @@ type
 
 var
   _ReflectionSmartList: array of Pointer;
+  SmartShowConsole: Boolean := True;
 
 {$IFNDEF AL}
   procedure Delete(Ptr: Pointer; var Pointers: Array of Pointer); overload;
@@ -88,6 +89,7 @@ procedure TReflectionSmart.Create(
   Width, Height: Integer; UserAgent: string); overload;
 var
   World: Variant;
+  JavaString: string;
 begin
   Self.Width := Width;
   Self.Height := Height;
@@ -97,7 +99,11 @@ begin
     Exit;
   World := Self.GetWorld;
   Reflect.Logger.Status('Using world %s.', [World]);
-  Self.Target := SmartSpawnClient('java.exe', StringReplace(PluginPath, '\',
+  if SmartShowConsole then
+    JavaString:= 'java.exe'
+  else
+    JavaString:= 'javaw.exe';
+  Self.Target := SmartSpawnClient(JavaString, StringReplace(PluginPath, '\',
     '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
     'j1', Width, Height, '', UserAgent, '', '');
   if Self.Target = 0 then
