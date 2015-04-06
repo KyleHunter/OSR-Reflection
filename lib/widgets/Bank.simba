@@ -224,6 +224,7 @@ begin
       BankWidget.Free;
       Exit(BankChild);
     end;
+    BankChild.Free;
   end;
 end;
 
