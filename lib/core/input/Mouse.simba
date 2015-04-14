@@ -113,7 +113,7 @@ var
   Pnt : TPoint;
 begin
   Reflect.Math.GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
-  Reflect.Mouse.Move(Pnt, 3, 3, ClickType);
+  Reflect.Mouse.Move(Pnt, 0, 0, ClickType);
 end;
 
 procedure TReflectionMouse.Move(_Box: TBox; ClickType: Integer); overload;
@@ -126,7 +126,7 @@ var
   Pnt: TPoint;
 begin
   Reflect.Math.GaussBox(Pnt.X, Pnt.Y, X1, Y1, X2, Y2);
-  Reflect.Mouse.Move(Pnt, 3, 3);
+  Reflect.Mouse.Move(Pnt, 0, 0);
 end;
 
 procedure TReflectionMouse.Move(_Box: TBox); overload;
