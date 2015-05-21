@@ -27,8 +27,7 @@ var
 begin
   if (not Self.IsLoggedIn) or (not Reflect.Gametab.Open(Gametab_Logout)) then
     Exit;
-
-  LogoutWidget.GetWidget(Widget_Logout_Container, 6);
+  LogoutWidget.GetWidget(Widget_Logout_Container, 4);
   LogoutWidget.Interact;
   LogoutWidget.Free;
 end;
