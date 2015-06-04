@@ -289,7 +289,7 @@ var
 begin
   if not Reflect.Bank.IsOpen then
     Exit(True);
-  BankWidget.GetWidget(Widget_Bank_Container, 1);
+  BankWidget.GetWidget(Widget_Bank_Container, 3);
   BankChild.GetChild(BankWidget, 11);
   while (Reflect.Bank.IsOpen) and (not Result) and (Tries < 4) do
   begin

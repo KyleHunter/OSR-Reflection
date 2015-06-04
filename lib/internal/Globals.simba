@@ -198,22 +198,22 @@ var
 
 const
 
-    {Gametab}
+{Gametab}
 
-  Gametab_ClanChat = 31;
-  Gametab_FriendsList = 32;
-  Gametab_IgnoreList = 33;
-  Gametab_Logout = 34;
-  Gametab_Options = 35;
-  Gametab_Emotes = 36;
-  Gametab_MusicPlayer = 37;
-  Gametab_CombatOptions = 48;
-  Gametab_Stats = 49;
-  Gametab_QuestList = 50;
-  Gametab_Inventory = 51;
-  Gametab_WornEquipment = 52;
-  Gametab_Prayer = 53;
-  Gametab_Magic = 54;
+  Gametab_ClanChat = 25;
+  Gametab_FriendsList = 26;
+  Gametab_IgnoreList = 27;
+  Gametab_Logout = 28;
+  Gametab_Options = 29;
+  Gametab_Emotes = 30;
+  Gametab_MusicPlayer = 31;
+  Gametab_CombatOptions = 49;
+  Gametab_Stats = 50;
+  Gametab_QuestList = 51;
+  Gametab_Inventory = 52;
+  Gametab_WornEquipment = 53;
+  Gametab_Prayer = 54;
+  Gametab_Magic = 55;
 
   {$IFNDEF AL}
     {Skills}
@@ -247,8 +247,8 @@ const
       {Bank}
 
   Widget_Bank_Container = 12;
-  Widget_Bank_TotalItems_Child = 3;
-  Widget_Bank_ItemSlots_Child = 10;
+  Widget_Bank_TotalItems_Child = 5;
+  Widget_Bank_ItemSlots_Child = 12;
   Widget_PinScreen_Container = 213;
 
       {Chat}
