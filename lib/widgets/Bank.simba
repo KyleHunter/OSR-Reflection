@@ -8,7 +8,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13067) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -20,7 +20,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13067) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''actions'': [''', ']', Line);
@@ -34,7 +34,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13067) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''groundActions'': [''', ']', Line);
@@ -48,7 +48,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13067) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Result := StrToInt(Between('highAlchValue'': ', '}', Line));
@@ -188,7 +188,7 @@ begin
   begin
     TimeOut.Start;
     BankChild.Interact('X');
-    while (not AmountWidget.IsValid(548, 119)) do
+    while (not AmountWidget.IsValid(162, 32)) do
     begin
       Wait(100 + Random(100));
       if TimeOut.ElapsedTime > 5000 then
@@ -224,7 +224,6 @@ begin
       BankWidget.Free;
       Exit(BankChild);
     end;
-    BankChild.Free;
   end;
 end;
 
@@ -357,7 +356,7 @@ begin
       begin
         TimeOut.Start;
         Reflect.Text.ChooseOption('X');
-        while (not AmountWidget.IsValid(548, 119)) do
+        while (not AmountWidget.IsValid(162, 32)) do
         begin
           Wait(100 + Random(100));
           if TimeOut.ElapsedTime > 5000 then
@@ -406,7 +405,7 @@ begin
       begin
         TimeOut.Start;
         Reflect.Text.ChooseOption('X');
-        while (not AmountWidget.IsValid(548, 119)) do
+        while (not AmountWidget.IsValid(162, 32)) do
         begin
           Wait(100 + Random(100));
           if TimeOut.ElapsedTime > 5000 then
