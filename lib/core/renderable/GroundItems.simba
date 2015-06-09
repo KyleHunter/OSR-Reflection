@@ -118,7 +118,7 @@ begin
   begin
     _Id := Reflect.Smart.GetFieldInt(
       HookCache[ckGroundList][Start + Iteration + 1], Item_Id);
-    if (_Id < 0) or (_Id > 13067) then
+    if (_Id < 0) or (_Id > 12856) then
       Break;
     Temp[Iteration]._Id := _Id;
     Temp[Iteration]._Tile.X := _Tile.X + BaseX;
@@ -153,7 +153,7 @@ begin
     HighX := 103;
   if HighY > 103 then
     HighY := 103;
-  SetLength(Self, 13066);
+  SetLength(Self, 10817);
   for X := Position.X - Distance to HighX do
     for Y := Position.Y - Distance to HighY do
     begin
