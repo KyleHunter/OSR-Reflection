@@ -279,3 +279,35 @@ begin
     Result := Reflect.Text.ChooseOption(Option);
   end;
 end;
+
+function TReflectionWidget.GetText(Parent, Child: Integer;
+                                   GrandChild: Integer = -1): String;
+var
+  W, WChild: TReflectWidget;
+begin
+  W.GetWidget(Parent, Child);
+  If (GrandChild > -1) then
+  begin
+    WChild.GetChild(W, GrandChild);
+    Result := WChild.GetText;
+    WChild.Free;
+  end else
+    Result := W.GetText;
+  W.Free;
+end;
+
+function TReflectionWidget.WaitText(Text: String; Parent, Child: Integer;
+                             GrandChild: Integer = -1; WaitTime: Integer = 5000;
+                             PerLoop: Integer = 100): Boolean;
+var
+  T: TReflectTimer;
+begin
+  T.Restart;
+  repeat
+    If (GrandChild = -1) then
+      Result := (Pos(Text, Self.GetText(Parent, Child)) > 0)
+    else
+      Result := (Pos(Text, Self.GetText(Parent, Child, GrandChild)) > 0);
+    Wait(PerLoop);
+  until(Result)or(T.ElapsedTime > WaitTime);
+end;
