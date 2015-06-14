@@ -1,4 +1,4 @@
 [Reflection]
- Update # 12-2:[Bugs]: Adds additional check to TReflectLocalPlayer.GetDestination
-  [Improvements]: Adds Npc.GetIndex, Player.GetIndex, Npc.FindByIndex(Index)
+ Update # 14:[Bugs]: Login fixes, new object definitions
+  [Improvements]: Adds New GetText widget functions
 [End]
