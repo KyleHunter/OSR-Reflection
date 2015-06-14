@@ -243,8 +243,8 @@ begin
     Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount)
   else
   begin
-    SearchWidget.GetWidget(12, 23);
-    SearchWidget.Interact;
+    SearchWidget.GetWidget(12, 25);
+    SearchWidget.Interact(5);
     SearchWidget.Free;
     Wait(RandomRange(200, 500));
     L = 1;
