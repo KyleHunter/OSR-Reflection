@@ -58,6 +58,40 @@ begin
   end;
 end;
 
+function TReflectionChat.GetContinueComponent: TReflectWidget;
+var
+  NpcWidget, Child: TReflectWidget;
+  I, J, S, Width: Integer;
+begin
+  for I := 0 to 600 do
+    for J := 0 to 6 do
+    begin
+    if (InIntArray(
+      [90, 137, 182, 239, 261, 271, 274, 320, 429, 432, 548, 589, 593], I))
+      or (not NpcWidget.Exists(I, J)) then
+      continue;
+    if (not NpcWidget.Exists(I, J)) then
+      Continue;
+    NpcWidget.GetWidget(I, J);
+    if NpcWidget.GetText = 'Click here to continue' then
+      Exit(NpcWidget);
+    if NpcWidget.HasChild then
+    begin
+      Width := Reflect.Smart.GetArraySize(
+        NpcWidget.Reference, Widget_Children, 0);
+      for S := 0 to Width do
+        Child.GetChild(NpcWidget, S);
+        if Child.GetText = 'Click here to continue' then
+        begin
+          WriteLn(':)');
+          NpcWidget.Free;
+          Exit(Child);
+        end;
+    end;
+    NpcWidget.Free;
+  end;
+end;
+
 function TReflectionChat.NpcChooseOption(Option: string): Boolean; overload;
 begin
   Result := Reflect.Chat.NpcChooseOption([Option]);

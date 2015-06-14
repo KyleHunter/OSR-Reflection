@@ -10228,7 +10228,7 @@
 {'ID': 10227,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
 {'ID': 10228,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
 {'ID': 10229,'actions': ['Climb-up','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
-{'ID': 10230,'actions': ['Climb-down','null','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
+{'ID': 10230,'actions': ['Climb-down','Players-inside','null','null','null'],'height': 1,'name': 'Ladder','walkable': true,'width': 1}
 {'ID': 10231,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10232,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}
 {'ID': 10233,'actions': ['null','null','null','null','null'],'height': 1,'walkable': true,'width': 1}

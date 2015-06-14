@@ -5087,7 +5087,7 @@
 {'ID': 5086,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 5087,'actions': ['Wear','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Null','noteID': -1,'noted': false,'highAlchValue': 1}
 {'ID': 5088,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'noteID': -1,'noted': false,'highAlchValue': 0}
-{'ID': 5089,'actions': ['Wear','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Null','noteID': -1,'noted': false,'highAlchValue': 1}
+{'ID': 5089,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Sea snake','noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 5090,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 5091,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 5092,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'noteID': -1,'noted': false,'highAlchValue': 0}
@@ -12656,7 +12656,7 @@
 {'ID': 12655,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Pet kraken','noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 12656,'actions': ['null','null','null','null','Discard'],'groundActions': ['null','null','Take','null','null'],'name': 'Junk','noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 12657,'actions': ['null','null','null','null','Discard'],'groundActions': ['null','null','Take','null','null'],'name': 'Junk','noteID': -1,'noted': false,'highAlchValue': 0}
-{'ID': 12658,'actions': ['null','Wield','null','Check','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Iban's upgraded staff','noteID': -1,'noted': false,'highAlchValue': 85000}
+{'ID': 12658,'actions': ['null','Wield','null','Check','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Iban's staff (u)','noteID': -1,'noted': false,'highAlchValue': 85000}
 {'ID': 12659,'actions': ['null','null','null','null','Discard'],'groundActions': ['null','null','Take','null','null'],'name': 'Clan wars cape','noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 12660,'actions': ['null','null','null','null','Discard'],'groundActions': ['null','null','Take','null','null'],'name': 'Clan wars cape','noteID': -1,'noted': false,'highAlchValue': 0}
 {'ID': 12661,'actions': ['null','null','null','null','Discard'],'groundActions': ['null','null','Take','null','null'],'name': 'Clan wars cape','noteID': -1,'noted': false,'highAlchValue': 0}
@@ -13200,3 +13200,4 @@
 {'ID': 13199,'actions': ['null','Wear','Check','Restore','Uncharge'],'groundActions': ['null','null','Take','null','null'],'name': 'Magma helm','noteID': -1,'noted': false,'highAlchValue': 110500}
 {'ID': 13200,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Tanzanite mutagen','noteID': -1,'noted': false,'highAlchValue': 9500}
 {'ID': 13201,'actions': ['null','null','null','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Magma mutagen','noteID': -1,'noted': false,'highAlchValue': 9500}
+{'ID': 13202,'actions': ['null','Wear','Uncharge','null','Drop'],'groundActions': ['null','null','Take','null','null'],'name': 'Ring of the gods (i)','noteID': -1,'noted': false,'highAlchValue': 50000}

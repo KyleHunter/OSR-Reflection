@@ -503,7 +503,7 @@
 {'ID': 502,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Vanessa','walkAnimationID': 819,'width': 1}
 {'ID': 503,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Richard','walkAnimationID': 819,'width': 1}
 {'ID': 504,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Alice','walkAnimationID': 819,'width': 1}
-{'ID': 505,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Bob','walkAnimationID': 819,'width': 1}
+{'ID': 505,'actions': ['Talk-to','null','Trade','Repair','null'],'combatLevel': 0,'height': 1,'name': 'Bob','walkAnimationID': 819,'width': 1}
 {'ID': 506,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Shop keeper','walkAnimationID': 819,'width': 1}
 {'ID': 507,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Shop assistant','walkAnimationID': 819,'width': 1}
 {'ID': 508,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 124,'name': 'Shop keeper','walkAnimationID': 819,'width': 130}
@@ -1306,7 +1306,7 @@
 {'ID': 1305,'actions': ['Talk-to','null','null','Haircut','null'],'combatLevel': 0,'height': 1,'name': 'Hairdresser','walkAnimationID': 819,'width': 1}
 {'ID': 1306,'actions': ['Talk-to','null','null','Makeover','null'],'combatLevel': 0,'height': 1,'name': 'Make-over mage','walkAnimationID': 1205,'width': 1}
 {'ID': 1307,'actions': ['Talk-to','null','null','Makeover','null'],'combatLevel': 0,'height': 1,'name': 'Make-over mage','walkAnimationID': 1205,'width': 1}
-{'ID': 1308,'actions': ['Talk-to','null','Trade','null','Redeem-code'],'combatLevel': 0,'height': 1,'name': 'Diango','walkAnimationID': 819,'width': 1}
+{'ID': 1308,'actions': ['Talk-to','null','Trade','Holiday-items','Redeem-code'],'combatLevel': 0,'height': 1,'name': 'Diango','walkAnimationID': 819,'width': 1}
 {'ID': 1309,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Brian','walkAnimationID': 819,'width': 1}
 {'ID': 1310,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Bartender','walkAnimationID': 819,'width': 1}
 {'ID': 1311,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Bartender','walkAnimationID': 819,'width': 1}
@@ -2921,7 +2921,7 @@
 {'ID': 2920,'actions': ['null','Attack','null','null','null'],'combatLevel': 132,'height': 1,'name': 'Confused barbarian','walkAnimationID': 2064,'width': 1}
 {'ID': 2921,'actions': ['null','Attack','null','null','null'],'combatLevel': 132,'height': 1,'name': 'Lost barbarian','walkAnimationID': 819,'width': 1}
 {'ID': 2922,'actions': ['null','null','null','null','Shoo-away'],'combatLevel': 0,'height': 1,'name': 'Stray dog','walkAnimationID': 4773,'width': 1}
-{'ID': 2923,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Blast Furnace Foreman','walkAnimationID': 98,'width': 1}
+{'ID': 2923,'actions': ['Talk-to','null','Pay','null','null'],'combatLevel': 0,'height': 1,'name': 'Blast Furnace Foreman','walkAnimationID': 98,'width': 1}
 {'ID': 2924,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Tin ore','walkAnimationID': -1,'width': 1}
 {'ID': 2925,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Copper ore','walkAnimationID': -1,'width': 1}
 {'ID': 2926,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Iron ore','walkAnimationID': -1,'width': 1}
