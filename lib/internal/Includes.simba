@@ -6,13 +6,13 @@
 {$include reflection/lib/internal/smart/Graphics.simba}
 {$include reflection/lib/internal/smart/Smart.simba}
 {$include reflection/lib/core/Time.simba}
+{$include reflection/lib/widgets/Widgets.simba}
 {$include reflection/lib/internal/Login.simba}
 {$include reflection/lib/core/Math.simba}
 {$include reflection/lib/core/input/Mouse.simba}
 {$include reflection/lib/core/input/Keyboard.simba}
 {$include reflection/lib/internal/smart/Memory.simba}
 {$include reflection/lib/internal/Mapwalk.simba}
-{$include reflection/lib/widgets/Widgets.simba}
 {$include reflection/lib/widgets/gametabs/Gametabs.simba}
 {$include reflection/lib/widgets/gametabs/Inventory.simba}
 {$include reflection/lib/widgets/gametabs/CombatOptions.simba}
