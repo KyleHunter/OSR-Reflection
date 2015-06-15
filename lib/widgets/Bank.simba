@@ -178,7 +178,7 @@ begin
   Reflect.Mouse.Move(Box, Mouse_Right);
   if Amount = -1 then
   begin
-    Result := Reflect.Text.ChooseOption('All', 200 + Random(100));
+    Result := Reflect.Text.ChooseOption('All ', 200 + Random(100));
     BankChild.Free;
     Exit;
   end;
@@ -347,7 +347,7 @@ begin
       Reflect.Mouse.Move(Inv.GetBox, Mouse_Right);
       if Amount[I] = -1 then
       begin
-        Result := Reflect.Text.ChooseOption('All', 200 + Random(100));
+        Result := Reflect.Text.ChooseOption('All ', 200 + Random(100));
         Continue;
       end;
       if Reflect.Text.OptionExists(IntToStr(Amount[I]) + ' ') then
@@ -396,7 +396,7 @@ begin
       Reflect.Mouse.Move(Inv.GetBox, Mouse_Right);
       if Amount[I] = -1 then
       begin
-        Result := Reflect.Text.ChooseOption('All', 200 + Random(100));
+        Result := Reflect.Text.ChooseOption('All ', 200 + Random(100));
         Continue;
       end;
       if Reflect.Text.OptionExists(IntToStr(Amount[I]) + ' ') then
