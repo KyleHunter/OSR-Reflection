@@ -74,7 +74,9 @@ begin
   Result := VarType(v) = VarBoolean;
 end;
 
-{$loadlib prosocks}
+{$IFNDEF Aerolib}
+  {$loadlib prosocks}
+{$ENDIF}
 Function TReflectionMisc.GetPage(Url: string): string;
 var
   S: SSLSocket;

@@ -16,6 +16,13 @@ begin
     Reflect.Smart.GetFieldInt(Self.Reference, Actor_WorldY) div 128;
 end;
 
+function TReflectActor.GetQueueSize: Integer;
+begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+    Exit(-1);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_QueueSize);
+end;
+
 function TReflectActor.GetQueue(Index: Integer = 0): TTile;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
@@ -63,10 +70,7 @@ end;
 
 function TReflectActor.IsMoving: Boolean;
 begin
-  if Reflect.Smart.IsNull(Self.Reference) then
-    Exit;
-  Result := (Self.GetQueue.X <> Self.GetTile.X) or
-    (Self.GetQueue.Y <> Self.GetTile.Y);
+  Result := (Self.GetQueueSize > 0);
 end;
 
 function TReflectActor.IsUnderAttack: Boolean;
