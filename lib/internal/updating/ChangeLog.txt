@@ -1,4 +1,4 @@
 [Reflection]
- Update # 14:[Bugs]: Login fixes, new object definitions
-  [Improvements]: Adds New GetText widget functions
+ Update # 14:[Bugs]: Various fixes
+  [Improvements]:
 [End]
