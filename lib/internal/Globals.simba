@@ -253,7 +253,7 @@ const
 
       {Chat}
 
-  Widget_Chat_Container = 137;
+  Widget_Chat_Container = 162;
 
       {GameTab}
 

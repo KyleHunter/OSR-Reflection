@@ -4,7 +4,7 @@ var
   I, J: Integer;
   ChatWidget, ChatChild: TReflectWidget;
 begin
-  ChatWidget.GetWidget(Widget_Chat_Container, 2);
+  ChatWidget.GetWidget(Widget_Chat_Container, 43);
   I := (Line * 2) - 2;
   J := I + 1;
   for I to J do
