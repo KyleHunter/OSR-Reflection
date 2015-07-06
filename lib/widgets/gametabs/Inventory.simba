@@ -5,7 +5,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13202) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -17,7 +17,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13202) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''actions'': [''', ']', Line);
@@ -31,7 +31,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13202) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Temp := Between('''groundActions'': [''', ']', Line);
@@ -45,7 +45,7 @@ var
   Id: Integer;
 begin
   Id := Self._Id;
-  if not InRange(Id, 0, 12856) then
+  if not InRange(Id, 0, 13202) then
     Exit;
   Line := ItemCache.GetStrings(Id);
   Result := StrToInt(Between('highAlchValue'': ', '}', Line));

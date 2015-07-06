@@ -26872,3 +26872,4 @@
 {'ID': 26871,'actions': ['null','null','null','null','Remove'],'height': 2,'name': 'Teak feeder','walkable': true,'width': 2}
 {'ID': 26872,'actions': ['null','null','null','null','Remove'],'height': 2,'name': 'Mahogany feeder','walkable': true,'width': 2}
 {'ID': 26873,'actions': ['Mine','Prospect','null','null','null'],'height': 1,'name': 'Rocks','walkable': false,'width': 1}
+{'ID': 26874,'actions': ['Mine','Prospect','null','null','null'],'height': 1,'name': 'Rocks','walkable': false,'width': 1}
