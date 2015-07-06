@@ -116,8 +116,8 @@ const
  Client_CameraZ: THook =              ['w.fb', -389453687];
  Client_GroundItems: THook =          ['client.hl', 1];
  Client_GameSettings: THook =         ['fk.g', 1];
- Client_MapScale: THook =             ['client.ep', 1];
- Client_MapAngle: THook =             ['client.fj', 1];
+ Client_MapScale: THook =             ['client.ep', 568727631];
+ Client_MapAngle: THook =             ['client.fj', 589742961];
  Client_MapOffset: THook =            ['client.ec', -659477235];
  Client_CurrentLevels: THook =        ['client.hi', 1];
  Client_RealLevels: THook =           ['client.hv', 1];
