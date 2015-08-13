@@ -200,20 +200,20 @@ const
 
 {Gametab}
 
-  Gametab_ClanChat = 25;
-  Gametab_FriendsList = 26;
-  Gametab_IgnoreList = 27;
-  Gametab_Logout = 28;
-  Gametab_Options = 29;
-  Gametab_Emotes = 30;
-  Gametab_MusicPlayer = 31;
-  Gametab_CombatOptions = 49;
-  Gametab_Stats = 50;
-  Gametab_QuestList = 51;
-  Gametab_Inventory = 52;
-  Gametab_WornEquipment = 53;
-  Gametab_Prayer = 54;
-  Gametab_Magic = 55;
+  Gametab_ClanChat = 26;
+  Gametab_FriendsList = 27;
+  Gametab_IgnoreList = 28;
+  Gametab_Logout = 29;
+  Gametab_Options = 30;
+  Gametab_Emotes = 31;
+  Gametab_MusicPlayer = 32;
+  Gametab_CombatOptions = 50;
+  Gametab_Stats = 51;
+  Gametab_QuestList = 52;
+  Gametab_Inventory = 53;
+  Gametab_WornEquipment = 54;
+  Gametab_Prayer = 55;
+  Gametab_Magic = 49;
 
   {$IFNDEF AL}
     {Skills}
