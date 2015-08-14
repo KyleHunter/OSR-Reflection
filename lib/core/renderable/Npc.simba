@@ -51,7 +51,7 @@ var
   Line: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 6755) then
+  if not InRange(Id, 0, Definition_NPCs_Length) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -63,7 +63,7 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 6755) then
+  if not InRange(Id, 0, Definition_NPCs_Length) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Temp := Between('''actions'': [', ']', Line);
@@ -77,7 +77,7 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 6755) then
+  if not InRange(Id, 0, Definition_NPCs_Length) then
     Exit;
   Line := NpcCache.GetStrings(Id);
   Result := StrToInt(Between('combatLevel'': ', ',', Line));

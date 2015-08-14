@@ -36,7 +36,7 @@ var
   _Id: Integer;
 begin
   _Id := Self.GetId;
-  if not InRange(_Id, 0, 13202) then
+  if not InRange(_Id, 0, Definition_Items_Length) then
     Exit;
   Line := ItemCache.GetStrings(_Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -48,7 +48,7 @@ var
   _Id: Integer;
 begin
   _Id := Self.GetId;
-  if not InRange(_Id, 0, 13202) then
+  if not InRange(_Id, 0, Definition_Items_Length) then
     Exit;
   Line := ItemCache.GetStrings(_Id);
   Temp := Between('''actions'': [''', ']', Line);
@@ -62,7 +62,7 @@ var
   _Id: Integer;
 begin
   _Id := Self.GetId;
-  if not InRange(_Id, 0, 13202) then
+  if not InRange(_Id, 0, Definition_Items_Length) then
     Exit;
   Line := ItemCache.GetStrings(_Id);
   Temp := Between('''groundActions'': [''', ']', Line);
@@ -76,7 +76,7 @@ var
   _Id: Integer;
 begin
   _Id := Self.GetId;
-  if not InRange(_Id, 0, 13202) then
+  if not InRange(_Id, 0, Definition_Items_Length) then
     Exit;
   Line := ItemCache.GetStrings(_Id);
   Result := StrToInt(Between('highAlchValue'': ', '}', Line));
@@ -118,7 +118,7 @@ begin
   begin
     _Id := Reflect.Smart.GetFieldInt(
       HookCache[ckGroundList][Start + Iteration + 1], Item_Id);
-    if (_Id < 0) or (_Id > 13202) then
+    if (_Id < 0) or (_Id > Definition_Items_Length) then
       Break;
     Temp[Iteration]._Id := _Id;
     Temp[Iteration]._Tile.X := _Tile.X + BaseX;
@@ -153,7 +153,7 @@ begin
     HighX := 103;
   if HighY > 103 then
     HighY := 103;
-  SetLength(Self, 10817);
+  SetLength(Self, Definition_Items_Length);
   for X := Position.X - Distance to HighX do
     for Y := Position.Y - Distance to HighY do
     begin

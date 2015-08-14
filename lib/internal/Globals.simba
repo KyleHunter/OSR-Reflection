@@ -198,6 +198,11 @@ var
 
 const
 
+{Definitions length}
+   Definition_Items_Length = 13202;
+   Definition_Objects_Length = 26874;
+   Definition_NPCs_Length = 6755;
+
 {Gametab}
 
   Gametab_ClanChat = 26;
