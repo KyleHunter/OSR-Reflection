@@ -67,7 +67,7 @@ var
   Line: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 26873) then
+  if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
   Line := ObjectCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
@@ -79,7 +79,7 @@ var
   Line: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 26873) then
+  if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
   Line := ObjectCache.GetStrings(Id);
   Result := StrToInt(Between('height'': ', ',', Line));
@@ -91,7 +91,7 @@ var
   Line, Temp: string;
 begin
   Id := Self.GetId;
-  if not InRange(Id, 0, 26873) then
+  if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
   Line := ObjectCache.GetStrings(Id);
   SetLength(Result, 5);
@@ -165,7 +165,7 @@ begin
     HighX := 103;
   if HighY > 103 then
     HighY := 103;
-  SetLength(Self, 10817);
+  SetLength(Self, Definition_Objects_Length);
   for X := Position.X - Distance to HighX do
     for Y := Position.Y - Distance to HighY do
     begin
