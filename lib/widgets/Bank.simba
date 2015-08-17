@@ -234,6 +234,7 @@ var
   BankChild, AmountWidget, SearchWidget: TReflectWidget;
   TimeOut: TReflectTimer;
   Center: TPoint;
+  ShowingItems: String;
 begin
   if (not Reflect.Bank.IsOpen) or (Self._Id = 0) then
     Exit(False);
@@ -243,10 +244,29 @@ begin
     Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount)
   else
   begin
-    SearchWidget.GetWidget(12, 25);
-    SearchWidget.Interact(5);
-    SearchWidget.Free;
-    Wait(RandomRange(200, 500));
+    ShowingItems := Reflect.Widget.GetText(12, 4);
+    if Not (Pos('Showing items', ShowingItems) > 0)then
+    begin
+      SearchWidget.GetWidget(12, 25);
+      SearchWidget.Interact(5);
+      SearchWidget.Free;
+    end else
+    begin
+      ShowingItems := Between('<col=ff0000>', '</col>', ShowingItems);
+      if (Length(ShowingItems) > 1)then
+      while (Length(ShowingItems) > 1) do
+      begin
+        Reflect.Keyboard.TypeKey(Vk_Back);
+        Wait(Random(30, 120));
+        ShowingItems := Between('<col=ff0000>',
+                                '</col>', Reflect.Widget.GetText(12, 4));
+      end;
+    end;
+    TimeOut.Start;
+    repeat
+      Wait(RandomRange(200, 500));
+    until(TimeOut.ElapsedTime > 4000)or
+         (Pos('Showing items', Reflect.Widget.GetText(12, 4)) > 0);
     L = 1;
     while ((BankChild.IsHidden) or
       (not PointInBox(Center,[22, 80, 480, 292]))) do
@@ -259,6 +279,8 @@ begin
       Inc(L);
     end;
     Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount);
+    If Result then
+      Wait(100+Random(150));
   end;
 end;
 
