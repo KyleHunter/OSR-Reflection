@@ -27,7 +27,7 @@ end;
 
 function TReflectionLogin.GetClientState: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(0, Client_LoginState);
+  Result := (Reflect.Smart.GetFieldInt(0, Client_LoginState) + 1) * 10;
 end;
 
 function TReflectionLogin.AtLogin: Boolean;
