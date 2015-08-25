@@ -6,9 +6,9 @@ begin
   FreeW := [301, 308, 316, 326, 335, 381, 382, 383, 384, 385, 393, 394];
   MembW := [302, 303, 304, 305, 306, 309, 310, 311, 312, 313, 314, 317,
             318, 319, 320, 321, 322, 327, 328, 329, 330, 333, 334, 336,
-            338, 341, 342, 343, 344, 345, 346, 349, 350, 351, 353, 354,
-            357, 358, 359, 360, 361, 362, 365, 366, 367, 368, 369, 370,
-            373, 374, 375, 376, 377, 378, 386];
+            338, 341, 342, 343, 344, 345, 346, 349, 350, 351, 352, 353,
+            354, 357, 358, 359, 360, 361, 362, 365, 366, 367, 368, 369,
+            370, 373, 374, 375, 376, 377, 378, 386];
   If Members then
     Result := MembW
   else
@@ -70,24 +70,24 @@ end;
 
 function TReflectionLogin.SelectWorld(World: Integer): Boolean;
 const
-  Worlds: TIntegerArray = [301, 321, 345, 370,
-                           302, 322, 346, 373,
-                           303, 325, 349, 374,
-                           304, 326, 350, 375,
-                           305, 327, 351, 376,
-                           306, 328, 353, 377,
-                           308, 329, 354, 378,
-                           309, 330, 357, 381,
-                           310, 333, 358, 382,
-                           311, 334, 359, 383,
-                           312, 335, 360, 384,
-                           313, 336, 361, 385,
-                           314, 337, 362, 386,
-                           316, 338, 365, 393,
-                           317, 341, 366, 394,
-                           318, 342, 367, -1,
-                           319, 343, 368, -1,
-                           320, 344, 369, -1];
+  Worlds: TIntegerArray = [301, 321, 345, 369,
+                           302, 322, 346, 370,
+                           303, 325, 349, 373,
+                           304, 326, 350, 374,
+                           305, 327, 351, 375,
+                           306, 328, 352, 376,
+                           308, 329, 353, 377,
+                           309, 330, 354, 378,
+                           310, 333, 357, 381,
+                           311, 334, 358, 382,
+                           312, 335, 359, 383,
+                           313, 336, 360, 384,
+                           314, 337, 361, 385,
+                           316, 338, 362, 386,
+                           317, 341, 365, 393,
+                           318, 342, 366, 394,
+                           319, 343, 367, -1,
+                           320, 344, 368, -1];
 var
   I: Integer;
   T: TReflectTimer;
@@ -106,25 +106,38 @@ end;
 function TReflectionLogin.GetLoginState: Integer;
 var
   ColorCount: Integer;
+  T: TReflectTimer;
 begin
   Result := -1;
   case Reflect.Login.GetClientState of
-    10:
+    10, 30:
     begin
       ColorCount := CountColor(Login_Text_Yellow, 304, 237, 460, 256);
       If (ColorCount = 479) then
         Exit(Login_ExistingUser);
       ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
       case ColorCount of
+        407:
+        begin
+          T.Restart;
+          repeat
+            ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
+            If InIntArray([799, 863, 738, 1539, 1073, 492, 1721, 906,
+                           1227, 1231, 1136, 777, 1700, 1666, 1783, 439, 210],
+                           ColorCount)then
+              Break;
+          until(T.ElapsedTime > 8000)or(Reflect.Login.AtLobby);
+          Wait(300+Random(300));
+        end;
         799, 863: Result := Login_EnterUser;
         738, 1539, 1073, 492, 1721, 906, 1227,
-        1231, 1136, 777, 1700, 1666, 1783, 439, 210: Result := Login_Problems;
+        1231, 1053, 1017, 1037, 1022, 1136, 777,
+        1700, 1666, 1783, 439, 210: Result := Login_Problems;
       end;
+      If Reflect.Login.AtLobby and (Result < 0) then
+        Result := Login_ClickToPlay;
     end;
-    20: Result := Login_Connecting;
-    30:
-    If Reflect.Login.AtLobby then
-      Result := Login_ClickToPlay;
+    20: Result := Login_Problems;
   end;
 end;
 
@@ -176,7 +189,6 @@ begin
       Wait(15000+Random(10000));
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
     end;
-
     1721: {Too many incorrect logins}
     begin
       Reflect.Logger.Warn('Too many incorrect logins, waiting for 5 minutes');
@@ -189,7 +201,7 @@ begin
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
       Wait(RandomRange(1000, 2000));
     end;
-    492, 1231, 1666: {World change}
+    492, 1053, 1017, 1037, 1022, 1231, 1666: {World change}
     begin
       Reflect.Logger.Warn('Changing world.');
       Reflect.Mouse.Move(IntToBox(5, 465, 105, 495), Mouse_Left);
@@ -263,7 +275,8 @@ var
   CurState, Tries: Integer;
   T, TLogged: TReflectTimer;
 begin
-  If (Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby) then
+  If (Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby) and
+     (Reflect.Login.GetLoginState = -1) then
     Exit(True);
   repeat
     CurState := Reflect.Login.GetLoginState;
@@ -282,7 +295,10 @@ begin
         TLogged.Start;
         repeat
           Wait(RandomRange(100, 200));
-        until(TLogged.ElapsedTime > 3000)or((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
+        until(TLogged.ElapsedTime > 3000)or
+             ((Reflect.Login.GetClientState = 30) and
+             (Not Reflect.Login.AtLobby) and
+             (Reflect.Login.GetLoginState = -1));
       end;
       else
         Wait(RandomRange(100, 200));
@@ -291,6 +307,10 @@ begin
       While(not CurState = Reflect.Login.GetLoginState + 1) and
            (T.ElapsedTime < 5000) do
         Wait(RandomRange(100, 200));
-  until(Tries > 30)or((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
-  Result := ((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
+  until(Tries > 30)or((Reflect.Login.GetClientState = 30) and
+       (Not Reflect.Login.AtLobby) and
+       (Reflect.Login.GetLoginState = -1));
+  Result := ((Reflect.Login.GetClientState = 30) and
+            (Not Reflect.Login.AtLobby) and
+            (Reflect.Login.GetLoginState = -1));
 end;
