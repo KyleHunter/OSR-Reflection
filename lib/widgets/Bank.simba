@@ -285,10 +285,8 @@ begin
 end;
 
 function TReflectionBank.IsOpen: Boolean;
-var
-  BankWidget : TReflectWidget;
 begin
-  Result := BankWidget.Exists(Widget_Bank_Container, 0);
+  Result := (Length(Reflect.Widget.GetText(Widget_Bank_Container, 5)) > 0);
 end;
 
 function TReflectionBank.ItemCount: Integer;
