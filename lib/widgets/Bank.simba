@@ -290,6 +290,7 @@ var
 begin
   W.GetWidget(Widget_Bank_Container, 24);
   Result := (W.GetBounds.X2 > MSX1);
+  W.Free;
 end;
 
 function TReflectionBank.ItemCount: Integer;
