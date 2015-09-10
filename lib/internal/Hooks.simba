@@ -121,8 +121,8 @@ const
  Client_CurrentLevels: THook =        ['client.hz', 1];
  Client_RealLevels: THook =           ['client.hd', 1];
  Client_Experiences: THook =          ['client.hu', 1];
- Client_Energy: THook =               ['client.n', 622074983];
- Client_Weight: THook =               ['client.jh', 2064875789];
+ Client_Energy: THook =               ['client.jh', 2064875789];
+ Client_Weight: THook =               ['client.n', 622074983];
  Client_Rights: THook =               ['client.m', -488599663];
  Client_CurrentWorld: THook =         ['client.af', -1302201703];
  Client_LoginState: THook =           ['client.r', 935215971];
