@@ -214,7 +214,7 @@ begin
       Reflect.Logger.Warn('Changing world.');
       Reflect.Mouse.Move(IntToBox(5, 465, 105, 495), Mouse_Left);
       Wait(RandomRange(500, 700));
-      if Reflect.Login.SelectWorld(RandomWorld(False)) then
+      if Reflect.Login.SelectWorld(RandomWorld(True)) then
         Wait(RandomRange(550, 650));
     end;
   end;
