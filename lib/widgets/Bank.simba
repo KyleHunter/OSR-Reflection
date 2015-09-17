@@ -56,8 +56,7 @@ end;
 
 function TReflectBankItem.GetQuantity: Integer;
 begin
-  Result := Reflect.Smart.GetFieldArrayInt(Self.Reference,
-    Widget_StackSizes, Self._Slot - 1);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ItemAmount);
 end;
 
 function TReflectBankItem.GetId: Integer;
@@ -89,6 +88,7 @@ begin
     Temp[I]._Id := BankChild.GetItemId;
     HookCache[ckBankItems][I] := BankChild.Reference;
     Temp[I].Reference := BankChild.Reference;
+    Temp[I]._Slot := I;
   end;
   Self := Temp;
   BankWidget.Free;
