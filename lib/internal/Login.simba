@@ -50,7 +50,7 @@ end;
 
 function TReflectionLogin.OpenWorldSelector: Boolean;
 const
-  ClickSwitchButton: Tbox = [5, 465, 105, 495];
+  ClickSwitchButton: TBox = [5, 465, 105, 495];
 var
   T: TReflectTimer;
   Tries: Integer;
@@ -65,6 +65,26 @@ begin
     T.Start;
     while (not Result) and (T.ElapsedTime < 5000) do
       Result := Reflect.Login.AtWorldScreen;
+  until(Result)or(Tries > 4);
+end;
+
+function TReflectionLogin.ExitWorldSelector: Boolean;
+const
+  ClickCancelButton: TBox = [709, 4, 753, 16];
+var
+  T: TReflectTimer;
+  Tries: Integer;
+begin
+  if not Reflect.Login.AtWorldScreen then
+    Exit(True);
+  repeat
+    if not Reflect.Login.AtWorldScreen then
+      Exit(True);
+    Inc(Tries);
+    Reflect.Mouse.Move(ClickCancelButton, Mouse_Left);
+    T.Start;
+    while (not Result) and (T.ElapsedTime < 5000) do
+      Result := (not Reflect.Login.AtWorldScreen);
   until(Result)or(Tries > 4);
 end;
 
@@ -266,6 +286,8 @@ var
 begin
   If (Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby) then
     Exit(True);
+  If Self.ExitWorldSelector then
+    Wait(500+Random(700));
   repeat
     CurState := Reflect.Login.GetLoginState;
     If CurState = -1 then
