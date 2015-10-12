@@ -1,7 +1,7 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 18;
+  IncludeRevision = 19;
   SubRev = 0;
 {$i reflection/lib/internal/Includes.simba}
 
