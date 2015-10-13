@@ -30,12 +30,12 @@ const
  LinkedList_Current: THook =          ['d', 1];
 
 {Actor = aq}
- Actor_Animation: THook =             ['g', 1];
+ Actor_Animation: THook =             ['bh', -464776311];
  Actor_QueueX: THook =                ['null', 1];
  Actor_QueueY: THook =                ['null', 1];
  Actor_QueueSize: THook =             ['null', 1];
- Actor_WorldX: THook =                ['g', -2143802331];
- Actor_WorldY: THook =                ['w', -1941929461];
+ Actor_WorldX: THook =                ['i', -1453400901];
+ Actor_WorldY: THook =                ['ah', -1718522929];
  Actor_SpokenText: THook =            ['ak', 1];
  Actor_CombatCycle: THook =           ['ad', -466433893];
  Actor_Health: THook =                ['ag', 861750411];
