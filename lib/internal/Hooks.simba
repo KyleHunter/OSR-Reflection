@@ -33,7 +33,7 @@ const
  Actor_Animation: THook =             ['o', 1];
  Actor_QueueX: THook =                ['cw', 1];
  Actor_QueueY: THook =                ['ch', 1];
- Actor_QueueSize: THook =             ['null', 1];
+ Actor_QueueSize: THook =             ['ci', 670841649];
  Actor_WorldX: THook =                ['q', 1938631351];
  Actor_WorldY: THook =                ['ak', -236469231];
  Actor_SpokenText: THook =            ['ay', 1];
