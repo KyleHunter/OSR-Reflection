@@ -75,8 +75,9 @@ begin
 end;
 
 {$IFNDEF Aerolib}
-  {$loadlib prosocks}
+  {$include reflection/lib/misc/prosocks.simba}
 {$ENDIF}
+
 Function TReflectionMisc.GetPage(Url: string): string;
 var
   S: SSLSocket;
