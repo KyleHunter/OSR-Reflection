@@ -1,4 +1,1 @@
 {$loadlib prosocks}
-
-begin
-end.
