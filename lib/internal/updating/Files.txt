@@ -107,3 +107,5 @@
 (Reflection\Lib\Core\input\Keyboard.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Keyboard.simba)
 
+(Reflection\lib\Lib\Misc\Prosocks.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/prosocks.simba)
