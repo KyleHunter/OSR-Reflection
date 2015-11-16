@@ -30,16 +30,26 @@ begin
   end;
 end;
 
-function TReflectionTiles.GetGlobalTile: TTile;
+function TReflectionTiles.GetBase: TTile;
+begin
+  Result.X := Reflect.Smart.GetFieldInt(0, Client_BaseX);
+  Result.Y := Reflect.Smart.GetFieldInt(0, Client_BaseY);
+end;
+
+function TReflectionTiles.GetLocalTile: TTile;
 var
   Me: TReflectPointer;
 begin
   Me.GetFieldObject(0, Client_LocalPlayer);
-  Result.X := Reflect.Smart.GetFieldInt(0, Client_BaseX) +
-    Reflect.Smart.GetFieldInt(Me.Reference, Actor_WorldX) div 128;
-  Result.Y:= Reflect.Smart.GetFieldInt(0, Client_BaseY) +
-    Reflect.Smart.GetFieldInt(Me.Reference, Actor_WorldY) div 128;
+  Result.X := Me.GetFieldInt(Actor_WorldX);
+  Result.Y:= Me.GetFieldInt(Actor_WorldY);
   Me.Free;
+end;
+
+function TReflectionTiles.GetGlobalTile: TTile;
+begin
+  Result.X := Self.GetBase.X + Self.GetLocalTile.X div 128;
+  Result.Y := Self.GetBase.Y + Self.GetLocalTile.Y div 128;
 end;
 
 function TReflectionTiles.GetPlane: Integer;
@@ -67,10 +77,10 @@ var
 begin
   if (Tile.X > 100000) or (Tile.X < -100000) or (Tile.Y > 100000) or
     (Tile.Y < -100000) then
-    Exit;
+    Exit(-1);
   Loc := Reflect.Tiles.GetGlobalTile;
   Result :=  Distance(Tile.X, Tile.Y, Loc.X, Loc.Y);
-end;  
+end;
 
 function TReflectionTiles.NearTile(Tile: TTile; Dist: Integer): Boolean;
 begin
@@ -95,18 +105,58 @@ begin
   end;
 end;
 
-	{*Credit BenLand100, modified by Krazy_Meerkat*}
-function TReflectionTiles.TileToMM(Tile: TTile): TPoint;
-var
-  Angle, X, Y: extended;
-  Temp: TTile;
+function TReflectionTiles._GetMapScale: Integer;
 begin
-  Angle := -Reflect.Compass.AngleRad;
-  Temp := Reflect.Tiles.GetGlobalTile;
-  X := (Tile.X - Temp.X) * 4 - 2;
-  Y := (Temp.Y - Tile.Y) * 4 - 2;
-  Result.X := Round((X * Cos(Angle)) + (Y * Sin(Angle))) + 643;
-  Result.Y := Round((Y * Cos(angle)) - (X * Sin(Angle))) + 83;
+  Result := Reflect.Smart.GetFieldInt(0, Client_MapScale);
+end;
+
+function TReflectionTiles._GetMapOffset: Integer;
+begin
+  Result :=Reflect.Smart.GetFieldInt(0, Client_MapOffset);
+end;
+
+function TReflectionTiles._GetMapAngle: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_MapAngle);
+end;
+
+function TReflectionTiles._GetRealMapAngle: Integer;
+begin
+  Result := Self._GetMapOffset + Self._GetMapAngle and $7FF;
+end;
+
+	{*Credit Dgby714*}
+function Ashr(X: Integer; D: Byte): Integer;
+var
+  Bit: Integer;
+  I: Integer;
+begin
+  Bit := (1 shl 31) and X;
+  Result := X;
+  for I := 1 to D do
+    Result := (Result shr 1) or Bit;
+end;
+
+function TReflectionTiles.TileToMM(tile: TPoint): TPoint;
+var
+  X, Y, Scale, Offset, Angle, _Sin, _Cos: Integer;
+  CurrTile: TTile;
+begin
+  CurrTile := Self.GetLocalTile;
+  X := Floor(((Tile.X - Self.GetBase.X) * 4 + 2) - CurrTile.X / 32);
+  Y := Floor(((Tile.Y - Self.GetBase.Y) * 4 + 2) - CurrTile.Y / 32);
+  if (X * X + Y * Y > 6400) then
+  begin
+    Exit(Point(-1, -1));
+    WriteLn(X*X*Y*Y);
+    TerminateScript;
+  end;
+  Angle := Self._GetRealMapAngle;
+  Scale := Self._GetMapScale + 256;
+  _Sin := Floor((CurveSin[angle] * 256) / Scale);
+  _Cos := Floor((CurveCos[angle] * 256) / Scale);
+  Result.X := 643 + Ashr(X * _Cos + Y * _Sin, 16);
+  Result.Y := 83 - Ashr(Y * _Cos - X * _Sin, 16);
 end;
 
 	{*Credit BenLand100, modified by Brandon*}
@@ -133,18 +183,6 @@ begin
   + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
     CurPlane, X + 1, Y + 1);
   Result := - Result div 4;
-end;
-
-	{*Credit Dgby714*}
-function Ashr(X: Integer; D: Byte): Integer;
-var
-  Bit: Integer;
-  I: Integer;
-begin
-  Bit := (1 shl 31) and X;
-  Result := X;
-  for I := 1 to D do
-    Result := (Result shr 1) or Bit;
 end;
 
 	{*Credit Frement*}
