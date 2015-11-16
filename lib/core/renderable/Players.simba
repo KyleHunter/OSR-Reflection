@@ -76,3 +76,8 @@ begin
   Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
 end;
 
+function TReflectPlayer.GetCombatLevel: integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Player_CombatLevel);
+end;
+

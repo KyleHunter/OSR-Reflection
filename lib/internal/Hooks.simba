@@ -84,6 +84,7 @@ const
 {Player = q}
  Player_Definition: THook =           ['e', 1];
  Player_Name: THook =                 ['l', 1];
+ Player_CombatLevel: THook =          ['b', -266006439];
 
 {Client = client}
  Client_LoopCycle: THook =            ['client.a', 1600591593];

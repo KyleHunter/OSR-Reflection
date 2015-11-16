@@ -1,4 +1,4 @@
 [Reflection]
  Update # 21[Bugs]: Fixes Energy/Weight Hooks
-  [Improvements]: Adds Proper TileToMM method
+  [Improvements]: Adds Proper TileToMM method and TReflectPlayer.GetCombatLevel
 [End]
