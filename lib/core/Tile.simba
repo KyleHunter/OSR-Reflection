@@ -148,15 +148,23 @@ begin
   if (X * X + Y * Y > 6400) then
   begin
     Exit(Point(-1, -1));
-    WriteLn(X*X*Y*Y);
-    TerminateScript;
   end;
   Angle := Self._GetRealMapAngle;
   Scale := Self._GetMapScale + 256;
-  _Sin := Floor((CurveSin[angle] * 256) / Scale);
-  _Cos := Floor((CurveCos[angle] * 256) / Scale);
+  _Sin := Floor((Self.GetSin(angle) * 256) / Scale);
+  _Cos := Floor((Self.GetCosin(angle) * 256) / Scale);
   Result.X := 643 + Ashr(X * _Cos + Y * _Sin, 16);
   Result.Y := 83 - Ashr(Y * _Cos - X * _Sin, 16);
+end;
+
+function TReflectionTiles.GetSin(Degree: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Sine, Degree);
+end;
+
+function TReflectionTiles.GetCosin(Degree: Integer): Integer;
+begin
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Cosine, Degree);
 end;
 
 	{*Credit BenLand100, modified by Brandon*}
@@ -203,10 +211,10 @@ begin
   Z := Z - Reflect.Compass.CameraZ;
   CurveX := Reflect.Compass.GetYaw;
   CurveY := Reflect.Compass.GetPitch;
-  CurveCosX := CURVECOS[Floor(CurveX)];
-  CurveCosY := CURVECOS[Floor(CurveY)];
-  CurveSinX := CURVESIN[Floor(CurveX)];
-  CurveSinY := CURVESIN[Floor(CurveY)];
+  CurveCosX := Reflect.Tiles.GetCosin(Floor(CurveX));
+  CurveCosY := Reflect.Tiles.GetCosin(Floor(CurveY));
+  CurveSinX := Reflect.Tiles.GetSin(Floor(CurveX));
+  CurveSinY := Reflect.Tiles.GetSin(Floor(CurveY));
   TempCalculation := Ashr(Round((CurveCosX * X) + (Y * CurveSinX)), 16);
   Y := Ashr(Round((Y * CurveCosX) - (X * CurveSinX)), 16);
   X := Round(TempCalculation);

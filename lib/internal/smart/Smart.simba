@@ -103,6 +103,7 @@ begin
     JavaString:= 'java.exe'
   else
     JavaString:= 'javaw.exe';
+
   Self.Target := SmartSpawnClient(JavaString, StringReplace(PluginPath, '\',
     '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
     'j1', Width, Height, '', UserAgent, '', '');
