@@ -191,16 +191,14 @@ end;
 function TReflectLocalPlayer.WalkToTileMS(Tile: TTile): Boolean;
 var
   Point: TPoint;
-  X, Y: Integer;
   Timer: TReflectTimer;
 begin
-  if not isLoggedIn then
+  if not IsLoggedIn then
     Exit;
   Point := Reflect.Tiles.TileToMS(Tile);
-  if (Point.X = -1) and (Point.Y = -1) then
+  if (Point.X = -1) or (Point.Y = -1) then
     Exit;
   Reflect.Mouse.Move(Point, 0, 0);
-  GetMousePos(X, Y);
   if Reflect.Text.IsUpText('Walk here', 50) then
     Reflect.Mouse.Click(Mouse_Left)
   else
@@ -210,8 +208,14 @@ begin
     if not Reflect.Text.ChooseOption('Walk here') then
       Reflect.Text.ChooseOption('Cancel')
   end;
-  Wait(RandomRange(120, 180));
   Timer.Start;
+  while not Self.IsMoving do
+  begin
+    if Timer.ElapsedTime > 2500 then
+      Break;
+    Wait(150);
+  end;
+  Timer.Restart;
   while Self.IsMoving do
     Wait(250);
   Result := Timer.ElapsedTime < 30000;
