@@ -122,7 +122,7 @@ end;
 
 function TReflectionTiles._GetRealMapAngle: Integer;
 begin
-  Result := Self._GetMapOffset + Self._GetMapAngle and $7FF;
+  Result := Abs(Self._GetMapOffset + Self._GetMapAngle and $7FF);
 end;
 
 	{*Credit Dgby714*}
@@ -146,9 +146,7 @@ begin
   X := Floor(((Tile.X - Self.GetBase.X) * 4 + 2) - CurrTile.X / 32);
   Y := Floor(((Tile.Y - Self.GetBase.Y) * 4 + 2) - CurrTile.Y / 32);
   if (X * X + Y * Y > 6400) then
-  begin
     Exit(Point(-1, -1));
-  end;
   Angle := Self._GetRealMapAngle;
   Scale := Self._GetMapScale + 256;
   _Sin := Floor((Self.GetSin(angle) * 256) / Scale);
@@ -167,7 +165,6 @@ begin
   Result := Reflect.Smart.GetFieldArrayInt(0, Client_Cosine, Degree);
 end;
 
-	{*Credit BenLand100, modified by Brandon*}
 function TReflectionTiles.GetTileHeight(Tile: TTile): Integer;
 var
   X, Y, CurPlane, GroundSetting: Integer;
@@ -175,25 +172,16 @@ begin
   X := Tile.X - Reflect.Smart.GetFieldInt(0, Client_BaseX);
   Y := Tile.Y - Reflect.Smart.GetFieldInt(0, Client_BaseY);
   if ((X < 0) or (X > 104) or (Y < 0) or (Y > 104)) then
-  begin
-    Result := 0;
-    Exit;
-  end;
+    Exit(0);
   CurPlane := Reflect.Smart.GetFieldInt(0, Client_Plane);
   GroundSetting := Reflect.Smart.GetFieldArray3DByte(0,
     Client_TileSettings, 1, X, Y);
   if ((CurPlane < 3) and ((GroundSetting and 2) <> 0)) then
     CurPlane := CurPlane + 1;
-  Result := Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
-    CurPlane, X, Y)
-  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights, CurPlane, X + 1, Y)
-  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights, CurPlane, X, Y + 1)
-  + Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
-    CurPlane, X + 1, Y + 1);
-  Result := - Result div 4;
+  Result := -Reflect.Smart.GetFieldArray3DInt(0, Client_TileHeights,
+    CurPlane, X, Y);
 end;
 
-	{*Credit Frement*}
 function TReflectionInternals.TileToMS(X, Y, Height: Extended): TPoint;
 var
   Z, CurveX, CurveY, CurveCosX, CurveCosY, CurveSinX, CurveSinY: Extended;
@@ -201,10 +189,7 @@ var
   CalculatedScreenPosX, CalculatedScreenPosY: Integer;
 begin
   if (X < 128) or (Y < 128) or (X > 13056) or (Y > 13056) then
-  begin
-    Result := Point(-1, -1);
-    Exit;
-  end;
+    Exit(Point(-1, -1));
   Z := -Height;
   X := X - Reflect.Compass.CameraX;
   Y := Y - Reflect.Compass.CameraY;
@@ -222,15 +207,13 @@ begin
   Y := Ashr(Round((Z * CurveSinY) - ((-CurveCosY) * Y)), 16);
   Z := Round(TempCalculation);
   if (Y < 50) then
-  begin
-    Result := Point(-1, -1);
-    Exit;
-  end else
+    Exit(Point(-1, -1))
+  else
   begin
     CalculatedScreenPosX := Round((((Floor(X) shl 9) / Y)));
     IncEx(CalculatedScreenPosX, 256);
     CalculatedScreenPosY := Round((((Floor(Z) shl 9) / Y)));
-    IncEx(CalculatedScreenPosY, 167);
+    IncEx(CalculatedScreenPosY, 170);
     Result := Point(CalculatedScreenPosX, CalculatedScreenPosY);
   end;
 end;
