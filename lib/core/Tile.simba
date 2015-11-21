@@ -25,8 +25,8 @@ begin
   SetLength(CURVESIN, 2048);
   SetLength(CURVECOS, 2048);
   for I := 0 to 2047 do begin
-    CURVESIN[I] := Round(65536.0 * Sin(I * 0.0030679614999999999));
-    CURVECOS[I] := Round(65536.0 * Cos(I * 0.0030679614999999999));
+    CURVESIN[I] := Trunc(65536.0 * Sin(I * 0.0030679615));
+    CURVECOS[I] := Trunc(65536.0 * Cos(I * 0.0030679615));
   end;
 end;
 
@@ -149,8 +149,8 @@ begin
     Exit(Point(-1, -1));
   Angle := Self._GetRealMapAngle;
   Scale := Self._GetMapScale + 256;
-  _Sin := Floor((Self.GetSin(angle) * 256) / Scale);
-  _Cos := Floor((Self.GetCosin(angle) * 256) / Scale);
+  _Sin := Floor((CURVESIN[angle] * 256) / Scale);
+  _Cos := Floor((CURVECOS[angle] * 256) / Scale);
   Result.X := 643 + Ashr(X * _Cos + Y * _Sin, 16);
   Result.Y := 83 - Ashr(Y * _Cos - X * _Sin, 16);
 end;
@@ -196,10 +196,10 @@ begin
   Z := Z - Reflect.Compass.CameraZ;
   CurveX := Reflect.Compass.GetYaw;
   CurveY := Reflect.Compass.GetPitch;
-  CurveCosX := Reflect.Tiles.GetCosin(Floor(CurveX));
-  CurveCosY := Reflect.Tiles.GetCosin(Floor(CurveY));
-  CurveSinX := Reflect.Tiles.GetSin(Floor(CurveX));
-  CurveSinY := Reflect.Tiles.GetSin(Floor(CurveY));
+  CurveCosX := CURVECOS[Floor(CurveX)];
+  CurveCosY := CURVECOS[Floor(CurveY)];
+  CurveSinX := CURVESIN[Floor(CurveX)];
+  CurveSinY := CURVESIN[Floor(CurveY)];
   TempCalculation := Ashr(Round((CurveCosX * X) + (Y * CurveSinX)), 16);
   Y := Ashr(Round((Y * CurveCosX) - (X * CurveSinX)), 16);
   X := Round(TempCalculation);
