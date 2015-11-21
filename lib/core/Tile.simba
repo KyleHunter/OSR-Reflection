@@ -122,7 +122,7 @@ end;
 
 function TReflectionTiles._GetRealMapAngle: Integer;
 begin
-  Result := Abs(Self._GetMapOffset + Self._GetMapAngle and $7FF);
+  Result := (Self._GetMapOffset + Self._GetMapAngle) and $7FF;
 end;
 
 	{*Credit Dgby714*}
@@ -149,8 +149,8 @@ begin
     Exit(Point(-1, -1));
   Angle := Self._GetRealMapAngle;
   Scale := Self._GetMapScale + 256;
-  _Sin := Floor((CURVESIN[angle] * 256) / Scale);
-  _Cos := Floor((CURVECOS[angle] * 256) / Scale);
+  _Sin := Floor((CURVESIN[Angle] * 256) / Scale);
+  _Cos := Floor((CURVECOS[Angle] * 256) / Scale);
   Result.X := 643 + Ashr(X * _Cos + Y * _Sin, 16);
   Result.Y := 83 - Ashr(Y * _Cos - X * _Sin, 16);
 end;

@@ -118,8 +118,8 @@ const
  Client_NpcIndices: THook =          ['client.cw', 1];
  Client_CrossHairColor: THook =      ['client.ge', -223353809];
  Client_MapAngle: THook =            ['client.fr', 1361712145];
- Client_MapOffset: THook =           ['client.ex', 1671874609];
- Client_MapScale: THook =            ['client.ea', 2122694301];
+ Client_MapScale: THook =            ['client.ex', 1671874609];
+ Client_MapOffset: THook =           ['client.ea', 2122694301];
  Client_CameraPitch: THook =         ['w.ft', 1926067081];
  Client_Sine: THook =                ['cr.ai', 1];
  Client_Cosine: THook =              ['cr.am', 1];
@@ -193,3 +193,4 @@ const
 {Item: as}
  Item_ID: THook =                    ['j', -1494914441];
  Item_StackSizes: THook =            ['m', -748024123];
+
