@@ -86,14 +86,14 @@ const
 
 {Client: client}
  Client_LoopCycle: THook =           ['client.u', 2011978051];
+ Client_MenuCount: THook =           ['client.hg', -722821545];
+ Client_MenuWidth: THook =           ['di.hy', -667825555];
+ Client_MenuHeight: THook =          ['j.hs', -1704812811];
+ Client_MenuOptions: THook =         ['client.is', 1];
+ Client_MenuActions: THook =         ['client.ib', 1];
  Client_IsMenuOpen: THook =          ['client.hn', 1];
  Client_MenuX: THook =               ['fq.hk', 1864941913];
  Client_MenuY: THook =               ['ew.hv', -286375839];
- Client_MenuHeight: THook =          ['di.hy', -667825555];
- Client_MenuCount: THook =           ['client.hg', -722821545];
- Client_MenuWidth: THook =           ['j.hs', -1704812811];
- Client_MenuActions: THook =         ['fc.ej', 1];
- Client_MenuOptions: THook =         ['client.hg', -722821545];
  Client_Region: THook =              ['ch.dt', 1];
  Client_Plane: THook =               ['dq.gy', 2059932605];
  Client_LocalPlayers: THook =        ['client.gt', 1];
