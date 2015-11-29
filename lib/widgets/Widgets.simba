@@ -92,6 +92,16 @@ begin
     Widget_Children, Index);
 end;
 
+procedure TReflectWidget.GetWidget(ContainerIndex, Parent, Child: Integer); overload;
+var
+  ParentWid, ChildWid: TReflectWidget;
+begin
+  ParentWid.GetWidget(ContainerIndex, Parent);
+  ChildWid.GetChild(ParentWid, Child);
+  Self.Reference := ChildWid.Reference;
+  ParentWid.Free;
+end;
+
 function TReflectWidget.GetText: String;
 begin
   Result := Reflect.Smart.GetFieldString(Self.Reference, Widget_Text);

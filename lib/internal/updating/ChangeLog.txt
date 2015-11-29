@@ -1,4 +1,4 @@
 [Reflection]
- Update # 21:[Bugs]: Fixes TileToMs/MM Bug
+ Update # 21:[Bugs]: Fixes Npc Chat functions
   [Improvements]:
 [End]
