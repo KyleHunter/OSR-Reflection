@@ -45,7 +45,7 @@ begin
         149, 160, 162, 163, 216, 218, 387], I)) or (not Wid.Exists(I, J)) then
           Continue;
         Wid.GetWidget(I, J);
-        if (Wid.GetText <> '') then
+        if (Wid.GetText = 'Click here to continue') then
         begin
           Wid.Free;
           SetLength(Result, 2);
@@ -56,7 +56,7 @@ begin
           for K := 0 to 6 do
           begin
             Child.GetChild(Wid, K);
-            if Child.GetText <> '' then
+            if Child.GetText = 'Click here to continue' then
             begin
               Wid.Free;
               Child.Free;
@@ -125,5 +125,5 @@ end;
 
 function TReflectionChat.NpcClickToContinue: Boolean;
 begin
-  Result := Reflect.Chat.NpcChooseOption('continue');
+  Result := Reflect.Chat.NpcChooseOption('Click here to continue');
 end;
