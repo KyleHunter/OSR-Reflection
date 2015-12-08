@@ -225,20 +225,22 @@ function TReflectLocalPlayer.WalkPathMM(
   Path: TTileArray; Reverse: Boolean = False): Boolean;
 var
   I, L, PrevL, Attempts: Integer;
+  TempPath: TTileArray;
 begin
-  if Length(Path) = 0 then
+  TempPath := CopyTPA(Path);
+  if Length(TempPath) = 0 then
     Exit;
   if Reverse then
-    InvertTPA(Path);
+    InvertTPA(TempPath);
   PrevL := -1;
   while not Result do
   begin
-    for I := High(Path) downto L do
+    for I := High(TempPath) downto L do
     begin
-      if Reflect.Map.TileOnMM(Path[I]) and
-        Self.WalkToTileMM(Path[I]) and
+      if Reflect.Map.TileOnMM(TempPath[I]) and
+        Self.WalkToTileMM(TempPath[I]) and
         Self.FFLag(RandomRange(2, 5)) then
-        if (L := I) = High(Path) then
+        if (L := I) = High(TempPath) then
           Exit(True)
         else if I <> PrevL then
         begin
@@ -249,7 +251,7 @@ begin
           Break;
       if I = PrevL then
       begin
-        Reflect.Logger.Warn('Failed to find Tile %s on MM.', [ToStr(Path[I])]);
+        Reflect.Logger.Warn('Failed to find Tile %s on MM.', [ToStr(TempPath[I])]);
         Exit;
       end;
     end;
@@ -261,14 +263,16 @@ function TReflectLocalPlayer.WalkStraightPathMM(
   Path: TTileArray; Reverse: Boolean = False): Boolean;
 var
   I: Integer;
+  TempPath: TTileArray;
 begin
-  if Length(Path) = 0 then
+  TempPath := CopyTPA(Path);
+  if Length(TempPath) = 0 then
     Exit;
   if Reverse then
-    InvertTPA(Path);
-  for I := 0 to High(Path) do
-    if not ((Reflect.Map.TileOnMM(Path[I]) and
-      Self.WalkToTileMM(Path[I])) or Self.BlindWalkMM(Path[I])) then
+    InvertTPA(TempPath);
+  for I := 0 to High(TempPath) do
+    if not ((Reflect.Map.TileOnMM(TempPath[I]) and
+      Self.WalkToTileMM(TempPath[I])) or Self.BlindWalkMM(TempPath[I])) then
       Exit(False);
   Result := True;
 end;

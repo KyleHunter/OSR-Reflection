@@ -58,6 +58,18 @@ begin
     EquipmentWidget.Free;
 end;
 
+function TReflectWornEquipment.GetName: string;
+var
+  Line: string;
+  _Id: Integer;
+begin
+  _Id := Self.Id;
+  if not InRange(_Id, 0, Definition_Items_Length) then
+    Exit;
+  Line := ItemCache.GetStrings(_Id);
+  Result := Between('''name'': ''', ''',', Line);
+end;
+
 procedure TReflectionGametab.RemoveWornEquipment(Slot: Integer);
 var
   EquipmentWidget, EquipmentChild: TReflectWidget;

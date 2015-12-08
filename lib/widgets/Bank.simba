@@ -288,6 +288,8 @@ function TReflectionBank.IsOpen: Boolean;
 var
   W: TReflectWidget;
 begin
+  if not W.Exists(Widget_Bank_Container, 24) then
+    Exit;
   W.GetWidget(Widget_Bank_Container, 24);
   Result := (W.GetBounds.X2 > MSX1);
   W.Free;
