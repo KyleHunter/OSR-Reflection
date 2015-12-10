@@ -112,7 +112,7 @@ const
  Client_CurrentWorld: THook =        ['client.l', -1631311031];
  Client_WidgetNodeCache: THook =     ['client.io', 1];
  Client_TileSettings: THook =        ['w.p', 1];
- Client_TileHeights: THook =         ['w.n', 1];
+ Client_TileHeights: THook =         ['w.d', 1];
  Client_LocalNpcs: THook =           ['client.cv', 1];
  Client_NpcIndices: THook =          ['client.cg', 1];
  Client_CrossHairColor: THook =      ['client.gg', 2051359659];
