@@ -184,7 +184,7 @@ TReflectInvItemArray = array of TReflectInvItem;
       {Worn Equipment}
   type
     TReflectWornEquipment = record(TReflectPointer)
-      EquipSlot, Id: Integer;
+      EquipSlot, Id, Quantity: Integer;
       Name: string;
     end;
   TReflectWornEquipmentArray = Array of TReflectWornEquipment;
@@ -279,6 +279,7 @@ const
         {Logout}
 
   Widget_Logout_Container = 182;
+  Widget_ChangeWorld_Container = 69;
 
         {Options}
 
