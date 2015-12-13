@@ -189,7 +189,6 @@ function TReflectInvItem.GetMSPoint: TPoint;
 begin
   if not InRange(Self._InvSlot, 1, 28) then
     Exit;
-  Reflect.Logger.Warn('Please Replace TReflectInvItem.GetMSPoint with TReflectInvItem.GetPoint');
   Result := Self.GetPoint;
 end;
 

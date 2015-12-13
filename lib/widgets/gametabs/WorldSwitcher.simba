@@ -1,0 +1,64 @@
+
+function TReflectionGametab.SwitchWorld(World: Integer): Boolean;
+var
+  Wid, Child, Wid1, Child1: TReflectWidget;
+  I, X, Y, OldWorld: Integer;
+  Moved: Boolean;
+  Timer, TimeOut: TReflectTimer;
+begin
+  OldWorld := Reflect.Smart.GetFieldInt(0, Client_CurrentWorld);
+  if World = OldWorld then
+    Exit(True);
+  Reflect.GameTab.Open(GameTab_Logout);
+  if Wid.Exists(182, 1) then
+  begin
+    Wid.GetWidget(182, 1);
+    Wid.Interact;
+    Wid.Free;
+    Wait(500);
+  end;
+  Wid.GetWidget(69, 7);
+  for I := 2 to 420 do
+  begin
+    Child.GetChild(Wid, I);
+    if Child.GetText = ToStr(World - 300) then
+    begin
+      Wid1.GetWidget(69, 15);
+      Child1.GetChild(Wid1, 5);
+      Timer.Start;
+      while (Child.GetBounds.X1 = -1) or (Child.GetBounds.Y2 > 443) do
+      begin
+        if Timer.ElapsedTime > 7000 then
+          Exit(False);
+        if not Moved then
+          Reflect.Mouse.Move(Child1.GetBounds);
+        Moved := True;
+        GetMousePos(X, Y);
+        HoldMouse(X, Y, Mouse_Left);
+        Wait(RandomRange(600, 800));
+        ReleaseMouse(X, Y, Mouse_Left);
+      end;
+      Child.Interact;
+      Result := True;
+      Wid1.Free;
+      Child1.Free;
+      TimeOut.Start;
+      Wid.GetWidget(69, 2);
+      while (Wid.GetText <> '') and (StrToInt(Explode(' - ', Wid.GetText)[1]) = OldWorld) and
+        (TimeOut.ElapsedTime < 25000) do
+      begin
+        Wait(50);
+        Wid.Free;
+        Wid.GetWidget(69, 2);
+      end;
+      Wid.Free;
+      Result := World = Reflect.Smart.GetFieldInt(0, Client_CurrentWorld);
+    end;
+    Inc(I, 5);
+    Child.Free;
+  end;
+  Wid.Free;
+end;
+
+
+

@@ -226,10 +226,7 @@ end;
 function TReflectWidget.GetBounds: TBox;
 begin
   if not Self.NotNull then
-  begin
-    Reflect.Logger.Warn('TReflectWidget is Null @ .GetBounds');
     Exit(IntToBox(-1, -1, -1, -1));
-  end;
   Result.X1 := Self.GetX;
   Result.Y1 := Self.GetY;
   Result.X2 := Result.X1 + Self.GetWidth;
