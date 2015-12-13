@@ -91,6 +91,11 @@ begin
   Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst);
 end;
 
+function TReflectLocalPlayer.GetCurrentWorld: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(0, Client_CurrentWorld);
+end;
+
 function TReflectLocalPlayer.GetRunEnergy: integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_Energy);
@@ -199,6 +204,7 @@ begin
   if (Point.X = -1) or (Point.Y = -1) then
     Exit;
   Reflect.Mouse.Move(Point, 0, 0);
+  Wait(RandomRange(50, 100));
   if Reflect.Text.IsUpText('Walk here', 50) then
     Reflect.Mouse.Click(Mouse_Left)
   else
