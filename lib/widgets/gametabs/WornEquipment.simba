@@ -52,6 +52,7 @@ begin
   with Self do
   begin
     Id := EquipmentChild.GetItemId;
+    Quantity := EquipmentChild.GetItemStackSizes;
     EquipSlot := Slot;
   end;
     EquipmentChild.Free;
