@@ -1,4 +1,4 @@
 [Reflection]
- Update # 21:[Bugs]: Fixes Npc Chat functions
+ Update # 24:[Bugs]: Fixes Bank Withdrawing
   [Improvements]:
 [End]

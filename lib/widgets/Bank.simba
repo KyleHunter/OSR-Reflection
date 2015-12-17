@@ -182,7 +182,7 @@ begin
     BankChild.Free;
     Exit;
   end;
-  if Reflect.Text.OptionExists(IntToStr(Amount) + ' ') then
+  if Reflect.Text.OptionExists('Withdraw-' + IntToStr(Amount) + ' ') then
     Result := Reflect.Text.ChooseOption(IntToStr(Amount) + ' ')
   else
   begin
