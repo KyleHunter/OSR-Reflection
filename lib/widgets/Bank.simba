@@ -167,6 +167,8 @@ var
   AmountWidget: TReflectWidget;
   Box: TBox;
 begin
+  if Amount = 0 then
+    Exit(True);
   Box := BankChild.GetBounds;
   Box := [Box.X1 + 10, Box.Y1 + 10, Box.X2 - 10, Box.Y2 - 10];
   if Amount = 1 then
@@ -236,6 +238,8 @@ var
   Center: TPoint;
   ShowingItems: String;
 begin
+  if Amount = 0 then
+    Exit(True);
   if (not Reflect.Bank.IsOpen) or (Self._Id = 0) then
     Exit(False);
   BankChild := Reflect.Internals.GetBankItem(Self);
