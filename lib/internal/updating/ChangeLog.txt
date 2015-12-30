@@ -1,4 +1,4 @@
 [Reflection]
- Update # 24:[Bugs]: Fixes Bank Withdrawing
+ Update # 24:[Bugs]: Small Timing fix w/ Worldswitcher
   [Improvements]:
 [End]

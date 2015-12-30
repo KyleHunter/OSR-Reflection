@@ -15,8 +15,11 @@ begin
     Wid.GetWidget(182, 1);
     Wid.Interact;
     Wid.Free;
-    Wait(500);
+    TimeOut.Start;
+    while (TimeOut.ElapsedTime < 2500) and (Wid.Exists(182, 1)) do
+      Wait(50);
   end;
+  Wait(500);
   Wid.GetWidget(69, 7);
   for I := 2 to 420 do
   begin
