@@ -40,18 +40,16 @@ begin
   for I := 0 to 600 do
     for J := 0 to 6 do
     begin
-      if (InIntArray(
-        [90, 137, 182, 239, 261, 271, 274, 320, 429, 432, 548, 589, 593,
-        149, 160, 162, 163, 216, 218, 387], I)) or (not Wid.Exists(I, J)) then
+      if not Wid.Exists(I, J) then
           Continue;
         Wid.GetWidget(I, J);
-        if (Wid.GetText = 'Click here to continue') then
+        if Wid.GetText = 'Click here to continue' then
         begin
           Wid.Free;
           SetLength(Result, 2);
           Exit([I, J]);
         end;
-        if (Wid.HasChild) then
+        if Wid.HasChild then
         begin
           for K := 0 to 6 do
           begin
