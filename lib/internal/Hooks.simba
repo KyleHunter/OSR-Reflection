@@ -27,8 +27,8 @@ const
  linkedList_Current: THook =         ['e', 1];
 
 {Actor: ax}
- Actor_WorldX: THook =               ['aa', -202038217];
- Actor_WorldY: THook =               ['ci', 1];
+ Actor_WorldY: THook =               ['aa', -202038217];
+ Actor_WorldX: THook =               ['ap', -1986732057];
  Actor_QueueX: THook =               ['ci', 1];
  Actor_QueueY: THook =               ['cs', 1];
  Actor_QueueSize: THook =            ['cj', -295036963];
@@ -116,9 +116,9 @@ const
  Client_LocalNpcs: THook =           ['client.cc', 1];
  Client_NpcIndices: THook =          ['client.cj', 1];
  Client_CrossHairColor: THook =      ['client.gp', 194047463];
- Client_MapOffset: THook =           ['client.eu', 457875643];
+ Client_MapScale: THook =            ['client.eu', 457875643];
  Client_MapAngle: THook =            ['client.fh', -263173641];
- Client_MapScale: THook =            ['client.eh', -876632121];
+ Client_MapOffset: THook =           ['client.eh', -876632121];
  Client_CameraPitch: THook =         ['z.fi', 713328539];
  Client_Sine: THook =                ['ct.ak', 1];
  Client_Cosine: THook =              ['ct.an', 1];
