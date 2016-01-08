@@ -48,6 +48,7 @@ type
   TReflectionLogin = type Pointer;
   TReflectionTime = type Pointer;
   TReflectionInventory = type Pointer;
+  TReflectionAntiban = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -71,6 +72,7 @@ type
     MouseSpeed: Integer;
     Inv: TReflectionInventory;
     Graphics: TReflectionGraphics;
+    Antiban: TReflectionAntiban;
   end;
 
   TTile = TPoint;

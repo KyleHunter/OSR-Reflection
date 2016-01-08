@@ -112,3 +112,6 @@
 
 (Reflection\Lib\Misc\Prosocks.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/prosocks.simba)
+
+(Reflection\Lib\Core\Antiban.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Antiban.simba)

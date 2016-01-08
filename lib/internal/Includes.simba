@@ -32,3 +32,4 @@
 {$include reflection/lib/core/renderable/Players.simba}
 {$include reflection/lib/core/renderable/GroundItems.simba}
 {$include reflection/lib/core/renderable/Objects.simba}
+{$include reflection/lib/core/Antiban.simba}

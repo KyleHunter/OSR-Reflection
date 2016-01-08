@@ -1,0 +1,290 @@
+  (*
+Antiban.Simba
+~~~~~~~~~~
+
+  Contains all Antiban related functions and procedures.  Credit for the
+  various functions go to: Olly, Home, R1ch, WT-Fakawi, Nebula, Krazy_Meerkat,
+  Flight, RsN, dark_sniper, EvilChicken, phantombmx, DannyRS
+*)
+
+procedure TReflectionAntiban.RandomRClick;
+var
+  II,M,R : Byte;
+  Inv    : Boolean;
+  I      : array of Boolean;
+  InvItems: TReflectInvItemArray;
+begin
+  Inv := Reflect.Gametab.Current = Gametab_Inventory;
+  if Inv then
+    Inv := (not (Reflect.Inv.Count < 1)) and (Random(3) > 0);
+  if not Inv then
+    Reflect.Mouse.Move(IntToBox(MSX1,MSY1,MSX2,MSY2), MOUSE_RIGHT)
+  else
+  begin
+    SetLength(I, 28);
+    for II := 0 to 27 do
+      I[II] := Reflect.Inv.ItemInSlot(II + 1);
+    R := RandomRange(1, 28);
+    while (not I[R - 1]) do
+      R := RandomRange(1, 28);
+    InvItems.GetAll;
+    Reflect.Mouse.Move(InvItems[R].GetBox, Mouse_Right);
+  end;
+  Inv := False;
+  if Random(3) > 0 then
+    Inv := Reflect.Text.ChooseOption('Examine')
+  else
+    Reflect.Text.ChooseOption('Cancel');
+end;
+
+procedure TReflectionAntiban.PickUpMouse;
+var
+  Cx, Cy, XX, YY : Integer;
+begin
+  GetMousePos(Cx, Cy);
+  XX := Cx;
+  YY := Cy;
+  if Random(2) = 0 then
+    Reflect.Mouse.Move(Point(Cx - 3 - Random(5), Cy - 8 - Random(17)), 0, 0)
+  else
+    Reflect.Mouse.Move(Point(Cx + 3, Cy - 8 - Random(17)), 5, 0);
+  Wait(1131 + Random(358));
+  if Random(2) = 0 then
+    Reflect.Mouse.Move(Point(XX + 3, YY + 8), 5, 9)
+  else
+    Reflect.Mouse.Move(Point(XX - 3 - Random(5),YY + 8), 0, 9);
+end;
+
+procedure TReflectionAntiban.SleepAndMoveMouse(Time: Integer);
+var
+  Moving: Boolean;
+  Mx, My: Integer;
+  X, Y, Xv, Yv: Extended;
+  Gx, Gy: Extended;
+  T: Integer;
+begin
+  GetMousePos(mx, my);
+  X := Mx;
+  Y := My;
+  if Random(2) = 0 then
+    Moving := False
+  else
+    Moving := True;
+  Gx := 130 + Random(500);
+  Gy := 130 + Random(300);
+  T := GetTickCount;
+  repeat
+    Wait(10);
+    if Moving then
+    begin
+      if (Gx > X) then
+        Xv := Xv + 0.1
+      else
+        Xv := Xv - 0.1;
+      if Gy > Y then
+        Yv := Yv + 0.1
+      else
+        Yv := Yv - 0.1;
+      X := X + Xv;
+      Y := Y + Xv;
+      MoveMouse(Round(X), Round(Y));
+    end;
+    if Random(100) = 0 then
+      Moving := not Moving;
+    if Random(30) = 0 then
+    begin
+      Gx := 130 + Random(500);
+      Gy := 130 + Random(300);
+    end;
+  until (Abs(GetTickCount - T) >= Time);
+end;
+
+Procedure TReflectionAntiban.HumanRandomMouse;
+var
+  X, Y, Ms: integer;
+begin
+  MS := Reflect.MouseSpeed;
+  Reflect.MouseSpeed := RandomRange(5, 10);
+  Reflect.Mouse.Move(RandomRange(X - 75, X + 75), RandomRange(Y - 75, Y + 75),
+    5, 9);
+  Reflect.MouseSpeed := MS;
+end;
+
+procedure TReflectionAntiban.RandomMovement;
+var
+  I    : Integer;
+  Deg  : Extended;
+  Keys : TIntegerArray;
+begin
+ Keys := [Vk_Right, Vk_Left];
+ I := Random(2);
+
+ if Random(2) = I then
+ begin
+   Deg := Reflect.Compass.AngleDeg;
+   Wait(100 + Random(50));
+   KeyDown(Keys[I]);
+   Wait(500 + random(1000));
+   KeyUp(Keys[I]);
+   Wait(500 + random(1000));
+   Reflect.Compass.Make(Deg);
+  end
+  else
+    SleepAndMoveMouse(1000 + Random(200));
+end;
+
+function TReflectionAntiban.CompassMovement(MinMovement, MaxMovement: Integer; Return: Boolean): Boolean;
+var
+  StartAngle,Movement : Extended;
+begin
+  Result := False;
+  StartAngle := round(Reflect.Compass.AngleDeg);
+  case Random(2) of
+    0: Movement := RandomRange(-MinMovement, -MaxMovement);
+    1: Movement := RandomRange(MinMovement, MaxMovement);
+  end;
+  Reflect.Compass.Make(StartAngle + Movement);
+  if Return then
+  begin
+    Wait(RandomRange(100, 350));
+    Reflect.Compass.Make(StartAngle);
+  end;
+  Result := True;
+end;
+
+procedure TReflectionAntiban.BoredHuman;
+var
+  I, X, Y: Integer;
+  Deg: Variant;
+begin
+  Deg := Reflect.Compass.AngleDeg;
+  for I := 1 to (3 + Random(11)) do
+  begin
+    Reflect.Mouse.Move(Point(Random(MSX2),Random(MSY2)), 0, 0);
+    if Reflect.Text.IsUptext('opti') then
+    begin
+      Reflect.Mouse.Click(Mouse_Right);
+      Reflect.Text.ChooseOption('Examine');
+    end;
+    case Random(6) of
+      0: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2) + 1), 1000 + Random(200));
+      1: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2)), 1000 + Random(200));
+      2: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2) + 1), 200 + Random(200));
+      3: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2)), 200 + Random(200));
+      4: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2) + 1), 20 + Random(20));
+      5: Reflect.KeyBoard.SendArrowWait(((Random(2) * 2)), 20 + Random(20));
+    end;
+  end;
+  if Deg <> 0 then
+    Reflect.Compass.Make(Round(Deg))
+  else
+    Reflect.Compass.Make('N');
+  Reflect.KeyBoard.SendArrowWait(0, 750 + Random(500));
+end;
+
+procedure TReflectionAntiban.ExamineInv;
+var
+  I,L: Byte;
+  InvSpots: array of Byte;
+begin
+  if (Reflect.Inv.Count < 1) then
+    Exit;
+  for I := 1 to 28 do
+    if Reflect.Inv.ItemInSlot(I) then
+    begin
+      setLength(InvSpots, Length(InvSpots) + 1);
+      InvSpots[L] := I;
+      Inc(L);
+    end;
+    Reflect.Mouse.Move(Reflect.Inv.InvBox(Random(Length(InvSpots)) + 1), Mouse_Right);
+    if not Reflect.Text.ChooseOption('Examine', 375) then
+      if Random(2) = 0 then
+        not Reflect.Text.ChooseOption('Cancel', 375);
+end;
+
+procedure TReflectionAntiban.RandomFKeys(Return: Boolean);
+var
+  T, R, I: Integer;
+  Tabs: TIntegerArray;
+begin
+ T := Reflect.Gametab.Current;
+ R := RandomRange(1, 6);
+ Tabs := [Gametab_CombatOptions, Gametab_Inventory, Gametab_WornEquipment,
+  Gametab_Prayer, Gametab_Magic];
+ for I := 0 to R do
+   Reflect.Gametab.FTab(Tabs[Random(Length(Tabs))]);
+ if Return then
+   if InIntArray(Tabs, T) then
+     Reflect.Gametab.FTab(T)
+   else
+     Reflect.Gametab.Open(T);
+end;
+
+procedure TReflectionAntiban.RandomTab(Return: Boolean);
+var
+  AllTabs, T: Integer;
+  TIA, Temp: TIntegerArray;
+begin
+  T := Reflect.Gametab.Current;
+  Temp := [28, 29, 30, 31, 32, 33, 34, 52, 53, 54, 55, 56, 57, 51];
+  AllTabs := Temp[Random(High(Temp))];
+  TIA := [53, 54, 57, 51, 29];
+  if Random(2) = 0 then
+    Reflect.Gametab.Open(AllTabs)
+  else
+    Reflect.Gametab.Open(TIA[Random(Length(TIA))]);
+  if Return then
+    Reflect.Gametab.Open(T);
+end;
+
+function TReflectionAntiban.AreaToBoxArray(const Area: TBox; const Width, Height: Integer): TBoxArray;
+var
+  AreaW, AreaH, BoxX, BoxY, X, Y, I: Integer;
+begin
+  AreaW := Area.X2 - Area.X1 + 1;
+  AreaH := Area.Y2 - Area.Y1 + 1;
+  BoxX := AreaW div Width;
+  if AreaW mod Width <> 0 then
+    Inc(BoxX);
+  BoxY := AreaH div Height;
+  if AreaH mod Height <> 0 then
+    Inc(BoxY);
+  SetLength(Result, BoxX * BoxY);
+  I := 0;
+  for Y := 0 to BoxY - 1 do
+    for X := 0 to BoxX - 1 do
+    begin
+      Result[I] := IntToBox(Area.X1 + X * Width,
+        Area.Y1 + Y * Height,
+        Min(Area.X2, Area.X1 + (X + 1) * Width - 1),
+        Min(Area.Y2, Area.Y1 + (Y + 1) * Height - 1));
+      Inc(I);
+    end;
+end;
+
+procedure TReflectionAntiban.MMouseOffClient(Direction: String);
+var
+  B: TBoxArray;
+  P: TPoint;
+  i, W, H: Integer;
+begin
+  GetClientDimensions(W, H);
+  SetArrayLength(B, 4);
+  B[0] := IntToBox(-300, -300, W, 0); //top
+  B[1] := IntToBox(0, H, W, H +300); //bottom
+  B[2] := IntToBox(0 - 300, 0, 0, H); //left
+  B[3] := IntToBox(W, 0, W + 300, H); //right
+
+  case Lowercase(Direction) of
+    'top': I := 0;
+    'bottom':  I := 1;
+    'left': I := 2;
+    'right': I := 3;
+    'rand', 'random': I := Random(4);
+    else
+      Reflect.Logger.Warn('Wrong direction');
+  end;
+
+  P := Point(RandomRange(B[I].X1, B[I].X2), RandomRange(B[I].Y1, B[I].Y2));
+  Reflect.Mouse.Move(P, 0, 0);
+end;

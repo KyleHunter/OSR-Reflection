@@ -1,4 +1,4 @@
 [Reflection]
- Update # 24:[Bugs]: Small Timing fix w/ Worldswitcher
-  [Improvements]:
+ Update # 25:[Bugs]:
+  [Improvements]: Adds TReflection.Antiban
 [End]
