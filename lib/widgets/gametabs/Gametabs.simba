@@ -59,3 +59,46 @@ begin
   end;
   TabWidget.Free;
 end;
+
+function TReflectionGametab.FTab(Tab: Integer): Boolean;
+var
+  T : TReflectTimer;
+  F : Integer;
+begin
+  if not InRange(Tab, Gametab_ClanChat, Gametab_Prayer) then
+  begin
+    Reflect.Logger.Warn('FTab ' + IntToStr(Tab) + ' is not a valid tab number.');
+    Exit(False);
+  end;
+  if Tab = Gametab_Logout then
+  begin
+    Reflect.Logger.Warn('FTab ' + ToStr(Tab) + ' is not a valid tab number.');
+    Exit(False);
+  end;
+  if Reflect.Gametab.Current = Tab then
+    Exit(True);
+  case Tab of
+    Gametab_CombatOptions : F := 1;
+    Gametab_Stats         : F := 2;
+    Gametab_QuestList     : F := 3;
+    Gametab_Inventory     : F := -84;
+    Gametab_WornEquipment : F := 4;
+    Gametab_Prayer        : F := 5;
+    Gametab_Magic         : F := 6;
+    Gametab_ClanChat      : F := 7;
+    Gametab_FriendsList   : F := 8;
+    Gametab_IgnoreList    : F := 9;
+    Gametab_Options       : F := 10;
+    Gametab_Emotes        : F := 11;
+    Gametab_MusicPlayer   : F := 12;
+  end;
+  T.start;
+  repeat
+    Reflect.Keyboard.TypeKey(111 + F);
+    Wait(150+random(100));
+    Result := Reflect.Gametab.Current = Tab;
+  until Result or (T.ElapsedTime > 1000);
+
+  if not Result then
+    Result := Reflect.Gametab.Open(Tab);
+end;
