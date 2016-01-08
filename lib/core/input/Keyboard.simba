@@ -20,3 +20,23 @@ begin
   if Send then
     Reflect.Keyboard.TypeKey(Vk_Enter);
 end;
+
+procedure TReflectionKeyboard.SendArrowWait(Key: Byte; WaitTime: Integer);
+var
+  KeyCode : integer;
+begin;
+  if not InRange(Key,0,3) then
+    Reflect.Logger.Warn('Key is not in range')
+  else
+  begin
+    case Key of
+      0 : Keycode := (vk_up);
+      1 : Keycode := (vk_right);
+      2 : Keycode := (vk_down);
+      3 : Keycode := (vk_left);
+    end;
+    KeyDown(KeyCode);
+    Wait(WaitTime);
+    KeyUp(KeyCode);
+  end;
+end;
