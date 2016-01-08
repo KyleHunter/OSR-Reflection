@@ -78,19 +78,18 @@ end;
   {$include reflection/lib/misc/prosocks.simba}
 {$ENDIF}
 
-Function TReflectionMisc.GetPage(Url: string): string;
+function TReflectionMisc.GetPage(Url: string): string;
 var
   S: SSLSocket;
   Res: ProMemoryStruct;
 begin
-  Pro_InitSocket(S, nil, nil, nil, nil);
-  Pro_CreateSocket(S, '');
-  Pro_SetSSL(S, false, false, true);
-  Pro_SetURL(S, URL);
-  Pro_DoGetEx(S, Res);
-  SetLength(Result, Res.size);
+  S.Init();
+  S.SetURLFollow(true);
+  S.SetURL(URL);
+  S.DoGet(Res);
+  SetLength(Result, Res.Size);
   MemMove(Res.Memory^, Result[1], Res.Size);
-  Pro_FreeSocket(S);
+  S.Free;
 end;
 
 function TReflectionMisc.Time(): string;
