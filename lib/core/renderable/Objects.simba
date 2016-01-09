@@ -25,6 +25,8 @@ function TReflectObject.GetTile: TTile;
 var
   LocalTile: TTile;
 begin
+  if Self.Reference = 0 then
+    Exit(Point(-1, -1));
   if Self._ObjType.Index <> ObjGame.Index then
     Exit(Self._Tile);
   LocalTile := Point(Reflect.Smart.GetFieldInt(
@@ -38,6 +40,8 @@ function TReflectObject.GetOffset: TTile;
 var
   LocalTile: TTile;
 begin
+  if Self.Reference = 0 then
+    Exit(Point(-1, -1));
   if Self._ObjType.Index <> ObjGame.Index then
   begin
     Reflect.Logger.Warn('Only ObjGame has an Offset @.GetOffset');
@@ -52,11 +56,15 @@ end;
 
 function TReflectObject.GetOrientation: Integer;
 begin
+  if Self.Reference = 0 then
+    Exit(-1);
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Orientation);
 end;
 
 function TReflectObject.GetId: Integer;
 begin
+  if Self.Reference = 0 then
+    Exit(-1);
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Id);
   Result := (Result shr 14) and $7fff;
 end;
@@ -66,6 +74,8 @@ var
   Id: Integer;
   Line: string;
 begin
+  if Self.Reference = 0 then
+    Exit('');
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -78,6 +88,8 @@ var
   Id: Integer;
   Line: string;
 begin
+  if Self.Reference = 0 then
+    Exit(-1);
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -90,6 +102,8 @@ var
   Id: Integer;
   Line, Temp: string;
 begin
+  if Self.Reference = 0 then
+    Exit(['']);
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -105,6 +119,8 @@ var
   OffsetX, OffsetY, XShift, YShift: Extended;
   Tile: TPoint;
 begin
+  if Self.Reference = 0 then
+    Exit(Point(-1, -1));
   if Self._ObjType.Index <> ObjGame.Index then
     Exit(Reflect.Tiles.TileToMs(Self.GetTile));
   Tile := Self.GetTile;
@@ -200,6 +216,7 @@ begin
   Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles, 0, 0, Plane,
     _Tile.X - BaseX, _Tile.Y - BaseY);
   Self._ObjType := ObjType;
+
   Self._GetObject(0, _Tile);
   Reflect.Mem.FreeObjects(ckSceneTile, False);
 end;
