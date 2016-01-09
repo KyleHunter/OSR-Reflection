@@ -347,3 +347,14 @@ begin
     Wait(WaitPerLoop);
   end;
 end;
+
+procedure TReflectLocalPlayer.SetRun(Toggle: Boolean);
+begin
+  if (Toggle) and (Self.IsRunOn) then
+    Exit;
+  if (not Toggle) and (not Self.IsRunOn) then
+    Exit;
+  Reflect.Mouse.Move(IntToBox(545, 130, 590, 150));
+  Wait(250);
+  Reflect.Mouse.Click(Mouse_Left);
+end;
