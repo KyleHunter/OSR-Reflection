@@ -190,6 +190,6 @@ const
  SceneTile_GroundDecoration: THook = ['y', 1];
 
 {Item: ac}
- Item_ID: THook =                    ['q', 1564821965];
- Item_StackSizes: THook =            ['n', -733090905];
+ Item_StackSizes: THook =            ['q', 1564821965];
+ Item_ID: THook =                    ['n', -733090905];
 
