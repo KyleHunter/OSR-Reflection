@@ -115,3 +115,6 @@
 
 (Reflection\Lib\Core\Antiban.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Antiban.simba)
+
+(Reflection\Lib\Misc\Stats.simba)
+(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Stats.simba)

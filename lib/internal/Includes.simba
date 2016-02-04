@@ -25,6 +25,7 @@
 {$include reflection/lib/core/Tile.simba}
 {$include reflection/lib/misc/Logger.simba}
 {$include reflection/lib/misc/Misc.simba}
+{$include reflection/lib/misc/Stats.simba}
 {$include reflection/lib/core/Text.simba}
 {$include reflection/lib/core/renderable/Actor.simba}
 {$include reflection/lib/core/renderable/Npc.simba}

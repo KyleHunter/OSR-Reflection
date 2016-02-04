@@ -1,0 +1,152 @@
+
+{ Credit to Flight
+To use first register at http://stats.grats.pw/reg.php
+Then create a folder in the Simba main directory called Stats.
+In the Stats folder create a file called Info.txt.
+Take the stats_id and password and put them in the file with this formatting:
+[General]
+Stats_ID=(Insert Stats_ID here)
+Stats_Pass=(Insert Stats_Pass here)
+}
+
+Const
+  StatsPath = AppPath+'Stats\';
+  StatsFile = 'Info.txt';
+  StatsAbsolutePath = StatsPath + StatsFile;
+
+type TStats = record
+  Name: string;
+  Value: Integer;
+end;
+
+type TStatsUser = record
+  ID: string;
+  Password: string;
+  ScriptID: string;
+  Timer: Integer;
+end;
+
+var
+  User: TStatsUser;
+  Vars: Array of TStats;
+
+procedure SetupStats(ScriptID : string);
+var
+  ID, Password, StatsFilepath: String;
+begin
+  if (not DirectoryExists(StatsPath)) then
+  begin
+    ForceDirectories(StatsPath);
+    WriteINI('General', 'Stats_ID', '', StatsAbsolutePath);
+    writeINI('General', 'Stats_Pass', '', StatsAbsolutePath);
+  end;
+
+  ID := ReadINI('General', 'Stats_ID', StatsAbsolutePath);
+  Password := ReadINI('General', 'Stats_Pass', StatsAbsolutePath);
+
+  if ID = '' then
+  begin
+    case MessageBox('No Stats ID found, would you like to register?', 'Stats', 1) of
+      1: OpenWebPage('http://stats.grats.pw/reg.php');
+    end;
+  end;
+
+  User := [ID, Password, ScriptID, GetSystemTime()];
+end;
+
+procedure InitializeVariable(VarName: string; InitValue: Integer);
+var
+  Size: Integer;
+begin
+  Size := Length(Vars);
+  SetArrayLength(Vars, Size + 1);
+  Vars[Size].Name := LowerCase(VarName);
+  Vars[Size].Value := InitValue;
+end;
+
+procedure SetVariable(VarName: string; NewValue: Integer);
+var
+  Variable: Integer;
+begin
+  VarName := LowerCase(VarName);
+    for Variable := 0 to High(Vars) do
+    begin
+      if (VarName = Vars[Variable].Name) then
+      begin
+        Vars[Variable].Value := NewValue;
+        Exit;
+      end;
+    end;
+  InitializeVariable(VarName, NewValue);
+end;
+
+procedure IncreaseVariable(VarName: string; Increment: Integer);
+var
+  Variable: Integer;
+begin
+  VarName := LowerCase(VarName);
+  for Variable := 0 to High(Vars) do
+  begin
+    if (VarName = Vars[Variable].Name) then
+      begin
+        Vars[Variable].Value := Vars[Variable].Value + Increment;
+        Exit;
+      end;
+  end;
+  InitializeVariable(VarName, Increment);
+end;
+
+function Commit(): Boolean;
+var
+  Response: string;
+  Client, Variable, WorkedTime, ExtraTime: Integer;
+begin
+  ExtraTime := GetSystemTime() - User.Timer;
+  WorkedTime := ExtraTime div 60000;
+
+  if WorkedTime < 5 then Exit;
+  ExtraTime := ExtraTime - (WorkedTime * 60000);
+
+  User.Timer := GetSystemTime - ExtraTime;
+
+  Client := InitializeHTTPClient(False);
+  ClearPostData(Client);
+
+  if (User.ID = '') then
+  begin
+    User.ID := '5';
+    User.Password := 'anon1337';
+  end;
+
+  AddPostVariable(Client, 'user_id', User.ID);
+  AddPostVariable(Client, 'password', User.Password);
+  AddPostVariable(Client, 'script_id', User.ScriptID);
+  AddPostVariable(Client, 'timeamount', toStr(WorkedTime));
+
+   for Variable := 0 to High(Vars) do
+    begin
+      if (Vars[Variable].Value > 0) then
+        AddPostVariable(Client, Vars[Variable].Name, toStr(Min(Vars[Variable].Value, 30000))); //Capped at 30000
+    end;
+
+  Response := PostHTTPPageEx(Client, 'http://stats.grats.pw/POST.php');
+  FreeHTTPClient(Client);
+
+  case StrToIntDef(ExtractFromStr(Response, Numbers), -1) of
+    42: Result := True;
+    9001: WriteLn('Stats: Invalid user ID/Password.');
+    1337: WriteLn('Stats: Invalid Script ID.');
+    255, 496: WriteLn('Stats: Committing too fast; shame on you!');
+    else
+      WriteLn('Stats: No Return Code');
+  end;
+
+  if Result then
+  begin
+      for Variable := 0 to High(Vars) do
+      begin
+          if (Vars[Variable].Value > 0) then
+            Vars[Variable].Value := 0; //Clear for next commit
+      end;
+  end;
+end;
