@@ -14,6 +14,26 @@ begin
   Result := Between('''name'': ''', ''',', Line);
 end;
 
+procedure TReflectionInternals.ClearText;
+var
+   AmountWindow: TReflectWidget;
+   TimeOut: TReflectTimer;
+begin
+ while (not AmountWindow.IsValid(162, 33)) do
+  begin
+    Wait(100 + Random(100));
+    if TimeOut.ElapsedTime > 3000 then
+      Exit;
+  end
+    AmountWindow.GetWidget(162, 33);
+    if (AmountWindow.GetText <> '*') then
+      KeyDown(Vk_Back);
+    while (AmountWindow.IsValid(162, 33) and (AmountWindow.GetText <> '*')) do
+      Wait(10 + Random(80));
+    KeyUp(Vk_Back);
+    AmountWindow.Free;
+end;
+
 function TReflectBankItem.GetInvActions: TStringArray;
 var
   Line, Temp: string;
@@ -195,12 +215,12 @@ begin
       Wait(100 + Random(100));
       if TimeOut.ElapsedTime > 5000 then
       begin
-        AmountWidget.Free;
         BankChild.Free;
         Exit(False);
       end;
     end;
     Wait(RandomRange(500, 750));
+    Reflect.Internals.ClearText;
     Reflect.KeyBoard.TypeSend(ToStr(Amount));
     Result := True;
   end;
@@ -260,6 +280,7 @@ begin
       if (Length(ShowingItems) > 1)then
       while (Length(ShowingItems) > 1) do
       begin
+        Reflect.Internals.ClearText;
         Reflect.Keyboard.TypeKey(Vk_Back);
         Wait(Random(30, 120));
         ShowingItems := Between('<col=ff0000>',
@@ -276,6 +297,7 @@ begin
       (not PointInBox(Center,[22, 80, 480, 292]))) do
     begin
       BankChild.Free;
+      Reflect.Internals.ClearText;
       Reflect.KeyBoard.TypeSend(Self.GetName, False);
       Wait(RandomRange(500, 700));
       BankChild := Reflect.Internals.GetBankItem(Self);
@@ -396,6 +418,7 @@ begin
           end;
         end;
         Wait(RandomRange(500, 750));
+        Reflect.Internals.ClearText;
         Reflect.KeyBoard.TypeSend(ToStr(Amount[I]));
         Result := True;
       end;
@@ -445,6 +468,7 @@ begin
           end;
         end;
         Wait(RandomRange(500, 750));
+        Reflect.Internals.ClearText;
         Reflect.KeyBoard.TypeSend(ToStr(Amount[I]));
         Result := True;
       end;

@@ -49,7 +49,7 @@ begin
   Reflect.Logger.Warn('%s is not a valid AttackStyle.', [AttackStyle]);
 end;
 
-function TReflectionGametab.GetWeildedWeapon: string;
+function TReflectionGametab.GetWieldedWeapon: string;
 var
   WeaponWidget: TReflectWidget;
 begin
