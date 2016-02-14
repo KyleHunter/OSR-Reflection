@@ -1,42 +1,213 @@
-
-procedure TReflectionKeyboard.TypeKey(B: Byte);
-begin
-  if (B = 13) then
-    B := 10;
-  KeyDown(B);
-  Wait(10 + Random(50));
-  KeyUp(B);
-end;
-
-procedure TReflectionKeyboard.TypeSend(Text: String; Send: Boolean = True);
+procedure TReflectionKeyboard.SendArrowWait(Key, WaitTime: Integer);
 var
-  I: Integer;
+  KeyName : string;
 begin
-  for I := 1 to Length(Text) do
-  begin
-    SendKeys(Text[I], 40 + Random(40), 15 + Random(30));
-    Wait(20 + Random(40));
+  case Key of
+    0:    KeyName := 'up';
+    1:    KeyName := 'right';
+    2:    KeyName := 'down';
+    3:    KeyName := 'left';
+    else  Reflect.Logger.Warn('Key is not in range');
   end;
-  if Send then
-    Reflect.Keyboard.TypeKey(Vk_Enter);
+  if KeyName <> '' then
+  begin
+    Self.Press(KeyName, 'down');
+    Wait(WaitTime);
+    Self.Press(KeyName, 'up');
+  end;
 end;
 
-procedure TReflectionKeyboard.SendArrowWait(Key: Byte; WaitTime: Integer);
-var
-  KeyCode : integer;
-begin;
-  if not InRange(Key,0,3) then
-    Reflect.Logger.Warn('Key is not in range')
+procedure TReflectionKeyboard.TypeKey(Key: Variant);
+begin
+  Self.Press(Key);
+end;
+
+procedure TReflectionKeyboard.TypeSend(Text: string; Send: Boolean = True);
+begin
+  if Send then
+    Text := Text + '{enter}';
+  Self.Send(Text);
+end;
+
+(*
+  TKEYBOARD DOCUMENTATION:
+    https://villavu.com/forum/showthread.php?t=115523
+*)
+
+function TReflectionKeyboard.Code(Key: string): Integer;
+begin
+  if Length(Key) > 1 then
+    case Lowercase(Key) of
+      'backspace':        Exit(8);
+      'ctrl','control':   Exit(17);
+      'del','delete':     Exit(46);
+      'down':             Exit(40);
+      'end':              Exit(35);
+      'enter','return':   Exit(10);
+      'esc','escape':     Exit(27);
+      'f1':               Exit(112);
+      'f2':               Exit(113);
+      'f3':               Exit(114);
+      'f4':               Exit(115);
+      'f5':               Exit(116);
+      'f6':               Exit(117);
+      'f7':               Exit(118);
+      'f8':               Exit(119);
+      'f9':               Exit(120);
+      'f10':              Exit(121);
+      'f11':              Exit(122);
+      'f12':              Exit(123);
+      'f13':              Exit(124);
+      'f14':              Exit(125);
+      'f15':              Exit(126);
+      'home':             Exit(36);
+      'insert':           Exit(45);
+      'left':             Exit(37);
+      'right':            Exit(39);
+      'shift':            Exit(16);
+      'space','spacebar': Exit(32);
+      'tab':              Exit(9);
+      'up':               Exit(38);
+      else                Exit(0);
+    end
   else
+    Exit(GetKeyCode(Key[1]));
+end;
+
+function TReflectionKeyboard.Format(Text: string): string;
+var
+  Code: Variant;
+  Index: Integer = 1;
+  Button, Escaped: Boolean;
+  ButtonString: string;
+begin
+  for Index to Length(Text) do
   begin
-    case Key of
-      0 : Keycode := (vk_up);
-      1 : Keycode := (vk_right);
-      2 : Keycode := (vk_down);
-      3 : Keycode := (vk_left);
+    case Text[Index] of
+      '\':
+        if Escaped then
+        begin
+          Escaped := False;
+          if Button then
+            ButtonString := ButtonString + '\'
+          else
+            Result := Result + '{220}';
+        end
+        else
+          Escaped := True;
+      '{':
+        if Escaped then
+        begin
+          Escaped := False;
+          if not Button then
+            Result:= Result + '{123}';
+        end
+        else if Button then
+          RaiseException(20, 'Invalid String: ' + Text)
+        else
+        begin
+          Button := True;
+          ButtonString := '';
+        end;
+      '}':
+        if Escaped then
+        begin
+          Escaped := False;
+          if Button then
+            ButtonString := ButtonString + '}'
+          else
+            Result := Result + '{125}';
+        end
+        else if Button then
+        begin
+          Button:=false;
+          if ExecRegexpr('(?i)^([a-z]+|f\d[0-5]?|[^a-z])( (\d+|down|up))?$', ButtonString) then
+            Result:=Result+'{'+
+              replace(
+                ButtonString,
+                Code:=ReplaceRegExpr('(?i)^([a-z]+|\d[0-5]?|[^a-z])( \d+| down| up)?$', ButtonString, '$1', True),
+                toStr(Self.Code(Code)),
+                [0]
+              )+'}';
+        end
+        else
+          RaiseException(20, 'Invalid String: ' + Text);
+      else
+        begin
+          Escaped:=false;
+          if Button then
+            ButtonString:=ButtonString+Text[Index]
+          else
+            Result := Result + '{' + toStr(Self.Code(Text[Index])) + '}';
+        end;
     end;
-    KeyDown(KeyCode);
-    Wait(WaitTime);
-    KeyUp(KeyCode);
+  end;
+  if Button then
+    RaiseException(20, 'Invalid String: '+ Text);
+  Exit(Result);
+end;
+
+function TReflectionKeyboard.Formatted(Text: string): Boolean;
+begin Exit(ExecRegExpr('(?i)^(\{\d+( \d+| down| up)?\})+$', Text));end;
+
+procedure TReflectionKeyboard.Press(Key: Variant; Option: Variant = '');
+var
+  Index, OptionNum, Speed: Integer;
+  KeyPress: procedure(Word: word);
+begin
+  case VarType(Key) of
+    VarByte, VarInteger:
+      if Key <> 0 then
+        case varType(Option) of
+          VarInteger:
+            for Index := 1 to Integer(Option) do
+              Self.Press(Key);
+          VarString:
+            if (OptionNum := StrToIntDef(Option, -1)) = -1 then
+            begin
+              case Lowercase(Option) of
+                '':     KeyPress := @PressKey;
+                'down': KeyPress := @KeyDown;
+                'up':   KeyPress := @KeyUp;
+              end;
+              if @KeyPress <> nil then
+              begin
+                KeyPress(Key);
+                Wait(10 + Random(50));
+              end;
+            end
+            else
+              Self.Press(Key, OptionNum);
+        end;
+    VarString:
+      Self.Press(Self.Code(Key), Option);
+  end;
+end;
+
+procedure TReflectionKeyboard.Send(Text: string);
+var
+  Button, TextArray: tStringArray;
+  ButtonIndex, Presses: Integer;
+begin
+  Text := Self.format(Text);
+  TextArray := MultiBetween(Text,'{','}');
+  for ButtonIndex to High(TextArray) do
+  begin
+    Button := Explode(' ', TextArray[ButtonIndex]);
+    if Length(Button) = 1 then
+      Self.Press(StrToInt(Button[0]))
+    else
+      Self.Press(StrToInt(Button[0]), Button[1])
+  end;
+end;
+
+function TReflectionKeyboard.State(Key: Variant): Boolean;
+begin
+  case VarType(Key) of
+    VarByte, VarInteger:
+      if Key <> 0 then
+        Exit(IsKeyDown(Key));
+    VarString:
+      Exit(Self.State(Self.Code(Key)));
   end;
 end;
