@@ -127,7 +127,7 @@ begin
                 ButtonString,
                 Code:=ReplaceRegExpr('(?i)^([a-z]+|\d[0-5]?|[^a-z])( \d+| down| up)?$', ButtonString, '$1', True),
                 toStr(Self.Code(Code)),
-                [0]
+                [rfReplaceAll]
               )+'}';
         end
         else
