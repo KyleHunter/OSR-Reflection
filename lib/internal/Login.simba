@@ -1,32 +1,27 @@
-function TReflectionLogin.SortWorlds(Members: Boolean; PVP: Boolean = False; Deadman: Boolean = False): TIntegerArray;
+function TReflectionLogin.SortWorlds(Members: Boolean; PVP: Boolean = False): TIntegerArray;
 var
-  PVPW, FreeW, MembW, DeadmanW: TIntegerArray;
+  PVPW, FreeW, MembW: TIntegerArray;
 begin
   PVPW := [325, 337];
-  DeadmanW := [345, 352, 357];
   FreeW := [301, 308, 316, 326, 335, 381, 382, 383, 384, 385, 393, 394];
   MembW := [302, 303, 304, 305, 306, 309, 310, 311, 312, 313, 314, 317,
             318, 319, 320, 321, 322, 327, 328, 329, 330, 333, 334, 336,
-            338, 341, 342, 343, 344, 346, 349, 350, 351, 353, 354, 358,
-            359, 360, 361, 362, 365, 366, 367, 368, 369, 370, 373, 374,
-            375, 376, 377, 378, 386];
+            338, 341, 342, 343, 344, 345, 346, 349, 350, 351, 352, 353,
+            354, 357, 358, 359, 360, 361, 362, 365, 366, 367, 368, 369,
+            370, 373, 374, 375, 376, 377, 378, 386];
   If Members then
-  begin
-    If Deadman then
-      Result := DeadmanW
-    else If PVP then
-      Result := CombineIntArray(PVPW, MembW)
-    else
-      Result := MembW;
-  end else
-      Result := FreeW;
+    Result := MembW
+  else
+    Result := FreeW;
+  If (Members) and (PVP) then
+    Result := CombineIntArray(PVPW, MembW);
 end;
 
-function TReflectionLogin.RandomWorld(Members: Boolean; PVP: Boolean = False; Deadman: Boolean = False): Integer;
+function TReflectionLogin.RandomWorld(Members: Boolean; PVP: Boolean = False): Integer;
 var
   Worlds: TIntegerArray;
 begin
-  Worlds := Reflect.Login.SortWorlds(Members, PVP, Deadman);
+  Worlds := Reflect.Login.SortWorlds(Members, PVP);
   Result := Worlds[Random(Length(Worlds))];
 end;
 
@@ -182,7 +177,7 @@ begin
         (Reflect.Login.GetLoginState = Login_EnterUser) and
         (T.ElapsedTime < 8000) do
   begin
-    Reflect.Keyboard.TypeKey(Vk_Tab);
+    Reflect.Keyboard.Send('{tab}');
     Wait(Random(350, 650));
   end;
 end;
@@ -265,10 +260,10 @@ begin
   if (Clear[Login_LoginBox_Byte]) then
     while (CountColor(Login_Text_White, Login_LoginBox.X1, Login_LoginBox.Y1, Login_LoginBox.X2, Login_LoginBox.Y2) > 5) and (Timeout > GetTickCount64) do
     begin
-      Reflect.Keyboard.TypeKey(Vk_Back);
+      Reflect.Keyboard.Send('{backspace}');
       Wait(Random(30, 120));
     end;
-  Reflect.Keyboard.TypeSend(Username, False);
+  Reflect.Keyboard.Send(Username);
   if (Reflect.Login.GetCursor <> Login_PasswordBox_Byte) then
     Reflect.Login.SetCursor(Login_PasswordBox_Byte);
   if (Clear[Login_PasswordBox_Byte]) then
@@ -277,10 +272,10 @@ begin
            Login_PasswordBox.Y2) > 5) and (Timeout > GetTickCount64) do
 
     begin
-      Reflect.Keyboard.TypeKey(Vk_Back);
+      Reflect.Keyboard.Send('{backspace}');
       Wait(Random(30, 120));
     end;
-  Reflect.Keyboard.TypeSend(Password);
+  Reflect.Keyboard.Send(Password+'{enter}');
   Wait(1000+Random(500));
 end;
 
