@@ -1,6 +1,22 @@
+function CChr(IntValue: UInt8): AnsiChar;
+begin
+  case IntValue of
+    187: Result:='=';
+    188: Result:=',';
+    189: Result:='-';
+    190: Result:='.';
+    191: Result:='/';
+    219: Result:='[';
+    220: Result:='\';
+    221: Result:=']';
+    222: Result:=''''[1];
+    else Result:=Chr(IntValue);
+  end;
+end;
+
 procedure TReflectionKeyboard.SendArrowWait(Key, WaitTime: Integer);
 var
-  KeyName : string;
+  KeyName: string;
 begin
   case Key of
     0:    KeyName := 'up';
@@ -71,15 +87,22 @@ begin
       else                Exit(0);
     end
   else
-    Exit(GetKeyCode(Key[1]));
+  begin
+    SetKeyMouseTarget(0);
+    Result := GetKeyCode(Key[1]);
+    if Reflect.Smart.PID then
+      SetEIOSTarget('libsmartremote', ToStr(Reflect.Smart.PID));
+    Exit(Result);
+  end;
 end;
 
 function TReflectionKeyboard.Format(Text: string): string;
 var
-  Code: Variant;
-  Index: Integer = 1;
   Button, Escaped: Boolean;
   ButtonString: string;
+  Code: Variant;
+  Index: Integer = 1;
+  Key: Integer;
 begin
   for Index to Length(Text) do
   begin
@@ -100,7 +123,7 @@ begin
         begin
           Escaped := False;
           if not Button then
-            Result:= Result + '{123}';
+            Result:= Result + '{16 down}{219}{16 up}';
         end
         else if Button then
           RaiseException(20, 'Invalid String: ' + Text)
@@ -116,12 +139,13 @@ begin
           if Button then
             ButtonString := ButtonString + '}'
           else
-            Result := Result + '{125}';
+            Result := Result + '{16 down}{221}{16 up}';
         end
         else if Button then
         begin
           Button:=false;
           if ExecRegexpr('(?i)^([a-z]+|f\d[0-5]?|[^a-z])( (\d+|down|up))?$', ButtonString) then
+          begin
             Result:=Result+'{'+
               replace(
                 ButtonString,
@@ -129,6 +153,7 @@ begin
                 toStr(Self.Code(Code)),
                 [rfReplaceAll]
               )+'}';
+          end;
         end
         else
           RaiseException(20, 'Invalid String: ' + Text);
@@ -138,7 +163,20 @@ begin
           if Button then
             ButtonString:=ButtonString+Text[Index]
           else
-            Result := Result + '{' + toStr(Self.Code(Text[Index])) + '}';
+          begin
+            Key:=Self.Code(Text[Index]);
+            case Byte(Text[Index]) of
+              65..90:
+                Result := Result + '{16 down}{' + toStr(Self.Code(Text[Index])) + '}{16 up}';
+              else
+              begin
+                if LowerCase(CChr(Key))=Text[Index] then
+                  Result := Result + '{' + toStr(Self.Code(Text[Index])) + '}'
+                else
+                  Result := Result + '{16 down}{' + toStr(Self.Code(Text[Index])) + '}{16 up}';
+              end;
+            end;
+          end;
         end;
     end;
   end;
@@ -166,7 +204,11 @@ begin
             if (OptionNum := StrToIntDef(Option, -1)) = -1 then
             begin
               case Lowercase(Option) of
-                '':     KeyPress := @PressKey;
+                '':
+                begin
+                  Self.Press(Key, 'down');
+                  Self.Press(Key, 'up');
+                end;
                 'down': KeyPress := @KeyDown;
                 'up':   KeyPress := @KeyUp;
               end;
