@@ -136,7 +136,7 @@ end;
 
 procedure TReflectGroundItemArray.GetAll(Distance: Integer = 103);
 var
-   X, Y, BaseX, BaseY, Plane, L, I, H, HighX, HighY: Integer;
+   X, Y, BaseX, BaseY, Plane, L, I, H, HighX, HighY, XDistance, YDistance: Integer;
    TempArray, TempArray2: TReflectGroundItemArray;
    Position: TTile;
 begin
@@ -153,9 +153,15 @@ begin
     HighX := 103;
   if HighY > 103 then
     HighY := 103;
+  XDistance := Position.X - Distance;
+  YDistance := Position.Y - Distance;
+  if XDistance < 0 then
+    XDistance := 0;
+  if YDistance < 0 then
+    YDistance := 0;
   SetLength(Self, Definition_Items_Length);
-  for X := Position.X - Distance to HighX do
-    for Y := Position.Y - Distance to HighY do
+  for X := XDistance to HighX do
+    for Y := YDistance to HighY do
     begin
       SetLength(TempArray, 0);
       TempArray._GetAt(
