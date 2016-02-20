@@ -142,15 +142,42 @@ begin
   ItemCache.Free;
 end;
 
+procedure TStringList.LoadDefinitionsFromFile(Path: string);
+var
+  TempList: TStringList;
+  Line: string;
+  LineIndex: Integer;
+  Size: Integer;
+  ID: Integer;
+  CacheIndex: Integer;
+begin
+  TempList.Init();
+  TempList.LoadFromFile(Path);
+  Size := TempList.GetCount();
+  for LineIndex := 0 to Size -1 do
+  begin
+    Line := TempList.GetStrings(LineIndex);
+    ID := StrToInt(Between('''ID'': ', ',', Line));
+    while (ID <> CacheIndex) do
+    begin
+      Self.Add('');
+      CacheIndex += 1;
+    end
+    Self.Add(Line);
+    CacheIndex += 1;
+    end
+  TempList.Free();
+end
+
 begin
   ObjectCache.Init;
-  ObjectCache.LoadFromFile(
-    IncludePath + 'reflection\lib\internal\definitions\ObjectDefs.txt');
+  ObjectCache.LoadDefinitionsFromFile(
+    IncludePath + 'reflection\lib\internal\definitions\ObjectDefs.txt');;
   NpcCache.Init;
-  NpcCache.LoadFromFile(
+  NpcCache.LoadDefinitionsFromFile(
     IncludePath + 'reflection\lib\internal\definitions\NpcDefs.txt');
   ItemCache.Init;
-  ItemCache.LoadFromFile(
+  ItemCache.LoadDefinitionsFromFile(
     IncludePath + 'reflection\lib\internal\definitions\ItemDefs.txt');
   AddOnTerminate('ReflectFree');
   SetLength(HookCache, 14);

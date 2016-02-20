@@ -1393,8 +1393,8 @@
 {'ID': 1392,'actions': ['Push','null','Pull','Big-push','Place'],'combatLevel': 0,'height': 1,'name': 'Trolley','walkAnimationID': -1,'width': 1}
 {'ID': 1393,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Trolley','walkAnimationID': -1,'width': 1}
 {'ID': 1394,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 2571,'width': 1}
-{'ID': 1395,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Billy,a guard of Falador','walkAnimationID': 819,'width': 1}
-{'ID': 1396,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Bob,another guard of Falador','walkAnimationID': 819,'width': 1}
+{'ID': 1395,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Billy, a guard of Falador','walkAnimationID': 819,'width': 1}
+{'ID': 1396,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Bob, another guard of Falador','walkAnimationID': 819,'width': 1}
 {'ID': 1397,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Brother Althric','walkAnimationID': 819,'width': 1}
 {'ID': 1398,'actions': ['null','null','null','null','null'],'combatLevel': 87,'height': 1,'name': 'PKMaster0036','walkAnimationID': 819,'width': 1}
 {'ID': 1399,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'King Roald','walkAnimationID': 819,'width': 1}
@@ -2145,7 +2145,7 @@
 {'ID': 2144,'actions': ['null','Attack','null','null','null'],'combatLevel': 10,'height': 64,'name': 'Big frog','walkAnimationID': 1797,'width': 64}
 {'ID': 2145,'actions': ['null','Attack','null','null','null'],'combatLevel': 5,'height': 32,'name': 'Frog','walkAnimationID': 1797,'width': 32}
 {'ID': 2146,'actions': ['Cage','null','Harpoon','null','null'],'combatLevel': 0,'height': 1,'name': 'Fishing spot','walkAnimationID': 448,'width': 1}
-{'ID': 2147,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Veos','walkAnimationID': 1205,'width': 1}
+{'ID': 2147,'actions': ['Talk-to','null','Travel','null','null'],'combatLevel': 0,'height': 1,'name': 'Veos','walkAnimationID': 1205,'width': 1}
 {'ID': 2148,'actions': ['Talk-to','null','Exchange','History','Sets'],'combatLevel': 0,'height': 1,'name': 'Grand Exchange Clerk','walkAnimationID': 808,'width': 1}
 {'ID': 2149,'actions': ['Talk-to','null','Exchange','History','Sets'],'combatLevel': 0,'height': 1,'name': 'Grand Exchange Clerk','walkAnimationID': 808,'width': 1}
 {'ID': 2150,'actions': ['Talk-to','null','Exchange','History','Sets'],'combatLevel': 0,'height': 1,'name': 'Grand Exchange Clerk','walkAnimationID': 808,'width': 1}
@@ -3198,7 +3198,7 @@
 {'ID': 3197,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 98,'width': 1}
 {'ID': 3198,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 104,'width': 1}
 {'ID': 3199,'actions': ['null','Attack','null','null','null'],'combatLevel': 35,'height': 1,'name': 'Snake','walkAnimationID': 274,'width': 1}
-{'ID': 3200,'actions': ['Talk-To','Attack','null','null','null'],'combatLevel': 3,'height': 1,'name': 'Monkey','walkAnimationID': 219,'width': 1}
+{'ID': 3200,'actions': ['Talk-to','Attack','null','null','null'],'combatLevel': 3,'height': 1,'name': 'Monkey','walkAnimationID': 219,'width': 1}
 {'ID': 3201,'actions': ['null','Attack','null','null','null'],'combatLevel': 52,'height': 1,'name': 'Albino bat','walkAnimationID': 4913,'width': 1}
 {'ID': 3202,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 50,'name': 'Crab','walkAnimationID': 3426,'width': 50}
 {'ID': 3203,'actions': ['null','Attack','null','null','null'],'combatLevel': 13,'height': 1,'name': 'Giant mosquito','walkAnimationID': 2396,'width': 1}
@@ -4185,7 +4185,7 @@
 {'ID': 4184,'actions': ['null','Attack','null','null','null'],'combatLevel': 63,'height': 1,'name': 'Crocodile','walkAnimationID': 2036,'width': 1}
 {'ID': 4185,'actions': ['null','Attack','null','null','null'],'combatLevel': 21,'height': 1,'name': 'Jackal','walkAnimationID': 6560,'width': 1}
 {'ID': 4186,'actions': ['null','Attack','null','null','null'],'combatLevel': 18,'height': 1,'name': 'Locust','walkAnimationID': 2011,'width': 1}
-{'ID': 4187,'actions': ['Take','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=ff9040>Oddskull</col>','walkAnimationID': -1,'width': 1}
+{'ID': 4187,'actions': ['Take','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Oddskull','walkAnimationID': -1,'width': 1}
 {'ID': 4188,'actions': ['null','Attack','null','null','null'],'combatLevel': 11,'height': 1,'name': 'Plague frog','walkAnimationID': 1021,'width': 1}
 {'ID': 4189,'actions': ['Pet','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Plague cow','walkAnimationID': 5848,'width': 1}
 {'ID': 4190,'actions': ['Pet','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Plague cow','walkAnimationID': 5848,'width': 1}
@@ -4893,7 +4893,7 @@
 {'ID': 4892,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dondakan the Dwarf','walkAnimationID': 98,'width': 1}
 {'ID': 4893,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dwarven Engineer','walkAnimationID': 98,'width': 1}
 {'ID': 4894,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Rolad','walkAnimationID': 98,'width': 1}
-{'ID': 4895,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Khorvak,a dwarven engineer','walkAnimationID': 104,'width': 1}
+{'ID': 4895,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Khorvak, a dwarven engineer','walkAnimationID': 104,'width': 1}
 {'ID': 4896,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dwarven Ferryman','walkAnimationID': 98,'width': 1}
 {'ID': 4897,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dwarven Ferryman','walkAnimationID': 98,'width': 1}
 {'ID': 4898,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dwarven Boatman','walkAnimationID': 98,'width': 1}
@@ -5519,7 +5519,7 @@
 {'ID': 5518,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 100,'name': 'Elder Gnome child','walkAnimationID': 189,'width': 100}
 {'ID': 5519,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Two-pints','walkAnimationID': 3039,'width': 1}
 {'ID': 5520,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Jarr','walkAnimationID': 819,'width': 1}
-{'ID': 5521,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Le-sabr\u00c3\u00a8','walkAnimationID': 6531,'width': 1}
+{'ID': 5521,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Le-sabr\u00E8','walkAnimationID': 6531,'width': 1}
 {'ID': 5522,'actions': ['Talk-to','null','Quick-claim','null','null'],'combatLevel': 0,'height': 1,'name': 'Flax keeper','walkAnimationID': 819,'width': 1}
 {'ID': 5523,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Hatius Cosaintus','walkAnimationID': 819,'width': 1}
 {'ID': 5524,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Sir Rebral','walkAnimationID': 819,'width': 1}
@@ -5534,8 +5534,8 @@
 {'ID': 5533,'actions': ['Catch','null','null','null','null'],'combatLevel': 0,'height': 96,'name': 'Dashing kebbit','walkAnimationID': 5272,'width': 96}
 {'ID': 5534,'actions': ['null','Disturb','null','null','null'],'combatLevel': 0,'height': 55,'name': 'Whirlpool','walkAnimationID': 6737,'width': 55}
 {'ID': 5535,'actions': ['null','Attack','null','null','null'],'combatLevel': 112,'height': 200,'name': 'Enormous Tentacle','walkAnimationID': 3617,'width': 200}
-{'ID': 5536,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 60,'name': 'Vet'ion Jr.','walkAnimationID': 5497,'width': 60}
-{'ID': 5537,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 60,'name': 'Vet'ion Jr.','walkAnimationID': 5497,'width': 60}
+{'ID': 5536,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 45,'name': 'Vet'ion Jr.','walkAnimationID': 5497,'width': 45}
+{'ID': 5537,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 45,'name': 'Vet'ion Jr.','walkAnimationID': 5497,'width': 45}
 {'ID': 5538,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Egg','walkAnimationID': 3863,'width': 1}
 {'ID': 5539,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Egg','walkAnimationID': 3863,'width': 1}
 {'ID': 5540,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Egg','walkAnimationID': 3863,'width': 1}
@@ -5893,9 +5893,9 @@
 {'ID': 5892,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 20,'name': 'TzRek-Jad','walkAnimationID': 5805,'width': 20}
 {'ID': 5893,'actions': ['Talk-to','null','Pick-up','null','null'],'combatLevel': 0,'height': 20,'name': 'TzRek-Jad','walkAnimationID': 5805,'width': 20}
 {'ID': 5894,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '','walkAnimationID': -1,'width': 1}
-{'ID': 5895,'actions': ['Use','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Portal</col>','walkAnimationID': -1,'width': 1}
+{'ID': 5895,'actions': ['Use','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Portal','walkAnimationID': -1,'width': 1}
 {'ID': 5896,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': -1,'width': 1}
-{'ID': 5897,'actions': ['Exit','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00efef>Portal</col>','walkAnimationID': -1,'width': 1}
+{'ID': 5897,'actions': ['Exit','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Portal','walkAnimationID': -1,'width': 1}
 {'ID': 5898,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 663,'width': 1}
 {'ID': 5899,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 1797,'width': 1}
 {'ID': 5900,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 1797,'width': 1}
@@ -5913,7 +5913,7 @@
 {'ID': 5912,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Tentacle','walkAnimationID': 7106,'width': 1}
 {'ID': 5913,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Tentacle','walkAnimationID': 7113,'width': 1}
 {'ID': 5914,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 180,'name': 'Respiratory system','walkAnimationID': -1,'width': 1}
-{'ID': 5915,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Vent</col>','walkAnimationID': 7103,'width': 1}
+{'ID': 5915,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Vent','walkAnimationID': 7103,'width': 1}
 {'ID': 5916,'actions': ['null','Attack','null','null','null'],'combatLevel': 60,'height': 1,'name': 'Spawn','walkAnimationID': 4525,'width': 1}
 {'ID': 5917,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Spawn','walkAnimationID': 4525,'width': 1}
 {'ID': 5918,'actions': ['null','Attack','null','null','null'],'combatLevel': 100,'height': 1,'name': 'Scion','walkAnimationID': 7124,'width': 1}
@@ -6339,7 +6339,7 @@
 {'ID': 6338,'actions': ['null','Attack','null','null','null'],'combatLevel': 153,'height': 1,'name': 'Nazastarool (hard)','walkAnimationID': 5506,'width': 1}
 {'ID': 6339,'actions': ['null','Attack','null','null','null'],'combatLevel': 181,'height': 1,'name': 'Nazastarool (hard)','walkAnimationID': 5531,'width': 1}
 {'ID': 6340,'actions': ['null','Attack','null','null','null'],'combatLevel': 170,'height': 1,'name': 'Cow (hard)','walkAnimationID': 5848,'width': 1}
-{'ID': 6341,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=ff9040>Zapper','walkAnimationID': 502,'width': 1}
+{'ID': 6341,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Zapper','walkAnimationID': 502,'width': 1}
 {'ID': 6342,'actions': ['null','Attack','null','null','null'],'combatLevel': 190,'height': 1,'name': 'Barrelchest','walkAnimationID': 5892,'width': 1}
 {'ID': 6343,'actions': ['null','Attack','null','null','null'],'combatLevel': 191,'height': 1,'name': 'Giant scarab','walkAnimationID': 5454,'width': 1}
 {'ID': 6344,'actions': ['null','Attack','null','null','null'],'combatLevel': 139,'height': 1,'name': 'Dessous','walkAnimationID': 819,'width': 1}
@@ -6477,8 +6477,8 @@
 {'ID': 6476,'actions': ['null','Attack','null','null','null'],'combatLevel': 69,'height': 1,'name': 'Tarn','walkAnimationID': 819,'width': 1}
 {'ID': 6477,'actions': ['null','Attack','null','null','null'],'combatLevel': 69,'height': 1,'name': 'Mutant tarn','walkAnimationID': 5615,'width': 1}
 {'ID': 6478,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Rufus','walkAnimationID': 819,'width': 1}
-{'ID': 6479,'actions': ['Peek','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Eye</col>','walkAnimationID': -1,'width': 1}
-{'ID': 6480,'actions': ['Peek','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Eye</col>','walkAnimationID': -1,'width': 1}
+{'ID': 6479,'actions': ['Peek','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Eye','walkAnimationID': -1,'width': 1}
+{'ID': 6480,'actions': ['Peek','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Eye','walkAnimationID': -1,'width': 1}
 {'ID': 6481,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 126,'height': 1,'name': 'Mac','walkAnimationID': 819,'width': 1}
 {'ID': 6482,'actions': ['Push','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Boulder','walkAnimationID': 6,'width': 1}
 {'ID': 6483,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'name': 'Monkey','walkAnimationID': 219,'width': 1}
@@ -6505,8 +6505,8 @@
 {'ID': 6504,'actions': ['null','Attack','null','null','null'],'combatLevel': 464,'height': 190,'name': 'Venenatis','walkAnimationID': 5317,'width': 190}
 {'ID': 6505,'actions': ['null','Attack','null','null','null'],'combatLevel': 305,'height': 1,'name': 'Chaos Elemental','walkAnimationID': 3145,'width': 1}
 {'ID': 6506,'actions': ['null','Attack','null','null','null'],'combatLevel': 702,'height': 1,'name': 'TzTok-Jad','walkAnimationID': 2651,'width': 1}
-{'ID': 6507,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Santa's bodyguard','walkAnimationID': 2562,'width': 1}
-{'ID': 6508,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Santa Claus','walkAnimationID': 1378,'width': 1}
+{'ID': 6507,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 2562,'width': 1}
+{'ID': 6508,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 819,'width': 1}
 {'ID': 6509,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Squire','walkAnimationID': 819,'width': 1}
 {'ID': 6510,'actions': ['Talk-to','null','Bank','Collect','Deposit-box'],'combatLevel': 0,'height': 1,'name': 'Financial Wizard','walkAnimationID': 819,'width': 1}
 {'ID': 6511,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 819,'width': 1}
@@ -6562,7 +6562,7 @@
 {'ID': 6561,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Guard','walkAnimationID': 98,'width': 1}
 {'ID': 6562,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Prospector Percy','walkAnimationID': 819,'width': 1}
 {'ID': 6563,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 195,'width': 1}
-{'ID': 6564,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=ff9040>Pay-dirt</col>','walkAnimationID': -1,'width': 1}
+{'ID': 6564,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Pay-dirt','walkAnimationID': -1,'width': 1}
 {'ID': 6565,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 98,'width': 1}
 {'ID': 6566,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Runite Minor','walkAnimationID': 819,'width': 1}
 {'ID': 6567,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 98,'width': 1}
@@ -6593,14 +6593,14 @@
 {'ID': 6592,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '','walkAnimationID': -1,'width': 1}
 {'ID': 6593,'actions': ['null','Attack','null','null','null'],'combatLevel': 252,'height': 110,'name': 'Lava dragon','walkAnimationID': 79,'width': 110}
 {'ID': 6594,'actions': ['null','Attack','null','null','null'],'combatLevel': 101,'height': 1,'name': 'Ent','walkAnimationID': 7142,'width': 1}
-{'ID': 6595,'actions': ['Chop','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Ent trunk</col>','walkAnimationID': -1,'width': 1}
+{'ID': 6595,'actions': ['Chop','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Ent trunk','walkAnimationID': -1,'width': 1}
 {'ID': 6596,'actions': ['null','Attack','null','null','null'],'combatLevel': 18,'height': 1,'name': 'Zombie','walkAnimationID': 5577,'width': 1}
 {'ID': 6597,'actions': ['null','Attack','null','null','null'],'combatLevel': 18,'height': 1,'name': 'Zombie','walkAnimationID': 5566,'width': 1}
 {'ID': 6598,'actions': ['null','Attack','null','null','null'],'combatLevel': 18,'height': 1,'name': 'Zombie','walkAnimationID': 5570,'width': 1}
 {'ID': 6599,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Mandrith','walkAnimationID': 2947,'width': 1}
 {'ID': 6600,'actions': ['null','Attack','null','null','null'],'combatLevel': 178,'height': 112,'name': 'Runite Golem','walkAnimationID': 152,'width': 112}
-{'ID': 6601,'actions': ['Mine','null','Prospect','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Rocks</col>','walkAnimationID': -1,'width': 1}
-{'ID': 6602,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Rocks</col>','walkAnimationID': -1,'width': 1}
+{'ID': 6601,'actions': ['Mine','null','Prospect','null','null'],'combatLevel': 0,'height': 1,'name': 'Rocks','walkAnimationID': -1,'width': 1}
+{'ID': 6602,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Rocks','walkAnimationID': -1,'width': 1}
 {'ID': 6603,'actions': ['null','Attack','null','null','null'],'combatLevel': 135,'height': 1,'name': 'Rogue','walkAnimationID': 819,'width': 1}
 {'ID': 6604,'actions': ['null','Attack','null','null','null'],'combatLevel': 80,'height': 125,'name': 'Mammoth','walkAnimationID': 303,'width': 125}
 {'ID': 6605,'actions': ['null','Attack','null','null','null'],'combatLevel': 130,'height': 1,'name': 'Bandit','walkAnimationID': 819,'width': 1}
@@ -6619,7 +6619,7 @@
 {'ID': 6618,'actions': ['null','Attack','null','null','null'],'combatLevel': 204,'height': 140,'name': 'Crazy archaeologist','walkAnimationID': 819,'width': 140}
 {'ID': 6619,'actions': ['null','Attack','null','null','null'],'combatLevel': 202,'height': 1,'name': 'Chaos Fanatic','walkAnimationID': 2769,'width': 1}
 {'ID': 6620,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miniature chaotic clouds','walkAnimationID': 3145,'width': 1}
-{'ID': 6621,'actions': ['Move','null','null','null','null'],'combatLevel': 0,'height': 1,'name': '<col=00ffff>Boulder</col>','walkAnimationID': 6120,'width': 1}
+{'ID': 6621,'actions': ['Move','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Boulder','walkAnimationID': 6120,'width': 1}
 {'ID': 6622,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 6120,'width': 1}
 {'ID': 6623,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': -1,'width': 1}
 {'ID': 6624,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Energy sprite','walkAnimationID': 1039,'width': 1}
@@ -6758,57 +6758,298 @@
 {'ID': 6757,'actions': ['Talk-to','null','Pick-up','Metamorphosis','null'],'combatLevel': 0,'height': 1,'name': 'Baby Chinchompa','walkAnimationID': 5181,'width': 1}
 {'ID': 6758,'actions': ['Talk-to','null','Pick-up','Metamorphosis','null'],'combatLevel': 0,'height': 1,'name': 'Baby Chinchompa','walkAnimationID': 5181,'width': 1}
 {'ID': 6759,'actions': ['Talk-to','null','Pick-up','Metamorphosis','null'],'combatLevel': 0,'height': 1,'name': 'Baby Chinchompa','walkAnimationID': 5181,'width': 1}
-{'ID': 6760,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Anti-Santa','walkAnimationID': 7168,'width': 1}
-{'ID': 6761,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Anti-Santa','walkAnimationID': 7168,'width': 1}
+{'ID': 6760,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 819,'width': 1}
+{'ID': 6761,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 1205,'width': 1}
 {'ID': 6762,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'name': '','walkAnimationID': -1,'width': 1}
-{'ID': 6763,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6764,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6765,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6766,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6767,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6768,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6769,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6770,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6771,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6772,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6773,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6774,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6775,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6776,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6777,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6778,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6779,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6780,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6781,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy child','walkAnimationID': -1,'width': 1}
-{'ID': 6782,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6783,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying child','walkAnimationID': -1,'width': 1}
-{'ID': 6784,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Happy gnome child','walkAnimationID': -1,'width': 1}
-{'ID': 6785,'actions': ['Talk-to','null','Collect-tears','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying gnome child','walkAnimationID': -1,'width': 1}
-{'ID': 6786,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Crying gnome child','walkAnimationID': -1,'width': 1}
-{'ID': 6787,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Frosty snakeling','walkAnimationID': -1,'width': 1}
-{'ID': 6788,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Frosty snakeling','walkAnimationID': -1,'width': 1}
-{'ID': 6789,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Frosty spider','walkAnimationID': -1,'width': 1}
-{'ID': 6790,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Frosty spider','walkAnimationID': 5325,'width': 1}
-{'ID': 6791,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 70,'name': 'Evil Bob','walkAnimationID': 314,'width': 70}
-{'ID': 6792,'actions': ['null','Attack','null','null','null'],'combatLevel': 2,'height': 1,'name': 'Frosty spider','walkAnimationID': 5325,'width': 1}
-{'ID': 6793,'actions': ['null','Attack','null','null','null'],'combatLevel': 2,'height': 1,'name': 'Frosty snakeling','walkAnimationID': 2405,'width': 1}
-{'ID': 6794,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 7168,'width': 1}
+{'ID': 6763,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 819,'width': 1}
+{'ID': 6764,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 819,'width': 1}
+{'ID': 6765,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Steve','walkAnimationID': 819,'width': 1}
+{'ID': 6766,'actions': ['null','Attack','null','null','null'],'combatLevel': 150,'height': 1,'name': 'Lizardman shaman','walkAnimationID': 7195,'width': 1}
+{'ID': 6767,'actions': ['null','Attack','null','null','null'],'combatLevel': 150,'height': 1,'name': 'Lizardman shaman','walkAnimationID': 7195,'width': 1}
+{'ID': 6768,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Spawn','walkAnimationID': 7195,'width': 1}
+{'ID': 6769,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Osten','walkAnimationID': 819,'width': 1}
+{'ID': 6770,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Gnome child','walkAnimationID': -1,'width': 1}
+{'ID': 6771,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Gnome child','walkAnimationID': -1,'width': 1}
+{'ID': 6772,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
 {'ID': 6795,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': -1,'width': 1}
-{'ID': 6796,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6797,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6798,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6799,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6800,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6801,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6802,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6803,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6804,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6805,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6806,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6807,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6808,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6809,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6810,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 6471,'width': 1}
-{'ID': 6811,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 189,'width': 1}
-{'ID': 6812,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 2405,'width': 1}
-{'ID': 6813,'actions': ['null','null','null','null','null'],'combatLevel': 1,'height': 1,'walkAnimationID': 5325,'width': 1}
+{'ID': 6814,'actions': ['Talk-to','null','Pay','null','null'],'combatLevel': 0,'height': 1,'name': 'Lammy Langle','walkAnimationID': 189,'width': 1}
+{'ID': 6815,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5539,'width': 1}
+{'ID': 6816,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6817,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6818,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6819,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6820,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6821,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6822,'actions': ['null','Attack','null','null','null'],'combatLevel': 19,'height': 1,'name': 'Ghost','walkAnimationID': 5531,'width': 1}
+{'ID': 6823,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Town crier','walkAnimationID': 6867,'width': 1}
+{'ID': 6824,'actions': ['null','Attack','null','null','null'],'combatLevel': 27,'height': 1,'name': 'Giant bat','walkAnimationID': 4913,'width': 1}
+{'ID': 6825,'actions': ['Bait','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Fishing spot','walkAnimationID': 448,'width': 1}
+{'ID': 6826,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6827,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6828,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6829,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6830,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6831,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6832,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6833,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6834,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6835,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6836,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6837,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6838,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6839,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6840,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6841,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6842,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6843,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6844,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6845,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6846,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6847,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6848,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6849,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6850,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6851,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6852,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6853,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6854,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6855,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6856,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6282,'width': 1}
+{'ID': 6857,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wounded soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6858,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Look-out','walkAnimationID': 2562,'width': 1}
+{'ID': 6859,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6860,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6861,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6862,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6863,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6864,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6865,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Salara','walkAnimationID': 819,'width': 1}
+{'ID': 6866,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Babacus','walkAnimationID': 819,'width': 1}
+{'ID': 6867,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Kilian','walkAnimationID': 819,'width': 1}
+{'ID': 6868,'actions': ['Talk-to','null','Attack','null','null'],'combatLevel': 45,'height': 1,'name': 'Soldier','walkAnimationID': 2562,'width': 1}
+{'ID': 6869,'actions': ['Talk-to','null','Attack','null','null'],'combatLevel': 54,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6870,'actions': ['Talk-to','null','Attack','null','null'],'combatLevel': 56,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6871,'actions': ['Talk-to','null','Attack','null','null'],'combatLevel': 62,'height': 1,'name': 'Soldier','walkAnimationID': 1205,'width': 1}
+{'ID': 6872,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'New recruit Tony','walkAnimationID': 819,'width': 1}
+{'ID': 6873,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 128,'name': 'Nurse Wooned','walkAnimationID': 819,'width': 128}
+{'ID': 6874,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 128,'name': 'Nurse Inn'Juree','walkAnimationID': 819,'width': 128}
+{'ID': 6875,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 128,'name': 'Nurse Boubou','walkAnimationID': 819,'width': 128}
+{'ID': 6876,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Rachelle','walkAnimationID': 2562,'width': 1}
+{'ID': 6877,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 6284,'width': 1}
+{'ID': 6878,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6879,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6880,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6881,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6882,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Drill instructor','walkAnimationID': 819,'width': 1}
+{'ID': 6883,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6884,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6885,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6886,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6887,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6888,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6889,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6890,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6891,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6892,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6893,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6894,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 819,'width': 1}
+{'ID': 6895,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Ginea','walkAnimationID': 819,'width': 1}
+{'ID': 6896,'actions': ['null','Attack','null','null','null'],'combatLevel': 45,'height': 1,'name': 'Gangster','walkAnimationID': 819,'width': 1}
+{'ID': 6897,'actions': ['null','Attack','null','null','null'],'combatLevel': 45,'height': 1,'name': 'Gangster','walkAnimationID': 819,'width': 1}
+{'ID': 6898,'actions': ['null','Attack','null','null','null'],'combatLevel': 50,'height': 1,'name': 'Gangster','walkAnimationID': 1205,'width': 1}
+{'ID': 6899,'actions': ['null','Attack','null','null','null'],'combatLevel': 50,'height': 1,'name': 'Gangster','walkAnimationID': 819,'width': 1}
+{'ID': 6900,'actions': ['null','Attack','null','null','null'],'combatLevel': 83,'height': 1,'name': 'Gang boss','walkAnimationID': 819,'width': 1}
+{'ID': 6901,'actions': ['null','Attack','null','null','null'],'combatLevel': 83,'height': 1,'name': 'Gang boss','walkAnimationID': 819,'width': 1}
+{'ID': 6902,'actions': ['null','Attack','null','null','null'],'combatLevel': 76,'height': 1,'name': 'Gang boss','walkAnimationID': 819,'width': 1}
+{'ID': 6903,'actions': ['null','Attack','null','null','null'],'combatLevel': 76,'height': 1,'name': 'Gang boss','walkAnimationID': 819,'width': 1}
+{'ID': 6904,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 39,'height': 1,'name': 'Soldier (tier 1)','walkAnimationID': 2562,'width': 1}
+{'ID': 6905,'actions': ['null','Attack','null','null','null'],'combatLevel': 39,'height': 1,'name': 'Soldier (tier 1)','walkAnimationID': 2562,'width': 1}
+{'ID': 6906,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 48,'height': 1,'name': 'Soldier (tier 2)','walkAnimationID': 819,'width': 1}
+{'ID': 6907,'actions': ['null','Attack','null','null','null'],'combatLevel': 48,'height': 1,'name': 'Soldier (tier 2)','walkAnimationID': 819,'width': 1}
+{'ID': 6908,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 58,'height': 1,'name': 'Soldier (tier 3)','walkAnimationID': 819,'width': 1}
+{'ID': 6909,'actions': ['null','Attack','null','null','null'],'combatLevel': 58,'height': 1,'name': 'Soldier (tier 3)','walkAnimationID': 819,'width': 1}
+{'ID': 6910,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 70,'height': 1,'name': 'Soldier (tier 4)','walkAnimationID': 1205,'width': 1}
+{'ID': 6911,'actions': ['null','Attack','null','null','null'],'combatLevel': 70,'height': 1,'name': 'Soldier (tier 4)','walkAnimationID': 1205,'width': 1}
+{'ID': 6912,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 99,'height': 1,'name': 'Soldier (tier 5)','walkAnimationID': 819,'width': 1}
+{'ID': 6913,'actions': ['null','Attack','null','null','null'],'combatLevel': 99,'height': 1,'name': 'Soldier (tier 5)','walkAnimationID': 819,'width': 1}
+{'ID': 6914,'actions': ['null','Attack','null','null','null'],'combatLevel': 53,'height': 1,'name': 'Lizardman','walkAnimationID': 7195,'width': 1}
+{'ID': 6915,'actions': ['null','Attack','null','null','null'],'combatLevel': 53,'height': 1,'name': 'Lizardman','walkAnimationID': 7195,'width': 1}
+{'ID': 6916,'actions': ['null','Attack','null','null','null'],'combatLevel': 62,'height': 1,'name': 'Lizardman','walkAnimationID': 7195,'width': 1}
+{'ID': 6917,'actions': ['null','Attack','null','null','null'],'combatLevel': 62,'height': 1,'name': 'Lizardman','walkAnimationID': 7195,'width': 1}
+{'ID': 6918,'actions': ['null','Attack','null','null','null'],'combatLevel': 73,'height': 1,'name': 'Lizardman brute','walkAnimationID': 7195,'width': 1}
+{'ID': 6919,'actions': ['null','Attack','null','null','null'],'combatLevel': 73,'height': 1,'name': 'Lizardman brute','walkAnimationID': 7195,'width': 1}
+{'ID': 6920,'actions': ['Talk-to','null','Rewards','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer Gricoller','walkAnimationID': 4073,'width': 1}
+{'ID': 6921,'actions': ['Talk-to','null','Pay (north-east)','Pay (south-west)','null'],'combatLevel': 0,'height': 1,'name': 'Marisi','walkAnimationID': 819,'width': 1}
+{'ID': 6922,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Konoo','walkAnimationID': 2164,'width': 1}
+{'ID': 6923,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Clerk','walkAnimationID': 819,'width': 1}
+{'ID': 6924,'actions': ['Push','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Plough','walkAnimationID': -1,'width': 1}
+{'ID': 6925,'actions': ['Repair','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Plough','walkAnimationID': -1,'width': 1}
+{'ID': 6926,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Ewesey','walkAnimationID': 819,'width': 1}
+{'ID': 6927,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 100,'name': 'Servery assistant','walkAnimationID': 819,'width': 100}
+{'ID': 6928,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Servery assistant','walkAnimationID': 819,'width': 1}
+{'ID': 6929,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7186,'width': 1}
+{'ID': 6930,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7059,'width': 1}
+{'ID': 6931,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7059,'width': 1}
+{'ID': 6932,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7186,'width': 1}
+{'ID': 6933,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7059,'width': 1}
+{'ID': 6934,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7059,'width': 1}
+{'ID': 6935,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7059,'width': 1}
+{'ID': 6936,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Soldier','walkAnimationID': 7186,'width': 1}
+{'ID': 6937,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Ramocean','walkAnimationID': 1205,'width': 1}
+{'ID': 6938,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 108,'name': 'Talia','walkAnimationID': 819,'width': 108}
+{'ID': 6939,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 808,'width': 1}
+{'ID': 6940,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 808,'width': 1}
+{'ID': 6941,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 808,'width': 1}
+{'ID': 6942,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 808,'width': 1}
+{'ID': 6943,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Horace','walkAnimationID': 819,'width': 1}
+{'ID': 6944,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Vannah','walkAnimationID': 819,'width': 1}
+{'ID': 6945,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 112,'name': 'Logava','walkAnimationID': 819,'width': 112}
+{'ID': 6946,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 112,'name': 'Pandur Hosidius','walkAnimationID': 2769,'width': 112}
+{'ID': 6947,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 3039,'width': 1}
+{'ID': 6948,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 3039,'width': 1}
+{'ID': 6949,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 3039,'width': 1}
+{'ID': 6950,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 3039,'width': 1}
+{'ID': 6951,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 2769,'width': 1}
+{'ID': 6952,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 2769,'width': 1}
+{'ID': 6953,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 112,'name': 'Golova','walkAnimationID': 819,'width': 112}
+{'ID': 6954,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 136,'name': 'Richard','walkAnimationID': 819,'width': 136}
+{'ID': 6955,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Father Jean','walkAnimationID': 819,'width': 1}
+{'ID': 6956,'actions': ['Talk-to','Attack','null','null','null'],'combatLevel': 5,'height': 1,'name': 'Monk','walkAnimationID': 819,'width': 1}
+{'ID': 6957,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Chief Farmer','walkAnimationID': 819,'width': 1}
+{'ID': 6958,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer's wife','walkAnimationID': 819,'width': 1}
+{'ID': 6959,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 1205,'width': 1}
+{'ID': 6960,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 1205,'width': 1}
+{'ID': 6961,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer','walkAnimationID': 1205,'width': 1}
+{'ID': 6962,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Farmer Hayfield','walkAnimationID': 819,'width': 1}
+{'ID': 6963,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Frankie','walkAnimationID': 819,'width': 1}
+{'ID': 6964,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Tynan','walkAnimationID': 819,'width': 1}
+{'ID': 6965,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Nicholas','walkAnimationID': 819,'width': 1}
+{'ID': 6966,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dockmaster','walkAnimationID': 819,'width': 1}
+{'ID': 6967,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dock worker','walkAnimationID': 819,'width': 1}
+{'ID': 6968,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dock worker','walkAnimationID': 819,'width': 1}
+{'ID': 6969,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6970,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 819,'width': 1}
+{'ID': 6971,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Khaled','walkAnimationID': 819,'width': 1}
+{'ID': 6972,'actions': ['Talk-to','null','Task','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Khaled','walkAnimationID': 819,'width': 1}
+{'ID': 6973,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6974,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6975,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6976,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolwoman','walkAnimationID': 819,'width': 1}
+{'ID': 6977,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6978,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolwoman','walkAnimationID': 819,'width': 1}
+{'ID': 6979,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6980,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Patrolman','walkAnimationID': 819,'width': 1}
+{'ID': 6981,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Fisherman','walkAnimationID': -1,'width': 32}
+{'ID': 6982,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Poor looking man','walkAnimationID': 819,'width': 1}
+{'ID': 6983,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Poor looking man','walkAnimationID': 819,'width': 1}
+{'ID': 6984,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Poor looking woman','walkAnimationID': 819,'width': 1}
+{'ID': 6985,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Poor looking woman','walkAnimationID': 819,'width': 1}
+{'ID': 6986,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Leenz','walkAnimationID': 819,'width': 1}
+{'ID': 6987,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Man','walkAnimationID': 819,'width': 1}
+{'ID': 6988,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Man','walkAnimationID': 819,'width': 1}
+{'ID': 6989,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Man','walkAnimationID': 819,'width': 1}
+{'ID': 6990,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Woman','walkAnimationID': 819,'width': 1}
+{'ID': 6991,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Woman','walkAnimationID': 819,'width': 1}
+{'ID': 6992,'actions': ['Talk-to','Attack','Pickpocket','null','null'],'combatLevel': 2,'height': 1,'name': 'Woman','walkAnimationID': 819,'width': 1}
+{'ID': 6993,'actions': ['Talk-to','Attack','null','null','null'],'combatLevel': 23,'height': 1,'name': 'Pirate','walkAnimationID': 819,'width': 1}
+{'ID': 6994,'actions': ['Talk-to','Attack','null','null','null'],'combatLevel': 23,'height': 1,'name': 'Pirate','walkAnimationID': 819,'width': 1}
+{'ID': 6995,'actions': ['Talk-to','Attack','null','null','null'],'combatLevel': 23,'height': 1,'name': 'Pirate','walkAnimationID': 819,'width': 1}
+{'ID': 6996,'actions': ['null','Attack','null','null','null'],'combatLevel': 6,'height': 1,'name': 'Mugger','walkAnimationID': 819,'width': 1}
+{'ID': 6997,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dark wizard','walkAnimationID': 819,'width': 1}
+{'ID': 6998,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Pirate','walkAnimationID': 819,'width': 1}
+{'ID': 6999,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Port Official','walkAnimationID': 819,'width': 1}
+{'ID': 7000,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Captain Janaway','walkAnimationID': 819,'width': 1}
+{'ID': 7001,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Port worker','walkAnimationID': 819,'width': 1}
+{'ID': 7002,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Mark','walkAnimationID': 1146,'width': 1}
+{'ID': 7003,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Cheryl','walkAnimationID': 1205,'width': 1}
+{'ID': 7004,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Charles','walkAnimationID': 819,'width': 1}
+{'ID': 7005,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Sarah','walkAnimationID': 819,'width': 1}
+{'ID': 7006,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Darren','walkAnimationID': 819,'width': 1}
+{'ID': 7007,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Melvin','walkAnimationID': 819,'width': 1}
+{'ID': 7008,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Simon','walkAnimationID': 819,'width': 1}
+{'ID': 7009,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Andrea','walkAnimationID': 6531,'width': 1}
+{'ID': 7010,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Elizabeth','walkAnimationID': 6531,'width': 1}
+{'ID': 7011,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Lorraine','walkAnimationID': 6531,'width': 1}
+{'ID': 7012,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Ross and Ben','walkAnimationID': 6410,'width': 1}
+{'ID': 7013,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dobwinkle','walkAnimationID': 189,'width': 1}
+{'ID': 7014,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Alexander','walkAnimationID': 819,'width': 1}
+{'ID': 7015,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Charlie Brown','walkAnimationID': 819,'width': 1}
+{'ID': 7016,'actions': ['null','Attack','Pickpocket','null','null'],'combatLevel': 21,'height': 1,'name': 'Kourend guard','walkAnimationID': 819,'width': 1}
+{'ID': 7017,'actions': ['null','Attack','Pickpocket','null','null'],'combatLevel': 84,'height': 1,'name': 'Kourend head guard','walkAnimationID': 819,'width': 1}
+{'ID': 7018,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated goblin','walkAnimationID': 308,'width': 1}
+{'ID': 7019,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated monkey','walkAnimationID': 219,'width': 1}
+{'ID': 7020,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated imp','walkAnimationID': 168,'width': 1}
+{'ID': 7021,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated minotaur','walkAnimationID': 4263,'width': 1}
+{'ID': 7022,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated scorpion','walkAnimationID': 6253,'width': 1}
+{'ID': 7023,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated bear','walkAnimationID': 4923,'width': 1}
+{'ID': 7024,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 110,'name': 'Reanimated unicorn','walkAnimationID': 6373,'width': 110}
+{'ID': 7025,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated dog','walkAnimationID': 6560,'width': 1}
+{'ID': 7026,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated chaos druid','walkAnimationID': 819,'width': 1}
+{'ID': 7027,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated giant','walkAnimationID': 4649,'width': 1}
+{'ID': 7028,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated ogre','walkAnimationID': 358,'width': 1}
+{'ID': 7029,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated elf','walkAnimationID': 819,'width': 1}
+{'ID': 7030,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated troll','walkAnimationID': 1141,'width': 1}
+{'ID': 7031,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated horror','walkAnimationID': 4236,'width': 1}
+{'ID': 7032,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated kalphite','walkAnimationID': 6222,'width': 1}
+{'ID': 7033,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 82,'name': 'Reanimated dagannoth','walkAnimationID': 1339,'width': 82}
+{'ID': 7034,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 245,'name': 'Reanimated bloodveld','walkAnimationID': 1549,'width': 245}
+{'ID': 7035,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 156,'name': 'Reanimated TzHaar','walkAnimationID': 2601,'width': 156}
+{'ID': 7036,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 86,'name': 'Reanimated demon','walkAnimationID': 63,'width': 86}
+{'ID': 7037,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated aviansie','walkAnimationID': 6953,'width': 1}
+{'ID': 7038,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 64,'name': 'Reanimated abyssal','walkAnimationID': 1534,'width': 64}
+{'ID': 7039,'actions': ['null','Attack','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Reanimated dragon','walkAnimationID': 79,'width': 1}
+{'ID': 7040,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Clerris','walkAnimationID': 7203,'width': 1}
+{'ID': 7041,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Enoch','walkAnimationID': 7203,'width': 1}
+{'ID': 7042,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Aretha','walkAnimationID': 7203,'width': 1}
+{'ID': 7043,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Sister Soul Jar','walkAnimationID': 866,'width': 1}
+{'ID': 7044,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Logosia','walkAnimationID': 7203,'width': 1}
+{'ID': 7045,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Biblia','walkAnimationID': 7203,'width': 1}
+{'ID': 7046,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Horphis','walkAnimationID': 7203,'width': 1}
+{'ID': 7047,'actions': ['Talk-to','null','Help','null','null'],'combatLevel': 0,'height': 1,'name': 'Villia','walkAnimationID': 7203,'width': 1}
+{'ID': 7048,'actions': ['Talk-to','null','Help','null','null'],'combatLevel': 0,'height': 1,'name': 'Professor Gracklebone','walkAnimationID': 189,'width': 1}
+{'ID': 7049,'actions': ['Talk-to','null','Help','null','null'],'combatLevel': 0,'height': 1,'name': 'Sam','walkAnimationID': 819,'width': 1}
+{'ID': 7050,'actions': ['Talk-to','null','Spellbook','null','null'],'combatLevel': 0,'height': 1,'name': 'Tyss','walkAnimationID': 7203,'width': 1}
+{'ID': 7051,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Trossa','walkAnimationID': 7203,'width': 1}
+{'ID': 7052,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Tower Mage','walkAnimationID': 7203,'width': 1}
+{'ID': 7053,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Rassain','walkAnimationID': 7203,'width': 1}
+{'ID': 7054,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Mofina','walkAnimationID': 7203,'width': 1}
+{'ID': 7055,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Novice','walkAnimationID': 7203,'width': 1}
+{'ID': 7056,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Regath','walkAnimationID': 7203,'width': 1}
+{'ID': 7057,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 7203,'width': 1}
+{'ID': 7058,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 7203,'width': 1}
+{'ID': 7059,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 7203,'width': 1}
+{'ID': 7060,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 7203,'width': 1}
+{'ID': 7061,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Batt Mellamy','walkAnimationID': -1,'width': 1}
+{'ID': 7062,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Freald','walkAnimationID': 7203,'width': 1}
+{'ID': 7063,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 64,'name': 'Cob','walkAnimationID': 4913,'width': 64}
+{'ID': 7064,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dark wizard','walkAnimationID': 819,'width': 1}
+{'ID': 7065,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Dark wizard','walkAnimationID': 819,'width': 1}
+{'ID': 7066,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wizard','walkAnimationID': 819,'width': 1}
+{'ID': 7067,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Wizard','walkAnimationID': 819,'width': 1}
+{'ID': 7068,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Ouditor','walkAnimationID': 7203,'width': 1}
+{'ID': 7069,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Smoggy','walkAnimationID': 98,'width': 1}
+{'ID': 7070,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'walkAnimationID': 1261,'width': 1}
+{'ID': 7071,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Toothy','walkAnimationID': 98,'width': 1}
+{'ID': 7072,'actions': ['Talk-to','null','Collect','null','null'],'combatLevel': 0,'height': 1,'name': 'Operator','walkAnimationID': 98,'width': 1}
+{'ID': 7073,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 136,'name': 'Operator','walkAnimationID': 98,'width': 1}
+{'ID': 7074,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Blasted ore','walkAnimationID': -1,'width': 1}
+{'ID': 7075,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Mine supervisor','walkAnimationID': 98,'width': 1}
+{'ID': 7076,'actions': ['null','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Mine supervisor','walkAnimationID': 98,'width': 1}
+{'ID': 7077,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 2157,'width': 1}
+{'ID': 7078,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 2157,'width': 1}
+{'ID': 7079,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 2157,'width': 1}
+{'ID': 7080,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 2157,'width': 1}
+{'ID': 7081,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 101,'width': 1}
+{'ID': 7082,'actions': ['Talk-to','null','Bank','Collect','null'],'combatLevel': 0,'height': 1,'name': 'Banker','walkAnimationID': 101,'width': 1}
+{'ID': 7083,'actions': ['Talk-to','null','Deliver','null','null'],'combatLevel': 0,'height': 1,'name': 'Armourer (tier 1)','walkAnimationID': 2156,'width': 1}
+{'ID': 7084,'actions': ['Talk-to','null','Deliver','null','null'],'combatLevel': 0,'height': 1,'name': 'Armourer (tier 2)','walkAnimationID': 98,'width': 1}
+{'ID': 7085,'actions': ['Talk-to','null','Deliver','null','null'],'combatLevel': 0,'height': 1,'name': 'Armourer (tier 3)','walkAnimationID': 2156,'width': 1}
+{'ID': 7086,'actions': ['Talk-to','null','Deliver','null','null'],'combatLevel': 0,'height': 1,'name': 'Armourer (tier 4)','walkAnimationID': 98,'width': 1}
+{'ID': 7087,'actions': ['Talk-to','null','Deliver','null','null'],'combatLevel': 0,'height': 1,'name': 'Armourer (tier 5)','walkAnimationID': 2156,'width': 1}
+{'ID': 7088,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Munty','walkAnimationID': 98,'width': 1}
+{'ID': 7089,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Moggy','walkAnimationID': 98,'width': 1}
+{'ID': 7090,'actions': ['Talk-to','null','Trade','null','null'],'combatLevel': 0,'height': 1,'name': 'Fuggy','walkAnimationID': 98,'width': 1}
+{'ID': 7091,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 104,'width': 1}
+{'ID': 7092,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 104,'width': 1}
+{'ID': 7093,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 104,'width': 1}
+{'ID': 7094,'actions': ['Talk-to','null','null','null','null'],'combatLevel': 0,'height': 1,'name': 'Miner','walkAnimationID': 104,'width': 1}
