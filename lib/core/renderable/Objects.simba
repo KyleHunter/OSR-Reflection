@@ -160,7 +160,7 @@ end;
 {$ENDIF}
 procedure TReflectObjectArray.GetAll(ObjType: TObjectType; Distance: Integer);
 var
-  Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY: integer;
+  Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY, XDistance, YDistance: integer;
   Temp: TReflectObject;
   Position: TPoint;
   ObjectHook, SceneHook: THook;
@@ -181,9 +181,15 @@ begin
     HighX := 103;
   if HighY > 103 then
     HighY := 103;
+  XDistance := Position.X - Distance;
+  YDistance := Position.Y - Distance;
+  if XDistance < 0 then
+    XDistance := 0;
+  if YDistance < 0 then
+    YDistance := 0;
   SetLength(Self, Definition_Objects_Length);
-  for X := Position.X - Distance to HighX do
-    for Y := Position.Y - Distance to HighY do
+  for X := XDistance to HighX do
+    for Y := YDistance to HighY do
     begin
       Reflect.Mem.Get3DObject(ckRegion, ckSceneTile, Region_SceneTiles,
         Count, 0, Plane, X, Y);
