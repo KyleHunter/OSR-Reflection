@@ -35,8 +35,8 @@ const
  Actor_Animation: THook =            ['bu', -1443845];
  Actor_SpokenText: THook =           ['aa', 1];
  Actor_CombatCycle: THook =          ['az', 778636455];
- Actor_Health: THook =               ['bd', 1918271229];
- Actor_MaxHealth: THook =            ['ae', -1769667477];
+ Actor_Health: THook =               ['ae', -1769667477];
+ Actor_MaxHealth: THook =            ['bd', 1918271229]; 
  Actor_InteractingIndex: THook =     ['br', -1143801517];
 
 {Npc: ao}
