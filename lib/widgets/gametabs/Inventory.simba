@@ -53,6 +53,12 @@ end;
 
 function TReflectInvItem.GetQuantity: Integer;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectInvItem.GetQuantity');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldArrayInt(Self.Reference,
     Widget_StackSizes, Self._InvSlot - 1);
 end;
@@ -67,150 +73,9 @@ begin
   Result := Self._InvSlot;
 end;
 
-procedure TReflectInvItemArray.GetAll;
-var
-  I, TheId, TheQuantity, Count: Integer;
-  InvWidget: TReflectWidget;
+function TReflectInvItem.GetSlot: Integer;
 begin
-  Reflect.Mem.FreeObjects(ckInvItems, True);
-  InvWidget.GetWidget(WIDGET_Inventory_Container, 0);
-  HookCache[ckInvItems][0] := InvWidget.Reference;
-  for I := 0 to 27 do
-  begin
-    TheId := Reflect.Smart.GetFieldArrayInt(
-      InvWidget.Reference, Widget_InvIDs, I);
-    if (TheId > 0) then
-    begin
-      Inc(Count);
-      SetLength(Self, Count);
-      TheQuantity
-      with Self[Count - 1] do
-      begin
-        Reference := InvWidget.Reference;
-        _Id := TheId - 1;
-        _InvSlot := I + 1;
-      end;
-    end;
-  end;
-end;
-
-procedure TReflectInvItemArray.Get(Name: string);
-var
-  Temp, Temp1: TReflectInvItemArray;
-  I, H, T: integer;
-begin
-  Temp.GetAll;
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetName = Name) then
-    begin
-      Temp1[T] := Temp[I];
-      Inc(T);
-    end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
-end;
-
-procedure TReflectInvItemArray.Get(Id: Integer); overload;
-var
-  Temp, Temp1: TReflectInvItemArray;
-  I, H, T: Integer;
-begin
-  Temp.GetAll;
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetId = Id) then
-    begin
-      Temp1[T] := Temp[I];
-      Inc(T);
-    end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
-end;
-
-function TReflectInvItem.Find(Name: string): Boolean;
-var
-  Temp: TReflectInvItemArray;
-begin
-  Temp.Get(Name);
-  if Length(Temp) = 0 then
-    Exit;
-  Result := True;
-  Self := Temp[0];
-end;
-
-function TReflectInvItem.Find(Id: Integer): Boolean; overload;
-var
-  Temp: TReflectInvItemArray;
-begin
-  Temp.Get(Id);
-  if Length(Temp) = 0 then
-    Exit;
-  Result := True;
-  Self := Temp[0];
-end;
-
-function TReflectInvItem.GetBox: TBox;
-var
-  Slot1, Slot6: TBox;
-begin
-  if not InRange(Self._InvSlot, 1, 28) then
-    Exit;
-  Slot1 := [563, 213, 594, 244];
-  Slot6 := [605, 249, 31415, 92653];
-  Result.X1 := Slot1.X1 + ((((Self._InvSlot + 3) mod 4)) * (Slot6.X1 - Slot1.X1));
-  Result.Y1 := Slot1.Y1 + ((((Self._InvSlot - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
-  Result.X2 := Result.X1 + (Slot1.X2 - Slot1.X1);
-  Result.Y2 := Result.Y1 + (Slot1.Y2 - Slot1.Y1);
-end;
-
-function TReflectInvItem.GetPoint: TPoint;
-var
-  Temp: TPoint;
-begin
-  if not InRange(Self._InvSlot, 1, 28) then
-    Exit;
-  Reflect.Math.GaussBox(Temp.X, Temp.Y, Self.GetBox.X1, Self.GetBox.Y1,
-    Self.GetBox.X2, Self.GetBox.Y2);
-  Result := Temp;
-end;
-
-function TReflectInvItem.GetMSPoint: TPoint;
-begin
-  if not InRange(Self._InvSlot, 1, 28) then
-    Exit;
-  Result := Self.GetPoint;
-end;
-
-function TReflectionInventory.Count: Integer;
-var
-  I: Integer;
-  Items: TReflectInvItemArray;
-begin
-  Items.GetAll;
-  Result := Length(Items);
-end;
-
-function TReflectionInventory.WaitChange(MaxTime: Integer): Boolean;
-var
-  T: TReflectTimer;
-  Count: Integer;
-begin
-  Count := Self.Count;
-  T.Start;
-  while T.ElapsedTime < MaxTime do
-    if Self.Count <> Count then
-      Exit(True);
+  Result := Self._InvSlot;
 end;
 
 function TReflectionInventory.InvBox(I : Integer): TBox;
@@ -229,6 +94,308 @@ begin
   Result.Y1 := Slot1.Y1 + ((((I - 1) div 4)) * (Slot6.Y1 - Slot1.Y1));
   Result.X2 := Result.X1 + (Slot1.X2 - Slot1.X1);
   Result.Y2 := Result.Y1 + (Slot1.Y2 - Slot1.Y1);
+end;
+
+function TReflectInvItem.GetBox: TBox;
+begin
+  Result := Reflect.Inv.InvBox(Self.GetInvSlot);
+end;
+
+function TReflectInvItem.GetPoint: TPoint;
+var
+  Temp: TPoint;
+begin
+  if not InRange(Self.GetInvSlot, 1, 28) then
+    Exit;
+  Reflect.Math.GaussBox(Temp.X, Temp.Y, Self.GetBox.X1, Self.GetBox.Y1,
+    Self.GetBox.X2, Self.GetBox.Y2);
+  Result := Temp;
+end;
+
+function TReflectInvItem.GetMSPoint: TPoint;
+begin
+  if not InRange(Self.GetInvSlot, 1, 28) then
+    Exit;
+  Result := Self.GetPoint;
+end;
+
+procedure TReflectInvItemArray.GetAll(IncludeEmpty : Boolean = False);
+var
+  I, TheId, TheQuantity, Count: Integer;
+  InvWidget: TReflectWidget;
+begin
+  Self := [];
+  Reflect.Mem.FreeObjects(ckInvItems, True);
+  InvWidget.GetWidget(Widget_Inventory_Container, Widget_Inventory_Items_Child);
+  HookCache[ckInvItems][0] := InvWidget.Reference;
+  for I := 0 to 27 do
+  begin
+    TheId := Reflect.Smart.GetFieldArrayInt(
+      InvWidget.Reference, Widget_InvIDs, I);
+    if (TheId > 0) or IncludeEmpty then
+    begin
+      Inc(Count);
+      SetLength(Self, Count);
+      with Self[Count - 1] do
+      begin
+        Reference := InvWidget.Reference;
+        _Id := TheId - 1;
+        _InvSlot := I + 1;
+      end;
+    end;
+  end;
+end;
+
+procedure TReflectInvItemArray.Get(V: TVariantArray);
+var
+  I : Integer;
+  IDs : TIntegerArray;
+  Names : TStringArray;
+  Temp : TReflectInvItemArray;
+begin
+  for I := 0 to High(V) do
+    if Reflect.Misc.VariantIsString(V[I]) then
+    begin
+      SetLength(Names, Length(Names)+1);
+      Names[High(Names)] := V[I];
+    end
+    else
+    begin
+      if Reflect.Misc.VariantIsInteger(V[I]) then
+      begin
+        SetLength(IDs, Length(IDs)+1);
+        IDs[High(IDs)] := V[I];
+      end;
+    end;
+
+  Self := [];
+  Temp.GetAll;
+
+  for I := 0 to High(Temp) do
+    if InIntArray(IDs, Temp[I].GetID) or Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
+    begin
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
+    end;
+end;
+
+procedure TReflectInvItemArray.Get(Names: TStringArray); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Self.Get(Temp);
+end;
+
+procedure TReflectInvItemArray.Get(IDs: TIntegerArray); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Self.Get(Temp);
+end;
+
+procedure TReflectInvItemArray.Get(Name: String); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Self.Get(Temp);
+end;
+
+procedure TReflectInvItemArray.Get(ID: Integer); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Self.Get(Temp);
+end;
+
+function TReflectInvItem.Find(V: TVariantArray): Boolean;
+var
+  Temp: TReflectInvItemArray;
+begin
+  Temp.Get(V);
+  if Length(Temp) = 0 then
+    Exit;
+  Result := True;
+  Self := Temp[0];
+end;
+
+function TReflectInvItem.Find(Names: TStringArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectInvItem.Find(IDs: TIntegerArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectInvItem.Find(Name: String): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Find(Temp);
+end;
+
+function TReflectInvItem.Find(ID: Integer): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Find(Temp);
+end;
+
+function TReflectionInventory.Count: Integer;
+var
+  Items: TReflectInvItemArray;
+begin
+  Items.GetAll;
+  Result := Length(Items);
+end;
+
+function TReflectionInventory.Count(V: TVariantArray): Integer; Overload;
+var
+  Items: TReflectInvItemArray;
+begin
+  Items.Get(V);
+  Result := Length(Items);
+end;
+
+function TReflectionInventory.Count(Names: TStringArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Count(Temp);
+end;
+
+function TReflectionInventory.Count(IDs: TIntegerArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Count(Temp);
+end;
+
+function TReflectionInventory.Count(Name: String): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Count(Temp);
+end;
+
+function TReflectionInventory.Count(ID: Integer): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Count(Temp);
+end;
+
+function TReflectionInventory.CountQuantities: Integer;
+var
+  I: Integer;
+  Items: TReflectInvItemArray;
+begin
+  Items.GetAll;
+  For I := 0 to High(Items) do
+    IncEx(Result, Items[i].GetQuantity);
+end;
+
+function TReflectionInventory.CountQuantities(V: TVariantArray): Integer; Overload;
+var
+  I: Integer;
+  Items: TReflectInvItemArray;
+begin
+  Items.Get(V);
+  For I := 0 to High(Items) do
+    IncEx(Result, Items[i].GetQuantity);
+end;
+
+function TReflectionInventory.CountQuantities(Names: TStringArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.CountQuantities(Temp);
+end;
+
+function TReflectionInventory.CountQuantities(IDs: TIntegerArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.CountQuantities(Temp);
+end;
+
+function TReflectionInventory.CountQuantities(Name: String): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.CountQuantities(Temp);
+end;
+
+function TReflectionInventory.CountQuantities(ID: Integer): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.CountQuantities(Temp);
+end;
+
+function TReflectionInventory.WaitChange(MaxTime: Integer): Boolean;
+var
+  T: TReflectTimer;
+  Count: Integer;
+begin
+  Count := Self.Count;
+  T.Start;
+  while T.ElapsedTime < MaxTime do
+    if Self.Count <> Count then
+      Exit(True);
 end;
 
 function TReflectionInventory.IsFull: Boolean;
@@ -252,29 +419,80 @@ begin
   Result := Reflect.Inv.Count = 0;
 end;
 
-function TReflectionInventory.Contains(TheItem: TStringArray): Boolean;
+function TReflectionInventory.Contains(V: TVariantArray): Boolean;
 var
-  _Item: TReflectInvItem;
-  I: Integer;
+  _Item : TReflectInvItem;
 begin
-  for I := 0 to High(TheItem) do
+  Result := _Item.Find(V);
+end;
+
+function TReflectionInventory.Contains(Names: TStringArray): Boolean; Overload;
+var
+  _Item : TReflectInvItem;
+begin
+  Result := _Item.Find(Names);
+end;
+
+function TReflectionInventory.Contains(IDs: TIntegerArray): Boolean; Overload;
+var
+  _Item : TReflectInvItem;
+begin
+  Result := _Item.Find(IDs);
+end;
+
+function TReflectionInventory.Contains(Name: String): Boolean; Overload;
+var
+  _Item : TReflectInvItem;
+begin
+  Result := _Item.Find(Name);
+end;
+
+function TReflectionInventory.Contains(ID: Integer): Boolean; Overload;
+var
+  _Item : TReflectInvItem;
+begin
+  Result := _Item.Find(ID);
+end;
+
+function TReflectInvItem.Interact(Actions: TStringArray): Boolean;
+begin
+  if not Reflect.Gametab.Open(Gametab_Inventory) then
+    Exit;
+
+  Reflect.Mouse.Move(Self.GetPoint, 0, 0);
+  Wait(RandomRange(50, 150));
+  if Reflect.Text.IsUpTextMulti(Actions, 50) then
   begin
-    if _Item.Find(TheItem[I]) then
-      Exit(True);
+    Reflect.Mouse.Click(Mouse_Left);
+    Result := True;
+  end
+  else
+  begin
+    Reflect.Mouse.Click(Mouse_Right);
+    Wait(Random(101));
+    Result := Reflect.Text.ChooseOptionMulti(Actions, 50);
   end;
 end;
 
-function TReflectionInventory.Contains(
-  TheItem: TIntegerArray): Boolean; overload;
-var
-  _Item: TReflectInvItem;
-  I: Integer;
+function TReflectInvItem.Interact(Action: String): Boolean; Overload;
 begin
-  for I := 0 to High(TheItem) do
-  begin
-    if _Item.Find(TheItem[I]) then
-      Exit(True);
-  end;
+  Result := Self.Interact([Action]);
+end;
+
+function TReflectInvItem.Interact(MouseClick: Integer): Boolean; Overload;
+begin
+  if not Reflect.Gametab.Open(Gametab_Inventory) then
+    Exit;
+
+  Reflect.Mouse.Move(Self.GetPoint, 0, 0);
+  Wait(RandomRange(50, 150));
+  Reflect.Mouse.Click(MouseClick);
+  Result := True;
+end;
+
+function TReflectInvItem.Interact: Boolean; Overload;
+begin
+  Result := Self.Interact(Mouse_Left);
 end;
 
 function TReflectionInventory.Drop(Item: Integer): Boolean;
@@ -282,12 +500,7 @@ var
   Temp: TReflectInvItem;
 begin
   if Temp.Find(Item) then
-  begin
-    Reflect.Mouse.Move(Temp.GetPoint, 0, 0);
-    Wait(RandomRange(160, 250));
-    Reflect.Mouse.Click(Mouse_Right);
-    Result := Reflect.Text.ChooseOption('Drop');
-  end;
+    Temp.Interact('Drop');
 end;
 
 function TReflectionInventory.Drop(Item: string): Boolean; overload;
@@ -295,20 +508,12 @@ var
   Temp: TReflectInvItem;
 begin
   if Temp.Find(Item) then
-  begin
-    Reflect.Mouse.Move(Temp.GetPoint, 0, 0);
-    Wait(RandomRange(160, 250));
-    Reflect.Mouse.Click(Mouse_Right);
-    Result := Reflect.Text.ChooseOption('Drop');
-  end;
+    Temp.Interact('Drop');
 end;
 
 function TReflectInvItem.Drop: Boolean;
 begin
-  Reflect.Mouse.Move(Self.GetPoint, 0, 0);
-  Wait(RandomRange(160, 250));
-  Reflect.Mouse.Click(Mouse_Right);
-  Result := Reflect.Text.ChooseOption('Drop');
+  Self.Interact('Drop');
 end;
 
 procedure TReflectionInventory.DropAll;

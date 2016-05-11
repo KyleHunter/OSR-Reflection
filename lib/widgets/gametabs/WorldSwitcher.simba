@@ -10,24 +10,25 @@ begin
   if World = OldWorld then
     Exit(True);
   Reflect.GameTab.Open(GameTab_Logout);
-  if Wid.Exists(182, 1) then
+  if Wid.Exists(Widget_Logout_Container, Widget_Logout_ChangeWorld_Child) then
   begin
-    Wid.GetWidget(182, 1);
+    Wid.GetWidget(Widget_Logout_Container, Widget_Logout_ChangeWorld_Child);
     Wid.Interact;
     Wid.Free;
     TimeOut.Start;
-    while (TimeOut.ElapsedTime < 2500) and (Wid.Exists(182, 1)) do
+    while (TimeOut.ElapsedTime < 2500) and
+      (Wid.Exists(Widget_Logout_Container, Widget_Logout_ChangeWorld_Child)) do
       Wait(50);
   end;
   Wait(500);
-  Wid.GetWidget(69, 7);
+  Wid.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Worlds_Child_Container);
   for I := 2 to 420 do
   begin
     Child.GetChild(Wid, I);
     if Child.GetText = ToStr(World - 300) then
     begin
-      Wid1.GetWidget(69, 15);
-      Child1.GetChild(Wid1, 5);
+      Wid1.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Scroll_Child_Container);
+      Child1.GetChild(Wid1, Widget_ChangeWorld_Scroll_Down_Child);
       Timer.Start;
       while (Child.GetBounds.X1 = -1) or (Child.GetBounds.Y2 > 443) do
       begin
@@ -46,13 +47,13 @@ begin
       Wid1.Free;
       Child1.Free;
       TimeOut.Start;
-      Wid.GetWidget(69, 2);
+      Wid.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_World_Child);
       while (Wid.GetText <> '') and (StrToInt(Explode(' - ', Wid.GetText)[1]) = OldWorld) and
         (TimeOut.ElapsedTime < 25000) do
       begin
         Wait(50);
         Wid.Free;
-        Wid.GetWidget(69, 2);
+        Wid.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_World_Child);
       end;
       Wid.Free;
       Result := World = Reflect.Smart.GetFieldInt(0, Client_CurrentWorld);
@@ -62,6 +63,4 @@ begin
   end;
   Wid.Free;
 end;
-
-
 

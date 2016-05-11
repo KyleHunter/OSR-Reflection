@@ -4,23 +4,23 @@ var
   RetaliateWidget: TReflectWidget;
   OnOff: string;
 begin
-  RetaliateWidget.GetWidget(Widget_CombatOptions_Container, 28);
+  RetaliateWidget.GetWidget(Widget_CombatOptions_Container, Widget_CombatOptions_Retaliate_Child);
   OnOff := Between('(', ')', RetaliateWidget.GetText);
   case TurnOn of
     True:
     begin
       if OnOff = 'Off' then
       begin
-        Reflect.Gametab.Open(Gametab_CombatOptions);
-        RetaliateWidget.Interact;
+        if Reflect.Gametab.Open(Gametab_CombatOptions) then
+          RetaliateWidget.Interact;
       end;
     end;
     False:
     begin
       if OnOff = 'On' then
       begin
-        Reflect.Gametab.Open(Gametab_CombatOptions);
-        RetaliateWidget.Interact;
+        if Reflect.Gametab.Open(Gametab_CombatOptions) then
+          RetaliateWidget.Interact;
       end;
     end;
   end;
@@ -31,13 +31,13 @@ procedure TReflectionGametab.ChooseAttackStyle(AttackStyle: string);
 var
   StyleWidget: TReflectWidget;
   I: Integer;
-const
-  ParentIndexes = [6, 10, 14, 18];
 begin
-  Reflect.Gametab.Open(Gametab_CombatOptions);
-  for I := 0 to High(ParentIndexes) do
+  if not Reflect.Gametab.Open(Gametab_CombatOptions) then
+    exit;
+
+  for I := 0 to High(Widget_CombatOptions_Options_Children) do
   begin
-    StyleWidget.GetWidget(Widget_CombatOptions_Container, ParentIndexes[I]);
+    StyleWidget.GetWidget(Widget_CombatOptions_Container, Widget_CombatOptions_Options_Children[I]);
     if AttackStyle = StyleWidget.GetText then
     begin
       StyleWidget.Interact;
@@ -53,10 +53,17 @@ function TReflectionGametab.GetWieldedWeapon: string;
 var
   WeaponWidget: TReflectWidget;
 begin
-  WeaponWidget.GetWidget(Widget_CombatOptions_Container, 1);
+  WeaponWidget.GetWidget(Widget_CombatOptions_Container, Widget_CombatOptions_WieldedWeapon_Child);
   Result := WeaponWidget.GetText;
   WeaponWidget.Free;
 end;
 
-
+function TReflectionGametab.GetCombatString: string;
+var
+  CombatWidget: TReflectWidget;
+begin
+  CombatWidget.GetWidget(Widget_CombatOptions_Container, Widget_CombatOptions_Combat_Child);
+  Result := CombatWidget.GetText;
+  CombatWidget.Free;
+end;
 
