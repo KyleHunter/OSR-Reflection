@@ -25,8 +25,12 @@ function TReflectObject.GetTile: TTile;
 var
   LocalTile: TTile;
 begin
-  if Self.Reference = 0 then
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectObject.GetTile');
     Exit(Point(-1, -1));
+  end;
+
   if Self._ObjType.Index <> ObjGame.Index then
     Exit(Self._Tile);
   LocalTile := Point(Reflect.Smart.GetFieldInt(
@@ -40,8 +44,12 @@ function TReflectObject.GetOffset: TTile;
 var
   LocalTile: TTile;
 begin
-  if Self.Reference = 0 then
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectObject.GetOffset');
     Exit(Point(-1, -1));
+  end;
+
   if Self._ObjType.Index <> ObjGame.Index then
   begin
     Reflect.Logger.Warn('Only ObjGame has an Offset @.GetOffset');
@@ -56,15 +64,23 @@ end;
 
 function TReflectObject.GetOrientation: Integer;
 begin
-  if Self.Reference = 0 then
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectObject.GetOrientation');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Orientation);
 end;
 
 function TReflectObject.GetId: Integer;
 begin
-  if Self.Reference = 0 then
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectObject.GetId');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Self._ObjType.Id);
   Result := (Result shr 14) and $7fff;
 end;
@@ -74,8 +90,6 @@ var
   Id: Integer;
   Line: string;
 begin
-  if Self.Reference = 0 then
-    Exit('');
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -88,8 +102,6 @@ var
   Id: Integer;
   Line: string;
 begin
-  if Self.Reference = 0 then
-    Exit(-1);
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -102,8 +114,6 @@ var
   Id: Integer;
   Line, Temp: string;
 begin
-  if Self.Reference = 0 then
-    Exit(['']);
   Id := Self.GetId;
   if not InRange(Id, 0, Definition_Objects_Length) then
     Exit;
@@ -119,8 +129,6 @@ var
   OffsetX, OffsetY, XShift, YShift: Extended;
   Tile: TPoint;
 begin
-  if Self.Reference = 0 then
-    Exit(Point(-1, -1));
   if Self._ObjType.Index <> ObjGame.Index then
     Exit(Reflect.Tiles.TileToMs(Self.GetTile));
   Tile := Self.GetTile;
@@ -158,16 +166,20 @@ begin
   end;
 end;
 {$ENDIF}
-procedure TReflectObjectArray.GetAll(ObjType: TObjectType; Distance: Integer);
+
+procedure TReflectObjectArray.GetAll(
+  ObjType: TObjectType; Distance: Integer = 103; Position: TPoint = Point(-1, -1));
 var
   Multi, BaseX, BaseY, X, Y, I, Count, Plane, HighX, HighY, XDistance, YDistance: integer;
   Temp: TReflectObject;
-  Position: TPoint;
   ObjectHook, SceneHook: THook;
 begin
   if not Reflect.Mem.IsNull(ckObject) then
     Reflect.Mem.FreeObjects(ckObject, True);
-  Position := Reflect.Tiles.GetGlobalTile;
+
+  if Position.X = -1 then
+    Position := Reflect.Tiles.GetGlobalTile;
+
   Distance := Round(Distance / 2);
   if HookCache[TCacheKey.ckRegion][0] = 0 then
     Reflect.Mem.GetObject(ckNull, ckRegion, Client_Region, 0, 0);
@@ -201,9 +213,9 @@ begin
       Self[I] := Temp;
       Inc(I);
     end;
-    SetLength(Self, I);
-    Reflect.Mem.FreeObjects(ckSceneTile, Count);
-    Self.Sort;
+  SetLength(Self, I);
+  Reflect.Mem.FreeObjects(ckSceneTile, Count);
+  Self.Sort;
 end;
 
 procedure TReflectObject.GetAt(ObjType: TObjectType; _Tile: TTile);
@@ -227,84 +239,130 @@ begin
   Reflect.Mem.FreeObjects(ckSceneTile, False);
 end;
 
-procedure TReflectObjectArray.Get(
-  ObjType: TObjectType; Name: string; Distance: Integer = 103);
+procedure TReflectObjectArray.Get(ObjType: TObjectType; V: TVariantArray; Distance: Integer = 103);
 var
-  Temp, Temp1: TReflectObjectArray;
-  I, H, T: integer;
+  I : Integer;
+  IDs : TIntegerArray;
+  Names : TStringArray;
+  Temp : TReflectObjectArray;
 begin
-  Temp.GetAll(ObjType, Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetName = Name) then
+  for I := 0 to High(V) do
+    if Reflect.Misc.VariantIsString(V[I]) then
     begin
-      Temp1[T] := Temp[I];
-      Inc(T);
+      SetLength(Names, Length(Names)+1);
+      Names[High(Names)] := V[I];
+    end
+    else
+    begin
+      if Reflect.Misc.VariantIsInteger(V[I]) then
+      begin
+        SetLength(IDs, Length(IDs)+1);
+        IDs[High(IDs)] := V[I];
+      end;
     end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
+
+  Self := [];
+  Temp.GetAll(ObjType, Distance);
+
+  for I := 0 to High(Temp) do
+    if InIntArray(IDs, Temp[I].GetID) or Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
+    begin
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
+    end;
+
   Self.Sort;
 end;
 
-procedure TReflectObjectArray.Get(
-  ObjType: TObjectType; Id: Integer; Distance: Integer = 103); overload;
+procedure TReflectObjectArray.Get(ObjType: TObjectType; Names: TStringArray; Distance: Integer = 103); Overload;
 var
-  Temp, Temp1: TReflectObjectArray;
-  I, H, T: integer;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.GetAll(ObjType, Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetId = Id) then
-    begin
-      Temp1[T] := Temp[I];
-      Inc(T);
-    end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
-  Self.Sort;
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Self.Get(ObjType, Temp, Distance);
 end;
 
-function TReflectObject.Find(
-  ObjType: TObjectType; Name: string; Distance: Integer = 103): Boolean;
+procedure TReflectObjectArray.Get(ObjType: TObjectType; IDs: TIntegerArray; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Self.Get(ObjType, Temp, Distance);
+end;
+
+procedure TReflectObjectArray.Get(ObjType: TObjectType; Name: String; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Self.Get(ObjType, Temp, Distance);
+end;
+
+procedure TReflectObjectArray.Get(ObjType: TObjectType; ID: Integer; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Self.Get(ObjType, Temp, Distance);
+end;
+
+function TReflectObject.Find(ObjType: TObjectType; V: TVariantArray; Distance: Integer = 103): Boolean;
 var
   Temp: TReflectObjectArray;
 begin
-  Temp.Get(ObjType, Name, Distance);
+  Temp.Get(ObjType, V, Distance);
   if Length(Temp) = 0 then
     Exit;
-  Temp.Sort;
-  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
-  begin
-    Result := True;
-    Self := Temp[0];
-  end;
+  Result := True;
+  Self := Temp[0];
 end;
 
-function TReflectObject.Find(
-  ObjType: TObjectType; Id: Integer; Distance: Integer = 103): Boolean; overload;
+function TReflectObject.Find(ObjType: TObjectType; Names: TStringArray; Distance: Integer = 103): Boolean; Overload;
 var
-  Temp: TReflectObjectArray;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.Get(ObjType, Id, Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  Temp.Sort;
-  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
-  begin
-    Result := True;
-    Self := Temp[0];
-  end;
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Find(ObjType, Temp, Distance);
+end;
+
+function TReflectObject.Find(ObjType: TObjectType; IDs: TIntegerArray; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Find(ObjType, Temp, Distance);
+end;
+
+function TReflectObject.Find(ObjType: TObjectType; Name: String; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Find(ObjType, Temp, Distance);
+end;
+
+function TReflectObject.Find(ObjType: TObjectType; ID: Integer; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Find(ObjType, Temp, Distance);
 end;
 
 function TReflectObject.IsOnMS: Boolean;

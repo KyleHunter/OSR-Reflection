@@ -6,7 +6,7 @@ begin
   SetLength(Result, 100);
   for I := 0 to 99 do
   begin
-    Result[I] := TReflectionSmart.GetFieldArrayInt(0, Client_NpcIndices, I);
+    Result[I] := Reflect.Smart.GetFieldArrayInt(0, Client_NpcIndices, I);
     if (Result[I] = 0) then
       Break;
   end;
@@ -37,6 +37,12 @@ end;
 
 function TReflectNPC.GetId: Integer;
 begin
+  if Reflect.Smart.IsNull(Self._DefReference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectNPC.GetId');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self._DefReference, NpcDefinition_ID);
 end;
 
@@ -122,74 +128,130 @@ begin
   Self.Sort;
 end;
 
-procedure TReflectNPCArray.Get(Name: string);
+procedure TReflectNPCArray.Get(V: TVariantArray);
 var
-  Temp, Temp1: TReflectNPCArray;
-  I, H, T: integer;
+  I : Integer;
+  IDs : TIntegerArray;
+  Names : TStringArray;
+  Temp : TReflectNPCArray;
 begin
-  Temp.GetAll;
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetName = Name) then
+  for I := 0 to High(V) do
+    if Reflect.Misc.VariantIsString(V[I]) then
     begin
-      Temp1[T] := Temp[I];
-      Inc(T);
+      SetLength(Names, Length(Names)+1);
+      Names[High(Names)] := V[I];
+    end
+    else
+    begin
+      if Reflect.Misc.VariantIsInteger(V[I]) then
+      begin
+        SetLength(IDs, Length(IDs)+1);
+        IDs[High(IDs)] := V[I];
+      end;
     end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
+
+  Self := [];
+  Temp.GetAll;
+
+  for I := 0 to High(Temp) do
+    if InIntArray(IDs, Temp[I].GetID) or Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
+    begin
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
+    end;
+
   Self.Sort;
 end;
 
-procedure TReflectNPCArray.Get(Id: Integer); overload;
+procedure TReflectNPCArray.Get(Names: TStringArray); Overload;
 var
-  Temp, Temp1: TReflectNPCArray;
-  I, H, T: integer;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.GetAll;
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetId = Id) then
-    begin
-      Temp1[T] := Temp[I];
-      Inc(T);
-    end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
-  Self.Sort;
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Self.Get(Temp);
 end;
 
-function TReflectNPC.Find(Name: string): Boolean;
+procedure TReflectNPCArray.Get(IDs: TIntegerArray); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Self.Get(Temp);
+end;
+
+procedure TReflectNPCArray.Get(Name: String); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Self.Get(Temp);
+end;
+
+procedure TReflectNPCArray.Get(ID: Integer); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Self.Get(Temp);
+end;
+
+function TReflectNPC.Find(V: TVariantArray): Boolean;
 var
   Temp: TReflectNPCArray;
 begin
-  Temp.Get(Name);
+  Temp.Get(V);
   if Length(Temp) = 0 then
     Exit;
-  Temp.Sort;
   Result := True;
   Self := Temp[0];
 end;
 
-function TReflectNPC.Find(Id: Integer): Boolean; overload;
+function TReflectNPC.Find(Names: TStringArray): Boolean; Overload;
 var
-  Temp: TReflectNPCArray;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.Get(Id);
-  if Length(Temp) = 0 then
-    Exit;
-  Temp.Sort;
-  Result := True;
-  Self := Temp[0];
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectNPC.Find(IDs: TIntegerArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectNPC.Find(Name: String): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Find(Temp);
+end;
+
+function TReflectNPC.Find(ID: Integer): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Find(Temp);
 end;
 
 function TReflectNPC.FindByIndex(NpcIndex: Integer): Boolean;
@@ -201,8 +263,7 @@ begin
   Reflect.Mem.GetObjectArray(
     ckNull, ckNpcNode, Client_LocalNpcs, 0, 0, NpcIndex);
   if (HookCache[ckNpcNode][0] = 0) then
-    Exit
-    (False);
+    Exit;
   Result := True;
   Reflect.Mem.GetObject(ckNpcNode, ckNpcDef, Npc_Definition, 0, 0);
   Self.Reference := HookCache[ckNpcNode][0];
@@ -212,7 +273,7 @@ end;
 
 function TReflectNPC.IsOnMS: Boolean;
 begin
-  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
+  Result := PointInBox(Self.GetMSPoint, AREA_MS);
 end;
 
 

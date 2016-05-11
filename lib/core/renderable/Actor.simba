@@ -2,14 +2,22 @@
 function TReflectActor.GetSpokenText: string;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetSpokenText');
     Exit('');
+  end;
+
   Result := Reflect.Smart.GetFieldString(Self.Reference, Actor_SpokenText);
 end;
 
 function TReflectActor.GetTile: TTile;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetTile');
     Exit(Point(-1, -1));
+  end;
+
   Result.X := Reflect.Misc.BaseX +
     Reflect.Smart.GetFieldInt(Self.Reference, Actor_WorldX) div 128;
   Result.Y:= Reflect.Misc.BaseY +
@@ -19,14 +27,22 @@ end;
 function TReflectActor.GetQueueSize: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetQueueSize');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_QueueSize);
 end;
 
 function TReflectActor.GetQueue(Index: Integer = 0): TTile;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetQueue');
     Exit(Point(-1, -1));
+  end;
+
   Result := Point(Reflect.Smart.GetFieldArrayInt(
     Self.Reference, Actor_QueueX, Index) + Reflect.Misc.BaseX,
     Reflect.Smart.GetFieldArrayInt(Self.Reference, Actor_QueueY, 0) +
@@ -36,35 +52,55 @@ end;
 function TReflectActor.GetAnimation: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetAnimation');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Animation);
 end;
 
 function TReflectActor.GetHealth: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetHealth');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Health);
 end;
 
 function TReflectActor.GetMaxHealth: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetMaxHealth');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_MaxHealth);
 end;
 
 function TReflectActor.GetInteractingIndex: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetInteractingIndex');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_InteractingIndex);
 end;
 
 function TReflectActor.GetCombatCycle: Integer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetCombatCycle');
     Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_CombatCycle);
 end;
 
@@ -76,6 +112,10 @@ end;
 function TReflectActor.IsUnderAttack: Boolean;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
-    Exit;
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.IsUnderAttack');
+    Exit(False);
+  end;
+
   Result := (Self.GetCombatCycle > Reflect.Misc.GetClientLoopCycle);
 end;
