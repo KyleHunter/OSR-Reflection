@@ -1,6 +1,135 @@
 
-function TReflectionBank.IsOpen: Boolean; forward;
-function TReflectionBank.ItemCount: Integer; forward;
+function TReflectionBank.IsPinOpen: Boolean;
+begin
+  Result := Reflect.Interfaces.IsOpen(Interface_PinScreen);
+end;
+
+function TReflectionBank.IsOpen: Boolean;
+begin
+  Result := Reflect.Interfaces.IsOpen(Interface_Bank);
+end;
+
+function TReflectionBank.IsDepositBoxOpen: Boolean;
+begin
+  Result := Reflect.Interfaces.IsOpen(Interface_DepositMenu);
+end;
+
+function TReflectionBank.Close: Boolean;
+var
+  T : TReflectTimer;
+begin
+  if Reflect.Bank.IsOpen then
+    Reflect.Interfaces.Close(Interface_Bank)
+  else if Reflect.Bank.IsDepositBoxOpen then
+    Reflect.Interfaces.Close(Interface_DepositMenu)
+  else if Reflect.Bank.IsPinOpen then
+    Reflect.Interfaces.Close(Interface_PinScreen);
+
+  T.Start;
+  while (T.ElapsedTime < 2500) and (Reflect.Bank.IsOpen or Reflect.Bank.IsPinOpen or Reflect.Bank.IsDepositBoxOpen) do
+    Wait(50);
+
+  Result := not Reflect.Bank.IsOpen and not Reflect.Bank.IsPinOpen and not Reflect.Bank.IsDepositBoxOpen;
+end;
+
+function TReflectionBank.DepositAll(Which : String = 'Inv'): Boolean;
+var
+  W : TReflectWidget;
+begin
+  case Which of
+    'Inv', 'Inventory':
+    begin
+      W.GetWidget(Interface_Bank, Widget_Bank_DepositInv_Child);
+      if not W.NotNull then
+        W.GetWidget(Interface_DepositMenu, Widget_DepositMenu_DepositInv_Child);
+
+      if W.NotNull then
+      begin
+        Result := W.Interact;
+        W.Free;
+      end;
+    end;
+    'Equ', 'Equipment':
+    begin
+      W.GetWidget(Interface_Bank, Widget_Bank_DepositEqu_Child);
+      if not W.NotNull then
+        W.GetWidget(Interface_DepositMenu, Widget_DepositMenu_DepositEqu_Child);
+
+      if W.NotNull then
+      begin
+        Result := W.Interact;
+        W.Free;
+      end;
+    end;
+    else
+    begin
+      W.GetWidget(Interface_DepositMenu, Widget_DepositMenu_DepositLoot_Child);
+
+      if W.NotNull then
+      begin
+        Result := W.Interact;
+        W.Free;
+      end;
+    end;
+  end;
+end;
+
+function TReflectionBank.ItemCount: Integer;
+var
+  BankWidget: TReflectWidget;
+begin
+  BankWidget.GetWidget(Interface_Bank, Widget_Bank_TotalItems_Child);
+  if BankWidget.NotNull then
+  begin
+    try
+      Result := StrToInt(BankWidget.GetText);
+    except
+      Result := 0;
+    end;
+    BankWidget.Free;
+  end;
+end;
+
+function TReflectionBank.BoxOnScreen(_Box : TBox): Boolean;
+begin
+  Result := (_Box.Y2 <= Interface_Bank_VisibleBox.Y2) and (_Box.Y1 >= Interface_Bank_VisibleBox.Y1);
+end;
+
+function TReflectionBank.DepositBoxBox(_Slot: Integer): TBox;
+var
+  W, C : TReflectWidget;
+begin
+  W.GetWidget(Interface_DepositMenu, Widget_DepositMenu_Items_Child_Container);
+
+  if W.NotNull then
+  begin
+    C.GetChild(W, _Slot-1);
+    if C.NotNull then
+    begin
+      Result := C.GetBounds;
+      C.Free;
+    end;
+    W.Free;
+  end;
+end;
+
+function TReflectionBank.BankBox(_Slot: Integer): TBox;
+var
+  W, C : TReflectWidget;
+begin
+  W.GetWidget(Interface_Bank, Widget_Bank_ItemSlots_Child_Container);
+
+  if W.NotNull then
+  begin
+    C.GetChild(W, _Slot);
+    if C.NotNull then
+    begin
+      Result := C.GetBounds;
+      C.Free;
+    end;
+    W.Free;
+  end;
+end;
 
 function TReflectBankItem.GetName: string;
 var
@@ -12,26 +141,6 @@ begin
     Exit;
   Line := ItemCache.GetStrings(Id);
   Result := Between('''name'': ''', ''',', Line);
-end;
-
-procedure TReflectionInternals.ClearText;
-var
-   AmountWindow: TReflectWidget;
-   TimeOut: TReflectTimer;
-begin
- while (not AmountWindow.IsValid(162, 33)) do
-  begin
-    Wait(100 + Random(100));
-    if TimeOut.ElapsedTime > 3000 then
-      Exit;
-  end
-    AmountWindow.GetWidget(162, 33);
-    if (AmountWindow.GetText <> '*') then
-      KeyDown(Vk_Back);
-    while (AmountWindow.IsValid(162, 33) and (AmountWindow.GetText <> '*')) do
-      Wait(10 + Random(80));
-    KeyUp(Vk_Back);
-    AmountWindow.Free;
 end;
 
 function TReflectBankItem.GetInvActions: TStringArray;
@@ -76,6 +185,12 @@ end;
 
 function TReflectBankItem.GetQuantity: Integer;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectBankItem.GetQuantity');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ItemAmount);
 end;
 
@@ -89,6 +204,16 @@ begin
   Result := Self._Slot;
 end;
 
+function TReflectBankItem.GetBox: TBox;
+begin
+  Result := Reflect.Bank.BankBox(Self.GetSlot);
+end;
+
+function TReflectBankItem.IsOnScreen: Boolean;
+begin
+  Result := Reflect.Bank.BoxOnScreen(Reflect.Bank.BankBox(Self.GetSlot));
+end;
+
 procedure TReflectBankItemArray.GetAll;
 var
   TheChild, TheGrandChild: TReflectPointer;
@@ -97,11 +222,12 @@ var
   BankWidget, BankChild: TReflectWidget;
 begin
   Reflect.Mem.FreeObjects(ckBankItems, False);
+  Self := [];
   if not Reflect.Bank.IsOpen then
     Exit;
   ItemCount := Reflect.Bank.ItemCount;
   SetLength(Temp, ItemCount);
-  BankWidget.GetWidget(Widget_Bank_Container, Widget_Bank_ItemSlots_Child);
+  BankWidget.GetWidget(Interface_Bank, Widget_Bank_ItemSlots_Child_Container);
   for I := 0 to ItemCount - 1 do
   begin
     BankChild.GetChild(BankWidget, I);
@@ -180,7 +306,7 @@ begin
   Self := Temp[0];
 end;
 
-function TReflectionInternals.WithdrawBankItem(
+function TReflectionBank.WithdrawBankItem(
   BankChild: TReflectWidget; Amount: Integer): Boolean;
 var
   TimeOut: TReflectTimer;
@@ -210,7 +336,7 @@ begin
   begin
     TimeOut.Start;
     BankChild.Interact('X');
-    while (not AmountWidget.IsValid(162, 32)) do
+    while (not AmountWidget.IsValid(Widget_Chat_Container, Widget_Chat_Directions_Child)) do
     begin
       Wait(100 + Random(100));
       if TimeOut.ElapsedTime > 5000 then
@@ -227,7 +353,7 @@ begin
   BankChild.Free;
 end;
 
-function TReflectionInternals.GetBankItem(
+function TReflectionBank.GetBankItem(
   Item: TReflectBankItem): TReflectWidget;
 var
   TheChild, TheGrandChild: TReflectPointer;
@@ -236,7 +362,7 @@ var
   Temp: TReflectBankItem;
 begin
   ItemCount := Reflect.Bank.ItemCount;
-  BankWidget.GetWidget(WIDGET_Bank_Container, WIDGET_Bank_ItemSlots_Child);
+  BankWidget.GetWidget(Interface_Bank, WIDGET_Bank_ItemSlots_Child_Container);
   for I := 0 to ItemCount - 1 do
   begin
     BankChild.GetChild(BankWidget, I);
@@ -262,16 +388,16 @@ begin
     Exit(True);
   if (not Reflect.Bank.IsOpen) or (Self._Id = 0) then
     Exit(False);
-  BankChild := Reflect.Internals.GetBankItem(Self);
+  BankChild := Reflect.Bank.GetBankItem(Self);
   Center := MiddleBox(BankChild.GetBounds);
   if (not BankChild.IsHidden)and(PointInBox(Center,[22, 80, 480, 292])) then
-    Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount)
+    Result := Reflect.Bank.WithDrawBankItem(BankChild, Amount)
   else
   begin
-    ShowingItems := Reflect.Widget.GetText(12, 4);
+    ShowingItems := Reflect.Widget.GetText(Interface_Bank, Widget_Bank_SearchText_Child);
     if Not (Pos('Showing items', ShowingItems) > 0)then
     begin
-      SearchWidget.GetWidget(12, 25);
+      SearchWidget.GetWidget(Interface_Bank, Widget_Bank_Search_Child);
       SearchWidget.Interact(5);
       SearchWidget.Free;
     end else
@@ -284,14 +410,14 @@ begin
         Reflect.Keyboard.TypeKey(Vk_Back);
         Wait(Random(30, 120));
         ShowingItems := Between('<col=ff0000>',
-                                '</col>', Reflect.Widget.GetText(12, 4));
+                                '</col>', Reflect.Widget.GetText(Interface_Bank, Widget_Bank_SearchText_Child));
       end;
     end;
     TimeOut.Start;
     repeat
       Wait(RandomRange(200, 500));
     until(TimeOut.ElapsedTime > 4000)or
-         (Pos('Showing items', Reflect.Widget.GetText(12, 4)) > 0);
+         (Pos('Showing items', Reflect.Widget.GetText(Interface_Bank, Widget_Bank_SearchText_Child)) > 0);
     L = 1;
     while ((BankChild.IsHidden) or
       (not PointInBox(Center,[22, 80, 480, 292]))) do
@@ -300,62 +426,14 @@ begin
       Reflect.Internals.ClearText;
       Reflect.KeyBoard.TypeSend(Self.GetName, False);
       Wait(RandomRange(500, 700));
-      BankChild := Reflect.Internals.GetBankItem(Self);
+      BankChild := Reflect.Bank.GetBankItem(Self);
       Center := MiddleBox(BankChild.GetBounds);
       Inc(L);
     end;
-    Result := Reflect.Internals.WithDrawBankItem(BankChild, Amount);
+    Result := Reflect.Bank.WithDrawBankItem(BankChild, Amount);
     If Result then
       Wait(100+Random(150));
   end;
-end;
-
-function TReflectionBank.IsOpen: Boolean;
-var
-  W: TReflectWidget;
-begin
-  if not W.Exists(Widget_Bank_Container, 24) then
-    Exit;
-  W.GetWidget(Widget_Bank_Container, 24);
-  Result := (W.GetBounds.X2 > MSX1);
-  W.Free;
-end;
-
-function TReflectionBank.ItemCount: Integer;
-var
-  BankWidget: TReflectWidget;
-begin
-  if not Reflect.Bank.IsOpen then
-    Exit;
-  BankWidget.GetWidget(Widget_Bank_Container, Widget_Bank_TotalItems_Child);
-  Result := StrToInt(BankWidget.GetText);
-  BankWidget.Free;
-end;
-
-function TReflectionBank.Close: Boolean;
-var
-  BankWidget, BankChild: TReflectWidget;
-  Tries: Integer;
-  T: TReflectTimer;
-begin
-  if not Reflect.Bank.IsOpen then
-    Exit(True);
-  BankWidget.GetWidget(Widget_Bank_Container, 3);
-  BankChild.GetChild(BankWidget, 11);
-  while (Reflect.Bank.IsOpen) and (not Result) and (Tries < 4) do
-  begin
-    If BankChild.Interact('Close', 2)then
-    begin
-      T.Start;
-      while (T.ElapsedTime < 2000) and (Reflect.Bank.IsOpen)do
-        Wait(RandomRange(50, 100));
-      Result := (not Reflect.Bank.IsOpen);
-    end;
-    Inc(Tries);
-    Wait(RandomRange(100, 200));
-  end;
-  BankChild.Free;
-  BankWidget.Free;
 end;
 
 function TReflectionBank.Withdraw(Name: string; Amount: Integer): Boolean;
@@ -408,7 +486,7 @@ begin
       begin
         TimeOut.Start;
         Reflect.Text.ChooseOption('X');
-        while (not AmountWidget.IsValid(162, 32)) do
+        while (not AmountWidget.IsValid(Widget_Chat_Container, Widget_Chat_Directions_Child)) do
         begin
           Wait(100 + Random(100));
           if TimeOut.ElapsedTime > 5000 then
@@ -458,7 +536,7 @@ begin
       begin
         TimeOut.Start;
         Reflect.Text.ChooseOption('X');
-        while (not AmountWidget.IsValid(162, 32)) do
+        while (not AmountWidget.IsValid(Widget_Chat_Container, Widget_Chat_Directions_Child)) do
         begin
           Wait(100 + Random(100));
           if TimeOut.ElapsedTime > 5000 then
@@ -475,22 +553,13 @@ begin
     end;
 end;
 
-function TReflectionBank.IsPinOpen: Boolean;
-var
-  PinWidget: TReflectWidget;
-begin
-  Result := PinWidget.IsValid(213, 3);
-end;
-
-function TReflectionBank.EnterPin(ThePin: string): Boolean
+function TReflectionBank.EnterPin(ThePin: string): Boolean;
 var
   PinWidget: TReflectWidget;
   NumberChild:  TReflectWidget;
   NumberBoxChild: TReflectWidget;
   PinNum, BoxNum, EnterNumber, Count, X, Y: Integer;
   Entered: Boolean;
-const
-  NumberChildIndexs: TIntegerArray = [16, 18, 20, 22, 24, 26, 28, 30, 32, 34];
 begin
   if Reflect.Bank.IsOpen then
     Exit(True);
@@ -498,11 +567,11 @@ begin
     Exit(False);
   for PinNum := 1 to 4 do
   begin
-    for BoxNum := 0 to 9 do
+    for BoxNum := 0 to High(Widget_PinScreen_Buttons_Children_Container) do
     begin
       Entered := False;
-      PinWidget.GetWidget(Widget_PinScreen_Container, NumberChildIndexs[BoxNum]);
-      NumberChild.GetChild(PinWidget, 1);
+      PinWidget.GetWidget(Interface_PinScreen, Widget_PinScreen_Buttons_Children_Container[BoxNum]);
+      NumberChild.GetChild(PinWidget, Widget_PinScreen_Button_Child);
       if ThePin[PinNum] = NumberChild.GetText then
       begin
         NumberBoxChild.GetChild(PinWidget, 0);
