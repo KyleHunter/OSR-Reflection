@@ -104,3 +104,33 @@ begin
     else
       Result += PadZ(IntToStr(TimeInts[I]), 2) + ':';
 end;
+
+procedure TReflectionInternals.ClearText;
+var
+   AmountWindow: TReflectWidget;
+   TimeOut: TReflectTimer;
+begin
+ while (not AmountWindow.IsValid(Widget_Chat_Container, Widget_Chat_Input_Child)) do
+  begin
+    Wait(100 + Random(100));
+    if TimeOut.ElapsedTime > 3000 then
+      Exit;
+  end
+    AmountWindow.GetWidget(Widget_Chat_Container, Widget_Chat_Input_Child);
+    if (AmountWindow.GetText <> '*') then
+      KeyDown(Vk_Back);
+    while (AmountWindow.IsValid(Widget_Chat_Container, Widget_Chat_Input_Child) and (AmountWindow.GetText <> '*')) do
+      Wait(10 + Random(80));
+    KeyUp(Vk_Back);
+    AmountWindow.Free;
+end;
+
+function TReflectionInternals.InStringArray(_Array: TStringArray;_Source: String): Boolean;
+var
+  I : Integer
+begin
+  for I := 0 to High(_Array) do
+    if _Array[I] = _Source then
+      Exit(True);
+end;
+
