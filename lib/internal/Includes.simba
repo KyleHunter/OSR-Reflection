@@ -19,6 +19,8 @@
 {$include reflection/lib/widgets/gametabs/WornEquipment.simba}
 {$include reflection/lib/widgets/gametabs/Prayer.simba}
 {$include reflection/lib/widgets/gametabs/WorldSwitcher.simba}
+{$include reflection/lib/widgets/Interfaces.simba}
+{$include reflection/lib/widgets/Shop.simba}
 {$include reflection/lib/widgets/Bank.simba}
 {$include reflection/lib/widgets/Chat.simba}
 {$include reflection/lib/core/Compass.simba}

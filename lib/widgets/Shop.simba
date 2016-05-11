@@ -1,0 +1,259 @@
+
+function TReflectionShop.IsOpen: Boolean;
+begin
+  Result := Reflect.Interfaces.IsOpen(Interface_ShopMenu);
+end;
+
+function TReflectionShop.ShopBox(_Slot: Integer): TBox;
+var
+  W, C : TReflectWidget;
+begin
+  W.GetWidget(Interface_ShopMenu, Widget_ShopMenu_Items_Child_Container);
+
+  if W.NotNull then
+  begin
+    C.GetChild(W, _Slot);
+    if C.NotNull then
+    begin
+      Result := C.GetBounds;
+      C.Free;
+    end;
+    W.Free;
+  end;
+end;
+
+function TReflectShopItem.GetName: string;
+var
+  Line: string;
+  Id: Integer;
+begin
+  Id := Self._Id;
+  if not InRange(Id, 0, Definition_Items_Length) then
+    Exit;
+  Line := ItemCache.GetStrings(Id);
+  Result := Between('''name'': ''', ''',', Line);
+end;
+
+function TReflectShopItem.GetInvActions: TStringArray;
+var
+  Line, Temp: string;
+  Id: Integer;
+begin
+  Id := Self._Id;
+  if not InRange(Id, 0, Definition_Items_Length) then
+    Exit;
+  Line := ItemCache.GetStrings(Id);
+  Temp := Between('''actions'': [''', ']', Line);
+  Temp := Copy(Temp, 1, Length(Temp) - 1);
+  Result := Explode(''',''',Temp);
+end;
+
+function TReflectShopItem.GetGroundActions: TStringArray;
+var
+  Line, Temp: string;
+  Id: Integer;
+begin
+  Id := Self._Id;
+  if not InRange(Id, 0, Definition_Items_Length) then
+    Exit;
+  Line := ItemCache.GetStrings(Id);
+  Temp := Between('''groundActions'': [''', ']', Line);
+  Temp := Copy(Temp, 1, Length(Temp) - 1);
+  Result := Explode(''',''',Temp);
+end;
+
+function TReflectShopItem.GetHighAlchValue: Integer;
+var
+  Line: string;
+  Id: Integer;
+begin
+  Id := Self._Id;
+  if not InRange(Id, 0, Definition_Items_Length) then
+    Exit;
+  Line := ItemCache.GetStrings(Id);
+  Result := StrToInt(Between('highAlchValue'': ', '}', Line));
+end;
+
+function TReflectShopItem.GetQuantity: Integer;
+begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectShopItem.GetQuantity');
+    Exit(-1);
+  end;
+
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ItemAmount);
+end;
+
+function TReflectShopItem.GetId: Integer;
+begin
+  Result := Self._Id;
+end;
+
+function TReflectShopItem.GetShopSlot: Integer;
+begin
+  Result := Self._Slot;
+end;
+
+function TReflectShopItem.GetSlot: Integer;
+begin
+  Result := Self._Slot;
+end;
+
+function TReflectShopItem.GetBox: TBox;
+begin
+  Result := Reflect.Shop.ShopBox(Self.GetSlot);
+end;
+
+procedure TReflectShopItemArray.GetAll(IncludeEmpty : Boolean = False);
+var
+  I, TheID, Count: Integer;
+  ShopWidget, ShopChild: TReflectWidget;
+begin
+  Reflect.Mem.FreeObjects(ckShopItems, False);
+  Self := [];
+  if not Reflect.Shop.IsOpen then
+    Exit;
+  SetLength(Self, 40);
+  ShopWidget.GetWidget(Interface_ShopMenu, Widget_ShopMenu_Items_Child_Container);
+  for I := 0 to 39 do
+  begin
+    ShopChild.GetChild(ShopWidget, I);
+    HookCache[ckShopItems][I] := ShopChild.Reference;
+    TheID := ShopChild.GetItemId;
+    if ((TheID > 0) and (TheID <> 6512)) or IncludeEmpty then
+    begin
+      Inc(Count);
+      Self[Count-1]._Id := TheID;
+      Self[Count-1].Reference := ShopChild.Reference;
+      Self[Count-1]._Slot := I;
+    end;
+  end;
+  SetLength(Self, Count);
+  ShopWidget.Free;
+end;
+
+procedure TReflectShopItemArray.Get(V: TVariantArray);
+var
+  I : Integer;
+  IDs : TIntegerArray;
+  Names : TStringArray;
+  Temp : TReflectShopItemArray;
+begin
+  for I := 0 to High(V) do
+    if Reflect.Misc.VariantIsString(V[I]) then
+    begin
+      SetLength(Names, Length(Names)+1);
+      Names[High(Names)] := V[I];
+    end
+    else
+    begin
+      if Reflect.Misc.VariantIsInteger(V[I]) then
+      begin
+        SetLength(IDs, Length(IDs)+1);
+        IDs[High(IDs)] := V[I];
+      end;
+    end;
+
+  Self := [];
+  Temp.GetAll;
+
+  for I := 0 to High(Temp) do
+    if InIntArray(IDs, Temp[I].GetID) or Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
+    begin
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
+    end;
+end;
+
+procedure TReflectShopItemArray.Get(Names: TStringArray); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Self.Get(Temp);
+end;
+
+procedure TReflectShopItemArray.Get(IDs: TIntegerArray); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Self.Get(Temp);
+end;
+
+procedure TReflectShopItemArray.Get(Name: String); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Self.Get(Temp);
+end;
+
+procedure TReflectShopItemArray.Get(ID: Integer); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Self.Get(Temp);
+end;
+
+function TReflectShopItem.Find(V: TVariantArray): Boolean;
+var
+  Temp: TReflectShopItemArray;
+begin
+  Temp.Get(V);
+  if Length(Temp) = 0 then
+    Exit;
+  Result := True;
+  Self := Temp[0];
+end;
+
+function TReflectShopItem.Find(Names: TStringArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectShopItem.Find(IDs: TIntegerArray): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Find(Temp);
+end;
+
+function TReflectShopItem.Find(Name: String): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Find(Temp);
+end;
+
+function TReflectShopItem.Find(ID: Integer): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Find(Temp);
+end;
+
