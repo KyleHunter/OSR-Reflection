@@ -2,25 +2,36 @@
 function TReflectionGametab.Current: Integer;
 var
   TempWidget: TReflectWidget;
-  Containers, Gametabs: TIntegerArray;
+  Containers, Children, Gametabs: TIntegerArray;
   I: Integer;
 begin
   Containers := [Widget_ClanChat_Container, Widget_FriendsList_Container,
     Widget_IgnoreList_Container, Widget_Logout_Container,
-    Widget_Options_Container, Widget_Emotes_Container,
-    Widget_MusicPlayer_Container, Widget_CombatOptions_Container,
-    Widget_Stats_Container, Widget_WornEquipment_Container,
-    Widget_Prayer_Container, Widget_Magic_Container, Widget_QuestList_Container,
-    Widget_ChangeWorld_Container
-  ];
+    Widget_ChangeWorld_Container, Widget_Options_Container,
+    Widget_Emotes_Container, Widget_MusicPlayer_Container,
+    Widget_CombatOptions_Container, Widget_Stats_Container,
+    Widget_QuestList_Container, Widget_Achievement_Container,
+    Widget_Minigame_Container, Widget_KourendFavour_Container,
+    Widget_WornEquipment_Container, Widget_Prayer_Container,
+    Widget_Magic_Container, Widget_Inventory_Container];
+  Children := [Widget_ClanChat_Detect_Child, Widget_FriendsList_Detect_Child,
+    Widget_IgnoreList_Detect_Child, Widget_Logout_Detect_Child,
+    Widget_ChangeWorld_Detect_Child, Widget_Options_Detect_Child,
+    Widget_Emotes_Detect_Child, Widget_MusicPlayer_Detect_Child,
+    Widget_CombatOptions_Detect_Child, Widget_Stats_Detect_Child,
+    Widget_QuestList_Detect_Child, Widget_Achievement_Detect_Child,
+    Widget_Minigame_Detect_Child, Widget_KourendFavour_Detect_Child,
+    Widget_WornEquipment_Detect_Child, Widget_Prayer_Detect_Child,
+    Widget_Magic_Detect_Child, Widget_Inventory_Detect_Child];
   Gametabs := [Gametab_ClanChat, Gametab_FriendsList, Gametab_IgnoreList,
-    Gametab_Logout, Gametab_Options, Gametab_Emotes, Gametab_MusicPlayer,
-    Gametab_CombatOptions, Gametab_Stats, Gametab_WornEquipment, Gametab_Prayer,
-    Gametab_Magic, Gametab_QuestList, Gametab_Logout
-  ];
+    Gametab_Logout, Gametab_Logout, Gametab_Options, Gametab_Emotes,
+    Gametab_MusicPlayer, Gametab_CombatOptions, Gametab_Stats, Gametab_QuestList,
+    Gametab_QuestList, Gametab_QuestList, Gametab_QuestList,
+    Gametab_WornEquipment, Gametab_Prayer, Gametab_Magic, Gametab_Inventory];
+
   for I := 0 to High(Gametabs) do
   begin
-    TempWidget.GetWidget(Containers[I], 0);
+    TempWidget.GetWidget(Containers[I], Children[I]);
     if not (TempWidget.IsHidden) and (TempWidget.GetBounds.X1 <> -1) then
     begin
       TempWidget.Free;
@@ -28,7 +39,11 @@ begin
     end;
     TempWidget.Free;
   end;
-  Result := GameTab_Inventory;
+
+  If Reflect.Bank.IsOpen then
+    Exit(Gametab_Inventory);
+
+  Result := -1;
 end;
 
 function TReflectionGametab.Open(TabNum: Integer): Boolean;
@@ -102,3 +117,16 @@ begin
   if not Result then
     Result := Reflect.Gametab.Open(Tab);
 end;
+
+procedure TReflectionGametab.ClickNorth;
+var
+  W : TReflectWidget;
+begin
+  W.GetWidget(Widget_Gametab_Container, Widget_Gametab_LookNorth_Child);
+  if W.NotNull then
+  begin
+    W.Interact;
+    W.Free;
+  end;
+end;
+
