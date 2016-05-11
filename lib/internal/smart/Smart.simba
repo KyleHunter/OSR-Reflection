@@ -4,7 +4,6 @@ type
 
 var
   _ReflectionSmartList: array of Pointer;
-  SmartShowConsole: Boolean := True;
 
 {$IFNDEF AL}
   procedure Delete(Ptr: Pointer; var Pointers: Array of Pointer); overload;
@@ -65,28 +64,101 @@ begin
 end;
 
 function TReflectionSmart.GetWorld: string;
+var Worlds : TIntegerArray;
 begin
-  if (World = 0) then
+  if (SmartWorld < 299) then
   begin
-    Reflect.Logger.Status('World variable not set, trying random world..');
-    Result := Between('a href="http://oldschool', '.runescape.com/j1',
+    Reflect.Logger.Warn('World variable not valid, trying recommended world...');
+    Result := Between('id=''member-world'' href=''http://oldschool.runescape.com/game?world=', '''>',
     GetPage('http://oldschool.runescape.com/slu'));
     if (Result <> '') and InRange(StrToIntDef(ExtractFromStr(Result, Numbers),
-      -1), 1, 78) then
-    Exit;
-    Result := IntToStr(RandomRange(1, 78));
+      -1), 301, 394) then begin
+      Result := IntToStr(StrToInt(Result) - 300);
+      Exit;
+    end;
+
+    Reflect.Logger.Warn('Failed to get recommended world, trying random world...');
+    Worlds := [301, 302, 303, 304, 305, 306, 308, 309, 310, 311, 312, 313, 314, 316, 317, 318, 319, 320,
+               321, 322, 325, 326, 327, 328, 329, 330, 333, 334, 335, 336, 337, 338, 341, 342, 343, 344,
+               345, 346, 349, 350, 351, 352, 353, 354, 357, 358, 359, 360, 361, 362, 365, 366, 367, 368,
+               369, 370, 373, 374, 375, 376, 377, 378, 381, 382, 383, 384, 385, 386, 393, 394];
+    Result := IntToStr(Worlds[random(length(Worlds))] - 300);
   end else
-    Result := IntToStr(World - 300);
+    Result := IntToStr(SmartWorld - 300);
 end;
+
+{*Credit: Brandon*}
+Function TReflectionSmart.getJavaPath(Console: Boolean): String;
+var
+  Drive: String;
+  CurrentPath: String;
+
+Function getDirectoryName(Directory, Path: String): String;
+var
+  I: Integer;
+  Directories: TStringArray;
+Begin
+  Directories := GetDirectories(Path);
+  For I := 0 To High(Directories) Do
+    If ExecRegExpr(Directory, Directories[I]) Then
+    Begin
+      Result := Directories[I];
+      Exit;
+    End;
+End;
+
+Function findDirectory(Directory, Path: String): Boolean;
+Begin
+  Result := Length(GetDirectoryName(Directory, Path)) > 0;
+End;
+
+Begin
+  Drive := Copy(PluginPath, 0, 3);
+
+  If (FindDirectory('Program\sFiles\s\(x86\)', Drive)) Then
+  Begin
+    CurrentPath := Drive + 'Program Files (x86)\';
+  End Else
+    CurrentPath := Drive + 'Program Files\';
+
+  If (FindDirectory('Java|java', CurrentPath + '\')) Then
+  Begin
+    CurrentPath := CurrentPath + 'Java\';
+  End Else
+    Begin
+      Reflect.Logger.Error('Failed To Find Path: '+CurrentPath+'Java\', []);
+      Exit;
+    End;
+
+  Drive := GetDirectoryName('jre', CurrentPath);
+  If (Length(Drive) > 0) Then
+  Begin
+    If (Console) Then
+      CurrentPath := CurrentPath + Drive + '\bin\java.exe'
+    Else
+      CurrentPath := CurrentPath + Drive + '\bin\javaw.exe';
+  End Else
+    Begin
+      Drive := GetDirectoryName('jdk', CurrentPath);
+      If (Console) Then
+      CurrentPath := CurrentPath + Drive + 'jre\bin\java.exe'
+    Else
+      CurrentPath := CurrentPath + Drive + 'jre\bin\javaw.exe';
+    End;
+
+  If (FileExists(CurrentPath)) Then
+    Result := CurrentPath
+  Else
+    Reflect.Logger.Error('Failed To Find Java.exe or Javaw.exe. Please add ...\JRE\Bin to your PATH environment variable.', []);
+End;
 
 procedure TReflectionSmart.Create;
 begin
-  Self.Create(765, 503,
-    'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0');
+  Self.Create(765, 503, SmartUserAgent, SmartShowConsole);
 end;
 
 procedure TReflectionSmart.Create(
-  Width, Height: Integer; UserAgent: string); overload;
+  Width, Height: Integer; UserAgent: string; showConsole : boolean); overload;
 var
   World: Variant;
   JavaString: string;
@@ -95,11 +167,14 @@ begin
   Self.Height := Height;
   Self.UserAgent := UserAgent;
   AddOnTerminate('_TReflectionSmartFreeAll');
+
   if (not Self.ForceNew) and Self.Pair then
     Exit;
+
   World := Self.GetWorld;
+
   Reflect.Logger.Status('Using world %s.', [World]);
-  if SmartShowConsole then
+  if showConsole then
     JavaString:= 'java.exe'
   else
     JavaString:= 'javaw.exe';
@@ -107,6 +182,18 @@ begin
   Self.Target := SmartSpawnClient(JavaString, StringReplace(PluginPath, '\',
     '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
     'j1', Width, Height, '', UserAgent, '', '');
+
+  if Self.Target = 0 then
+  begin
+    Reflect.Logger.Warn('Error while finding default Java, searching for Java...', []);
+    JavaString := Reflect.Smart.getJavaPath(showConsole);
+    Reflect.Logger.Warn('Using '''+JavaString+''' Java path.');
+
+    Self.Target := SmartSpawnClient(JavaString, StringReplace(PluginPath, '\',
+      '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),
+      'j1', Width, Height, '', UserAgent, '', '');
+  end;
+
   if Self.Target = 0 then
     Reflect.Logger.Fatal('Failed to spawn SMART client.');
   if not Self.Init then
@@ -132,12 +219,12 @@ end;
 function TReflectionSmart.GetArraySize(
   Ref: Integer; Hook: THook; Dimension: Integer): Integer;
 begin
-	Result := SmartGetFieldArraySize(Reflect.Smart.Target, Ref, Hook.Path, Dimension);
+	Result := SmartGetFieldArraySize(Self.Target, Ref, Hook.Path, Dimension);
 end;
 
 function TReflectionSmart.GetFieldObject(Ref: Integer; Hook: THook): Integer;
 begin
-  Result := SmartGetFieldObject(Reflect.Smart.Target, Ref, Hook.Path);
+  Result := SmartGetFieldObject(Self.Target, Ref, Hook.Path);
 end;
 
 procedure TReflectPointer.GetFieldObject(Ref: Integer; Hook: THook);
@@ -152,7 +239,7 @@ end;
 
 function TReflectionSmart.GetFieldLongL(Ref: Integer; Hook: THook): Integer;
 begin
-	Result := SmartGetFieldLongL(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartGetFieldLongL(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectPointer.GetFieldLongL(Hook: THook): Integer;
@@ -162,7 +249,7 @@ end;
 
 function TReflectionSmart.GetFieldInt(Ref: Integer; Hook: THook): Integer;
 begin
-	Result := SmartGetFieldInt(Reflect.Smart.Target, Ref, Hook.Path) * Hook.Multi;
+	Result := SmartGetFieldInt(Self.Target, Ref, Hook.Path) * Hook.Multi;
 end;
 
 function TReflectPointer.GetFieldInt(Hook: THook): Integer;
@@ -173,33 +260,33 @@ end;
 
 function TReflectionSmart.GetFieldShort(Ref: Integer; Hook: THook): Integer;
 begin
-	Result := SmartGetFieldShort(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartGetFieldShort(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldFloat(Ref: Integer; Hook: THook): Extended;
 begin
-	Result := SmartGetFieldFloat(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartGetFieldFloat(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldDouble(Ref: Integer; Hook: THook): Extended;
 begin
-	Result := SmartGetFieldDouble(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartGetFieldDouble(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldBoolean(Ref: Integer; Hook: THook): Boolean;
 begin
-  Result := SmartGetFieldBoolean(Reflect.Smart.Target, Ref, Hook.Path);
+  Result := SmartGetFieldBoolean(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldByte(Ref: Integer; Hook: THook): Integer;
 begin
-	Result := SmartGetFieldByte(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartGetFieldByte(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.GetFieldArrayObject(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayObject(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayObject(Self.Target, Ref, Hook.Path, Index);
 end;
 
 procedure TReflectPointer.GetFieldArrayObject(
@@ -212,61 +299,61 @@ end;
 function TReflectionSmart.GetFieldArrayInt(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayInt(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayInt(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayFloat(
   Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
-	Result := SmartGetFieldArrayFloat(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayFloat(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayDouble(
   Ref: Integer; Hook: THook; Index: Integer): Extended;
 begin
-	Result := SmartGetFieldArrayDouble(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayDouble(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayBoolean(
   Ref: Integer; Hook: THook; Index: Integer): Boolean;
 begin
-	Result := SmartGetFieldArrayBool(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayBool(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayLongH(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayLongH(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayLongH(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayLongL(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayLongL(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayLongL(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayByte(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayByte(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayByte(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayShort(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayShort(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayShort(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArrayChar(
   Ref: Integer; Hook: THook; Index: Integer): Integer;
 begin
-	Result := SmartGetFieldArrayChar(Reflect.Smart.Target, Ref, Hook.Path, Index);
+	Result := SmartGetFieldArrayChar(Self.Target, Ref, Hook.Path, Index);
 end;
 
 function TReflectionSmart.GetFieldArray2DObject(
   Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
-	Result := SmartGetFieldArray2DObject(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DObject(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 procedure TReflectPointer.GetFieldArray2DObject(
@@ -279,62 +366,62 @@ end;
 function TReflectionSmart.GetFieldArray2DInt(
   Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
-	Result := SmartGetFieldArray2DInt(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DInt(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DDouble(
   Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
-	Result := SmartGetFieldArray2DDouble(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DDouble(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DFloat(
   Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
-	Result := SmartGetFieldArray2DFloat(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DFloat(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DBoolean(
   Ref: Integer; Hook: THook; X, Y: Integer): Boolean;
 begin
-	Result := SmartGetFieldArray2DBoolean(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DBoolean(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DLongH(
   Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
-	Result := SmartGetFieldArray2DLongH(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DLongH(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DLongL(
   Ref: Integer; Hook: THook; X, Y: Integer): Extended;
 begin
-	Result := SmartGetFieldArray2DLongL(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DLongL(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DByte(
   Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
-	Result := SmartGetFieldArray2DByte(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DByte(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DChar(
   Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
-	Result := SmartGetFieldArray2DChar(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DChar(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray2DShort(
   Ref: Integer; Hook: THook; X, Y: Integer): Integer;
 begin
-	Result := SmartGetFieldArray2DShort(Reflect.Smart.Target, Ref, Hook.Path, X, Y);
+	Result := SmartGetFieldArray2DShort(Self.Target, Ref, Hook.Path, X, Y);
 end;
 
 function TReflectionSmart.GetFieldArray3DObject(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
 	Result := SmartGetFieldArray3DObject(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 procedure TReflectPointer.GetFieldArray3DObject(
@@ -348,68 +435,68 @@ function TReflectionSmart.GetFieldArray3DByte(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
 	Result := SmartGetFieldArray3DByte(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DChar(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
-	Result := SmartGetFieldArray3DChar(Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+	Result := SmartGetFieldArray3DChar(Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DShort(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
 	Result := SmartGetFieldArray3DShort(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DInt(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Integer;
 begin
 	Result := SmartGetFieldArray3DInt(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DFloat(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
 	Result := SmartGetFieldArray3DFloat(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DDouble(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
 	Result := SmartGetFieldArray3DDouble(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DBoolean(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Boolean;
 begin
 	Result := SmartGetFieldArray3DBoolean(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DLongH(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
 	Result := SmartGetFieldArray3DLongH(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 function TReflectionSmart.GetFieldArray3DLongL(
   Ref: Integer; Hook: THook; X, Y, Z: Integer): Extended;
 begin
 	Result := SmartGetFieldArray3DLongL(
-    Reflect.Smart.Target, Ref, Hook.Path, X, Y, Z);
+    Self.Target, Ref, Hook.Path, X, Y, Z);
 end;
 
 procedure TReflectionSmart.FreeObject(Reference: Integer);
 begin
   if Reference > 0 then
-    SmartFreeObject(Reflect.Smart.Target, Reference);
+    SmartFreeObject(Self.Target, Reference);
 end;
 
 function TReflectPointer.NotNull: Boolean;
@@ -426,45 +513,45 @@ end;
 
 function TReflectionSmart.IsPathValid(Ref: Integer; Hook: THook): Boolean;
 begin
-	Result := SmartIsPathValid(Reflect.Smart.Target, Ref, Hook.Path);
+	Result := SmartIsPathValid(Self.Target, Ref, Hook.Path);
 end;
 
 function TReflectionSmart.AreEqual(RefOne, RefTwo: Integer): Boolean;
 begin
-	Result := SmartIsEqual(Reflect.Smart.Target, RefOne, RefTwo);
+	Result := SmartIsEqual(Self.Target, RefOne, RefTwo);
 end;
 
 function TReflectionSmart.IsNull(Ref: Integer): Boolean;
 begin
-	Result := SmartIsNull(Reflect.Smart.Target, Ref);
+	Result := SmartIsNull(Self.Target, Ref);
 end;
 
 function TReflectionSmart.StringFromString(
   JavaString: Integer; Str: String): Integer;
 begin
-  Result := SmartStringFromString(Reflect.Smart.Target, JavaString, Str);
+  Result := SmartStringFromString(Self.Target, JavaString, Str);
 end;
 
 function TReflectionSmart.StringFromBytes(Bytes: Integer; Str: String): Integer;
 begin
-  Result := SmartStringFromBytes(Reflect.Smart.Target, Bytes, Str);
+  Result := SmartStringFromBytes(Self.Target, Bytes, Str);
 end;
 
 function TReflectionSmart.StringFromChars(Chars: Integer; Str: String): Integer;
 begin
-  Result := SmartStringFromChars(Reflect.Smart.Target, Chars, Str);
+  Result := SmartStringFromChars(Self.Target, Chars, Str);
 end;
 
 function TReflectionSmart.GetFieldString(Ref: Integer; Hook: THook): String;
 var
   StrInt: Integer;
 begin
-  StrInt := Reflect.Smart.GetFieldObject(Ref, Hook);
+  StrInt := Self.GetFieldObject(Ref, Hook);
   SetLength(Result, 512);
-  SetLength(Result, Reflect.Smart.StringFromString(StrInt, Result));
+  SetLength(Result, Self.StringFromString(StrInt, Result));
   Result := Replace(Result, 'Â', '', [rfReplaceAll]);
   Result := Replace(Result, #160, #32, [rfReplaceAll]);
-  Reflect.Smart.FreeObject(StrInt);
+  Self.FreeObject(StrInt);
 end;
 
 function TReflectionSmart.GetFieldArrayString(
@@ -472,12 +559,12 @@ function TReflectionSmart.GetFieldArrayString(
 var
   StrInt: Integer;
 begin
-  StrInt := Reflect.Smart.GetFieldArrayObject(Ref, Hook, Index);
+  StrInt := Self.GetFieldArrayObject(Ref, Hook, Index);
   SetLength(Result, 512);
-  SetLength(Result, Reflect.Smart.StringFromString(StrInt, Result));
+  SetLength(Result, Self.StringFromString(StrInt, Result));
   Result := Replace(Result, 'Â', '', [RfReplaceAll]);
   Result := Replace(Result, #160, #32, [RfReplaceAll]);
-  Reflect.Smart.FreeObject(StrInt);
+  Self.FreeObject(StrInt);
 end;
 
 procedure _TReflectionSmartFreeAll;
