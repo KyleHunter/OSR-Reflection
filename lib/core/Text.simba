@@ -1,7 +1,5 @@
 
 {* Text functions credit to Frement *}
-
-{$IFNDEF CODEINSIGHT}
 function TReflectionText.RemoveFormatting(Text: string): string;
 var
   I: Integer;
@@ -63,22 +61,62 @@ begin
   end;
 end;
 
+function TReflectionText.OptionExistsMulti(_Options: TStringArray): Boolean;
+var
+  Options : TStringArray;
+  Index : Integer;
+begin
+  Options := Reflect.Text.GetMenuOptions;
+  for Index := 0 to High(_Options) do
+  begin
+    Index := Reflect.Text.GetMenuIndex(_Options[Index], Options);
+    if Index <> -1 then
+      Exit(True);
+  end;
+end;
+
 function TReflectionText.OptionExists(Option: string): Boolean;
 begin
-  Result := (Reflect.Text.GetMenuIndex(Option, Reflect.Text.GetMenuOptions) <> -1);
+  Result := Reflect.Text.OptionExistsMulti([Option]);
 end;
-{$ENDIF}
 
-function TReflectionText.ChooseOption(Option: string): Boolean;
+function TReflectionText.OptionExistsMulti(S: TStringArray; Time: Integer): Boolean; overload;
+var
+  T: TReflectTimer;
+begin
+  T.Start;
+  while T.ElapsedTime < Time do
+  begin
+    if Reflect.Text.OptionExistsMulti(S) then
+      Exit(True);
+
+    Wait(20 + Random(10));
+  end;
+end;
+
+function TReflectionText.OptionExists(S: string; Time: Integer): Boolean; overload;
+begin
+  Result := Reflect.Text.OptionExistsMulti([S], Time);
+end;
+
+function TReflectionText.ChooseOptionMulti(_Options: TStringArray): Boolean;
 var
   Index, MenuX, MenuY, MenuWidth, XOff, YOff: Integer;
   Options: TStringArray;
   Left: Boolean;
 begin
-  Options := Reflect.Text.GetMenuOptions;
   if not Reflect.Text.IsMenuOpen then
     Exit;
-  Index := Reflect.Text.GetMenuIndex(Option, Options);
+
+  Options := Reflect.Text.GetMenuOptions;
+
+  for Index := 0 to High(_Options) do
+  begin
+    Index := Reflect.Text.GetMenuIndex(_Options[Index], Options);
+    if Index <> -1 then
+      Break;
+  end;
+
   MenuX := Reflect.Smart.GetFieldInt(0, Client_MenuX) + 4;
   MenuY := Reflect.Smart.GetFieldInt(0, Client_MenuY) + 4;
   MenuWidth := Reflect.Smart.GetFieldInt(0, Client_MenuWidth);
@@ -105,56 +143,55 @@ begin
   Result := True;
 end;
 
-function TReflectionText.ChooseOption(Option: string; Time: Integer): Boolean; overload;
-var
-  T: Integer;
+function TReflectionText.ChooseOption(Option: string): Boolean;
 begin
-  Result := False;
-  T := GetSystemTime + Time;
-  while GetSystemTime < T do
+  Result := Reflect.Text.ChooseOptionMulti([Option]);
+end;
+
+function TReflectionText.ChooseOptionMulti(Options: TStringArray; Time: Integer): Boolean; overload;
+var
+  T: TReflectTimer;
+begin
+  T.Start;
+  while T.ElapsedTime < Time do
   begin
     if Reflect.Text.IsMenuOpen then
-    begin
-      Result := Reflect.Text.ChooseOption(Option);;
-      Exit;
-    end;
+      Exit(True);
+
     Wait(20 + Random(20));
   end;
+end;
+
+function TReflectionText.ChooseOption(Option: string; Time: Integer): Boolean; overload;
+begin
+  Result := Reflect.Text.ChooseOptionMulti([Option], Time);
 end;
 
 function TReflectionText.GetUpText: string;
 var
   Options: TStringArray;
+  L : Integer;
 begin
   Options := Reflect.Text.GetMenuOptions;
-  if (High(Options) - 1) > 0 then
-    Result := Options[0] + ' / ' + ToStr(High(Options) - 1) + ' more options'
+  L := Length(Options);
+
+  if L > 2 then
+    Result := Options[0] + ' / ' + IntToStr(L - 2) + ' more options'
+  else if L > 0 then
+    Result := Options[0]
   else
-    Result := Options[0];
+    Result := '';
+
   if Result = 'Cancel' then
     Result := '';
 end;
 
 function TReflectionText.IsUpTextMulti(UpText: TStringArray): Boolean;
 var
-  I: integer;
   UT: string;
-  T: TReflectTimer;
 begin
-  Result := False;
-  T.Start;
-  while UT = '' do
-  begin
-    UT := Reflect.Text.GetUpText;
-    if T.ElapsedTime > 1000 then
-      Exit;
-    Wait(50+Random(50));
-  end;
-  for I := 0 to High(UpText) do
-  begin
-    Result := Pos(Trim(UpText[I]), UT) > 0;
-    if Result then Exit;
-  end;
+  UT := Reflect.Text.GetUpText;
+  Result := IsArrInStr(UpText, UT);
 end;
 
 function TReflectionText.IsUpText(UpText: string): Boolean;
@@ -164,17 +201,14 @@ end;
 
 function TReflectionText.IsUpTextMulti(S: TStringArray; Time: Integer): Boolean; overload;
 var
-  T: UInt64;
+  T: TReflectTimer;
 begin
-  Result := False;
-  T := GetSystemTime + Time;
-  while (GetSystemTime < T) do
+  T.Start;
+  while T.ElapsedTime < Time do
   begin
     if Reflect.Text.IsUpTextMulti(S) then
-    begin
-      Result := True;
-      Exit;
-    end;
+      Exit(True);
+
     Wait(20 + Random(10));
   end;
 end;
@@ -183,3 +217,4 @@ function TReflectionText.IsUpText(S: string; Time: Integer): Boolean; overload;
 begin
   Result := Reflect.Text.IsUpTextMulti([S], Time);
 end;
+
