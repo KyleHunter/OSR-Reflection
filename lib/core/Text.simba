@@ -63,15 +63,15 @@ begin
   end;
 end;
 
-function TReflectionText.OptionExistsMulti(_Options: TStringArray): Boolean;
+function TReflectionText.OptionExistsMulti(Options: TStringArray): Boolean;
 var
-  Options : TStringArray;
+  _Options : TStringArray;
   Index, I : Integer;
 begin
-  Options := Reflect.Text.GetMenuOptions;
-  for I := 0 to High(_Options) do
+  _Options := Reflect.Text.GetMenuOptions;
+  for I := 0 to High(Options) do
   begin
-    Index := Reflect.Text.GetMenuIndex(_Options[I], Options);
+    Index := Reflect.Text.GetMenuIndex(Options[I], _Options);
     if Index <> -1 then
       Exit(True);
   end;
@@ -101,20 +101,20 @@ begin
   Result := Reflect.Text.OptionExistsMulti([S], Time);
 end;
 
-function TReflectionText.ChooseOptionMulti(_Options: TStringArray): Boolean;
+function TReflectionText.ChooseOptionMulti(Options: TStringArray): Boolean;
 var
   Index, MenuX, MenuY, MenuWidth, XOff, YOff, I: Integer;
-  Options: TStringArray;
+  _Options: TStringArray;
   Left: Boolean;
 begin
   if not Reflect.Text.IsMenuOpen then
     Exit;
 
-  Options := Reflect.Text.GetMenuOptions;
+  _Options := Reflect.Text.GetMenuOptions;
 
-  for I := 0 to High(_Options) do
+  for I := 0 to High(Options) do
   begin
-    Index := Reflect.Text.GetMenuIndex(_Options[I], Options);
+    Index := Reflect.Text.GetMenuIndex(Options[I], _Options);
     if Index <> -1 then
       Break;
   end;
@@ -157,7 +157,7 @@ begin
   T.Start;
   while T.ElapsedTime < Time do
   begin
-    if Reflect.Text.IsMenuOpen then
+    if Reflect.Text.ChooseOptionMulti(Options) then
       Exit(True);
 
     Wait(20 + Random(20));
