@@ -1,13 +1,14 @@
 [Reflection Update # 26]
 [Adds]
+Adds warnings
 Adds TReflectionInterface
 Adds TReflectionShop
 Adds TReflectionText.OptionExistsMulti and ChooseOptionMulti
 Adds TReflectInvItem.Interact
 Adds SmartUserAgent
 Adds Reflect.Antiban.HoverSkill
-Adds Reflect.Smart.getJavaPath
-Adds Reflect.Chat.doConversation
+Adds Reflect.Smart.GetJavaPath
+Adds Reflect.Chat.DoConversation
 Adds some depositbox functions and procedures to Bank.Simba and improvements
 Adds TReflectLocalPlayer.GetName
 Adds TReflectionGametab.ClickNorth

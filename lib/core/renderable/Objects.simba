@@ -239,25 +239,25 @@ begin
   Reflect.Mem.FreeObjects(ckSceneTile, False);
 end;
 
-procedure TReflectObjectArray.Get(ObjType: TObjectType; V: TVariantArray; Distance: Integer = 103);
+procedure TReflectObjectArray.Get(ObjType: TObjectType; Input: TVariantArray; Distance: Integer = 103);
 var
   I : Integer;
   IDs : TIntegerArray;
   Names : TStringArray;
   Temp : TReflectObjectArray;
 begin
-  for I := 0 to High(V) do
-    if Reflect.Misc.VariantIsString(V[I]) then
+  for I := 0 to High(Input) do
+    if Reflect.Misc.VariantIsString(Input[I]) then
     begin
       SetLength(Names, Length(Names)+1);
-      Names[High(Names)] := V[I];
+      Names[High(Names)] := Input[I];
     end
     else
     begin
-      if Reflect.Misc.VariantIsInteger(V[I]) then
+      if Reflect.Misc.VariantIsInteger(Input[I]) then
       begin
         SetLength(IDs, Length(IDs)+1);
-        IDs[High(IDs)] := V[I];
+        IDs[High(IDs)] := Input[I];
       end;
     end;
 
@@ -314,11 +314,11 @@ begin
   Self.Get(ObjType, Temp, Distance);
 end;
 
-function TReflectObject.Find(ObjType: TObjectType; V: TVariantArray; Distance: Integer = 103): Boolean;
+function TReflectObject.Find(ObjType: TObjectType; Input: TVariantArray; Distance: Integer = 103): Boolean;
 var
   Temp: TReflectObjectArray;
 begin
-  Temp.Get(ObjType, V, Distance);
+  Temp.Get(ObjType, Input, Distance);
   if Length(Temp) = 0 then
     Exit;
   Result := True;

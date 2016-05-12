@@ -96,10 +96,14 @@ type
 end;
 {$ENDIF}
 
+    {Global variables}
 var
   Reflect: TReflectionLib;
   ObjectCache, NpcCache, ItemCache: TStringList;
   ObjGame, ObjWallDecoration, ObjFloorDecoration, ObjBoundary: TObjectType;
+  SmartWorld, World: Integer;
+  SmartShowConsole: Boolean := True;
+  SmartUserAgent: String := 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0';
 
 type
   TReflectPointer = record
@@ -204,13 +208,6 @@ TReflectInvItemArray = array of TReflectInvItem;
     end;
   TReflectWornEquipmentArray = Array of TReflectWornEquipment;
 
-    {Global variables}
-
-var
-  SmartWorld: Integer;
-  SmartShowConsole: Boolean := True;
-  SmartUserAgent: String := 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0';
-
   {Constants}
 
 const
@@ -286,11 +283,15 @@ const
   Widget_Bank_ItemSlots_Child_Container = 12;
   Interface_Bank_VisibleBox : TBox = [22, 80, 480, 292];
 
+   {PinScreen}
+
   Interface_PinScreen = 213;
   Widget_PinScreen_Detect_Child = 3;
   Widget_PinScreen_Buttons_Children_Container = [16, 18, 20, 22, 24, 26, 28, 30, 32, 34];
   Widget_PinScreen_Button_Child = 1;
   Widget_PinScreen_Close_Child = 13;
+
+  {Deposit box}
 
   Interface_DepositMenu = 192;
   Widget_DepositMenu_Close_Child_Container = 1;
@@ -299,6 +300,8 @@ const
   Widget_DepositMenu_DepositInv_Child = 3;
   Widget_DepositMenu_DepositEqu_Child = 5;
   Widget_DepositMenu_DepositLoot_Child = 7;
+
+  {Shops}
 
   Interface_ShopMenu = 300;
   Widget_ShopMenu_Close_Child_Container = 1;

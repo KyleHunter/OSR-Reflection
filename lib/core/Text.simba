@@ -21,6 +21,7 @@ begin
   Result := Replace(Result, '  ', ' ',[rfReplaceAll]);
 end;
 
+{$IFNDEF CODEINSIGHT}
 function TReflectionText.GetMenuIndex(
   Option: String; Options: TStringArray): Integer;
 var
@@ -36,6 +37,7 @@ begin
     end;
   end;
 end;
+{$ENDIF}
 
 function TReflectionText.IsMenuOpen: Boolean;
 begin

@@ -25,19 +25,37 @@ begin
   Result := Self._Id;
 end;
 
+function TReflectWornEquipment.Id: Integer;
+begin
+  Reflect.Logger.Warn('''TReflectWornEquipment.Id'' will be removed in next update, please use ''.GetId''');
+  Result := Self.GetId;
+end;
+
 function TReflectWornEquipment.GetQuantity: Integer;
 begin
   Result := Self._Quantity;
 end;
 
-function TReflectWornEquipment.GetEquipSlot: Integer;
+function TReflectWornEquipment.Quantity: Integer;
 begin
-  Result := Self._EquipSlot;
+  Reflect.Logger.Warn('''TReflectWornEquipment.Quantity'' will be removed in next update, please use ''.GetQuantity''');
+  Result := Self.GetQuantity;
 end;
 
 function TReflectWornEquipment.GetSlot: Integer;
 begin
   Result := Self._EquipSlot;
+end;
+
+function TReflectWornEquipment.GetEquipSlot: Integer;
+begin
+  Result := Self.GetSlot;
+end;
+
+function TReflectWornEquipment.EquipSlot: Integer;
+begin
+  Reflect.Logger.Warn('''TReflectWornEquipment.EquipSlot'' will be removed in next update, please use ''.GetSlot''');
+  Result := Self.GetSlot;
 end;
 
 function TReflectWornEquipment.GetBox: TBox;

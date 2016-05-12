@@ -127,7 +127,7 @@ begin
   Result := Reflect.Chat.NpcChooseOption(['Click here to continue', 'Click to continue']);
 end;
 
-function TReflectionChat.doConversation(Options : TStringArray = []): Boolean;
+function TReflectionChat.DoConversation(Options : TStringArray = []): Boolean;
 var
   Timer : TReflectTimer;
   Temp : TStringArray;

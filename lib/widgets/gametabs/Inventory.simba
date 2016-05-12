@@ -146,25 +146,25 @@ begin
   end;
 end;
 
-procedure TReflectInvItemArray.Get(V: TVariantArray);
+procedure TReflectInvItemArray.Get(Input: TVariantArray);
 var
   I : Integer;
   IDs : TIntegerArray;
   Names : TStringArray;
   Temp : TReflectInvItemArray;
 begin
-  for I := 0 to High(V) do
-    if Reflect.Misc.VariantIsString(V[I]) then
+  for I := 0 to High(Input) do
+    if Reflect.Misc.VariantIsString(Input[I]) then
     begin
       SetLength(Names, Length(Names)+1);
-      Names[High(Names)] := V[I];
+      Names[High(Names)] := Input[I];
     end
     else
     begin
-      if Reflect.Misc.VariantIsInteger(V[I]) then
+      if Reflect.Misc.VariantIsInteger(Input[I]) then
       begin
         SetLength(IDs, Length(IDs)+1);
-        IDs[High(IDs)] := V[I];
+        IDs[High(IDs)] := Input[I];
       end;
     end;
 
@@ -219,11 +219,11 @@ begin
   Self.Get(Temp);
 end;
 
-function TReflectInvItem.Find(V: TVariantArray): Boolean;
+function TReflectInvItem.Find(Input: TVariantArray): Boolean;
 var
   Temp: TReflectInvItemArray;
 begin
-  Temp.Get(V);
+  Temp.Get(Input);
   if Length(Temp) = 0 then
     Exit;
   Result := True;
@@ -278,11 +278,11 @@ begin
   Result := Length(Items);
 end;
 
-function TReflectionInventory.Count(V: TVariantArray): Integer; Overload;
+function TReflectionInventory.Count(Input: TVariantArray): Integer; Overload;
 var
   Items: TReflectInvItemArray;
 begin
-  Items.Get(V);
+  Items.Get(Input);
   Result := Length(Items);
 end;
 
@@ -336,12 +336,12 @@ begin
     IncEx(Result, Items[i].GetQuantity);
 end;
 
-function TReflectionInventory.CountQuantities(V: TVariantArray): Integer; Overload;
+function TReflectionInventory.CountQuantities(Input: TVariantArray): Integer; Overload;
 var
   I: Integer;
   Items: TReflectInvItemArray;
 begin
-  Items.Get(V);
+  Items.Get(Input);
   For I := 0 to High(Items) do
     IncEx(Result, Items[i].GetQuantity);
 end;
@@ -419,11 +419,11 @@ begin
   Result := Reflect.Inv.Count = 0;
 end;
 
-function TReflectionInventory.Contains(V: TVariantArray): Boolean;
+function TReflectionInventory.Contains(Input: TVariantArray): Boolean;
 var
   _Item : TReflectInvItem;
 begin
-  Result := _Item.Find(V);
+  Result := _Item.Find(Input);
 end;
 
 function TReflectionInventory.Contains(Names: TStringArray): Boolean; Overload;

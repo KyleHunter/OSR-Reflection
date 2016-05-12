@@ -133,25 +133,25 @@ begin
   ShopWidget.Free;
 end;
 
-procedure TReflectShopItemArray.Get(V: TVariantArray);
+procedure TReflectShopItemArray.Get(Input: TVariantArray);
 var
   I : Integer;
   IDs : TIntegerArray;
   Names : TStringArray;
   Temp : TReflectShopItemArray;
 begin
-  for I := 0 to High(V) do
-    if Reflect.Misc.VariantIsString(V[I]) then
+  for I := 0 to High(Input) do
+    if Reflect.Misc.VariantIsString(Input[I]) then
     begin
       SetLength(Names, Length(Names)+1);
-      Names[High(Names)] := V[I];
+      Names[High(Names)] := Input[I];
     end
     else
     begin
-      if Reflect.Misc.VariantIsInteger(V[I]) then
+      if Reflect.Misc.VariantIsInteger(Input[I]) then
       begin
         SetLength(IDs, Length(IDs)+1);
-        IDs[High(IDs)] := V[I];
+        IDs[High(IDs)] := Input[I];
       end;
     end;
 
@@ -206,11 +206,11 @@ begin
   Self.Get(Temp);
 end;
 
-function TReflectShopItem.Find(V: TVariantArray): Boolean;
+function TReflectShopItem.Find(Input: TVariantArray): Boolean;
 var
   Temp: TReflectShopItemArray;
 begin
-  Temp.Get(V);
+  Temp.Get(Input);
   if Length(Temp) = 0 then
     Exit;
   Result := True;

@@ -15,6 +15,11 @@ begin
   Result := Self._Index + 32768;
 end;
 
+function TReflectPlayer.GetPlayerIndex: Integer;
+begin
+  Result := Self.GetIndex;
+end;
+
 function TReflectPlayer.GetMSPoint: TPoint;
 begin
   Result := Reflect.Tiles.TileToMs(Self.GetTile);

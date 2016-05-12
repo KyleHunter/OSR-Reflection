@@ -64,11 +64,18 @@ begin
 end;
 
 function TReflectionSmart.GetWorld: string;
-var Worlds : TIntegerArray;
+var
+  Worlds : TIntegerArray;
 begin
+  if World <> 0 then
+  begin
+    Reflect.Logger.Warn('''World'' variable will be removed in next release, please use ''SmartWorld''.');
+    SmartWorld := World;
+  end;
+
   if (SmartWorld < 299) then
   begin
-    Reflect.Logger.Warn('World variable not valid, trying recommended world...');
+    Reflect.Logger.Warn('''SmartWorld'' variable not valid, trying recommended world...');
     Result := Between('id=''member-world'' href=''http://oldschool.runescape.com/game?world=', '''>',
     GetPage('http://oldschool.runescape.com/slu'));
     if (Result <> '') and InRange(StrToIntDef(ExtractFromStr(Result, Numbers),
@@ -88,7 +95,7 @@ begin
 end;
 
 {*Credit: Brandon*}
-Function TReflectionSmart.getJavaPath(Console: Boolean): String;
+Function TReflectionSmart.GetJavaPath(Console: Boolean): String;
 var
   Drive: String;
   CurrentPath: String;
@@ -158,7 +165,7 @@ begin
 end;
 
 procedure TReflectionSmart.Create(
-  Width, Height: Integer; UserAgent: string; showConsole : boolean); overload;
+  Width, Height: Integer; UserAgent: string; ShowConsole : boolean); overload;
 var
   World: Variant;
   JavaString: string;
@@ -174,7 +181,7 @@ begin
   World := Self.GetWorld;
 
   Reflect.Logger.Status('Using world %s.', [World]);
-  if showConsole then
+  if ShowConsole then
     JavaString:= 'java.exe'
   else
     JavaString:= 'javaw.exe';
@@ -186,8 +193,8 @@ begin
   if Self.Target = 0 then
   begin
     Reflect.Logger.Warn('Error while finding default Java, searching for Java...', []);
-    JavaString := Reflect.Smart.getJavaPath(showConsole);
-    Reflect.Logger.Warn('Using '''+JavaString+''' Java path.');
+    JavaString := Reflect.Smart.GetJavaPath(ShowConsole);
+    Reflect.Logger.Status('Using '''+JavaString+''' Java path.');
 
     Self.Target := SmartSpawnClient(JavaString, StringReplace(PluginPath, '\',
       '/', [rfReplaceAll]), Format('http://oldschool%s.runescape.com/', [World]),

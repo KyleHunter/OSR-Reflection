@@ -207,25 +207,25 @@ begin
   Self := Temp;
 end;
 
-procedure TReflectGroundItemArray.Get(V: TVariantArray; Distance: Integer = 103);
+procedure TReflectGroundItemArray.Get(Input: TVariantArray; Distance: Integer = 103);
 var
   I : Integer;
   IDs : TIntegerArray;
   Names : TStringArray;
   Temp : TReflectGroundItemArray;
 begin
-  for I := 0 to High(V) do
-    if Reflect.Misc.VariantIsString(V[I]) then
+  for I := 0 to High(Input) do
+    if Reflect.Misc.VariantIsString(Input[I]) then
     begin
       SetLength(Names, Length(Names)+1);
-      Names[High(Names)] := V[I];
+      Names[High(Names)] := Input[I];
     end
     else
     begin
-      if Reflect.Misc.VariantIsInteger(V[I]) then
+      if Reflect.Misc.VariantIsInteger(Input[I]) then
       begin
         SetLength(IDs, Length(IDs)+1);
-        IDs[High(IDs)] := V[I];
+        IDs[High(IDs)] := Input[I];
       end;
     end;
 
@@ -282,11 +282,11 @@ begin
   Self.Get(Temp, Distance);
 end;
 
-function TReflectGroundItem.Find(V: TVariantArray; Distance: Integer = 103): Boolean;
+function TReflectGroundItem.Find(Input: TVariantArray; Distance: Integer = 103): Boolean;
 var
   Temp: TReflectGroundItemArray;
 begin
-  Temp.Get(V, Distance);
+  Temp.Get(Input, Distance);
   if Length(Temp) = 0 then
     Exit;
   Result := True;

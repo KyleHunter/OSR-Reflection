@@ -156,6 +156,11 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;
 end;
 
+function TReflectLocalPlayer.GetPlayerIndex: Integer;
+begin
+  Result := Self.GetIndex;
+end;
+
 function TReflectLocalPlayer.GetDestination: TTile;
 begin
   if (Reflect.Smart.GetFieldInt(0, Client_DestinationX) = 0) or
