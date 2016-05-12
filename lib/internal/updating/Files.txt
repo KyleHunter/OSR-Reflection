@@ -119,8 +119,8 @@
 (Reflection\Lib\Misc\Stats.simba)
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Stats.simba)
 
-(Reflection\Lib\Misc\Interfaces.simba)
+(Reflection\Lib\Widgets\Interfaces.simba)
 (https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Interfaces.simba)
 
-(Reflection\Lib\Misc\Shop.simba)
+(Reflection\Lib\Widgets\Shop.simba)
 (https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Shop.simba)
