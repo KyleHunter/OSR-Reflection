@@ -64,12 +64,12 @@ end;
 function TReflectionText.OptionExistsMulti(_Options: TStringArray): Boolean;
 var
   Options : TStringArray;
-  Index : Integer;
+  Index, I : Integer;
 begin
   Options := Reflect.Text.GetMenuOptions;
-  for Index := 0 to High(_Options) do
+  for I := 0 to High(_Options) do
   begin
-    Index := Reflect.Text.GetMenuIndex(_Options[Index], Options);
+    Index := Reflect.Text.GetMenuIndex(_Options[I], Options);
     if Index <> -1 then
       Exit(True);
   end;
