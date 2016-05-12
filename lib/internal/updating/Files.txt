@@ -120,7 +120,7 @@
 (https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Stats.simba)
 
 (Reflection\Lib\Misc\Interfaces.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Interfaces.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Interfaces.simba)
 
 (Reflection\Lib\Misc\Shop.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Shop.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Shop.simba)
