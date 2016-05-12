@@ -1,8 +1,8 @@
 {$DEFINE REFLECTION}
 
 const
-  IncludeRevision = 25;
-  SubRev = 2;
+  IncludeRevision = '26';
+  SubRev = '0';
 {$i reflection/lib/internal/Includes.simba}
 
 procedure TReflectionInternals.SetupSmart;
@@ -21,7 +21,7 @@ begin
     Timer.Start;
     while Timer.ElapsedTime < 120000 do
     begin
-      if InRange(Reflect.Login.GetClientState, 10, 30) then
+      if (getColor(31, 488) = 16777215) or (getColor(480, 340) = 16777215) then
         Exit;
       Wait(100);
     end;
@@ -70,11 +70,11 @@ begin
   Full := Reflect.Misc.GetPage('https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/updating/Update.txt');
   TempRev := Between('includerev = ''', '''', Full);
   TempSubRev := Between('includesubrev = ''', '''', Full);
-  if (StrToInt(TempRev) > IncludeRevision) or StrToInt(TempSubRev) > SubRev then
-    begin
-        Reflect.Logger.Warn('Reflection Update Available');
-      Result := True;
-    end;
+  if (Trim(TempRev) > IncludeRevision) or (Trim(TempSubRev) > SubRev) then
+  begin
+    Reflect.Logger.Warn('Reflection Update Available');
+    Result := True;
+  end;
 end;
 
   {*Credit: Krazy_Meerkat*}

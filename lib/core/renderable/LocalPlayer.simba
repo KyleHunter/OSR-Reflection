@@ -1,13 +1,10 @@
 
 procedure TReflectLocalPlayer.Create;
 begin
-  if HookCache[TCacheKey.ckLocalPlayer][0] = 0 then
-    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
-  else
-  begin
+  if HookCache[TCacheKey.ckLocalPlayer][0] <> 0 then
     Reflect.Mem.FreeObjects(ckLocalPlayer, False);
-    Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0)
-  end;
+
+  Reflect.Mem.GetObject(ckNull, ckLocalPlayer, Client_LocalPlayer, 0, 0);
   Self.Reference := HookCache[TCacheKey.ckLocalPlayer][0];
 end;
 
@@ -21,15 +18,38 @@ begin
   Result := ((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
 end;
 
+function TReflectLocalPlayer.GetName: string;
+begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectLocalPlayer.GetName');
+    Exit('');
+  end;
+
+  Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+end;
+
 procedure TReflectLocalPlayer.Logout;
 var
   LogoutWidget: TReflectWidget;
 begin
   if (not Self.IsLoggedIn) or (not Reflect.Gametab.Open(Gametab_Logout)) then
     Exit;
-  LogoutWidget.GetWidget(Widget_Logout_Container, 6);
-  LogoutWidget.Interact;
-  LogoutWidget.Free;
+  LogoutWidget.GetWidget(Widget_Logout_Container, Widget_Logout_Logout_Child);
+  if LogoutWidget.NotNull then
+  begin
+    LogoutWidget.Interact;
+    LogoutWidget.Free;
+  end
+  else
+  begin
+    LogoutWidget.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Logout_Child);
+    if LogoutWidget.NotNull then
+    begin
+      LogoutWidget.Interact;
+      LogoutWidget.Free;
+    end
+  end;
 end;
 
 procedure TReflectLocalPlayer.Login;
@@ -103,27 +123,27 @@ end;
 
 function TReflectLocalPlayer.IsAutoRetaliateOn: Boolean;
 begin
-  Result := Reflect.Misc.GetSetting(172) = 0;
+  Result := Reflect.Misc.GetSetting(Setting_LocalPlayer_AutoRetaliate) = 0;
 end;
 
 function TReflectLocalPlayer.IsRunOn: Boolean;
 begin
-  Result := Reflect.Misc.GetSetting(173) = 1;
+  Result := Reflect.Misc.GetSetting(Setting_LocalPlayer_Run) = 1;
 end;
 
 function TReflectLocalPlayer.IsPoisoned: Boolean;
 begin
-  Result := Reflect.Misc.GetSetting(102) > 0;
+  Result := Reflect.Misc.GetSetting(Setting_LocalPlayer_Poison) > 0;
 end;
 
 function TReflectLocalPlayer.AutoCasting: Boolean;
 begin
-  Result := Reflect.Misc.GetSetting(108) > 0;
+  Result := Reflect.Misc.GetSetting(Setting_LocalPlayer_AutoCast) > 0;
 end;
 
 function TReflectLocalPlayer.GetSpecPercent: Integer;
 begin
-  Result := Reflect.Misc.GetSetting(300) div 10;
+  Result := Reflect.Misc.GetSetting(Setting_LocalPlayer_SpecialAttack) div 10;
 end;
 
 function TReflectLocalPlayer.GetWeight: Integer;
@@ -131,9 +151,14 @@ begin
   Result := Reflect.Smart.GetFieldInt(0, Client_Weight);
 end;
 
-function TReflectLocalPlayer.GetPlayerIndex: Integer;
+function TReflectLocalPlayer.GetIndex: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(0, Client_PlayerIndex) + 32768;
+end;
+
+function TReflectLocalPlayer.GetPlayerIndex: Integer;
+begin
+  Result := Self.GetIndex;
 end;
 
 function TReflectLocalPlayer.GetDestination: TTile;
@@ -148,18 +173,37 @@ begin
 end;
 
 function TReflectLocalPlayer.FFlag(
-  TileDist: Integer; Timeout: Integer = -1): Boolean;
+  TileDist: Integer = 0; Timeout: Integer = -1): Boolean;
 var
-  Timer: TReflectTimer;
+  Timer, StuckTimer: TReflectTimer;
+  PrevTile, MyDest, MyTile : TTile;
 begin
   Timer.Start;
-  while Distance(Self.GetTile.X, Self.GetTile.Y, Self.GetDestination.X,
-      Self.GetDestination.Y) > TileDist do
+  StuckTimer.Start;
+
+  MyTile := Self.GetTile;
+  PrevTile := MyTile;
+  MyDest := Self.GetDestination;
+
+  while Distance(MyTile.X, MyTile.Y, MyDest.X, MyDest.Y) > TileDist do
   begin
     if (Timeout > 0) and (Timer.ElapsedTime > Timeout) then
       Exit(False);
+
+    if StuckTimer.ElapsedTime > 800 then
+    begin
+      if (MyTile.X = PrevTile.X) and (MyTile.Y = PrevTile.Y) then
+        Exit(false);
+      StuckTimer.Restart;
+      PrevTile := MyTile;
+    end;
+
     Wait(RandomRange(200, 250));
+
+    MyTile := Self.GetTile;
+    MyDest := Self.GetDestination;
   end;
+
   Exit(True);
 end;
 
@@ -349,12 +393,37 @@ begin
 end;
 
 procedure TReflectLocalPlayer.SetRun(Toggle: Boolean);
+var
+  RunWidget: TReflectWidget;
+  IsOn : Boolean;
+  T : TReflectTimer;
 begin
-  if (Toggle) and (Self.IsRunOn) then
+  IsOn := Self.IsRunOn;
+  if (Toggle) and (IsOn) then
     Exit;
-  if (not Toggle) and (not Self.IsRunOn) then
+  if (not Toggle) and (not IsOn) then
     Exit;
-  Reflect.Mouse.Move(IntToBox(545, 130, 590, 150));
-  Wait(250);
-  Reflect.Mouse.Click(Mouse_Left);
+
+  RunWidget.GetWidget(Widget_Orbs_Container, Widget_Orbs_Run_Child);
+  if RunWidget.NotNull then
+  begin
+    RunWidget.Interact;
+    RunWidget.Free;
+  end
+  else
+  begin
+    if not Reflect.Gametab.Open(Gametab_Options) then
+      exit;
+
+    RunWidget.GetWidget(Widget_Options_Container, Widget_Options_Run_Child);
+    if RunWidget.NotNull then
+    begin
+      RunWidget.Interact;
+      RunWidget.Free;
+    end;
+  end;
+
+  T.Start;
+  while (T.Elapsedtime < 2500) and (Self.IsRunOn = IsOn) do
+    Wait(50);
 end;

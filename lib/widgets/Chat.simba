@@ -4,7 +4,7 @@ var
   I, J: Integer;
   ChatWidget, ChatChild: TReflectWidget;
 begin
-  ChatWidget.GetWidget(Widget_Chat_Container, 43);
+  ChatWidget.GetWidget(Widget_Chat_Container, Widget_Chat_Chat_Container);
   I := (Line * 2) - 2;
   J := I + 1;
   for I to J do
@@ -74,46 +74,47 @@ end;
 
 function TReflectionChat.NpcChooseOption(Options: TStringArray): Boolean;
 var
-  Wid, Child: TReflectWidget;
-  I, S: Integer;
-  Ints: TIntegerArray;
-  Txts: TStringArray;
+  Wid, Child : TReflectWidget;
+  I, J, K, L : Integer;
+  daString : string;
 begin
-  Ints := Self.GetChatIndices;
-  case Length(Ints) of
-    0: Exit;
-    2:
+  for I := 0 to 600 do
+    for J := 0 to 6 do
     begin
-      for I := Ints[1] to Ints[1] + 6 do
+      if not Wid.Exists(I, J) then
+        Continue();
+
+      Wid.GetWidget(I, J);
+      daString := Wid.GetText();
+
+      for l:=0 to high(Options) do
+        if pos(Options[l], daString) > 0 then
+        begin
+          Wid.Interact();
+          Wid.Free();
+          Exit(True);
+        end;
+
+      if Wid.HasChild() then
       begin
-      Wid.GetWidget(Ints[0], I);
-      for S := 0 to High(Options) do
-        if Pos(Options[S], Trim(Wid.GetText)) > 0 then
-          begin
-            Wid.Interact;
-            Wid.Free;
-            Exit(True);
-          end;
+        for K := 0 to 6 do
+        begin
+          Child.GetChild(Wid, K);
+          daString := Child.GetText();
+          for l:=0 to high(Options) do
+            if pos(Options[l], daString) > 0 then
+            begin
+              Child.Interact();
+              Child.Free();
+              Wid.Free();
+              Exit(True);
+            end;
+
+          Child.Free();
+        end;
       end;
+      Wid.Free();
     end;
-    3:
-    begin
-      Wid.GetWidget(Ints[0], Ints[1]);
-      for I := Ints[2] to Ints[2] + 6 do
-      begin
-      Child.GetChild(Wid, I);
-      for S := 0 to High(Options) do
-        if Pos(Options[S], Trim(Child.GetText)) > 0 then
-          begin
-            Child.Interact;
-            Wid.Free;
-            Child.Free;
-            Exit(True);
-          end;
-          Child.Free;
-      end;
-    end;
-  end;
 end;
 
 function TReflectionChat.NpcChooseOption(Option: string): Boolean; overload;
@@ -123,5 +124,27 @@ end;
 
 function TReflectionChat.NpcClickToContinue: Boolean;
 begin
-  Result := Reflect.Chat.NpcChooseOption('Click here to continue');
+  Result := Reflect.Chat.NpcChooseOption(['Click here to continue', 'Click to continue']);
+end;
+
+function TReflectionChat.DoConversation(Options : TStringArray = []): Boolean;
+var
+  Timer : TReflectTimer;
+  Temp : TStringArray;
+begin
+  Temp := Options;
+  setLength(Temp, Length(Temp) + 2);
+  Temp[High(Temp)] := 'Click here to continue';
+  Temp[High(Temp) - 1] := 'Click to continue';
+
+  Timer.Start;
+  while Timer.Elapsedtime < 2500 do
+  begin
+    if Reflect.Chat.NpcChooseOption(Temp) then
+    begin
+      Result := True;
+      Timer.Restart;
+    end;
+    Wait(RandomRange(500, 1500));
+  end;
 end;

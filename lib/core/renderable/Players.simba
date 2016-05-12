@@ -1,12 +1,23 @@
 
 function TReflectPlayer.GetName: string;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectPlayer.GetName');
+    Exit('');
+  end;
+
   Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
 end;
 
 function TReflectPlayer.GetIndex: Integer;
 begin
   Result := Self._Index + 32768;
+end;
+
+function TReflectPlayer.GetPlayerIndex: Integer;
+begin
+  Result := Self.GetIndex;
 end;
 
 function TReflectPlayer.GetMSPoint: TPoint;
@@ -38,46 +49,56 @@ begin
   end;
 end;
 
-procedure TReflectPlayerArray.Get(Name: string);
+procedure TReflectPlayerArray.Get(Names: TStringArray);
 var
-  Temp, Temp1: TReflectPlayerArray;
-  I, H, T: integer;
+  Temp : TReflectPlayerArray;
+  I : integer;
 begin
+  Self := [];
   Temp.GetAll;
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetName = Name) then
+
+  for I := 0 to High(Temp) do
+    if Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
     begin
-      Temp1[T] := Temp[I];
-      Inc(T);
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
     end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
 end;
 
-function TReflectPlayer.Find(Name: string): Boolean;
+procedure TReflectPlayerArray.Get(Name: String); Overload;
+begin
+  Self.Get([Name]);
+end;
+
+function TReflectPlayer.Find(Names: TStringArray): Boolean;
 var
   Temp: TReflectPlayerArray;
 begin
-  Temp.Get(Name);
+  Temp.Get(Names);
   if Length(Temp) = 0 then
     Exit;
   Result := True;
   Self := Temp[0];
 end;
 
+function TReflectPlayer.Find(Name: String): Boolean; Overload;
+begin
+  Result := Self.Find([Name]);
+end;
+
 function TReflectPlayer.IsOnMS: Boolean;
 begin
-  Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
+  Result := PointInBox(Self.GetMSPoint, AREA_MS);
 end;
 
 function TReflectPlayer.GetCombatLevel: integer;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectPlayer.GetCombatLevel');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Player_CombatLevel);
 end;
 

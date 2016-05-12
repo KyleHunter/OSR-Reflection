@@ -22,11 +22,23 @@ end;
 
 function TReflectGroundItem.GetId: Integer;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectGroundItem.GetId');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Item_Id);
 end;
 
 function TReflectGroundItem.GetQuantity: Integer;
 begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectGroundItem.GetQuantity');
+    Exit(-1);
+  end;
+
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Item_StackSizes);
 end;
 
@@ -176,102 +188,153 @@ begin
           TempArray2[H - L + I] := TempArray[I];
       end;
     end;
+  TempArray2.Sort;
   Self := TempArray2;
 end;
 
 procedure TReflectGroundItemArray.GetAt(RealTile: TTile);
 var
   BaseX, BaseY, Plane: Integer;
+  Temp : TReflectGroundItemArray;
 begin
   Reflect.Mem.FreeObjects(ckGroundList, False);
   BaseX := Reflect.Misc.BaseX;
   BaseY := Reflect.Misc.BaseY;
   Plane := Reflect.Tiles.GetPlane;
-  Self._GetAt(
+  Temp._GetAt(
     Point(RealTile.X - BaseX, RealTile.Y - BaseY), BaseX, BaseY, Plane);
   Reflect.Mem.FreeObjects(ckGroundArray, False);
-  Reflect.Mem.FreeObjects(ckGroundList, False);
+  Self := Temp;
 end;
 
-procedure TReflectGroundItemArray.Get(Name: string; Distance: Integer = 103);
+procedure TReflectGroundItemArray.Get(Input: TVariantArray; Distance: Integer = 103);
 var
-  Temp, Temp1: TReflectGroundItemArray;
-  I, H, T: Integer;
+  I : Integer;
+  IDs : TIntegerArray;
+  Names : TStringArray;
+  Temp : TReflectGroundItemArray;
 begin
-  Temp.GetAll(Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetName = Name) then
+  for I := 0 to High(Input) do
+    if Reflect.Misc.VariantIsString(Input[I]) then
     begin
-      Temp1[T] := Temp[I];
-      Inc(T);
+      SetLength(Names, Length(Names)+1);
+      Names[High(Names)] := Input[I];
+    end
+    else
+    begin
+      if Reflect.Misc.VariantIsInteger(Input[I]) then
+      begin
+        SetLength(IDs, Length(IDs)+1);
+        IDs[High(IDs)] := Input[I];
+      end;
     end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
+
+  Self := [];
+  Temp.GetAll(Distance);
+
+  for I := 0 to High(Temp) do
+    if InIntArray(IDs, Temp[I].GetID) or Reflect.Internals.InStringArray(Names, Temp[I].GetName) then
+    begin
+      SetLength(Self, Length(Self)+1);
+      Self[High(Self)] := Temp[I];
+    end;
+
   Self.Sort;
 end;
 
-procedure TReflectGroundItemArray.Get(
-  _Id: Integer; Distance: Integer = 103); overload;
+procedure TReflectGroundItemArray.Get(Names: TStringArray; Distance: Integer = 103); Overload;
 var
-  Temp, Temp1: TReflectGroundItemArray;
-  I, H, T: integer;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.GetAll(Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  H := High(Temp);
-  SetLength(Temp1, H + 1);
-  for I := 0 to H do
-  begin
-    if (Temp[I].GetId = _Id) then
-    begin
-      Temp1[T] := Temp[I];
-      Inc(T);
-    end;
-  end;
-  Setlength(Temp1, T);
-  Self := Temp1;
-  Self.Sort;
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Self.Get(Temp, Distance);
 end;
 
-function TReflectGroundItem.Find(Name: string; Distance: Integer = 103): Boolean;
+procedure TReflectGroundItemArray.Get(IDs: TIntegerArray; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Self.Get(Temp, Distance);
+end;
+
+procedure TReflectGroundItemArray.Get(Name: String; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Self.Get(Temp, Distance);
+end;
+
+procedure TReflectGroundItemArray.Get(ID: Integer; Distance: Integer = 103); Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Self.Get(Temp, Distance);
+end;
+
+function TReflectGroundItem.Find(Input: TVariantArray; Distance: Integer = 103): Boolean;
 var
   Temp: TReflectGroundItemArray;
 begin
-  Temp.Get(Name, Distance);
+  Temp.Get(Input, Distance);
   if Length(Temp) = 0 then
     Exit;
-  Temp.Sort;
-  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
-  begin
-    Result := True;
-    Self := Temp[0];
-  end;
+  Result := True;
+  Self := Temp[0];
 end;
 
-function TReflectGroundItem.Find(
-  _Id: Integer; Distance: Integer = 103): Boolean; overload;
+function TReflectGroundItem.Find(Names: TStringArray; Distance: Integer = 103): Boolean; Overload;
 var
-  Temp: TReflectGroundItemArray;
+  Temp : TVariantArray;
+  I : Integer;
 begin
-  Temp.Get(_Id, Distance);
-  if Length(Temp) = 0 then
-    Exit;
-  Temp.Sort;
-  if Reflect.Tiles.NearTile(Temp[0].GetTile, Distance) then
-  begin
-    Result := True;
-    Self := Temp[0];
-  end;
+  SetLength(Temp, Length(Names));
+  for I := 0 to High(Names) do
+    Temp[I] := Names[I];
+
+  Result := Self.Find(Temp, Distance);
+end;
+
+function TReflectGroundItem.Find(IDs: TIntegerArray; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+  I : Integer;
+begin
+  SetLength(Temp, Length(IDs));
+  for I := 0 to High(IDs) do
+    Temp[I] := IDs[I];
+
+  Result := Self.Find(Temp, Distance);
+end;
+
+function TReflectGroundItem.Find(Name: String; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [Name];
+  Result := Self.Find(Temp, Distance);
+end;
+
+function TReflectGroundItem.Find(ID: Integer; Distance: Integer = 103): Boolean; Overload;
+var
+  Temp : TVariantArray;
+begin
+  Temp := [ID];
+  Result := Self.Find(Temp, Distance);
 end;
 
 function TReflectGroundItem.IsOnMS: Boolean;
 begin
   Result := PointInBox(Self.GetMSPoint, [MSX1, MSY1, MSX2, MSY2]);
 end;
+

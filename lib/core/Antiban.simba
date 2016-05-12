@@ -288,3 +288,52 @@ begin
   P := Point(RandomRange(B[I].X1, B[I].X2), RandomRange(B[I].Y1, B[I].Y2));
   Reflect.Mouse.Move(P, 0, 0);
 end;
+
+procedure TReflectionAntiban.HoverSkill(Skill : Integer);
+var W : TReflectWidget;
+    PrevTab : Integer;
+begin
+  PrevTab := Reflect.GameTab.Current;
+  if not Reflect.GameTab.Open(Gametab_Stats) then
+    Exit;
+
+  case skill of
+    SKILL_ATTACK: W.GetWidget(Widget_Stats_Container, Widget_Stats_Attack_Child);
+    SKILL_STRENGTH: W.GetWidget(Widget_Stats_Container, Widget_Stats_Strength_Child);
+    SKILL_DEFENCE:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Defence_Child);
+    SKILL_RANGE:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Ranged_Child);
+    SKILL_PRAYER: W.GetWidget(Widget_Stats_Container, Widget_Stats_Prayer_Child);
+    SKILL_MAGIC:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Magic_Child);
+    SKILL_RUNECRAFTING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Runecrafting_Child);
+    SKILL_CONSTRUCTION: W.GetWidget(Widget_Stats_Container, Widget_Stats_Construction_Child);
+    SKILL_HITPOINTS:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Hitpoints_Child);
+    SKILL_AGILITY:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Agility_Child);
+    SKILL_HERBLORE: W.GetWidget(Widget_Stats_Container, Widget_Stats_Herblore_Child);
+    SKILL_THIEVING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Thieving_Child);
+    SKILL_CRAFTING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Crafting_Child);
+    SKILL_FLETCHING:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Fletching_Child);
+    SKILL_SLAYER: W.GetWidget(Widget_Stats_Container, Widget_Stats_Slayer_Child);
+    SKILL_HUNTER: W.GetWidget(Widget_Stats_Container, Widget_Stats_Hunter_Child);
+    SKILL_MINING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Mining_Child);
+    SKILL_SMITHING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Smithing_Child);
+    SKILL_FISHING:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Fishing_Child);
+    SKILL_COOKING:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Cooking_Child);
+    SKILL_FIREMAKING: W.GetWidget(Widget_Stats_Container, Widget_Stats_Firemaking_Child);
+    SKILL_WOODCUTTING:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Woodcutting_Child);
+    SKILL_FARMING:  W.GetWidget(Widget_Stats_Container, Widget_Stats_Farming_Child);
+    -1: W.GetWidget(Widget_Stats_Container, randomRange(1, 24));
+    else
+      W.GetWidget(Widget_Stats_Container, Widget_Stats_Total_Child);
+  end;
+
+  if W.NotNull then
+  begin
+    Reflect.Mouse.Move(W.GetBounds);
+    W.Free;
+  end;
+
+  Wait(randomRange(1000, 2500));
+
+  Reflect.GameTab.Open(PrevTab);
+end;
+

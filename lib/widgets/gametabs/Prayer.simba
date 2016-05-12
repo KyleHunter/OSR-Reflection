@@ -2,10 +2,8 @@
 function TReflectionGameTab.IsPrayerOn(Prayer: array of Integer): Boolean;
 var
   VarpSetting: Integer;
-const
-  PrayerSetting = 83;
 begin
-  VarpSetting := Reflect.Misc.GetSetting(PrayerSetting);
+  VarpSetting := Reflect.Misc.GetSetting(Setting_Prayer);
   Result := (Prayer[1] and VarpSetting)  <> 0;
 end;
 
@@ -23,7 +21,7 @@ begin
       begin
         Reflect.GameTab.Open(GameTab_Prayer);
         PrayerWidget.GetWidget(Widget_Prayer_Container, Prayer[0]);
-        PrayerChild.GetChild(PrayerWidget, 0);
+        PrayerChild.GetChild(PrayerWidget, Widget_Prayer_Activate_Child);
         PrayerChild.Interact(5);
       end;
     end;
@@ -35,7 +33,7 @@ begin
       begin
         Reflect.GameTab.Open(GameTab_Prayer);
         PrayerWidget.GetWidget(Widget_Prayer_Container, Prayer[0]);
-        PrayerChild.GetChild(PrayerWidget, 0);
+        PrayerChild.GetChild(PrayerWidget, Widget_Prayer_Activate_Child);
         PrayerChild.Interact(5);
       end;
     end;

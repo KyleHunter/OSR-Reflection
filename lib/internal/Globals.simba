@@ -49,6 +49,8 @@ type
   TReflectionTime = type Pointer;
   TReflectionInventory = type Pointer;
   TReflectionAntiban = type Pointer;
+  TReflectionInterface = type Pointer;
+  TReflectionShop = type Pointer;
 
   TReflectionLib = record
     Smart: TReflectionSmart;
@@ -73,6 +75,8 @@ type
     Inv: TReflectionInventory;
     Graphics: TReflectionGraphics;
     Antiban: TReflectionAntiban;
+    Interfaces : TReflectionInterface;
+    Shop : TReflectionShop;
   end;
 
   TTile = TPoint;
@@ -92,10 +96,14 @@ type
 end;
 {$ENDIF}
 
+    {Global variables}
 var
   Reflect: TReflectionLib;
   ObjectCache, NpcCache, ItemCache: TStringList;
   ObjGame, ObjWallDecoration, ObjFloorDecoration, ObjBoundary: TObjectType;
+  SmartWorld, World: Integer;
+  SmartShowConsole: Boolean := True;
+  SmartUserAgent: String := 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0';
 
 type
   TReflectPointer = record
@@ -173,6 +181,15 @@ type
   end;
   TReflectBankItemArray = array of TReflectBankItem;
 
+        {Shop}
+    type
+    TReflectShopItem = record(TReflectPointer)
+{$IFNDEF CODEINSIGHT}
+      _Id, _Slot: Integer;
+{$ENDIF}
+  end;
+  TReflectShopItemArray = array of TReflectShopItem;
+
       {Inventory}
   type
     TReflectInvItem = record(TReflectPointer)
@@ -186,15 +203,10 @@ TReflectInvItemArray = array of TReflectInvItem;
       {Worn Equipment}
   type
     TReflectWornEquipment = record(TReflectPointer)
-      EquipSlot, Id, Quantity: Integer;
-      Name: string;
+      _EquipSlot, _Id, _Quantity: Integer;
+      _Box : TBox;
     end;
   TReflectWornEquipmentArray = Array of TReflectWornEquipment;
-
-    {Global variables}
-
-var
-  World: Integer;
 
   {Constants}
 
@@ -228,7 +240,7 @@ const
   Skill_Defence       = 1;
   Skill_Strength      = 2;
   Skill_Hitpoints     = 3;    Skill_HP = Skill_Hitpoints;
-  Skill_Range         = 4;
+  Skill_Range         = 4;    Skill_Ranged = Skill_Range;
   Skill_Prayer        = 5;
   Skill_Magic         = 6;
   Skill_Cooking       = 7;
@@ -251,69 +263,179 @@ const
 
     {Widgets}
 
+    {Orbs}
+  Widget_Orbs_Container = 160;
+  Widget_Orbs_Run_Child = 22;
+  Widget_Orbs_Prayer_Child = 14;
+  Widget_Orbs_XP_Child = 1;
+
       {Bank}
 
-  Widget_Bank_Container = 12;
+  Interface_Bank = 12;
+  Widget_Bank_Close_Child_Container = 3;
+  Widget_Bank_Close_Child = 11;
+  Widget_Bank_Detect_Child = 24;
+  Widget_Bank_Search_Child = 27;
+  Widget_Bank_SearchText_Child = 4;
+  Widget_Bank_DepositInv_Child = 29;
+  Widget_Bank_DepositEqu_Child = 31;
   Widget_Bank_TotalItems_Child = 5;
-  Widget_Bank_ItemSlots_Child = 12;
-  Widget_PinScreen_Container = 213;
+  Widget_Bank_ItemSlots_Child_Container = 12;
+  Interface_Bank_VisibleBox : TBox = [22, 80, 480, 292];
+
+   {PinScreen}
+
+  Interface_PinScreen = 213;
+  Widget_PinScreen_Detect_Child = 3;
+  Widget_PinScreen_Buttons_Children_Container = [16, 18, 20, 22, 24, 26, 28, 30, 32, 34];
+  Widget_PinScreen_Button_Child = 1;
+  Widget_PinScreen_Close_Child = 13;
+
+  {Deposit box}
+
+  Interface_DepositMenu = 192;
+  Widget_DepositMenu_Close_Child_Container = 1;
+  Widget_DepositMenu_Close_Child = 11;
+  Widget_DepositMenu_Items_Child_Container = 2;
+  Widget_DepositMenu_DepositInv_Child = 3;
+  Widget_DepositMenu_DepositEqu_Child = 5;
+  Widget_DepositMenu_DepositLoot_Child = 7;
+
+  {Shops}
+
+  Interface_ShopMenu = 300;
+  Widget_ShopMenu_Close_Child_Container = 1;
+  Widget_ShopMenu_Close_Child = 11;
+  Widget_ShopMenu_Items_Child_Container = 2;
 
       {Chat}
 
   Widget_Chat_Container = 162;
+  Widget_Chat_Chat_Container = 43;
+  Widget_Chat_Input_Child = 33;
+  Widget_Chat_Directions_Child = 32;
 
       {GameTab}
 
   Widget_Gametab_Container = 548;
 
+  Widget_Gametab_LookNorth_Child = 8;
+
         {ClanChat}
 
   Widget_ClanChat_Container = 589;
+  Widget_ClanChat_Detect_Child = 0;
+  Widget_ClanChat_TalkingIn_Child = 0;
+  Widget_ClanChat_Owner_Child = 1;
+  Widget_ClanChat_LeaveJoin_Child = 8;
 
         {FriendsList}
 
   Widget_FriendsList_Container = 429;
+  Widget_FriendsList_Detect_Child = 0;
+  Widget_FriendsList_World_Child = 1;
 
-        {FriendsList}
+        {IgnoreList}
 
   Widget_IgnoreList_Container = 432;
+  Widget_IgnoreList_Detect_Child = 0;
 
         {Logout}
 
   Widget_Logout_Container = 182;
+  Widget_Logout_Detect_Child = 0;
+  Widget_Logout_Logout_Child = 6;
+  Widget_Logout_ChangeWorld_Child = 1;
+
   Widget_ChangeWorld_Container = 69;
+  Widget_ChangeWorld_Detect_Child = 2;
+  Widget_ChangeWorld_World_Child = 2;
+  Widget_ChangeWorld_Logout_Child = 19;
+  Widget_ChangeWorld_Close_Child = 3;
+  Widget_ChangeWorld_Worlds_Child_Container = 7;
+  Widget_ChangeWorld_Scroll_Child_Container = 15;
+  Widget_ChangeWorld_Scroll_Down_Child = 5;
 
         {Options}
 
   Widget_Options_Container = 261;
+  Widget_Options_Detect_Child = 0;
+  Widget_Options_Run_Child = 65;
 
         {Emotes}
 
   Widget_Emotes_Container = 216;
+  Widget_Emotes_Detect_Child = 0;
+  Widget_Emotes_Emotes_Child_Container = 1;
 
         {MusicPlayer}
 
   Widget_MusicPlayer_Container = 239;
+  Widget_MusicPlayer_Detect_Child = 0;
 
         {CombatOptions}
 
   Widget_CombatOptions_Container = 593;
+  Widget_CombatOptions_Detect_Child = 0;
+  Widget_CombatOptions_Retaliate_Child = 28;
+  Widget_CombatOptions_WieldedWeapon_Child = 1;
+  Widget_CombatOptions_Combat_Child = 2;
+  Widget_CombatOptions_Options_Children = [6, 10, 14, 18];
 
         {Stats}
 
   Widget_Stats_Container = 320;
+  Widget_Stats_Detect_Child = 0;
+  Widget_Stats_Attack_Child = 1;
+  Widget_Stats_Strength_Child = 2;
+  Widget_Stats_Defence_Child = 3;
+  Widget_Stats_Ranged_Child = 4;
+  Widget_Stats_Prayer_Child = 5;
+  Widget_Stats_Magic_Child = 6;
+  Widget_Stats_Runecrafting_Child = 7;
+  Widget_Stats_Construction_Child = 8;
+  Widget_Stats_Hitpoints_Child = 9;
+  Widget_Stats_Agility_Child = 10;
+  Widget_Stats_Herblore_Child = 11;
+  Widget_Stats_Thieving_Child = 12;
+  Widget_Stats_Crafting_Child = 13;
+  Widget_Stats_Fletching_Child = 14;
+  Widget_Stats_Slayer_Child = 15;
+  Widget_Stats_Hunter_Child = 16;
+  Widget_Stats_Mining_Child = 17;
+  Widget_Stats_Smithing_Child = 18;
+  Widget_Stats_Fishing_Child = 19;
+  Widget_Stats_Cooking_Child = 20;
+  Widget_Stats_Firemaking_Child = 21;
+  Widget_Stats_Woodcutting_Child = 22;
+  Widget_Stats_Farming_Child = 23;
+  Widget_Stats_Total_Child = 24;
 
         {QuestList}
 
   Widget_QuestList_Container = 274;
+  Widget_QuestList_Detect_Child = 0;
+
+  Widget_Achievement_Container = 259;
+  Widget_Achievement_Detect_Child = 13;
+
+  Widget_Minigame_Container = 76;
+  Widget_Minigame_Detect_Child = 1;
+
+  Widget_KourendFavour_Container = 245;
+  Widget_KourendFavour_Detect_Child = 1;
 
         {Inventory}
 
   Widget_Inventory_Container = 149;
+  Widget_Inventory_Detect_Child = 0;
+  Widget_Inventory_Items_Child = 0;
 
         {WornEquipment}
 
   Widget_WornEquipment_Container = 387;
+  Widget_WornEquipment_Detect_Child = 0;
+  Widget_WornEquipment_Items_Child_Container = 1;
   WornEquipment_Helmet := 6;
   WornEquipment_Cape := 7;
   WornEquipment_Necklace := 8;
@@ -325,10 +447,13 @@ const
   WornEquipment_Boots := 14;
   WornEquipment_Ring := 15;
   WornEquipment_Quiver := 16;
+  Widget_WornEquipment_Worn_Child = 17;
 
         {Prayer}
 
   Widget_Prayer_Container = 271;
+  Widget_Prayer_Detect_Child = 0;
+  Widget_Prayer_Activate_Child = 0;
 
   _Prayer_AllPrayers = [[4, $1], [5, $2], [6, $4], [7, $8], [22, $40000],
     [23, $80000],[8, $10], [9, $20], [10, $40], [11, $80], [12, $100],
@@ -366,10 +491,19 @@ const
         {Magic}
 
   Widget_Magic_Container = 218;
+  Widget_Magic_Detect_Child = 0;
+
+  {Settings}
+  Setting_LocalPlayer_SpecialAttack = 300;
+  Setting_LocalPlayer_AutoCast = 108;
+  Setting_LocalPlayer_Poison = 102;
+  Setting_LocalPlayer_AutoRetaliate = 172;
+  Setting_LocalPlayer_Run = 173;
+  Setting_Prayer = 83;
 
 {$IFNDEF AL}
     {Keyboard}
-
+  MOUSE_MOVE = 3;
   Vk_Enter = {$IFDEF LINUX}10{$ELSE}Vk_Return{$ENDIF};
 
     {MiniMap Edge Points}
@@ -378,28 +512,26 @@ const
   MMY1 = 9;
   MMX2 = 716;
   MMY2 = 155;
+  AREA_MM  : TBox = [MMX1,MMY1,MMX2,MMY2];
 
     {MiniMap Center Point}
 
   MMCX = 643;
   MMCY = 83;
+  MMCP     : TPoint = [MMCX,MMCY];
 
     {Main Screen EdgePoints}
   MSX1 = 4;
   MSY1 = 4;
   MSX2 = 515;
   MSY2 = 337;
+  AREA_MS  : TBox = [MSX1,MSY1,MSX2,MSY2];
 
    {Main Screen Centre Points}
 
   MSCX = 259;
   MSCY = 170;
-
-   {Chat Screen EdgePoints}
-  MCX1 = 7;
-  MCY1 = 345;
-  MCX2 = 512;
-  MCY2 = 473;
+  MSCP     : TPoint = [MSCX,MSCY];
 
     {Date}
 
@@ -414,8 +546,101 @@ const
   Time_Abbrev = 2;
   Time_Bare   = 3;
   Time_Fstop  = 4;
-
 {$ENDIF AL}
+
+  {Interfaces}
+  Interface_Lobby = 378;
+  Widget_Lobby_Close_Child = 6;
+
+  Interface_DeathMessage = 153;
+  Widget_DeathMessage_Close_Child = 107;
+
+  Interface_Teleother = 326;
+  Widget_Teleother_Close_Child = -1;
+
+  Interface_ZeahTasks = 243;
+  Widget_ZeahTasks_Close_Child_Container = 2;
+  Widget_ZeahTasks_Close_Child = 13;
+
+  Interface_BugReport = 156;
+  Widget_BugReport_Close_Child_Container = 1;
+  Widget_BugReport_Close_Child = 11;
+
+  Interface_FallyBank = 220;
+  Widget_FallyBank_Close_Child = 16;
+
+  Interface_PollMenu = 310;
+  Widget_PollMenu_Close_Child_Container = 1;
+  Widget_PollMenu_Close_Child = 11;
+
+  Interface_GEMenu = 465;
+  Widget_GEMenu_Close_Child_Container = 2;
+  Widget_GEMenu_Close_Child = 11;
+
+  Interface_GEHistMenu = 383;
+  Widget_GEHistMenu_Close_Child_Container = 1;
+  Widget_GEHistMenu_Close_Child = 11;
+
+  Interface_GESetsMenu = 451;
+  Widget_GESetsMenu_Close_Child_Container = 1;
+  Widget_GESetsMenu_Close_Child = 11;
+
+  Interface_CollectMenu = 402;
+  Widget_CollectMenu_Close_Child_Container = 2;
+  Widget_CollectMenu_Close_Child = 11;
+
+  Interface_TradeScreen = 335;
+  Widget_TradeScreen_Close_Child_Container = 3;
+  Widget_TradeScreen_Close_Child = 13;
+
+  Interface_StatMenu = 214;
+  Widget_StatMenu_Close_Child = 25;
+
+  Interface_QuestMenu = 275;
+  Widget_QuestMenu_Close_Child = 134;
+
+  Interface_EquipMenu = 84;
+  Widget_EquipMenu_Close_Child = 4;
+
+  Interface_TradeConf = 334;
+  Widget_TradeConf_Close_Child = 32;
+
+  Interface_ReportMenu = 553;
+  Widget_ReportMenu_Close_Child_Container = 1;
+  Widget_ReportMenu_Close_Child = 11;
+
+  Interface_KeptMenu = 102;
+  Widget_KeptMenu_Close_Child = 13;
+
+  Interface_HouseOptions = 370;
+  Widget_HouseOptions_Close_Child = 16;
+
+  Interface_ClanOptions = 590;
+  Widget_ClanOptions_Close_Child = 17;
+
+  Interface_AdvancedOptions = 60;
+  Widget_AdvancedOptions_Close_Child_Container = 2;
+  Widget_AdvancedOptions_Close_Child = 11;
+
+  Interface_PriceCheck = 464;
+  Widget_PriceCheck_Close_Child_Container = 1;
+  Widget_PriceCheck_Close_Child = 11;
+
+  Interface_KeyBind = 121;
+  Widget_KeyBind_Close_Child_Container = 1;
+  Widget_KeyBind_Close_Child = 11;
+
+  Interface_BondMenu = 65;
+  Widget_BondMenu_Close_Child_Container = 3;
+  Widget_BondMenu_Close_Child = 13;
+
+  Interface_PinSettings = 14;
+  Widget_PinSettings_Close_Child_Container = 1;
+  Widget_PinSettings_Close_Child = 11;
+
+  Interface_XPMenu = 137;
+  Widget_XPMenu_Close_Child_Container = 2;
+  Widget_XPMenu_Close_Child = 11;
 
     {Login}
 

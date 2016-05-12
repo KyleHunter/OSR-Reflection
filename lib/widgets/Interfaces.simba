@@ -1,0 +1,238 @@
+{$IFNDEF CODEINSIGHT}
+function TReflectionInterface._GetInterfaceCloseWidgetIDs(_Interface: Integer): array[0..1] of Integer;
+begin
+  case _Interface of
+    Interface_Lobby:
+    begin
+      Result[0] := Widget_Lobby_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_DeathMessage:
+    begin
+      Result[0] := Widget_DeathMessage_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_Teleother:
+    begin
+      Result[0] := Widget_Teleother_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_ZeahTasks:
+    begin
+      Result[0] := Widget_ZeahTasks_Close_Child_Container;
+      Result[1] := Widget_ZeahTasks_Close_Child;
+    end;
+    Interface_BugReport:
+    begin
+      Result[0] := Widget_BugReport_Close_Child_Container;
+      Result[1] := Widget_BugReport_Close_Child;
+    end;
+    Interface_FallyBank:
+    begin
+      Result[0] := Widget_FallyBank_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_PollMenu:
+    begin
+      Result[0] := Widget_PollMenu_Close_Child_Container;
+      Result[1] := Widget_PollMenu_Close_Child;
+    end;
+    Interface_GEMenu:
+    begin
+      Result[0] := Widget_GEMenu_Close_Child_Container;
+      Result[1] := Widget_GEMenu_Close_Child;
+    end;
+    Interface_GEHistMenu:
+    begin
+      Result[0] := Widget_GEHistMenu_Close_Child_Container;
+      Result[1] := Widget_GEHistMenu_Close_Child;
+    end;
+    Interface_GESetsMenu:
+    begin
+      Result[0] := Widget_GESetsMenu_Close_Child_Container;
+      Result[1] := Widget_GESetsMenu_Close_Child;
+    end;
+    Interface_CollectMenu:
+    begin
+      Result[0] := Widget_CollectMenu_Close_Child_Container;
+      Result[1] := Widget_CollectMenu_Close_Child;
+    end;
+    Interface_TradeScreen:
+    begin
+      Result[0] := Widget_TradeScreen_Close_Child_Container;
+      Result[1] := Widget_TradeScreen_Close_Child;
+    end;
+    Interface_StatMenu:
+    begin
+      Result[0] := Widget_StatMenu_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_QuestMenu:
+    begin
+      Result[0] := Widget_QuestMenu_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_EquipMenu:
+    begin
+      Result[0] := Widget_EquipMenu_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_TradeConf:
+    begin
+      Result[0] := Widget_TradeConf_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_ReportMenu:
+    begin
+      Result[0] := Widget_ReportMenu_Close_Child_Container;
+      Result[1] := Widget_ReportMenu_Close_Child;
+    end;
+    Interface_KeptMenu:
+    begin
+      Result[0] := Widget_KeptMenu_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_HouseOptions:
+    begin
+      Result[0] := Widget_HouseOptions_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_ClanOptions:
+    begin
+      Result[0] := Widget_ClanOptions_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_AdvancedOptions:
+    begin
+      Result[0] := Widget_AdvancedOptions_Close_Child_Container;
+      Result[1] := Widget_AdvancedOptions_Close_Child;
+    end;
+    Interface_PriceCheck:
+    begin
+      Result[0] := Widget_PriceCheck_Close_Child_Container;
+      Result[1] := Widget_PriceCheck_Close_Child;
+    end;
+    Interface_KeyBind:
+    begin
+      Result[0] := Widget_KeyBind_Close_Child_Container;
+      Result[1] := Widget_KeyBind_Close_Child;
+    end;
+    Interface_BondMenu:
+    begin
+      Result[0] := Widget_BondMenu_Close_Child_Container;
+      Result[1] := Widget_BondMenu_Close_Child;
+    end;
+    Interface_PinSettings:
+    begin
+      Result[0] := Widget_PinSettings_Close_Child_Container;
+      Result[1] := Widget_PinSettings_Close_Child;
+    end;
+    Interface_XPMenu:
+    begin
+      Result[0] := Widget_XPMenu_Close_Child_Container;
+      Result[1] := Widget_XPMenu_Close_Child;
+    end;
+    Interface_ShopMenu:
+    begin
+      Result[0] := Widget_ShopMenu_Close_Child_Container;
+      Result[1] := Widget_ShopMenu_Close_Child;
+    end;
+    Interface_DepositMenu:
+    begin
+      Result[0] := Widget_DepositMenu_Close_Child_Container;
+      Result[1] := Widget_DepositMenu_Close_Child;
+    end;
+    Interface_PinScreen:
+    begin
+      Result[0] := Widget_PinScreen_Close_Child;
+      Result[1] := -1;
+    end;
+    Interface_Bank:
+    begin
+      Result[0] := Widget_Bank_Close_Child_Container;
+      Result[1] := Widget_Bank_Close_Child;
+    end;
+    else
+    begin
+      Result[0] := -1;
+      Result[1] := -1;
+    end;
+  end;
+end;
+{$ENDIF}
+
+function TReflectionInterface.IsOpen(_Interface: Integer): Boolean;
+var
+  WidgetIDs : array[0..1] of Integer;
+  Parent, Child : TReflectWidget;
+  _Bounds : TBox;
+begin
+  WidgetIDs := Reflect.Interfaces._GetInterfaceCloseWidgetIDs(_Interface);
+
+  if WidgetIDs[0] <> -1 then
+  begin
+    Parent.GetWidget(_Interface, WidgetIDs[0]);
+    if Parent.NotNull then
+    begin
+      if WidgetIDs[1] <> -1 then
+      begin
+        Child.GetChild(Parent, WidgetIDs[1]);
+        if Child.NotNull then
+        begin
+          _Bounds := Child.GetBounds;
+          Result := (_Bounds.X1 > 0);
+          Child.Free;
+        end;
+      end
+      else
+      begin
+        _Bounds := Parent.GetBounds;
+        Result := (_Bounds.X1 > 0);
+      end;
+      Parent.Free;
+    end;
+  end;
+end;
+
+function TReflectionInterface.Close(_Interface: Integer): Boolean;
+var
+  WidgetIDs : array[0..1] of Integer;
+  Parent, Child : TReflectWidget;
+  _Bounds : TBox;
+begin
+  if not Reflect.Interfaces.IsOpen(_Interface) then
+    Exit(True);
+
+  WidgetIDs := Reflect.Interfaces._GetInterfaceCloseWidgetIDs(_Interface);
+
+  if WidgetIDs[0] <> -1 then
+  begin
+    Parent.GetWidget(_Interface, WidgetIDs[0]);
+    if Parent.NotNull then
+    begin
+      if WidgetIDs[1] <> -1 then
+      begin
+        Child.GetChild(Parent, WidgetIDs[1]);
+        if Child.NotNull then
+        begin
+          Result := Child.Interact;
+          Child.Free;
+        end;
+      end
+      else
+      begin
+        Result := Parent.Interact;
+      end;
+      Parent.Free;
+    end;
+  end;
+end;
+
+procedure TReflectionInterface.CloseAll;
+var
+  i : integer;
+begin
+  for i := 0 to 600 do
+    Reflect.Interfaces.Close(i);
+end;
+

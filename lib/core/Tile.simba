@@ -87,15 +87,16 @@ begin
   Result := Reflect.Tiles.DistanceFromTile(Tile) < Dist;
 end;
 
-function TReflectionTiles.InPolygon(const Poly: TPointArray): Boolean;
+function TReflectionTiles.InPolygon(
+  const Poly: TPointArray; P : TPoint = Point(-1, -1)): Boolean;
 var
-  P: TPoint;
   I, J: Integer;
 begin
-  Result := False;
-  P := Reflect.Tiles.GetGlobalTile;
+  if P.X = -1 then
+    P := Reflect.Tiles.GetGlobalTile;
+
   J := High(Poly);
-  for I := Low(Poly) to High(Poly) do
+  for I := 0 to J do
   begin
     if ((((Poly[I].Y <= P.Y) and (P.Y < Poly[J].Y)) or ((Poly[J].Y <= P.Y) and
      (P.Y < Poly[I].Y)) ) and (P.X < ((Poly[J].X - Poly[I].X) *
