@@ -101,7 +101,7 @@ end;
 
 function TReflectionText.ChooseOptionMulti(_Options: TStringArray): Boolean;
 var
-  Index, MenuX, MenuY, MenuWidth, XOff, YOff: Integer;
+  Index, MenuX, MenuY, MenuWidth, XOff, YOff, I: Integer;
   Options: TStringArray;
   Left: Boolean;
 begin
@@ -110,9 +110,9 @@ begin
 
   Options := Reflect.Text.GetMenuOptions;
 
-  for Index := 0 to High(_Options) do
+  for I := 0 to High(_Options) do
   begin
-    Index := Reflect.Text.GetMenuIndex(_Options[Index], Options);
+    Index := Reflect.Text.GetMenuIndex(_Options[I], Options);
     if Index <> -1 then
       Break;
   end;
