@@ -107,8 +107,14 @@ begin
 end;
 
 function TReflectLocalPlayer.GetSkillExp(SkillConst: Integer): Integer;
+var
+  i: integer;
 begin
-  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst);
+  if SkillConst <> SKILL_TOTAL then
+    Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst)
+  else
+    for i := 0 to SKILL_COUNT - 1 do
+      Result := Result + Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, i);
 end;
 
 function TReflectLocalPlayer.GetCurrentWorld: Integer;
