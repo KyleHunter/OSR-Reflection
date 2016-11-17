@@ -1,5 +1,5 @@
 const
-    ReflectionRevision = '126';
+    ReflectionRevision = '127';
 {Node: hk}
  Node_Prev: THook =                  ['ew', 1];
  Node_UID: THook =                   ['em', 1];
@@ -27,11 +27,11 @@ const
  linkedList_Current: THook =         ['h', 1];
 
 {Actor: ao}
+ Actor_QueueX: THook =               ['cs', 1];
+ Actor_QueueY: THook =               ['ch', 1];
+ Actor_QueueSize: THook =            ['cc', -1124014797];
  Actor_WorldX: THook =               ['as', 1509800963];
  Actor_WorldY: THook =               ['ad', 765189067];
- Actor_QueueX: THook =               ['ch', 1];
- Actor_QueueY: THook =               ['cs', 1];
- Actor_QueueSize: THook =            ['cc', -1124014797];
  Actor_Animation: THook =            ['bq', -1118550657];
  Actor_SpokenText: THook =           ['NULL', 1];
  Actor_CombatCycle: THook =          ['NULL', 1];
@@ -97,7 +97,7 @@ const
  Client_LocalPlayers: THook =        ['client.gf', 1];
  Client_Region: THook =              ['dl.dc', 1];
  Client_Plane: THook =               ['fx.gr', -702078775];
- Client_DestinationY: THook =        ['client.mw', -622192023];
+ Client_DestinationY: THook =        ['client.mw', 1806199204];
  Client_DestinationX: THook =        ['client.mn', -1273716173];
  Client_LocalPlayer: THook =         ['ek.hx', 1];
  Client_BaseX: THook =               ['gi.di', -2057817099];
