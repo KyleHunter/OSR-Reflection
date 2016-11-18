@@ -97,7 +97,7 @@ const
  Client_LocalPlayers: THook =        ['client.gf', 1];
  Client_Region: THook =              ['dl.dc', 1];
  Client_Plane: THook =               ['fx.gr', -702078775];
- Client_DestinationY: THook =        ['client.mw', 1806199204];
+ Client_DestinationY: THook =        ['client.mw', -622192023];
  Client_DestinationX: THook =        ['client.mn', -1273716173];
  Client_LocalPlayer: THook =         ['ek.hx', 1];
  Client_BaseX: THook =               ['gi.di', -2057817099];
