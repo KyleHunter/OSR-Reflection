@@ -355,6 +355,7 @@ const
   Widget_ChangeWorld_Worlds_Child_Container = 7;
   Widget_ChangeWorld_Scroll_Child_Container = 15;
   Widget_ChangeWorld_Scroll_Down_Child = 5;
+  Widget_ChangeWorld_Scroll_Up_Child = 4;
 
         {Options}
 
@@ -658,4 +659,3 @@ const
   Login_ClickToPlay = 2;
   Login_Problems = 4;
   Login_Connecting = 5;
-
