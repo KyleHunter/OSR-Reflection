@@ -31,8 +31,6 @@ const
  Actor_QueueY: THook =               ['cs', 1];
  Actor_QueueSize: THook =            ['ca', -2065257393];
  Actor_WorldX: THook =               ['aw', 1488230921];
- Actor_WorldX: THook =               ['aw', 1488230921];
- Actor_WorldY: THook =               ['ay', -92611231];
  Actor_WorldY: THook =               ['ay', -92611231];
  Actor_Animation: THook =            ['br', -1777934733];
  Actor_SpokenText: THook =           ['NULL', 1];
