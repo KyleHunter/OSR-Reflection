@@ -30,8 +30,8 @@ const
  Actor_QueueX: THook =               ['cm', 1];
  Actor_QueueY: THook =               ['ci', 1];
  Actor_QueueSize: THook =            ['cw', -1706506797];
- Actor_WorldX: THook =               ['ad', 1207254677];
- Actor_WorldY: THook =               ['am', -1931548361];
+ Actor_Worldy: THook =               ['ad', 1207254677];
+ Actor_Worldx: THook =               ['am', -1931548361];
  Actor_Animation: THook =            ['bg', 80635031];
  Actor_SpokenText: THook =           ['NULL', 1];
  Actor_CombatCycle: THook =          ['NULL', 1];
@@ -97,7 +97,7 @@ const
  Client_Region: THook =              ['ch.ds', 1];
  Client_Plane: THook =               ['cy.gc', -97389269];
  Client_LocalPlayers: THook =        ['client.gt', 1];
- Client_DestinationY: THook =        ['client.ml', -1176010908];
+ Client_DestinationY: THook =        ['client.ml', 1853480921];
  Client_DestinationX: THook =        ['client.mo', 317966067];
  Client_LocalPlayer: THook =         ['z.ha', 1];
  Client_BaseX: THook =               ['an.dy', 1811150155];
