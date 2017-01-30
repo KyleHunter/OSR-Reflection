@@ -1,35 +1,15 @@
-[Reflection Update # 26]
+[Reflection Update # 27]
 [Adds]
-Adds warnings
-Adds TReflectionInterface
-Adds TReflectionShop
-Adds TReflectionText.OptionExistsMulti and ChooseOptionMulti
-Adds TReflectInvItem.Interact
-Adds SmartUserAgent
-Adds Reflect.Antiban.HoverSkill
-Adds Reflect.Smart.GetJavaPath
-Adds Reflect.Chat.DoConversation
-Adds some depositbox functions and procedures to Bank.Simba and improvements
-Adds TReflectLocalPlayer.GetName
-Adds TReflectionGametab.ClickNorth
-Adds TReflectionInventory.CountQuantities
-Adds extra optional arguments to TReflectObjectArray.GetAll, TReflectInvItemArray.GetAll and TReflectionTiles.inPolygon
+Notification interface detection and closing
 
 [Fixes]
-Fixes TReflectLocalPlayer.SetRun to work when orbs is disabled
-Fixes Reflect.Text.GetUpText possible access violation
-Fixes Reflect.Smart.GetWorld to get a better world
-Fixes Reflect.Chat.NpcChooseOption to choose an option
-Fixes TReflectLocalPlayer.FFlag where it might hault entire script
-Fixes TReflectObject.GetAt where cache would be free'd before exiting the proc
-Fixes TReflectGameTab.Current to work with all tabs
-Fixes TReflectLocalPlayer.Logout to work when world switcher is selected
+Name of protect from meele to melee
+Quest tab and prayer tab detection
+Various interface detection and closing
+Enabling run when orbs are disabled
+Combat options
 
 [Changes]
-Changes all .Find and .Get and .Count functions to work with variant arrays
-Changes World to SmartWorld
-Changes TReflectWornEquipment to be more consitant with other item types
-Various house keeping with Globals.Simba and GetIndex, GetSlot
 
 [ToDo]
 Fix TReflectAnyArray.Sort ommitting recurring tile renderables
@@ -39,4 +19,6 @@ Fix TReflectionChat.GetChatIndices
 Add TReflectionBank deposit box functions to deposit items
 Add activate special attack
 Possibly add break handler and randoms handler
+Fix Augury and Rigour detection
+Fix and update login procedures
 [End]

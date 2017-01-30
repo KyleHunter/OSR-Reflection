@@ -3,121 +3,121 @@
 #### -           Reflection.Simba is not to be put here           - ####
 
 (Reflection\Lib\Core\Math.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Math.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Math.simba)
 
 (Reflection\Lib\Core\Time.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Time.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Time.simba)
 
 (Reflection\Lib\Core\Compass.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Compass.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Compass.simba)
 
 (Reflection\Lib\Core\renderable\GroundItems.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/GroundItems.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/GroundItems.simba)
 
 (Reflection\Lib\Core\renderable\LocalPlayer.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/LocalPlayer.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/LocalPlayer.simba)
 
 (Reflection\Lib\Core\renderable\Npc.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Npc.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/Npc.simba)
 
 (Reflection\Lib\Core\renderable\Objects.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Objects.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/Objects.simba)
 
 (Reflection\Lib\Core\renderable\Players.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Players.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/Players.simba)
 
 (Reflection\Lib\Core\Text.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Text.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Text.simba)
 
 (Reflection\Lib\Core\Tile.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Tile.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Tile.simba)
 
 (Reflection\Lib\core\renderable\Actor.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/renderable/Actor.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/renderable/Actor.simba)
 
 (Reflection\Lib\Internal\Globals.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Globals.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Globals.simba)
 
 (Reflection\Lib\Internal\Login.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Login.simba)
 
 (Reflection\Lib\Internal\Hooks.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Hooks.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Hooks.simba)
 
 (Reflection\Lib\Internal\Includes.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Includes.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Includes.simba)
 
 (Reflection\Lib\Internal\definitions\ItemDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/ItemDefs.txt)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/definitions/ItemDefs.txt)
 
 (Reflection\Lib\Internal\Mapwalk.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Mapwalk.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Mapwalk.simba)
 
 (Reflection\Lib\Internal\smart\Memory.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Memory.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/smart/Memory.simba)
 
 (Reflection\Lib\Internal\definitions\NpcDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/NpcDefs.txt)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/definitions/NpcDefs.txt)
 
 (Reflection\Lib\Internal\definitions\ObjectDefs.txt)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/definitions/ObjectDefs.txt)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/definitions/ObjectDefs.txt)
 
 (Reflection\Lib\Internal\smart\Smart.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Smart.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/smart/Smart.simba)
 
 (Reflection\Lib\Internal\Login.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/Login.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/Login.simba)
 
 (Reflection\Lib\Misc\Logger.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Logger.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/misc/Logger.simba)
 
 (Reflection\Lib\Internal\smart\Graphics.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/internal/smart/Graphics.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/internal/smart/Graphics.simba)
 
 (Reflection\Lib\Misc\Misc.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Misc.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/misc/Misc.simba)
 
 (Reflection\Lib\Widgets\Widgets.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/Widgets.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Widgets.simba)
 
 (Reflection\Lib\Widgets\Chat.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/Chat.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Chat.simba)
 
 (Reflection\Lib\Widgets\Bank.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/Bank.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Bank.simba)
 
 (Reflection\Lib\Widgets\Gametabs\Inventory.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/Inventory.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/Inventory.simba)
 
 (Reflection\Lib\Widgets\Gametabs\Gametabs.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/Gametabs.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/Gametabs.simba)
 
 (Reflection\Lib\Widgets\Gametabs\CombatOptions.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/CombatOptions.simba)
 
 (Reflection\Lib\Widgets\Gametabs\WornEquipment.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/WornEquipment.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/WornEquipment.simba)
 
 (Reflection\Lib\Widgets\Gametabs\WorldSwitcher.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/WorldSwitcher.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/WorldSwitcher.simba)
 
 (Reflection\Lib\Widgets\Gametabs\Prayer.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/widgets/gametabs/Prayer.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/gametabs/Prayer.simba)
 
 (Reflection\Lib\Core\input\Mouse.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Mouse.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/input/Mouse.simba)
 
 (Reflection\Lib\Core\input\Keyboard.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/input/Keyboard.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/input/Keyboard.simba)
 
 (Reflection\Lib\Misc\Prosocks.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/prosocks.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/misc/prosocks.simba)
 
 (Reflection\Lib\Core\Antiban.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/core/Antiban.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/core/Antiban.simba)
 
 (Reflection\Lib\Misc\Stats.simba)
-(https://raw.githubusercontent.com/Elfyyy/OSR-Reflection/master/lib/misc/Stats.simba)
+(https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/misc/Stats.simba)
 
 (Reflection\Lib\Widgets\Interfaces.simba)
 (https://raw.githubusercontent.com/KyleHunter/OSR-Reflection/master/lib/widgets/Interfaces.simba)
