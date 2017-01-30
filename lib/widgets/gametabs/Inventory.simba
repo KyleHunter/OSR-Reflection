@@ -286,7 +286,7 @@ begin
   Result := Length(Items);
 end;
 
-function TReflectionInventory.Count(Names: TStringArray): Boolean; Overload;
+function TReflectionInventory.Count(Names: TStringArray): Integer; Overload;
 var
   Temp : TVariantArray;
   I : Integer;
@@ -298,7 +298,7 @@ begin
   Result := Self.Count(Temp);
 end;
 
-function TReflectionInventory.Count(IDs: TIntegerArray): Boolean; Overload;
+function TReflectionInventory.Count(IDs: TIntegerArray): Integer; Overload;
 var
   Temp : TVariantArray;
   I : Integer;
@@ -310,7 +310,7 @@ begin
   Result := Self.Count(Temp);
 end;
 
-function TReflectionInventory.Count(Name: String): Boolean; Overload;
+function TReflectionInventory.Count(Name: String): Integer; Overload;
 var
   Temp : TVariantArray;
 begin
@@ -318,7 +318,7 @@ begin
   Result := Self.Count(Temp);
 end;
 
-function TReflectionInventory.Count(ID: Integer): Boolean; Overload;
+function TReflectionInventory.Count(ID: Integer): Integer; Overload;
 var
   Temp : TVariantArray;
 begin
@@ -346,7 +346,7 @@ begin
     IncEx(Result, Items[i].GetQuantity);
 end;
 
-function TReflectionInventory.CountQuantities(Names: TStringArray): Boolean; Overload;
+function TReflectionInventory.CountQuantities(Names: TStringArray): Integer; Overload;
 var
   Temp : TVariantArray;
   I : Integer;
@@ -358,7 +358,7 @@ begin
   Result := Self.CountQuantities(Temp);
 end;
 
-function TReflectionInventory.CountQuantities(IDs: TIntegerArray): Boolean; Overload;
+function TReflectionInventory.CountQuantities(IDs: TIntegerArray): Integer; Overload;
 var
   Temp : TVariantArray;
   I : Integer;
@@ -370,7 +370,7 @@ begin
   Result := Self.CountQuantities(Temp);
 end;
 
-function TReflectionInventory.CountQuantities(Name: String): Boolean; Overload;
+function TReflectionInventory.CountQuantities(Name: String): Integer; Overload;
 var
   Temp : TVariantArray;
 begin
@@ -378,7 +378,7 @@ begin
   Result := Self.CountQuantities(Temp);
 end;
 
-function TReflectionInventory.CountQuantities(ID: Integer): Boolean; Overload;
+function TReflectionInventory.CountQuantities(ID: Integer): Integer; Overload;
 var
   Temp : TVariantArray;
 begin

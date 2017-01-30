@@ -1,8 +1,21 @@
+function TReflectionGametab.ClosestVisibleWorld() : Integer;
+var
+  Wid, Child : TReflectWidget;
+  I : integer;
+begin
+  Wid.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Worlds_Child_Container);
+  for I := 2 to 420 with 6 do
+  begin
+    Child.GetChild(Wid, I);
+    if InRange(Child.GetY + Child.GetHeight, 234, 260) then
+      Exit(StrToIntDef(Child.GetText, -1));
+  end;
+end;
 
 function TReflectionGametab.SwitchWorld(World: Integer): Boolean;
 var
   Wid, Child, Wid1, Child1: TReflectWidget;
-  I, X, Y, OldWorld: Integer;
+  I, X, Y, OldWorld, Direction : Integer;
   Moved: Boolean;
   Timer, TimeOut: TReflectTimer;
 begin
@@ -21,16 +34,21 @@ begin
       Wait(50);
   end;
   Wait(500);
+  if (Self.ClosestVisibleWorld > (World - 300)) then
+    Direction := Widget_ChangeWorld_Scroll_Up_Child
+  else
+    Direction := Widget_ChangeWorld_Scroll_Down_Child;
+
   Wid.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Worlds_Child_Container);
-  for I := 2 to 420 do
+  for I := 2 to 420 with 6 do
   begin
     Child.GetChild(Wid, I);
     if Child.GetText = ToStr(World - 300) then
     begin
       Wid1.GetWidget(Widget_ChangeWorld_Container, Widget_ChangeWorld_Scroll_Child_Container);
-      Child1.GetChild(Wid1, Widget_ChangeWorld_Scroll_Down_Child);
+      Child1.GetChild(Wid1, Direction);
       Timer.Start;
-      while (Child.GetBounds.X1 = -1) or (Child.GetBounds.Y2 > 443) do
+      while not(inRange((child.GetY + child.getHeight), 237, 437)) do
       begin
         if Timer.ElapsedTime > 7000 then
           Exit(False);
@@ -58,9 +76,7 @@ begin
       Wid.Free;
       Result := World = Reflect.Smart.GetFieldInt(0, Client_CurrentWorld);
     end;
-    Inc(I, 5);
     Child.Free;
   end;
   Wid.Free;
 end;
-

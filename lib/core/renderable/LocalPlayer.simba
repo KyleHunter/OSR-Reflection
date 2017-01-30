@@ -108,7 +108,7 @@ end;
 
 function TReflectLocalPlayer.GetSkillExp(SkillConst: Integer): Integer;
 begin
-  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst);
+  Result := Reflect.Smart.GetFieldArrayInt(0, Client_Experiences, SkillConst)
 end;
 
 function TReflectLocalPlayer.GetCurrentWorld: Integer;
