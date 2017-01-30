@@ -318,7 +318,6 @@ const
       {GameTab}
 
   Widget_Gametab_Container = 548;
-
   Widget_Gametab_LookNorth_Child = 8;
 
         {ClanChat}
@@ -361,13 +360,16 @@ const
 
   Widget_Options_Container = 261;
   Widget_Options_Detect_Child = 0;
-  Widget_Options_Run_Child = 65;
+  Widget_Options_Run_Child = 67;
 
         {Emotes}
 
   Widget_Emotes_Container = 216;
   Widget_Emotes_Detect_Child = 0;
   Widget_Emotes_Emotes_Child_Container = 1;
+  Widget_Emotes_Scroll_Child_Container = 2;
+  Widget_Emotes_Scroll_Down_Child = 5;
+  Widget_Emotes_Scroll_Up_Child = 4;
 
         {MusicPlayer}
 
@@ -378,10 +380,10 @@ const
 
   Widget_CombatOptions_Container = 593;
   Widget_CombatOptions_Detect_Child = 0;
-  Widget_CombatOptions_Retaliate_Child = 28;
+  Widget_CombatOptions_Retaliate_Child = 27;
   Widget_CombatOptions_WieldedWeapon_Child = 1;
   Widget_CombatOptions_Combat_Child = 2;
-  Widget_CombatOptions_Options_Children = [6, 10, 14, 18];
+  Widget_CombatOptions_Options_Children = [3, 7, 11, 15];
 
         {Stats}
 
@@ -414,11 +416,11 @@ const
 
         {QuestList}
 
-  Widget_QuestList_Container = 274;
+  Widget_QuestList_Container = 399;
   Widget_QuestList_Detect_Child = 0;
 
   Widget_Achievement_Container = 259;
-  Widget_Achievement_Detect_Child = 13;
+  Widget_Achievement_Detect_Child = 0;
 
   Widget_Minigame_Container = 76;
   Widget_Minigame_Detect_Child = 1;
@@ -452,15 +454,9 @@ const
 
         {Prayer}
 
-  Widget_Prayer_Container = 271;
-  Widget_Prayer_Detect_Child = 0;
-  Widget_Prayer_Activate_Child = 0;
-
-  _Prayer_AllPrayers = [[4, $1], [5, $2], [6, $4], [7, $8], [22, $40000],
-    [23, $80000],[8, $10], [9, $20], [10, $40], [11, $80], [12, $100],
-    [24, $100000], [25, $200000], [13, $200], [14, $400], [15, $800],
-    [16, $1000], [17, $2000], [18, $4000], [26, $400000], [27, $800000],
-    [19, $8000], [20, $10000], [21, $20000], [28, $2000000], [29, $4000000]];
+  Widget_Prayer_Container = 541;
+  Widget_Prayer_Detect_Child = 3;
+  Widget_Prayer_Activate_Child = 1;
 
   Prayer_ThickSkin = [4, $1];
   Prayer_BurstOfStrength = [5, $2];
@@ -480,7 +476,7 @@ const
   Prayer_IncredibleReflexes = [15, $800];
   Prayer_ProtectFromMagic = [16, $1000];
   Prayer_ProtectFromMissiles = [17, $2000];
-  Prayer_ProtectFromMeele = [18, $4000];
+  Prayer_ProtectFromMelee = [18, $4000]; Prayer_ProtectFromMeele = Prayer_ProtectFromMelee;//typo
   Prayer_EagleEye = [26, $400000];
   Prayer_MysticMight = [27, $800000];
   Prayer_Retribution = [19, $8000];
@@ -488,6 +484,17 @@ const
   Prayer_Smite = [21, $20000];
   Prayer_Chivalry = [28, $2000000];
   Prayer_Piety = [29, $4000000];
+  Prayer_Rigour = [30, $4000000]; //todo
+  Prayer_Augury = [31, $4000000];
+
+  _Prayer_AllPrayers = [Prayer_ThickSkin, Prayer_BurstOfStrength,
+  Prayer_ClarityOfThought, Prayer_RockSkin, Prayer_SharpEye, Prayer_MysticWill,
+  Prayer_SuperHumanStrength, Prayer_ImprovedReflexes, Prayer_RapidRestore,
+  Prayer_RapidHeal, Prayer_ProtectItem, Prayer_HawkEye, Prayer_MysticLore,
+  Prayer_SteelSkin, Prayer_UltimateStrength, Prayer_IncredibleReflexes,
+  Prayer_ProtectFromMagic, Prayer_ProtectFromMissiles, Prayer_ProtectFromMelee,
+  Prayer_EagleEye, Prayer_MysticMight, Prayer_Retribution, Prayer_Smite,
+  Prayer_Chivalry, Prayer_Piety, Prayer_Rigour, Prayer_Augury];
 
         {Magic}
 
@@ -571,7 +578,7 @@ const
   Widget_FallyBank_Close_Child = 16;
 
   Interface_PollMenu = 310;
-  Widget_PollMenu_Close_Child_Container = 1;
+  Widget_PollMenu_Close_Child_Container = 2;
   Widget_PollMenu_Close_Child = 11;
 
   Interface_GEMenu = 465;
@@ -610,11 +617,11 @@ const
   Widget_ReportMenu_Close_Child_Container = 1;
   Widget_ReportMenu_Close_Child = 11;
 
-  Interface_KeptMenu = 102;
+  Interface_KeptMenu = 4;
   Widget_KeptMenu_Close_Child = 13;
 
   Interface_HouseOptions = 370;
-  Widget_HouseOptions_Close_Child = 16;
+  Widget_HouseOptions_Close_Child = 17;
 
   Interface_ClanOptions = 590;
   Widget_ClanOptions_Close_Child = 17;
@@ -642,6 +649,9 @@ const
   Interface_XPMenu = 137;
   Widget_XPMenu_Close_Child_Container = 2;
   Widget_XPMenu_Close_Child = 11;
+
+  Interface_Notifications = 492;
+  Widget_Notifications_Close_Child_Container = 2;
 
     {Login}
 

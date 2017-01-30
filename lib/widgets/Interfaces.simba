@@ -152,6 +152,11 @@ begin
       Result[0] := Widget_Bank_Close_Child_Container;
       Result[1] := Widget_Bank_Close_Child;
     end;
+    Interface_Notifications:
+    begin
+      Result[0] := Widget_Notifications_Close_Child_Container;
+      Result[1] := -1;
+    end;
     else
     begin
       Result[0] := -1;
