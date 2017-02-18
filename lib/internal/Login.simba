@@ -3,13 +3,13 @@ var
   PVPW, FreeW, MembW, DeadW: TIntegerArray;
 begin
   PVPW := [325, 337];
-  DeadW := [317, 319, 321, 345, 357, 360, 378];
+  DeadW := [321, 345];
   FreeW := [301, 308, 316, 326, 335, 381, 382, 383, 384, 385, 393, 394];
-  MembW := [302, 303, 304, 305, 306, 309, 310, 311, 312, 313, 314,
-            318, 320, 322, 327, 328, 329, 330, 333, 334, 336,
-            338, 341, 342, 343, 344, 346, 349, 350, 351, 352, 353,
-            354, 358, 359, 361, 362, 365, 366, 367, 368, 369,
-            370, 373, 374, 375, 376, 377, 386];
+  MembW := [302, 303, 304, 305, 306, 307, 309, 310, 311, 312, 313, 314, 315, 317,
+            318, 319, 320, 322, 323, 324, 327, 328, 329, 330, 331, 332, 333, 334, 336,
+            338, 339, 340, 341, 342, 343, 344, 346, 347, 348, 349, 350, 351, 352, 353,
+            354, 355, 356, 357, 358, 359, 360, 361, 362, 365, 366, 367, 368, 369,
+            370, 373, 374, 375, 376, 377, 378, 386];
   If Members then
     Result := MembW
   else
@@ -91,24 +91,23 @@ end;
 
 function TReflectionLogin.SelectWorld(World: Integer): Boolean;
 const
-  Worlds: TIntegerArray = [301, 321, 345, 369,
-                           302, 322, 346, 370,
-                           303, 325, 349, 373,
-                           304, 326, 350, 374,
-                           305, 327, 351, 375,
-                           306, 328, 352, 376,
-                           308, 329, 353, 377,
-                           309, 330, 354, 378,
-                           310, 333, 357, 381,
-                           311, 334, 358, 382,
-                           312, 335, 359, 383,
-                           313, 336, 360, 384,
-                           314, 337, 361, 385,
-                           316, 338, 362, 386,
-                           317, 341, 365, 393,
-                           318, 342, 366, 394,
-                           319, 343, 367, -1,
-                           320, 344, 368, -1];
+  Worlds: TIntegerArray = [301, 318, 335, 352, 373,
+                           302, 319, 336, 353, 374,
+                           303, 320, 337, 354, 375,
+                           304, 321, 338, 355, 376,
+                           305, 322, 339, 356, 377,
+                           306, 323, 340, 357, 378,
+                           307, 324, 341, 358, 381,
+                           308, 325, 342, 359, 382,
+                           309, 326, 343, 360, 383,
+                           310, 327, 344, 361, 384,
+                           311, 328, 345, 362, 385,
+                           312, 329, 346, 365, 386,
+                           313, 330, 347, 366, 393,
+                           314, 331, 348, 367, 394,
+                           315, 332, 349, 368, -1,
+                           316, 333, 350, 369, -1,
+                           317, 334, 351, 370, -1];
 var
   I: Integer;
   T: TReflectTimer;
@@ -116,7 +115,7 @@ begin
   if (not InIntArrayEx(Worlds, I, World)) or (Not Reflect.Login.AtWorldScreen) then
     Exit(False);
   Wait(RandomRange(250, 500));
-  Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 4, 18, 87, 18, 93, 24, Point(242, 58)),
+  Reflect.Mouse.Move(Reflect.Math.GridBox(I + 1, 5, 17, 87, 17, 93, 24, Point(195, 70)),
     Mouse_Left);
   T.Start;
   while (Reflect.Login.AtWorldScreen) and (T.ElapsedTime < 5000) do
@@ -138,7 +137,7 @@ begin
       ColorCount := CountColor(Login_Text_Yellow, 204, 165, 570, 253);
       case ColorCount of
         799, 863: Result := Login_EnterUser;
-        738, 1539, 1073, 492, 1721, 906, 1227,
+        1439, 774, 1437, 738, 1539, 1073, 492, 1721, 906, 1227,
         1231, 1136, 777, 1700, 1666, 1783, 439, 210,
         1017, 1037, 1053, 1022: Result := Login_Problems;
       end;
@@ -196,6 +195,13 @@ begin
     begin
       Reflect.Logger.Warn('Already logged in, retry');
       Wait(15000+Random(10000));
+      Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
+    end;
+
+    1439: { Too many login attempts }
+    begin
+      Reflect.Logger.Warn('Too many login attempts, waiting 5-10 seconds...');
+      Wait(5000+Random(10000));
       Reflect.Mouse.Move(238, 309, 364, 334, Mouse_Left);
     end;
 
@@ -317,4 +323,4 @@ begin
         Wait(RandomRange(100, 200));
   until(Tries > 30)or((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
   Result := ((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
-end;
+end;                                                                                                          
