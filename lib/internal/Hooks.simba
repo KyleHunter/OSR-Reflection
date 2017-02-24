@@ -50,23 +50,25 @@ const
 
 {Widget: fu}
  Widget_Children: THook =            ['eb', 1];
- Widget_ItemID: THook =              ['NULL',1];
- Widget_ItemAmount: THook =          ['NULL', 1];
- Widget_WidgetID: THook =            ['NULL', 1];
- Widget_Name: THook =                ['NULL', 1];
- Widget_Text: THook =                ['NULL', 1];
- Widget_IsHidden: THook =            ['NULL', 1];
- Widget_AbsoluteY: THook =           ['NULL', 1];
- Widget_AbsoluteX: THook =           ['NULL', 1];
- Widget_RelativeY: THook =           ['NULL', 1];
- Widget_RelativeX: THook =           ['NULL', 1];
- Widget_Width: THook =               ['NULL', 1];
- Widget_Height: THook =              ['NULL', 1];
- Widget_ParentID: THook =            ['NULL', 1];
- Widget_ScrollY: THook =             ['NULL', 1];
- Widget_ScrollX: THook =             ['NULL', 1];
- Widget_InvIDs: THook =              ['eu', 1];
+ Widget_WidgetID: THook =            ['u', -2039833749];
+ Widget_AbsoluteX: THook =           ['e', 1730748651];
+ Widget_AbsoluteY: THook =           ['ae', 1233152103];
+ Widget_Width: THook =               ['aq', -295869215];
+ Widget_Height: THook =              ['at', -1311339937];
+ Widget_ParentID: THook =            ['ad', -1406278427];
+ Widget_IsHidden: THook =            ['ai', 1];
+ Widget_RelativeX: THook =           ['ac', -1216699517];
+ Widget_RelativeY: THook =           ['ao', 174936721];
+ Widget_TextureID: THook =           ['az', -1788185475];
+ Widget_Text: THook =                ['br', 1];
+ Widget_Name: THook =                ['ch', 1];
+ Widget_Parent: THook =              ['cn', 1];
+ Widget_ItemID: THook =              ['eq', -968764153];
+ Widget_ItemAmount: THook =          ['ex', 1954318555];
  Widget_BoundsIndex: THook =         ['em', -316161063];
+ Widget_ScrollX: THook =             ['ac', -1216699517];
+ Widget_ScrollY: THook =             ['ao', 174936721];
+ Widget_InvIDs: THook =              ['eu', 1];
  Widget_StackSizes: THook =          ['ef', 1];
 
 {WidgetNode: t}
@@ -86,6 +88,7 @@ const
 
 {Client: client}
  Client_LoopCycle: THook =           ['client.a', 1012430789];
+ Client_Widgets: THook =             ['fu.q', 1];
  Client_MenuOptions: THook =         ['client.ij', 1];
  Client_MenuActions: THook =         ['client.id', 1];
  Client_IsMenuOpen: THook =          ['client.ho', 1];
@@ -102,7 +105,6 @@ const
  Client_LocalPlayer: THook =         ['aa.hk', 1];
  Client_BaseX: THook =               ['n.dp', 1184382683];
  Client_BaseY: THook =               ['g.dh', 1846407625];
- Client_Widgets: THook =             ['NULL.NULL', 1];
  Client_GameSettings: THook =        ['ge.pl', 1];
  Client_CurrentLevels: THook =       ['ai.r', 1];
  Client_RealLevels: THook =          ['ai.r', 1];
