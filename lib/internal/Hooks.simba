@@ -103,9 +103,9 @@ const
  Client_DestinationY: THook =        ['client.mp', 1737255437];
  Client_DestinationX: THook =        ['client.my', 268182521];
  Client_LocalPlayer: THook =         ['aa.hk', 1];
+ Client_GameSettings: THook =        ['fp.d', 1];
  Client_BaseX: THook =               ['n.dp', 1184382683];
  Client_BaseY: THook =               ['g.dh', 1846407625];
- Client_GameSettings: THook =        ['ge.pl', 1];
  Client_CurrentLevels: THook =       ['client.hu', 1];
  Client_RealLevels: THook =          ['client.hg', 1];
  Client_Experiences: THook =         ['client.hm', 1];
