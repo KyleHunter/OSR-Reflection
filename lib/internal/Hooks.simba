@@ -106,13 +106,13 @@ const
  Client_BaseX: THook =               ['n.dp', 1184382683];
  Client_BaseY: THook =               ['g.dh', 1846407625];
  Client_GameSettings: THook =        ['ge.pl', 1];
- Client_CurrentLevels: THook =       ['ai.r', 1];
- Client_RealLevels: THook =          ['ai.r', 1];
- Client_Experiences: THook =         ['ai.r', 1];
- Client_Weight: THook =              ['cc.c', 208255649];
- Client_Energy: THook =              ['cc.c', 208255649];
- Client_CurrentWorld: THook =        ['cc.c', 208255649];
- Client_WidgetNodeCache: THook =     ['cc.c', 208255649];
+ Client_CurrentLevels: THook =       ['client.hu', 1];
+ Client_RealLevels: THook =          ['client.hg', 1];
+ Client_Experiences: THook =         ['client.hm', 1];
+ Client_Weight: THook =              ['client.jt', -791817503];
+ Client_Energy: THook =              ['client.jm', -1436926433];
+ Client_CurrentWorld: THook =        ['client.p', 103315253];
+ Client_WidgetNodeCache: THook =     ['client.ji', 1];
  Client_TileSettings: THook =        ['m.d', 1];
  Client_TileHeights: THook =         ['m.q', 1];
  Client_LocalNpcs: THook =           ['client.cx', 1];
@@ -192,6 +192,6 @@ const
  SceneTile_GroundDecoration: THook = ['i', 1];
 
 {Item: al}
- Item_ID: THook =                    ['d', 906787017];
- Item_StackSizes: THook =            ['q', -1041544025];
+ Item_StackSizes: THook =            ['d', 906787017];
+ Item_ID: THook =                    ['q', -1041544025];
 
