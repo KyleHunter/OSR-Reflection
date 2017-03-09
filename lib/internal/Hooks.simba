@@ -88,6 +88,7 @@ const
 
 {Client: client}
  Client_LoopCycle: THook =           ['client.z', 1205609047];
+ Client_Widgets: THook =             ['fy.x', 1];
  Client_MenuOptions: THook =         ['client.ir', 1];
  Client_MenuActions: THook =         ['client.ig', 1];
  Client_IsMenuOpen: THook =          ['client.he', 1];
@@ -102,7 +103,6 @@ const
  Client_DestinationY: THook =        ['client.mv', 910982828];
  Client_DestinationX: THook =        ['client.mn', 168856691];
  Client_LocalPlayer: THook =         ['p.hk', 1];
- Client_Widgets: THook =             ['null.x', 1];
  Client_GameSettings: THook =        ['fq.j', 1];
  Client_BaseX: THook =               ['ab.dw', -982768361];
  Client_BaseY: THook =               ['d.ds', 1758713651];
@@ -192,6 +192,6 @@ const
  SceneTile_GroundDecoration: THook = ['g', 1];
 
 {Item: ai}
- Item_ID: THook =                    ['x', -2079758699];
- Item_StackSizes: THook =            ['j', -1570569195];
+ Item_ID: THook =            ['x', -2079758699];
+ Item_StackSizes: THook =    ['j', -1570569195];
 
