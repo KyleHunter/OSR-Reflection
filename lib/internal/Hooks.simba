@@ -51,14 +51,14 @@ const
 {Widget: fc}
  Widget_Children: THook =            ['et', 1];
  Widget_WidgetID: THook =            ['r', -521365795];
- Widget_AbsoluteX: THook =           ['y', 1416143611];
- Widget_AbsoluteY: THook =           ['am', 1381872461];
+ Widget_AbsoluteX: THook =           ['b', -1548897025];
+ Widget_AbsoluteY: THook =           ['f', 1765191697];
  Widget_Width: THook =               ['ax', -1846735173];
  Widget_Height: THook =              ['ac', 1573207255];
  Widget_ParentID: THook =            ['ak', -1722293023];
  Widget_IsHidden: THook =            ['aa', 1];
- Widget_RelativeX: THook =           ['aj', -875368155];
- Widget_RelativeY: THook =           ['ay', 1989543145];
+ Widget_RelativeX: THook =           ['y', 1416143611];
+ Widget_RelativeY: THook =           ['am', 1381872461];
  Widget_TextureID: THook =           ['al', -1612474971];
  Widget_Text: THook =                ['bg', 1];
  Widget_Name: THook =                ['cz', 1];
@@ -196,4 +196,3 @@ const
 {Item: as}
  Item_StackSizes: THook =            ['d', -933263931];
  Item_ID: THook =                    ['c', 1707626481];
-
