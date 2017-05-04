@@ -102,7 +102,7 @@ const
  Client_DestinationY: THook =        ['client.mg', 1220137595];
  Client_DestinationX: THook =        ['client.ms', -1458248867];
  Client_LocalPlayer: THook =         ['f.hb', 1];
- Client_Widgets: THook =             ['null.d', 1];
+ Client_Widgets: THook =             ['eh.d', 1];
  Client_GameSettings: THook =        ['fj.n', 1];
  Client_BaseX: THook =               ['do.dl', 1473731053];
  Client_BaseY: THook =               ['df.dk', -781384431];
