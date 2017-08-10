@@ -10,7 +10,7 @@ Node_Next: THook =                                ['ca', 1];
 Cacheable_Next: THook =                           ['cb', 1];
 Cacheable_Prev: THook =                           ['cx', 1];
 
-{LinkedList: gf}
+{LinkedList: gv}
 LinkedList_Head: THook =                          ['e', 1];
 LinkedList_Current: THook =                       ['n', 1];
 
@@ -182,17 +182,20 @@ Model_FitsSingleTile: THook =                     ['N/A', 1];
 {AnimationSequence: jd}
 AnimationSequence_ControlFlow: THook =            ['d', 1];
 
-{HealthBarDefinition: iv}
-HealthBarDefinition_MaxWidth: THook = ['s', 462909261];
-HealthBarDefinition_HealthScale: THook = ['c', 1379414537];
+{CombatInfo1: cs}
+CombatInfo1_Health: THook =                       ['g', -970602777];
+CombatInfo1_HealthRatio: THook =                  ['n', 1011520493];
+
+{CombatInfo2: iv}
+CombatInfo2_HealthScale: THook =                  ['s', 462909261];
+
+{CombatInfoList: gf}
+CombatInfoList_Head: THook =                      ['e', 1];
+CombatInfoList_Current: THook =                   ['n', 1];
 
 {HealthBar: cg}
-HealthBar_LinkedList: THook =                     ['y', 1];
+HealthBar_CombatInfoList: THook =                 ['y', 1];
 HealthBar_Definition: THook =                     ['g', 1];
-
-{HealthData: cs}
-HealthData_Health: THook =                        ['g', -970602777];
-HealthData_HealthRatio: THook =                   ['n', 1011520493];
 
 {Actor: cp}
 Actor_Animation: THook =                          ['an', 1895824503];
@@ -211,7 +214,7 @@ Actor_IsAnimating: THook =                        ['am', 1];
 Actor_CombatCycle: THook =                        ['N/A', 1];
 Actor_InteractingIndex: THook =                   ['bq', 1647863415];
 Actor_Orientation: THook =                        ['cs', -1090619129];
-Actor_HealthBar: THook =                          ['bo', 1];
+Actor_CombatInfo: THook =                         ['bo', 1];
 Actor_Height: THook =                             ['cp', 1420875825];
 
 {NPCDefinition: in}
