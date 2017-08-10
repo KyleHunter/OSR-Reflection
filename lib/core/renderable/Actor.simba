@@ -1,4 +1,3 @@
-
 function TReflectActor.GetSpokenText: string;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
@@ -61,6 +60,11 @@ begin
 end;
 
 function TReflectActor.GetHealth: Integer;
+var
+  HealthBar: TReflectPointer;
+  HealthBarDef: TReflectPointer;
+  HealthDataList: TReflectPointer;
+  HeadNode, NextNode, HeadNode2, NextNode2: TReflectPointer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -68,7 +72,38 @@ begin
     Exit(-1);
   end;
 
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Health);
+  HealthBar.GetFieldObject(Self.Reference, Actor_HealthBar);
+  HeadNode.GetFieldObject(HealthBar.Reference, LinkedList_Head);
+  NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
+
+  if not Reflect.Smart.IsNull(NextNode.Reference) then
+  begin
+    //TODO: ERROR CHECKING..
+    HealthBarDef.GetFieldObject(NextNode.Reference, HealthBar_Definition);
+
+    writeln('MaxWidth: ', HealthBarDef.GetFieldInt(HealthBarDefinition_MaxWidth));
+    writeln('HealthScale: ', HealthBarDef.GetFieldInt(HealthBarDefinition_HealthScale));
+
+
+    HealthDataList.GetFieldObject(NextNode.Reference, HealthBar_LinkedList);
+    HeadNode2.GetFieldObject(HealthDataList.Reference, LinkedList_Head);
+    NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
+
+
+    writeln('Health: ', NextNode2.GetFieldInt(HealthData_Health));
+    writeln('HealthRatio: ', NextNode2.GetFieldInt(HealthData_HealthRatio));
+
+    NextNode2.Free;
+    HeadNode2.Free;
+    HealthDataList.Free;
+    HealthBarDef.Free;
+  end;
+
+  NextNode.Free;
+  HeadNode.Free;
+  HealthBar.Free;
+
+  Result := -1;
 end;
 
 function TReflectActor.GetMaxHealth: Integer;
@@ -79,7 +114,7 @@ begin
     Exit(-1);
   end;
 
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_MaxHealth);
+  Result := -1;
 end;
 
 function TReflectActor.GetInteractingIndex: Integer;

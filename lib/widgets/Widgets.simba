@@ -135,12 +135,12 @@ end;
 
 function TReflectWidget.GetScrollX: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollX);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeX);
 end;
 
 function TReflectWidget.GetScrollY: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollY);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeY);
 end;
 
 function TReflectWidget.GetWidth: Integer;
