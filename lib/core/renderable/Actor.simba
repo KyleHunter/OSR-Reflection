@@ -77,7 +77,11 @@ begin
   if not Reflect.Smart.IsNull(NextNode.Reference) then
   begin
     CombatInfoDef.GetFieldObject(NextNode.Reference, HealthBar_Definition);
-    result := CombatInfoDef.GetFieldInt(CombatInfo2_HealthScale);
+    if not Reflect.Smart.IsNull(CombatInfoDef.Reference) then
+    begin
+      result := CombatInfoDef.GetFieldInt(CombatInfo2_HealthScale);
+    end;
+
     CombatInfoDef.Free;
   end;
 
@@ -107,8 +111,19 @@ begin
     HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
     NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
 
-    result := NextNode2.GetFieldInt(CombatInfo1_Health);
+    if not Reflect.Smart.IsNull(NextNode2.Reference) then
+    begin
+      result := NextNode2.GetFieldInt(CombatInfo1_Health);
+    end;
+
+    NextNode2.Free;
+    HeadNode2.Free;
+    List2.Free;
   end;
+
+  NextNode.Free;
+  HeadNode.Free;
+  CombatInfoList.Free;
 end;
 
 function TReflectActor.GetHealthRatio: Integer;
@@ -132,7 +147,10 @@ begin
     HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
     NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
 
-    result := NextNode2.GetFieldInt(CombatInfo1_HealthRatio);
+    if not Reflect.Smart.IsNull(NextNode2.Reference) then
+    begin
+      result := NextNode2.GetFieldInt(CombatInfo1_HealthRatio);
+    end;
 
     NextNode2.Free;
     HeadNode2.Free;
