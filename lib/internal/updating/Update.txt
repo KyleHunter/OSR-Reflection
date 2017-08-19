@@ -1,3 +1,7 @@
 includerev = '28'
+<<<<<<< HEAD
 includesubrev = '2'
+=======
+includesubrev = '1'
+>>>>>>> 2ae494c213bb0a0586640b2b584cf0fd354641f6
 hookrev = '153'
