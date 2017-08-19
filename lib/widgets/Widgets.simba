@@ -8,6 +8,11 @@ begin
     ContainerIndex, ParentIndex);
 end;
 
+function TReflectWidget.GetType: Integer;
+begin
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_Type);
+end;
+
 function TReflectWidget.GetWidgetID: Integer;
 begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_WidgetID);
@@ -135,12 +140,12 @@ end;
 
 function TReflectWidget.GetScrollX: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollX);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeX);
 end;
 
 function TReflectWidget.GetScrollY: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollY);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeY);
 end;
 
 function TReflectWidget.GetWidth: Integer;
@@ -175,26 +180,58 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_AbsoluteY);
 end;
 
-function TReflectWidget.GetX: Integer;
+function TReflectWidget.GetLocation: TPoint;
 var
-  Parent: TReflectWidget;
+  Parent, Current: TReflectWidget;
+  X, Y: Integer;
 begin
-  if not Parent.GetParent(Self.GetParentID) then
-    Exit(Self.GetBoundsX);
-  Result := Parent.GetX + Self.GetAbsoluteX;
-  Dec(Result, Self.GetScrollX);
+  X := 0;
+  Y := 0;
+  Current := Self;
+
+  while Parent.GetParent(Current.GetParentID) do
+  begin
+    X += Current.GetAbsoluteX;
+    X -= Current.GetScrollX;
+
+    Y += Current.GetAbsoluteY;
+    Y -= Current.GetScrollY;
+
+    if Current.Reference <> Self.Reference then
+      Current.Free;
+
+    Current := Parent;
+  end;
+
+  if (Current.GetBoundsIndex <> -1) then
+  begin
+    X += Current.GetBoundsX;
+    Y += Current.GetBoundsY;
+
+    if (Current.GetType > 0) then
+    begin
+      X += Current.GetAbsoluteX;
+      Y += Current.GetAbsoluteY;
+    end;
+  end else
+    begin
+      X += Current.GetAbsoluteX;
+      Y += Current.GetAbsoluteY;
+    end;
+
+  Current.Free;
   Parent.Free;
+  Result := Point(X, Y);
+end;
+
+function TReflectWidget.GetX: Integer;
+begin
+  Result := Self.GetLocation.X;
 end;
 
 function TReflectWidget.GetY: Integer;
-var
-  Parent: TReflectWidget;
 begin
-  if not Parent.GetParent(Self.GetParentID) then
-    Exit(Self.GetBoundsY);
-  Result := Parent.GetY + Self.GetAbsoluteY;
-  Dec(Result, Self.GetScrollY);
-  Parent.Free;
+  Result := Self.GetLocation.Y;
 end;
 
 function TReflectWidget.GetPosition: TPoint;
@@ -228,6 +265,7 @@ begin
   Result.Y1 := Self.GetY;
   Result.X2 := Result.X1 + Self.GetWidth;
   Result.Y2 := Result.Y1 + Self.GetHeight;
+
   if (Result.X1 < MSX1 - 5) or (Result.Y1 < MSY1 - 5) or (Result.X2 > 764) or
     (Result.Y2 > 502) then
     Exit(IntToBox(-1, -1, -1, -1));

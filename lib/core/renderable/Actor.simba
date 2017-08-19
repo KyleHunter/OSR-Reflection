@@ -1,4 +1,3 @@
-
 function TReflectActor.GetSpokenText: string;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
@@ -60,7 +59,9 @@ begin
   Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Animation);
 end;
 
-function TReflectActor.GetHealth: Integer;
+function TReflectActor.GetHealthScale: Integer;
+var
+  CombatInfoList, HeadNode, NextNode, CombatInfo2: TReflectPointer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -68,10 +69,30 @@ begin
     Exit(-1);
   end;
 
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_Health);
+  Result := -1;
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
+  HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
+  NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
+
+  if not Reflect.Smart.IsNull(NextNode.Reference) then
+  begin
+    CombatInfo2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfo2);
+    if not Reflect.Smart.IsNull(CombatInfo2.Reference) then
+    begin
+      result := CombatInfo2.GetFieldInt(CombatInfo2_HealthScale);
+    end;
+
+    CombatInfo2.Free;
+  end;
+
+  NextNode.Free;
+  HeadNode.Free;
+  CombatInfoList.Free;
 end;
 
-function TReflectActor.GetMaxHealth: Integer;
+function TReflectActor.GetHealth: Integer;
+var
+  CombatInfoList, HeadNode, NextNode, List2, HeadNode2, NextNode2: TReflectPointer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -79,7 +100,71 @@ begin
     Exit(-1);
   end;
 
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Actor_MaxHealth);
+  Result := -1;
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
+  HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
+  NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
+
+  if not Reflect.Smart.IsNull(NextNode.Reference) then
+  begin
+    List2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfoList);
+    HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
+    NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
+
+    if not Reflect.Smart.IsNull(NextNode2.Reference) then
+    begin
+      result := NextNode2.GetFieldInt(CombatInfo1_Health);
+    end;
+
+    NextNode2.Free;
+    HeadNode2.Free;
+    List2.Free;
+  end;
+
+  NextNode.Free;
+  HeadNode.Free;
+  CombatInfoList.Free;
+end;
+
+function TReflectActor.GetHealthRatio: Integer;
+var
+  CombatInfoList, HeadNode, NextNode, List2, HeadNode2, NextNode2: TReflectPointer;
+begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectActor.GetMaxHealth');
+    Exit(-1);
+  end;
+
+  Result := -1;
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
+  HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
+  NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
+
+  if not Reflect.Smart.IsNull(NextNode.Reference) then
+  begin
+    List2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfoList);
+    HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
+    NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
+
+    if not Reflect.Smart.IsNull(NextNode2.Reference) then
+    begin
+      result := NextNode2.GetFieldInt(CombatInfo1_HealthRatio);
+    end;
+
+    NextNode2.Free;
+    HeadNode2.Free;
+    List2.Free;
+  end;
+
+  NextNode.Free;
+  HeadNode.Free;
+  CombatInfoList.Free;
+end;
+
+function TReflectActor.GetHealthPercentage: Extended;
+begin
+  result := (self.GetHealth / self.getHealthScale) * 100;
 end;
 
 function TReflectActor.GetInteractingIndex: Integer;
