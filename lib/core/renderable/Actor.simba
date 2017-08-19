@@ -61,7 +61,7 @@ end;
 
 function TReflectActor.GetHealthScale: Integer;
 var
-  CombatInfoList, HeadNode, NextNode, CombatInfoDef: TReflectPointer;
+  CombatInfoList, HeadNode, NextNode, CombatInfo2: TReflectPointer;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -70,19 +70,19 @@ begin
   end;
 
   Result := -1;
-  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfo);
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
   HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
   NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
 
   if not Reflect.Smart.IsNull(NextNode.Reference) then
   begin
-    CombatInfoDef.GetFieldObject(NextNode.Reference, HealthBar_Definition);
-    if not Reflect.Smart.IsNull(CombatInfoDef.Reference) then
+    CombatInfo2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfo2);
+    if not Reflect.Smart.IsNull(CombatInfo2.Reference) then
     begin
-      result := CombatInfoDef.GetFieldInt(CombatInfo2_HealthScale);
+      result := CombatInfo2.GetFieldInt(CombatInfo2_HealthScale);
     end;
 
-    CombatInfoDef.Free;
+    CombatInfo2.Free;
   end;
 
   NextNode.Free;
@@ -101,13 +101,13 @@ begin
   end;
 
   Result := -1;
-  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfo);
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
   HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
   NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
 
   if not Reflect.Smart.IsNull(NextNode.Reference) then
   begin
-    List2.GetFieldObject(NextNode.Reference, HealthBar_CombatInfoList);
+    List2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfoList);
     HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
     NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
 
@@ -137,13 +137,13 @@ begin
   end;
 
   Result := -1;
-  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfo);
+  CombatInfoList.GetFieldObject(Self.Reference, Actor_CombatInfoList);
   HeadNode.GetFieldObject(CombatInfoList.Reference, CombatInfoList_Head);
   NextNode.GetFieldObject(HeadNode.Reference, Node_Next);
 
   if not Reflect.Smart.IsNull(NextNode.Reference) then
   begin
-    List2.GetFieldObject(NextNode.Reference, HealthBar_CombatInfoList);
+    List2.GetFieldObject(NextNode.Reference, CombatInfoHolder_CombatInfoList);
     HeadNode2.GetFieldObject(List2.Reference, CombatInfoList_Head);
     NextNode2.GetFieldObject(HeadNode2.Reference, Node_Next);
 

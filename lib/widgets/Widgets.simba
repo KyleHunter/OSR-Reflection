@@ -208,7 +208,7 @@ begin
     X += Current.GetBoundsX;
     Y += Current.GetBoundsY;
 
-    if (Current.GetType) then
+    if (Current.GetType > 0) then
     begin
       X += Current.GetAbsoluteX;
       Y += Current.GetAbsoluteY;

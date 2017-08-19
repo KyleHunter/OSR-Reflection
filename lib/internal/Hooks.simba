@@ -197,9 +197,9 @@ CombatInfo2_HealthScale: THook =                  ['r', 1222116663];
 CombatInfoList_Head: THook =                      ['j', 1];
 CombatInfoList_Current: THook =                   ['h', 1];
 
-{HealthBar: ci}
-HealthBar_CombatInfoList: THook =                 ['p', 1];
-HealthBar_Definition: THook =                     ['f', 1];
+{CombatInfoHolder: ci}
+CombatInfoHolder_CombatInfoList: THook =          ['p', 1];
+CombatInfoHolder_CombatInfo2: THook =             ['f', 1];
 
 {Actor: cr}
 Actor_Animation: THook =                          ['bj', 1530881055];
@@ -218,7 +218,7 @@ Actor_IsAnimating: THook =                        ['ah', 1];
 Actor_CombatCycle: THook =                        ['N/A', 1];
 Actor_InteractingIndex: THook =                   ['ba', -1645647959];
 Actor_Orientation: THook =                        ['cf', -471012125];
-Actor_HealthBar: THook =                          ['bi', 1];
+Actor_CombatInfoList: THook =                     ['bi', 1];
 Actor_Height: THook =                             ['cr', -55392365];
 
 {NPCDefinition: im}
@@ -261,8 +261,8 @@ Widget_Actions: THook =                           ['cz', 1];
 Widget_ActionType: THook =                        ['z', -779336459];
 Widget_Type: THook =                              ['y', -154837137];
 Widget_isHidden: THook =                          ['af', 1];
-Widget_AbsoluteX: THook =                         ['y', -154837137];
-Widget_AbsoluteY: THook =                         ['u', -454438343];
+Widget_AbsoluteX: THook =                         ['ag', -1996395385];
+Widget_AbsoluteY: THook =                         ['av', 1673200527];
 Widget_RelativeX: THook =                         ['au', -1844203021];
 Widget_RelativeY: THook =                         ['az', 1310092175];
 Widget_Width: THook =                             ['ab', 1306837865];
@@ -291,8 +291,8 @@ Client_PlayerIndices: THook =                     ['co.c', 1];
 Client_LocalPlayer: THook =                       ['a.iu', 1];
 Client_PlayerIndex: THook =                       ['client.in', 1306524455];
 Client_LoopCycle: THook =                         ['client.be', 2108833509];
-Client_LoginState: THook =                        ['cx.ae', -665522787];
-Client_GameState: THook =                         ['client.bd', 1932771507];
+Client_GameState: THook =                         ['cx.ae', -665522787];
+Client_LoginState: THook =                        ['client.bd', 1932771507];
 Client_CrossHairColor: THook =                    ['client.hp', 2020154263];
 Client_GroundItems: THook =                       ['client.iq', 1];
 Client_CollisionMap: THook =                      ['client.w', 1];
