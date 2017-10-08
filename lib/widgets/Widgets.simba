@@ -191,11 +191,11 @@ begin
 
   while Parent.GetParent(Current.GetParentID) do
   begin
-    X += Current.GetAbsoluteX;
-    X -= Current.GetScrollX;
+    X += Current.GetRelativeX;
+    //X -= Current.GetScrollX;
 
-    Y += Current.GetAbsoluteY;
-    Y -= Current.GetScrollY;
+    Y += Current.GetRelativeY;
+    //Y -= Current.GetScrollY;
 
     if Current.Reference <> Self.Reference then
       Current.Free;
@@ -210,13 +210,13 @@ begin
 
     if (Current.GetType > 0) then
     begin
-      X += Current.GetAbsoluteX;
-      Y += Current.GetAbsoluteY;
+      X += Current.GetRelativeX;
+      Y += Current.GetRelativeY;
     end;
   end else
     begin
-      X += Current.GetAbsoluteX;
-      Y += Current.GetAbsoluteY;
+      X += Current.GetRelativeX;
+      Y += Current.GetRelativeY;
     end;
 
   Current.Free;
