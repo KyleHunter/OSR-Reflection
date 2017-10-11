@@ -140,12 +140,12 @@ end;
 
 function TReflectWidget.GetScrollX: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeX);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollX);
 end;
 
 function TReflectWidget.GetScrollY: Integer;
 begin
-  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_RelativeY);
+  Result := Reflect.Smart.GetFieldInt(Self.Reference, Widget_ScrollY);
 end;
 
 function TReflectWidget.GetWidth: Integer;
@@ -192,10 +192,10 @@ begin
   while Parent.GetParent(Current.GetParentID) do
   begin
     X += Current.GetRelativeX;
-    //X -= Current.GetScrollX;
+    X -= Current.GetScrollX;
 
     Y += Current.GetRelativeY;
-    //Y -= Current.GetScrollY;
+    Y -= Current.GetScrollY;
 
     if Current.Reference <> Self.Reference then
       Current.Free;
