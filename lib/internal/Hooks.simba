@@ -202,7 +202,7 @@ CombatInfoHolder_CombatInfoList: THook =          ['o', 1];
 CombatInfoHolder_CombatInfo2: THook =             ['q', 1];
 
 {Actor: by}
-Actor_Animation: THook =                          ['q', 598892947];
+Actor_Animation: THook =                          ['bz', -1192012635];
 Actor_AnimationDelay: THook =                     ['bt', 1966438689];
 Actor_SpokenText: THook =                         ['aj', 1];
 Actor_HitDamages: THook =                         ['ai', 1];
