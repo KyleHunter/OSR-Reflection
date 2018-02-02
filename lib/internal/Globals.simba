@@ -112,6 +112,11 @@ type
 
   {Object Records}
 
+
+    {Name Info}
+type
+  TReflectNameInfo = type(TReflectPointer);
+
     {Actor}
 type
   TReflectActor = type(TReflectPointer);
