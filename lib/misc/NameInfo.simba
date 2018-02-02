@@ -1,0 +1,9 @@
+function TReflectNameInfo.GetName: String;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.Reference, NameInfo_Name);
+end;
+
+function TReflectNameInfo.GetDecodedName: String;
+begin
+  Result := Reflect.Smart.GetFieldString(Self.Reference, NameInfo_DecodedName);
+end;

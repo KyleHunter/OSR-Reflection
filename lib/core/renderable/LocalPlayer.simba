@@ -18,6 +18,11 @@ begin
   Result := ((Reflect.Login.GetClientState = 30) and (Not Reflect.Login.AtLobby));
 end;
 
+function TReflectLocalPlayer.GetNameInfo: TReflectNameInfo;
+begin
+  Result.GetFieldObject(Self.Reference, Player_Name);
+end;
+
 function TReflectLocalPlayer.GetName: string;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
@@ -26,7 +31,18 @@ begin
     Exit('');
   end;
 
-  Result := Reflect.Smart.GetFieldString(Self.Reference, Player_Name);
+  Result := Self.GetNameInfo.GetName;
+end;
+
+function TReflectLocalPlayer.GetDecodedName: string;
+begin
+  if Reflect.Smart.IsNull(Self.Reference) then
+  begin
+    Reflect.Logger.Error('Avoided using null''d pointer at: TReflectLocalPlayer.GetDecodedName');
+    Exit('');
+  end;
+
+  Result := Self.GetNameInfo.GetDecodedName;
 end;
 
 procedure TReflectLocalPlayer.Logout;
