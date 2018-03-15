@@ -563,7 +563,7 @@ const
 
   {Interfaces}
   Interface_Lobby = 378;
-  Widget_Lobby_Close_Child = 6;
+  Widget_Lobby_Close_Child = 79;
 
   Interface_DeathMessage = 153;
   Widget_DeathMessage_Close_Child = 107;
