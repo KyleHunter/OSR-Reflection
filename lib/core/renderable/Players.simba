@@ -12,7 +12,7 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetName;
+  //Result := Self.GetNameInfo.GetName;
 end;
 
 function TReflectPlayer.GetDecodedName: string;
@@ -23,7 +23,7 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetDecodedName;
+ // Result := Self.GetNameInfo.GetDecodedName;
 end;
 
 function TReflectPlayer.GetIndex: Integer;

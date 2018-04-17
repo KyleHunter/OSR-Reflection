@@ -33,7 +33,7 @@ begin
     HookCache[Ord(Key)][Index] := SmartGetFieldObject(
       Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path)
   else
-    TReflectionMemory.HookLeaked('GetObject');
+    Self.HookLeaked('GetObject');
 end;
 
 procedure TReflectionMemory.GetObjectArray(Ref, Key: TCacheKey; Hook: THook;
@@ -44,7 +44,7 @@ begin
       Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
       ArIndex)
   else
-    TReflectionMemory.HookLeaked('GetObject');
+    Self.HookLeaked('GetObject');
 end;
 
 procedure TReflectionMemory.Get2DObject(Ref, Key: TCacheKey; Hook: THook; Index,
@@ -55,7 +55,7 @@ begin
       Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
       X, Y)
   else
-    TReflectionMemory.HookLeaked('Get2DObject');
+    Self.HookLeaked('Get2DObject');
 end;
 
 procedure TReflectionMemory.Get3DObject(Ref, Key: TCacheKey; Hook: THook; Index,
@@ -66,7 +66,7 @@ begin
       Reflect.Smart.Target, HookCache[Ord(Ref)][ReferenceIndex], Hook.Path,
       X, Y, Z)
   else
-    TReflectionMemory.HookLeaked('Get3DObject');
+    Self.HookLeaked('Get3DObject');
 end;
 
 procedure TReflectionMemory.FreeObjects(Key: TCacheKey; Safe: Boolean);

@@ -146,10 +146,15 @@ end;
 
 procedure TReflectionGraphics.ClearArea(X1, Y1, X2, Y2: Integer);
 begin
-  Self.ClearArea(IntToBox(X1, Y1, X2, Y2));
+  Self.ClearBox(IntToBox(X1, Y1, X2, Y2));
 end;
 
 procedure TReflectionGraphics.ClearArea(Area: TBox); overload;
+begin
+  Self.ClearBox(Area);
+end;
+
+procedure TReflectionGraphics.ClearBox(Area: TBox); overload;
 begin
   if (Self.Bmp.GetTransparentColor <> -1) then
     Self.Bmp.Rectangle(Area, Self.Bmp.GetTransparentColor)
@@ -159,10 +164,15 @@ end;
 
 procedure TReflectionGraphics.DrawBox(X1, Y1, X2, Y2: Integer; Fill: Boolean = False; Colour: TColor = clRed);
 begin
-  Self.DrawBox(IntToBox(X1, Y1, X2, Y2), Fill, Colour);
+  Self.DrawArea(IntToBox(X1, Y1, X2, Y2), Fill, Colour);
 end;
 
 procedure TReflectionGraphics.DrawBox(Box: TBox; Fill: Boolean = False; Colour: TColor = clRed); overload;
+begin
+  Self.DrawArea(Box, Fill, Colour);
+end;
+
+procedure TReflectionGraphics.DrawArea(Box: TBox; Fill: Boolean = False; Colour: TColor = clRed); overload;
 var
   TPA: array of TPoint;
 begin

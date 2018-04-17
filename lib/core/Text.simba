@@ -41,7 +41,7 @@ end;
 
 function TReflectionText.IsMenuOpen: Boolean;
 begin
-  Result := Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen);
+  Result := Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen) = 1;
 end;
 
 function TReflectionText.GetMenuOptions: TStringArray;
@@ -63,7 +63,7 @@ begin
   end;
 end;
 
-function TReflectionText.OptionExistsMulti(Options: TStringArray): Boolean;
+function TReflectionText._OptionExistsMulti(Options: TStringArray): Boolean;
 var
   _Options : TStringArray;
   Index, I : Integer;
@@ -77,31 +77,34 @@ begin
   end;
 end;
 
-function TReflectionText.OptionExists(Option: string): Boolean;
+function TReflectionText.OptionExists(Option: string; Time: Integer = -1): Boolean;
 begin
-  Result := Reflect.Text.OptionExistsMulti([Option]);
+  Result := Reflect.Text.OptionExistsMulti([Option], Time);
 end;
 
-function TReflectionText.OptionExistsMulti(S: TStringArray; Time: Integer): Boolean; overload;
+function TReflectionText.OptionExistsMulti(S: TStringArray; Time: Integer = -1): Boolean;
 var
   T: TReflectTimer;
 begin
+  if Time = -1 then
+  begin
+    if Reflect.Text._OptionExistsMulti(S) then
+      Exit(True);
+
+    Exit(False);
+  end;
+
   T.Start;
   while T.ElapsedTime < Time do
   begin
-    if Reflect.Text.OptionExistsMulti(S) then
+    if Reflect.Text._OptionExistsMulti(S) then
       Exit(True);
 
     Wait(20 + Random(10));
   end;
 end;
 
-function TReflectionText.OptionExists(S: string; Time: Integer): Boolean; overload;
-begin
-  Result := Reflect.Text.OptionExistsMulti([S], Time);
-end;
-
-function TReflectionText.ChooseOptionMulti(Options: TStringArray): Boolean;
+function TReflectionText._ChooseOptionMulti(Options: TStringArray): Boolean;
 var
   Index, MenuX, MenuY, MenuWidth, XOff, YOff, I: Integer;
   _Options: TStringArray;
@@ -145,28 +148,31 @@ begin
   Result := True;
 end;
 
-function TReflectionText.ChooseOption(Option: string): Boolean;
+function TReflectionText.ChooseOption(Option: string; Time: Integer = -1): Boolean;
 begin
-  Result := Reflect.Text.ChooseOptionMulti([Option]);
+  Result := Reflect.Text.ChooseOptionMulti([Option], Time);
 end;
 
-function TReflectionText.ChooseOptionMulti(Options: TStringArray; Time: Integer): Boolean; overload;
+function TReflectionText.ChooseOptionMulti(Options: TStringArray; Time: Integer = -1): Boolean;
 var
   T: TReflectTimer;
 begin
+  if Time = -1 then
+  begin
+    if Reflect.Text._ChooseOptionMulti(Options) then
+      Exit(True);
+
+    Exit(False);
+  end;
+
   T.Start;
   while T.ElapsedTime < Time do
   begin
-    if Reflect.Text.ChooseOptionMulti(Options) then
+    if Reflect.Text._ChooseOptionMulti(Options) then
       Exit(True);
 
     Wait(20 + Random(20));
   end;
-end;
-
-function TReflectionText.ChooseOption(Option: string; Time: Integer): Boolean; overload;
-begin
-  Result := Reflect.Text.ChooseOptionMulti([Option], Time);
 end;
 
 function TReflectionText.GetUpText: string;
@@ -188,7 +194,7 @@ begin
     Result := '';
 end;
 
-function TReflectionText.IsUpTextMulti(UpText: TStringArray): Boolean;
+function TReflectionText._IsUpTextMulti(UpText: TStringArray): Boolean;
 var
   UT: string;
 begin
@@ -196,27 +202,30 @@ begin
   Result := IsArrInStr(UpText, UT);
 end;
 
-function TReflectionText.IsUpText(UpText: string): Boolean;
+function TReflectionText.IsUpText(UpText: string; Time: Integer = -1): Boolean;
 begin
-  Result := Reflect.Text.IsUpTextMulti([UpText]);
+  Result := Reflect.Text.IsUpTextMulti([UpText], Time);
 end;
 
-function TReflectionText.IsUpTextMulti(S: TStringArray; Time: Integer): Boolean; overload;
+function TReflectionText.IsUpTextMulti(S: TStringArray; Time: Integer = -1): Boolean;
 var
   T: TReflectTimer;
 begin
+  if Time = -1 then
+  begin
+    if Reflect.Text._IsUpTextMulti(S) then
+      Exit(True);
+
+    Exit(False);
+  end;
+
   T.Start;
   while T.ElapsedTime < Time do
   begin
-    if Reflect.Text.IsUpTextMulti(S) then
+    if Reflect.Text._IsUpTextMulti(S) then
       Exit(True);
 
     Wait(20 + Random(10));
   end;
-end;
-
-function TReflectionText.IsUpText(S: string; Time: Integer): Boolean; overload;
-begin
-  Result := Reflect.Text.IsUpTextMulti([S], Time);
 end;
 

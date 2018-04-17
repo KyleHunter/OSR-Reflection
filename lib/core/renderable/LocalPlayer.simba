@@ -31,7 +31,7 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetName;
+  //Result := Self.GetNameInfo.GetName;
 end;
 
 function TReflectLocalPlayer.GetDecodedName: string;
@@ -42,7 +42,7 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetDecodedName;
+  //Result := Self.GetNameInfo.GetDecodedName;
 end;
 
 procedure TReflectLocalPlayer.Logout;
@@ -358,7 +358,7 @@ begin
   if(Tries > 20)then
     Exit;
   for I := High(CtrlPoints) downto 0 do
-  if TReflectLocalPlayer.WalkToTileMS(CtrlPoints[I]) then
+  if Self.WalkToTileMS(CtrlPoints[I]) then
   begin
     Result := Reflect.Tiles.DistanceFromTile(Tile) <= Dist;
     Break;

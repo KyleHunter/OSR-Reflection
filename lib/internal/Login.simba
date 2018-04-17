@@ -153,7 +153,7 @@ function TReflectionLogin.GetCursor: Byte;
 var
   TimeOut: UInt64;
 begin
-  TimeOut := GetTickCount64 + Random(3000, 4000);
+  TimeOut := GetTickCount + Random(3000, 4000);
   repeat
     if (CountColor(Login_Text_Yellow, Login_LoginBox.X1, Login_LoginBox.Y1,
       Login_LoginBox.X2, Login_LoginBox.Y2) > 10) then
@@ -163,7 +163,7 @@ begin
       Login_PasswordBox.Y2) > 10) then
         Exit(Login_PasswordBox_Byte);
     Wait(Random(25, 50));
-  until (GetTickCount64 > TimeOut);
+  until (GetTickCount > TimeOut);
 end;
 
 procedure TReflectionLogin.SetCursor(const New: Integer);
@@ -250,22 +250,22 @@ end;
 Procedure TReflectionLogin.EnterDetails(Username, Password: String);
 var
   Clear: array [0..1] of Boolean;
-  Timeout: UInt64 := GetTickCount64 + Random(7500, 8000);
+  Timeout: UInt64 := GetTickCount + Random(7500, 8000);
 begin
   Clear[Login_LoginBox_Byte] := CountColor(Login_Text_White, Login_LoginBox.X1,
                                            Login_LoginBox.Y1, Login_LoginBox.X2,
-                                           Login_LoginBox.Y2);
+                                           Login_LoginBox.Y2) = 0;
 
   Clear[Login_PasswordBox_Byte] := CountColor(Login_Text_White,
                                               Login_PasswordBox.X1,
                                               Login_PasswordBox.Y1,
                                               Login_PasswordBox.X2,
-                                              Login_PasswordBox.Y2);
+                                              Login_PasswordBox.Y2) = 0;
 
   if (Reflect.Login.GetCursor <> Login_LoginBox_Byte) then
     Reflect.Login.SetCursor(Login_LoginBox_Byte);
   if (Clear[Login_LoginBox_Byte]) then
-    while (CountColor(Login_Text_White, Login_LoginBox.X1, Login_LoginBox.Y1, Login_LoginBox.X2, Login_LoginBox.Y2) > 5) and (Timeout > GetTickCount64) do
+    while (CountColor(Login_Text_White, Login_LoginBox.X1, Login_LoginBox.Y1, Login_LoginBox.X2, Login_LoginBox.Y2) > 5) and (Timeout > GetTickCount) do
     begin
       Reflect.Keyboard.Send('{backspace}');
       Wait(Random(30, 120));
@@ -276,7 +276,7 @@ begin
   if (Clear[Login_PasswordBox_Byte]) then
     while (CountColor(Login_Text_White, Login_PasswordBox.X1,
            Login_PasswordBox.Y1, Login_PasswordBox.X2,
-           Login_PasswordBox.Y2) > 5) and (Timeout > GetTickCount64) do
+           Login_PasswordBox.Y2) > 5) and (Timeout > GetTickCount) do
 
     begin
       Reflect.Keyboard.Send('{backspace}');

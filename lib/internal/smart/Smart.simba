@@ -161,10 +161,16 @@ End;
 
 procedure TReflectionSmart.Create;
 begin
-  Self.Create(765, 503, SmartUserAgent, SmartShowConsole);
+  Self.CreateSmart(765, 503, SmartUserAgent, SmartShowConsole);
 end;
 
 procedure TReflectionSmart.Create(
+  Width, Height: Integer; UserAgent: string; ShowConsole : boolean); overload;
+begin
+  Self.CreateSmart(Width, Height, UserAgent, ShowConsole);
+end;
+
+procedure TReflectionSmart.CreateSmart(
   Width, Height: Integer; UserAgent: string; ShowConsole : boolean); overload;
 var
   World: Variant;
