@@ -24,6 +24,8 @@ begin
 end;
 
 function TReflectLocalPlayer.GetName: string;
+var
+  NameInfo : TReflectNameInfo;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -31,10 +33,13 @@ begin
     Exit('');
   end;
 
-  //Result := Self.GetNameInfo.GetName;
+  NameInfo := Self.GetNameInfo;
+  Result := NameInfo.GetName;
 end;
 
 function TReflectLocalPlayer.GetDecodedName: string;
+var
+  NameInfo : TReflectNameInfo;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -42,7 +47,8 @@ begin
     Exit('');
   end;
 
-  //Result := Self.GetNameInfo.GetDecodedName;
+  NameInfo := Self.GetNameInfo;
+  Result := NameInfo.GetDecodedName;
 end;
 
 procedure TReflectLocalPlayer.Logout;
