@@ -252,11 +252,11 @@ var
   Clear: array [0..1] of Boolean;
   Timeout: UInt64 := GetTickCount + Random(7500, 8000);
 begin
-  Clear[Login_LoginBox_Byte] := CountColor(Login_Text_White, Login_LoginBox.X1,
+  Clear[Login_LoginBox_Byte] := not CountColor(Login_Text_White, Login_LoginBox.X1,
                                            Login_LoginBox.Y1, Login_LoginBox.X2,
                                            Login_LoginBox.Y2) = 0;
 
-  Clear[Login_PasswordBox_Byte] := CountColor(Login_Text_White,
+  Clear[Login_PasswordBox_Byte] := not CountColor(Login_Text_White,
                                               Login_PasswordBox.X1,
                                               Login_PasswordBox.Y1,
                                               Login_PasswordBox.X2,
