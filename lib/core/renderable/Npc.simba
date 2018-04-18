@@ -1,5 +1,5 @@
 
-function TReflectNPC.GetIndices: TIntegerArray; static;
+function TReflectNPC.GetIndices: TIntegerArray; //static;
 var
   I: Integer;
 begin
