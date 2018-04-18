@@ -1,13 +1,9 @@
-[Reflection Update # 27]
+[Reflection Update # 28]
 [Adds]
-Notification interface detection and closing
+More interface handling
 
 [Fixes]
-Name of protect from meele to melee
-Quest tab and prayer tab detection
-Various interface detection and closing
-Enabling run when orbs are disabled
-Combat options
+Update values for interfaces fixing Gametabs, interfaces, and more
 
 [Changes]
 
@@ -21,4 +17,6 @@ Add activate special attack
 Possibly add break handler and randoms handler
 Fix Augury and Rigour detection
 Fix and update login procedures
+Clean up
+Simba 1.2?
 [End]
