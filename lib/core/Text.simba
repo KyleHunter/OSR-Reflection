@@ -41,7 +41,7 @@ end;
 
 function TReflectionText.IsMenuOpen: Boolean;
 begin
-  Result := not Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen) = 0;
+  Result := not (Reflect.Smart.GetFieldInt(0, Client_IsMenuOpen) = 0);
 end;
 
 function TReflectionText.GetMenuOptions: TStringArray;
