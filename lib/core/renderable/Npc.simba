@@ -1,5 +1,5 @@
 
-function TReflectNPC.GetIndices: tIntegerArray;
+function TReflectNPC.GetIndices: TIntegerArray;
 var
   I: Integer;
 begin
@@ -99,8 +99,9 @@ var
   Indices: TIntegerArray;
   H, I, C: Integer;
   Temp: TReflectNpcArray;
+  TempNPC: TReflectNPC;
 begin
-  Indices := TReflectNPC.GetIndices;
+  Indices := TempNPC.GetIndices;
   H := High(Indices);
   SetLength(Self, H + 1);
   if (not Reflect.Mem.IsNull(ckNpcDef)) or (not Reflect.Mem.IsNull(ckNpcNode)) then

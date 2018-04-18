@@ -126,7 +126,7 @@ begin
             Result:= Result + '{16 down}{219}{16 up}';
         end
         else if Button then
-          RaiseException(20, 'Invalid String: ' + Text)
+          RaiseException('Invalid String: ' + Text)
         else
         begin
           Button := True;
@@ -156,7 +156,7 @@ begin
           end;
         end
         else
-          RaiseException(20, 'Invalid String: ' + Text);
+          RaiseException('Invalid String: ' + Text);
       else
         begin
           Escaped:=false;
@@ -181,7 +181,7 @@ begin
     end;
   end;
   if Button then
-    RaiseException(20, 'Invalid String: '+ Text);
+    RaiseException('Invalid String: '+ Text);
   Exit(Result);
 end;
 

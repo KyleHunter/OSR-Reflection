@@ -5,6 +5,8 @@ begin
 end;
 
 function TReflectPlayer.GetName: string;
+var
+  NameInfo : TReflectNameInfo;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -12,10 +14,13 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetName;
+  NameInfo := Self.GetNameInfo;
+  Result := NameInfo.GetName;
 end;
 
 function TReflectPlayer.GetDecodedName: string;
+var
+  NameInfo : TReflectNameInfo;
 begin
   if Reflect.Smart.IsNull(Self.Reference) then
   begin
@@ -23,7 +28,8 @@ begin
     Exit('');
   end;
 
-  Result := Self.GetNameInfo.GetDecodedName;
+  NameInfo := Self.GetNameInfo;
+  Result := NameInfo.GetDecodedName;
 end;
 
 function TReflectPlayer.GetIndex: Integer;

@@ -2,7 +2,7 @@
 type
   TReflectWidget = type(TReflectPointer);
 
-procedure TReflectWidget.GetWidget(ContainerIndex, ParentIndex: Integer);
+procedure TReflectWidget._GetWidget(ContainerIndex, ParentIndex: Integer);
 begin
   Self.Reference := Reflect.Smart.GetFieldArray2DObject(0, Client_Widgets,
     ContainerIndex, ParentIndex);
@@ -97,11 +97,17 @@ begin
     Widget_Children, Index);
 end;
 
-procedure TReflectWidget.GetWidget(ContainerIndex, Parent, Child: Integer); overload;
+procedure TReflectWidget.GetWidget(ContainerIndex, Parent, Child: Integer = -1);
 var
   ParentWid, ChildWid: TReflectWidget;
 begin
-  ParentWid.GetWidget(ContainerIndex, Parent);
+  if Child = -1 then
+  begin
+    Self._GetWidget(ContainerIndex, Parent);
+    Exit();
+  end;
+
+  ParentWid._GetWidget(ContainerIndex, Parent);
   ChildWid.GetChild(ParentWid, Child);
   Self.Reference := ChildWid.Reference;
   ParentWid.Free;
