@@ -29,6 +29,15 @@ begin
     Gametab_QuestList, Gametab_QuestList, Gametab_QuestList,
     Gametab_WornEquipment, Gametab_Prayer, Gametab_Magic, Gametab_Inventory];
 
+  If Reflect.Bank.IsOpen then
+    Exit(Gametab_Inventory);
+
+  If Reflect.Bank.IsDepositBoxOpen then
+    Exit(Gametab_Inventory);
+
+  If Reflect.Shop.IsOpen then
+    Exit(Gametab_Inventory);
+
   for I := 0 to High(Gametabs) do
   begin
     TempWidget.GetWidget(Containers[I], Children[I]);
@@ -39,9 +48,6 @@ begin
     end;
     TempWidget.Free;
   end;
-
-  If Reflect.Bank.IsOpen then
-    Exit(Gametab_Inventory);
 
   Result := -1;
 end;

@@ -277,15 +277,15 @@ const
       {Bank}
 
   Interface_Bank = 12;
-  Widget_Bank_Close_Child_Container = 3;
+  Widget_Bank_Close_Child_Container = 14;
   Widget_Bank_Close_Child = 11;
   Widget_Bank_Detect_Child = 24;
-  Widget_Bank_Search_Child = 27;
-  Widget_Bank_SearchText_Child = 4;
-  Widget_Bank_DepositInv_Child = 29;
-  Widget_Bank_DepositEqu_Child = 31;
-  Widget_Bank_TotalItems_Child = 5;
-  Widget_Bank_ItemSlots_Child_Container = 12;
+  Widget_Bank_Search_Child = 39;
+  Widget_Bank_SearchText_Child = 15;
+  Widget_Bank_DepositInv_Child = 41;
+  Widget_Bank_DepositEqu_Child = 43;
+  Widget_Bank_TotalItems_Child = 16;  //the text showing how much occupied spots in bank
+  Widget_Bank_ItemSlots_Child_Container = 23;
   Interface_Bank_VisibleBox : TBox = [22, 80, 480, 292];
 
    {PinScreen}
@@ -311,7 +311,7 @@ const
   Interface_ShopMenu = 300;
   Widget_ShopMenu_Close_Child_Container = 1;
   Widget_ShopMenu_Close_Child = 11;
-  Widget_ShopMenu_Items_Child_Container = 2;
+  Widget_ShopMenu_Items_Child_Container = 16;
 
       {Chat}
 
@@ -323,11 +323,11 @@ const
       {GameTab}
 
   Widget_Gametab_Container = 548;
-  Widget_Gametab_LookNorth_Child = 8;
+  Widget_Gametab_LookNorth_Child = 7;
 
         {ClanChat}
 
-  Widget_ClanChat_Container = 589;
+  Widget_ClanChat_Container = 7;
   Widget_ClanChat_Detect_Child = 0;
   Widget_ClanChat_TalkingIn_Child = 0;
   Widget_ClanChat_Owner_Child = 1;
@@ -563,7 +563,7 @@ const
 
   {Interfaces}
   Interface_Lobby = 378;
-  Widget_Lobby_Close_Child = 79;
+  Widget_Lobby_Close_Child = 76;
 
   Interface_DeathMessage = 153;
   Widget_DeathMessage_Close_Child = 107;
@@ -626,10 +626,11 @@ const
   Widget_KeptMenu_Close_Child = 13;
 
   Interface_HouseOptions = 370;
-  Widget_HouseOptions_Close_Child = 17;
+  Widget_HouseOptions_Close_Child = 21;
 
-  Interface_ClanOptions = 590;
-  Widget_ClanOptions_Close_Child = 17;
+  Interface_ClanOptions = 94;
+  Widget_ClanOptions_Close_Child = 13;
+  Widget_ClanOptions_Close_Child_Container = 3;
 
   Interface_AdvancedOptions = 60;
   Widget_AdvancedOptions_Close_Child_Container = 2;
@@ -657,6 +658,9 @@ const
 
   Interface_Notifications = 492;
   Widget_Notifications_Close_Child_Container = 2;
+
+  Interface_WorldMap = 595;
+  Widget_WorldMap_Close_Child = 34;
 
     {Login}
 
